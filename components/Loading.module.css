@@ -1,0 +1,38 @@
+.loadingContainer {
+  padding: 50px;
+  -webkit-animation: show 1s ease-in-out forwards;
+  animation: show 1s ease-in-out forwards;
+}
+
+@-webkit-keyframes show {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes show {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.svg {
+  margin: auto;
+  display: block;
+  shape-rendering: auto;
+}
+
+.svg rect {
+  fill: rgba(var(--third-color), 0.5);
+  /* stroke: var(--option-text-color); */
+}

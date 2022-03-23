@@ -1,0 +1,90 @@
+.header {
+  box-shadow: 0 3px 5px 2px rgba(var(--shadows-color), 0.5);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  justify-content: space-between;
+}
+
+.header .right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header svg,
+.header .logo {
+  transition: all 0.5s ease;
+}
+
+.header .right svg {
+  display: none;
+  fill: var(--option-text-color);
+  opacity: 0.5;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+.header .left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header .left svg {
+  display: block;
+  fill: var(--option-text-color);
+  opacity: 0.5;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: 300;
+  font-family: serif;
+  color: rgb(var(--third-color));
+}
+
+.header svg:active {
+  opacity: 1;
+}
+
+@media screen and (max-width: 900px) {
+  .header .right svg {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .logo {
+    font-size: 20px;
+  }
+  .header .left svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .header .right svg {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .logo {
+    font-size: 15px;
+  }
+  .header .left svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .header .right svg {
+    width: 23px;
+    height: 23px;
+  }
+}

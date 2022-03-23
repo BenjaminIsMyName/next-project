@@ -1,0 +1,34 @@
+.aside {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: var(--second-color);
+  height: 100vh;
+  width: 300px;
+  position: fixed;
+  z-index: 1;
+  box-shadow: -3px 0 5px 2px rgba(var(--shadows-color), 0.5);
+  scroll-behavior: smooth;
+}
+
+@media screen and (max-width: 900px) {
+  .aside {
+    transition: all 0.2s ease;
+    width: 100%;
+    height: var(--header-height);
+    bottom: 0;
+  }
+
+  .clicked {
+    transition: all 0.5s ease;
+    bottom: 0;
+    overflow: auto;
+    height: 256px;
+    max-height: 100vh;
+  }
+}
+
+.aside * {
+  -webkit-tap-highlight-color: transparent;
+}

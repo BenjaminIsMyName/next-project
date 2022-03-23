@@ -1,0 +1,130 @@
+.post {
+  background-color: var(--second-color);
+  min-height: 200px;
+  /* max-height: 500px; */
+  margin-bottom: 20px;
+  /* mainly for fixing margin collapsing with skeleton-pic: */
+  /* overflow: hidden; */
+  color: white;
+  overflow: hidden;
+  /* font-size: 0; */
+}
+
+.post .skeletonPic,
+.channelPic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.post .skeletonPic {
+  -webkit-animation: skeleton 1s linear infinite alternate;
+  animation: skeleton 1s linear infinite alternate;
+}
+
+.post .skeletonText {
+  width: 100%;
+  height: 10px;
+  -webkit-animation: skeleton 1s linear infinite alternate;
+  animation: skeleton 1s linear infinite alternate;
+}
+
+.post .skeletonText:not(:last-of-type) {
+  margin-bottom: 3px;
+}
+
+.post .skeletonText:last-of-type {
+  width: 60% !important;
+}
+
+.post header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  height: 70px;
+  padding: 10px;
+}
+
+.post .content .skeletonText {
+  width: 90%;
+  margin: 0 10px 3px 0;
+}
+
+.post .title {
+  width: 60%;
+  font-size: 1, 5rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 0.6;
+}
+
+.post .title .skeletonText {
+  height: 20px;
+}
+
+.post .postImage {
+  width: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.post video {
+  display: block;
+  width: 100%;
+  /* height: 500px; */
+}
+
+.animationStartPoint {
+  opacity: 0;
+}
+
+.animate {
+  -webkit-animation: post-on-scroll 1s ease-in-out forwards;
+  animation: post-on-scroll 1s ease-in-out forwards;
+}
+
+@-webkit-keyframes post-on-scroll {
+  from {
+    opacity: 0;
+    transform: translateY(100%) rotateY(80deg);
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes post-on-scroll {
+  from {
+    opacity: 0;
+    transform: translateY(100%) rotateY(80deg);
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes skeleton {
+  from {
+    opacity: 0.3;
+    background-color: rgb(var(--main-color));
+  }
+  to {
+    opacity: 0.6;
+    background-color: rgb(var(--main-color));
+  }
+}
+
+@keyframes skeleton {
+  from {
+    opacity: 0.3;
+    background-color: rgb(var(--main-color));
+  }
+  to {
+    opacity: 0.6;
+    background-color: rgb(var(--main-color));
+  }
+}
