@@ -5,6 +5,7 @@ import useFetch from "../hooks/useFetch.js";
 import Post from "./Post.js";
 import Loading from "./Loading.js";
 import Error from "./Error";
+import LittleMenu from "./LittleMenu";
 
 export default function Template({ postsProp }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,6 +58,7 @@ export default function Template({ postsProp }) {
 
   return (
     <>
+      <LittleMenu>Hello world</LittleMenu>
       <Aside
         menuOnClickHandler={menuOnClickHandler}
         isOpen={isOpen}

@@ -1,0 +1,19 @@
+.container {
+  background-color: rgb(var(--second-color));
+  padding: 20px;
+  border-radius: 5px;
+  position: fixed;
+  top: 20px;
+  right: 320px;
+  z-index: 1;
+
+  /* nice css for popup: */
+  /* background-color: rgb(var(--second-color));
+  padding: 20px;
+  border-radius: 5px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1; */
+}
