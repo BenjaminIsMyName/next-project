@@ -34,5 +34,5 @@
 
 .svg rect {
   fill: rgba(var(--third-color), 0.5);
-  /* stroke: var(--option-text-color); */
+  /* stroke: rgb(var(--option-text-color)); */
 }

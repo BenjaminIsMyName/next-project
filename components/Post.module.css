@@ -1,5 +1,5 @@
 .post {
-  background-color: var(--second-color);
+  background-color: rgb(var(--second-color));
   min-height: 200px;
   /* max-height: 500px; */
   margin-bottom: 20px;

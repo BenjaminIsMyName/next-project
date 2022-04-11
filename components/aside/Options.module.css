@@ -6,7 +6,7 @@
   border-radius: 30px 0px 0px 30px;
   display: flex;
   align-items: center;
-  color: var(--option-text-color);
+  color: rgb(var(--option-text-color));
   font-size: 1.3rem;
   gap: 20px;
   text-decoration: none;
@@ -46,7 +46,7 @@
 }
 
 .option:not(#selected) svg {
-  fill: var(--option-text-color);
+  fill: rgb(var(--option-text-color));
 }
 .option#selected {
   background-color: rgb(var(--main-color));
@@ -71,7 +71,7 @@
   background-color: rgb(var(--main-color));
 }
 
-@media (pointer: fine) {
+@media (hover: hover) and (pointer: fine) {
   .option:not(#selected):hover::before {
     transform: scale(1, 1);
     border-radius: 30px 0 0 30px;

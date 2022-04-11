@@ -6,10 +6,10 @@
 :root {
   --aside-width: 300px;
   --main-color: 20, 20, 20;
-  --second-color: #232323;
+  --second-color: 35, 35, 35;
   --third-color: 109, 207, 102;
   --shadows-color: 0, 0, 0;
-  --option-text-color: white;
+  --option-text-color: 255, 255, 255;
   --header-height: 56px;
 }
 

@@ -20,7 +20,7 @@
 
 .header .right svg {
   display: none;
-  fill: var(--option-text-color);
+  fill: rgb(var(--option-text-color));
   opacity: 0.5;
   width: 35px;
   height: 35px;
@@ -35,7 +35,7 @@
 
 .header .left svg {
   display: block;
-  fill: var(--option-text-color);
+  fill: rgb(var(--option-text-color));
   opacity: 0.5;
   width: 25px;
   height: 25px;

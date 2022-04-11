@@ -3,7 +3,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background-color: var(--second-color);
+  background-color: rgb(var(--second-color));
   height: 100vh;
   width: 300px;
   position: fixed;
