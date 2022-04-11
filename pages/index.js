@@ -8,10 +8,10 @@ export default function Home(props) {
 // It may be called again, on a serverless function, if
 // revalidation is enabled and a new request comes in
 export async function getStaticProps() {
-  // const res = await fetch("http://localhost:3000/api/posts");
-
-  // const posts = await res.json();
-  // console.log(typeof posts);
+  // query db for posts here.
+  // using the next.js api here won't work at build time.
+  // so we need to fetch it directly the db.
+  // for more info: https://nextjs.org/docs/basic-features/data-fetching/get-static-props#write-server-side-code-directly
 
   let url = new URL("http://localhost:3000/api/posts");
 
@@ -20,13 +20,13 @@ export async function getStaticProps() {
     amount: 5,
     type: "/",
   };
-  let postData;
+  let postData = {};
   url.search = new URLSearchParams(params).toString();
   try {
     let data = await fetch(url);
     postData = await data.json();
   } catch (error) {
-    postData = [];
+    postData.posts = [];
   }
   return {
     props: {

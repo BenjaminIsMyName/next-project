@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import axios from "axios";
 export default function useFetch(query, from, forceRender, posts) {
   const [state, setState] = useState({
     loading: true,
@@ -16,35 +16,29 @@ export default function useFetch(query, from, forceRender, posts) {
     async function forAsync() {
       setState(prev => ({ ...prev, ...{ loading: true, error: null } }));
 
-      let controlFetch;
-      const controller = new AbortController();
-      const { signal } = controller;
-      controlFetch = controller;
-      var url = new URL("http://localhost:3000/api/posts");
-
-      var params = {
-        from: from,
-        amount: 5,
-        type: query,
-      };
-
-      url.search = new URLSearchParams(params).toString();
+      const source = axios.CancelToken.source();
       try {
-        let data = await fetch(url, { signal });
-        let postData = await data.json();
+        const { data } = await axios.get("/api/posts", {
+          params: {
+            from: from,
+            amount: 5,
+            type: query,
+          },
+          cancelToken: source.token,
+        });
         setState(prev => ({
           ...prev,
           ...{
-            posts: [...state.posts, ...postData.posts],
-            hasMore: postData.hasMore,
+            posts: [...state.posts, ...data.posts],
+            hasMore: data.hasMore,
             loading: false,
           },
         }));
       } catch (error) {
-        if (error.name !== "AbortError")
+        if (axios.isCancel(error))
           setState(prev => ({ ...prev, ...{ error: error } }));
       }
-      return () => controlFetch.abort();
+      return () => source.cancel();
     }
     return forAsync();
   }, [query, from, forceRender]);
