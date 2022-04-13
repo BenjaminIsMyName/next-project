@@ -5,6 +5,7 @@ import Loading from "./Loading.js";
 import Error from "./Error";
 
 export default function Feed({ postsProp }) {
+  //   console.log("Feed.js: postsProp: ", postsProp);
   const [forceRender, setForceRender] = useState(0);
   function tryAgainCallback() {
     setForceRender(prev => prev + 1);

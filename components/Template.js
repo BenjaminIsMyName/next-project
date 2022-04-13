@@ -1,11 +1,9 @@
 import Aside from "./aside/Aside";
 import Rest from "./Rest.js";
 import { useState, useRef } from "react";
-
 import LittleMenu from "./LittleMenu";
-import Feed from "./Feed";
 
-export default function Template({ postsProp }) {
+export default function Template({ children }) {
   const [isOpen, setIsOpen] = useState(false); // is the aside open (on small screens)?
   const [littleMenuOpen, setLittleMenuOpen] = useState(-1); // is a little menu open? (none: -1, profile menu: 0, notifications menu: 1, search menu: 2)
   const asideRef = useRef();
@@ -49,7 +47,7 @@ export default function Template({ postsProp }) {
         menuOnClickHandler={menuOnClickHandler}
         onClick={littleMenuOpen === -1 ? () => {} : () => setLittleMenuOpen(-1)}
       >
-        <Feed postsProp={postsProp} />
+        {children}
       </Rest>
     </>
   );

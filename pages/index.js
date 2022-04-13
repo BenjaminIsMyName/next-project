@@ -1,7 +1,11 @@
 import Template from "../components/Template";
-
+import Feed from "../components/Feed";
 export default function Home(props) {
-  return <Template postsProp={props.posts} />;
+  return (
+    <Template>
+      <Feed postsProp={props.posts} />
+    </Template>
+  );
 }
 
 // This function gets called at build time on server-side.
