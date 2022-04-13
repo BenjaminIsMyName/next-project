@@ -5,7 +5,11 @@ import Loading from "./Loading.js";
 import Error from "./Error";
 
 export default function Feed({ postsProp }) {
-  //   console.log("Feed.js: postsProp: ", postsProp);
+  // this component will render right away 3 times:
+  // 1. when the component is first rendered
+  // 2. ????
+  // 3. when we fetched data in useFetch
+
   const [forceRender, setForceRender] = useState(0);
   function tryAgainCallback() {
     setForceRender(prev => prev + 1);

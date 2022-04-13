@@ -18,14 +18,13 @@ export default function useFetch(query, from, forceRender, posts) {
   });
 
   useEffect(() => {
-    setState(prev => ({ ...prev, ...{ posts: [] } }));
+    setState(prev => ({ ...prev, ...{ posts: posts } }));
   }, [query]);
 
   useEffect(() => {
+    const source = axios.CancelToken.source();
     async function forAsync() {
       setState(prev => ({ ...prev, ...{ loading: true, error: null } }));
-
-      const source = axios.CancelToken.source();
       try {
         const { data } = await axios.get("/api/posts", {
           params: {
@@ -44,12 +43,16 @@ export default function useFetch(query, from, forceRender, posts) {
           },
         }));
       } catch (error) {
-        if (axios.isCancel(error))
+        if (!axios.isCancel(error))
           setState(prev => ({ ...prev, ...{ error: error } }));
       }
-      return () => source.cancel();
     }
-    return forAsync();
+    forAsync();
+    return () => {
+      console.log("cancelling"); // bug: this is called right away!
+      return source.cancel();
+    };
   }, [query, from, forceRender]);
+
   return state;
 }
