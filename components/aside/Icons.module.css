@@ -1,0 +1,28 @@
+.open svg {
+  fill: rgb(var(--third-color));
+}
+
+.icon svg {
+  display: block;
+  fill: rgb(var(--option-text-color));
+  opacity: 0.5;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.open svg {
+  opacity: 1;
+  fill: rgb(var(--third-color));
+}
+
+.icon {
+  /* remove all styles from the button */
+  border: none;
+  background: none;
+  cursor: pointer;
+  /* center the icon inside of the button */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

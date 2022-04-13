@@ -3,7 +3,12 @@ import MenuIcon from "./MenuIcon";
 import SearchIcon from "./SearchIcon";
 import NotificationsIcon from "./NotificationsIcon";
 import ProfileIcon from "./ProfileIcon";
-export default function Header({ menuOnClickHandler, isOpen }) {
+export default function Header({
+  menuOnClickHandler,
+  isOpen,
+  littleMenuOpen,
+  setLittleMenuOpen,
+}) {
   return (
     <header className={styles.header}>
       <div className={styles.right}>
@@ -12,9 +17,18 @@ export default function Header({ menuOnClickHandler, isOpen }) {
       </div>
 
       <div className={styles.left}>
-        <ProfileIcon />
-        <NotificationsIcon />
-        <SearchIcon />
+        <ProfileIcon
+          isOpen={littleMenuOpen === 0}
+          onClick={() => setLittleMenuOpen(isOpen === 0 ? -1 : 0)}
+        />
+        <NotificationsIcon
+          isOpen={littleMenuOpen === 1}
+          onClick={() => setLittleMenuOpen(isOpen === 1 ? -1 : 1)}
+        />
+        <SearchIcon
+          isOpen={littleMenuOpen === 2}
+          onClick={() => setLittleMenuOpen(isOpen === 2 ? -1 : 2)}
+        />
       </div>
     </header>
   );

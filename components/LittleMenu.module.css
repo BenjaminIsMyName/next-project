@@ -6,7 +6,8 @@
   top: 20px;
   right: 320px;
   z-index: 1;
-
+  box-shadow: 2px 2px 5px rgba(var(--shadows-color), 0.8),
+    inset 0px 0px 2px 2px rgba(var(--third-color), 0.5);
   /* nice css for popup: */
   /* background-color: rgb(var(--second-color));
   padding: 20px;
@@ -16,4 +17,16 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1; */
+}
+
+@media screen and (max-width: 900px) {
+  .container {
+    right: unset;
+    top: unset;
+    bottom: calc(20px + var(--header-height));
+    left: 20px;
+  }
+  .container.opened {
+    bottom: calc(20px + 256px);
+  }
 }

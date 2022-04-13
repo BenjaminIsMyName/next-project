@@ -4,8 +4,7 @@ for (let i = 0; i < 100; i++)
   posts.push({
     id: i,
     title: `Post ${i}`,
-    image: i % 3 === 1 ? `http://localhost:${PORT}/media/a.jpg` : false,
-    video: `http://192.168.1.103:${PORT}/media/video.mp4`,
+    video: `https://www.w3schools.com/html/mov_bbb.mp4`,
   });
 
 let popularPosts = [];
@@ -14,7 +13,7 @@ for (let i = 0; i < 100; i++)
   popularPosts.push({
     id: i,
     title: `Popular post ${i}`,
-    image: i % 2 === 0 ? `http://localhost:${PORT}/media/a.jpg` : false,
+    video: `https://www.w3schools.com/html/mov_bbb.mp4`,
   });
 
 export default function handler(req, res) {

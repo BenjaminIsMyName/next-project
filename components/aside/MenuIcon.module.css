@@ -1,17 +1,17 @@
-.x .firstPath {
+.opened .firstPath {
   transition: all 0.5s ease;
   transform-origin: center;
   transform: translateY(200%) rotate(45deg);
   transform-box: fill-box;
 }
 
-.x .secondPath {
+.opened .secondPath {
   transition: all 0.5s ease;
   transform: translateX(-100%);
   opacity: 0;
 }
 
-.x .thirdPath {
+.opened .thirdPath {
   transition: all 0.5s ease;
   transform: translateY(-200%) rotate(-45deg);
   transform-origin: center;

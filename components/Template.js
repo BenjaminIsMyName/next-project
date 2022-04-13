@@ -8,7 +8,8 @@ import Error from "./Error";
 import LittleMenu from "./LittleMenu";
 
 export default function Template({ postsProp }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // is the aside open (on small screens)?
+  const [littleMenuOpen, setLittleMenuOpen] = useState(-1); // is a little menu open? (none: -1, profile menu: 0, notifications menu: 1, search menu: 2)
   const asideRef = useRef();
   function menuOnClickHandler() {
     setIsOpen(!isOpen);
@@ -58,13 +59,28 @@ export default function Template({ postsProp }) {
 
   return (
     <>
-      <LittleMenu>Hello world</LittleMenu>
+      {littleMenuOpen === 0 && (
+        <LittleMenu isBigMenuOpen={isOpen}>Profile menu</LittleMenu>
+      )}
+      {littleMenuOpen === 1 && (
+        <LittleMenu isBigMenuOpen={isOpen}>Notifications menu</LittleMenu>
+      )}
+      {littleMenuOpen === 2 && (
+        <LittleMenu isBigMenuOpen={isOpen}>Search menu</LittleMenu>
+      )}
       <Aside
+        onClick={littleMenuOpen === -1 ? () => {} : () => setLittleMenuOpen(-1)} // bug: if menu A is open, clicking on menu B do as asked and open menu B (and close A), but then THIS onClick is called and it closes it
+        littleMenuOpen={littleMenuOpen}
+        setLittleMenuOpen={setLittleMenuOpen}
         menuOnClickHandler={menuOnClickHandler}
         isOpen={isOpen}
         ref={asideRef}
       />
-      <Rest blur={isOpen} menuOnClickHandler={menuOnClickHandler}>
+      <Rest
+        blur={isOpen}
+        menuOnClickHandler={menuOnClickHandler}
+        onClick={littleMenuOpen === -1 ? () => {} : () => setLittleMenuOpen(-1)}
+      >
         {posts.map((post, index) => (
           <Post
             title={post.title}

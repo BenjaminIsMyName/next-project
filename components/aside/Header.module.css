@@ -18,8 +18,11 @@
   transition: all 0.5s ease;
 }
 
-.header .right svg {
+.header .right button {
   display: none;
+}
+
+.header .right svg {
   fill: rgb(var(--option-text-color));
   opacity: 0.5;
   width: 35px;
@@ -31,15 +34,6 @@
   display: flex;
   align-items: center;
   gap: 15px;
-}
-
-.header .left svg {
-  display: block;
-  fill: rgb(var(--option-text-color));
-  opacity: 0.5;
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
 }
 
 .logo {
@@ -54,8 +48,8 @@
 }
 
 @media screen and (max-width: 900px) {
-  .header .right svg {
-    display: block;
+  .header .right button {
+    display: flex;
   }
 }
 
