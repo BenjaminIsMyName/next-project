@@ -1,11 +1,9 @@
 import Aside from "./aside/Aside";
 import Rest from "./Rest.js";
-import { useState, useRef, useCallback } from "react";
-import useFetch from "../hooks/useFetch.js";
-import Post from "./Post.js";
-import Loading from "./Loading.js";
-import Error from "./Error";
+import { useState, useRef } from "react";
+
 import LittleMenu from "./LittleMenu";
+import Feed from "./Feed";
 
 export default function Template({ postsProp }) {
   const [isOpen, setIsOpen] = useState(false); // is the aside open (on small screens)?
@@ -26,36 +24,6 @@ export default function Template({ postsProp }) {
       asideRef.current.theElement.scrollTop = 0;
     }, 5);
   }
-
-  const [forceRender, setForceRender] = useState(0);
-  function tryAgainCallback() {
-    setForceRender(prev => prev + 1);
-  }
-
-  const [from, setFrom] = useState(postsProp.length);
-  const { loading, error, posts, hasMore } = useFetch(
-    "/",
-    from,
-    forceRender,
-    postsProp
-  );
-
-  const observer = useRef();
-  const lastPost = useCallback(
-    node => {
-      if (loading) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver(
-        entries => {
-          if (entries[0].isIntersecting && hasMore)
-            setFrom(prevFrom => prevFrom + 5);
-        },
-        { rootMargin: "150px" }
-      );
-      if (node) observer.current.observe(node);
-    },
-    [loading, hasMore]
-  );
 
   return (
     <>
@@ -81,32 +49,7 @@ export default function Template({ postsProp }) {
         menuOnClickHandler={menuOnClickHandler}
         onClick={littleMenuOpen === -1 ? () => {} : () => setLittleMenuOpen(-1)}
       >
-        {posts.map((post, index) => (
-          <Post
-            title={post.title}
-            key={post.id}
-            animateProp={index > 3}
-            video={post.video}
-          />
-        ))}
-        {hasMore && <div ref={lastPost}></div>}
-        {loading && !error && posts.length === 0 && (
-          <>
-            <Post animateProp={false} />
-            <Post animateProp={false} />
-            <Post animateProp={false} />
-            <Post animateProp={false} />
-          </>
-        )}
-
-        {/* {loading && error === null && hasMore && posts && posts.length > 0 && (
-          <Loading />
-        )} */}
-        {loading && error === null && <Loading />}
-
-        {error !== null && (
-          <Error tryAgainCallback={tryAgainCallback} error={error} />
-        )}
+        <Feed postsProp={postsProp} />
       </Rest>
     </>
   );
