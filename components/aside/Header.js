@@ -19,15 +19,15 @@ export default function Header({
       <div className={styles.left}>
         <ProfileIcon
           isOpen={littleMenuOpen === 0}
-          onClick={() => setLittleMenuOpen(isOpen === 0 ? -1 : 0)}
+          onClick={() => setLittleMenuOpen(e => (e === 0 ? -1 : 0))}
         />
         <NotificationsIcon
           isOpen={littleMenuOpen === 1}
-          onClick={() => setLittleMenuOpen(isOpen === 1 ? -1 : 1)}
+          onClick={() => setLittleMenuOpen(e => (e === 1 ? -1 : 1))}
         />
         <SearchIcon
           isOpen={littleMenuOpen === 2}
-          onClick={() => setLittleMenuOpen(isOpen === 2 ? -1 : 2)}
+          onClick={() => setLittleMenuOpen(e => (e === 2 ? -1 : 2))}
         />
       </div>
     </header>
