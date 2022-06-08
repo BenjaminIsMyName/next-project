@@ -26,7 +26,4 @@
     bottom: calc(20px + var(--header-height));
     left: 20px;
   }
-  .container.opened {
-    bottom: calc(20px + 256px);
-  }
 }

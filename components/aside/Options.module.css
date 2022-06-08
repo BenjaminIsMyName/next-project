@@ -18,7 +18,7 @@
          anything IN the option (svg, span..) then the
          EventListener in the "addLink" function will send to the callback function
          the element that was clicked, and not the <a> tag  */
-  pointer-events: none;
+  /* pointer-events: none; */
 }
 .option:not(#selected)::before {
   content: "";

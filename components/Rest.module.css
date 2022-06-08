@@ -1,13 +1,9 @@
 .rest {
   background-color: rgb(var(--main-color));
-  color: wheat;
   float: left;
   width: calc(100% - var(--aside-width));
   padding: 8%;
-  transition: width 1s ease, opacity 0.3s ease, -webkit-filter 0.3s ease;
-  transition: width 1s ease, opacity 0.3s ease, filter 0.3s ease;
-  transition: width 1s ease, opacity 0.3s ease, filter 0.3s ease,
-    -webkit-filter 0.3s ease;
+  transition: width 1s ease;
   min-height: 120vh;
   overflow: hidden;
 }
@@ -16,19 +12,5 @@
   .rest {
     width: 100%;
     padding: 0 0 var(--header-height) 0;
-  }
-
-  .blur {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    opacity: 0.5;
-    -webkit-filter: blur(5px);
-    filter: blur(5px);
-  }
-
-  .blur * {
-    pointer-events: none;
   }
 }
