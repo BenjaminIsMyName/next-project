@@ -1,13 +1,16 @@
 import styles from "./Loading.module.css";
 
-export default function Loading() {
+export default function Loading({ width, height, padding }) {
   return (
-    <div className={styles.loadingContainer}>
+    <div
+      className={styles.loadingContainer}
+      style={{ padding: padding || "50px" }}
+    >
       <svg
         className={styles.svg}
         xmlns='http://www.w3.org/2000/svg'
-        width='200px'
-        height='200px'
+        width={width || "200px"}
+        height={height || "200px"}
         viewBox='0 0 100 100'
         preserveAspectRatio='xMidYMid'
       >

@@ -1,0 +1,30 @@
+.form {
+  color: rgb(var(--option-text-color));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.form input:invalid {
+  background-color: rgba(var(--option-text-color), 0.8);
+  animation: shake 0.3s;
+}
+
+.form input {
+  text-align: center;
+  padding: 4px;
+}
+
+@keyframes shake {
+  25% {
+    transform: translateX(4px);
+  }
+
+  50% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}

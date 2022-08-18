@@ -11,8 +11,11 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.2",
     "axios": "^0.27.2",
+    "bcrypt": "^5.0.1",
+    "cookies-next": "^2.1.1",
     "focus-trap-react": "^8.11.2",
     "framer-motion": "^6.3.11",
+    "mongodb": "^4.8.1",
     "next": "12.1.6",
     "next-redux-wrapper": "^7.0.5",
     "react": "18.1.0",

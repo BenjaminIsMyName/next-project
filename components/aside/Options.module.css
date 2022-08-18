@@ -13,13 +13,7 @@
   position: relative;
   transition: font-size 0.5s ease;
 }
-.option * {
-  /* this fixes a big bug: without it, when clicking on
-         anything IN the option (svg, span..) then the
-         EventListener in the "addLink" function will send to the callback function
-         the element that was clicked, and not the <a> tag  */
-  /* pointer-events: none; */
-}
+
 .option:not(#selected)::before {
   content: "";
   position: absolute;

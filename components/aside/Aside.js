@@ -6,10 +6,11 @@ import LittleMenu from "../LittleMenu.js";
 import styles from "./Aside.module.css";
 import Header from "./Header.js";
 import Option from "./Option.js";
+import ProfileMenu from "./ProfileMenu.js";
 export default function Aside() {
-  const asideRef = useRef();
-  const dispatch = useDispatch();
-  const isOpen = useSelector(state => state.menu);
+  const asideRef = useRef(); // used on the <aside> tag, to scroll back up when openning and closing the menu.
+  const dispatch = useDispatch(); // to set the state in redux toolkit
+  const isOpen = useSelector(state => state.menu); // to check the state in redux toolkit
   const [littleMenuOpen, setLittleMenuOpen] = useState(-1); // is a little menu open? (none: -1, profile menu: 0, notifications menu: 1, search menu: 2)
 
   const clickToToggleMenu = useCallback(() => {
@@ -59,7 +60,7 @@ export default function Aside() {
               : ""
           }`}
         ></div>
-        {littleMenuOpen === 0 && <LittleMenu>Profile menu</LittleMenu>}
+        {littleMenuOpen === 0 && <ProfileMenu />}
         {littleMenuOpen === 1 && <LittleMenu>Notifications menu</LittleMenu>}
         {littleMenuOpen === 2 && <LittleMenu>Search menu</LittleMenu>}
         <aside
@@ -71,7 +72,6 @@ export default function Aside() {
             littleMenuOpen={littleMenuOpen}
             setLittleMenuOpen={setLittleMenuOpen}
             menuOnClickHandler={clickToToggleMenu}
-            asideRef={asideRef}
             isOpen={isOpen}
           />
           <Option text='בשבילך' link='./' selected />

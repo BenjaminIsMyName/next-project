@@ -11,5 +11,5 @@ const menuSlice = createSlice({
   },
 });
 
-export const { toggleMenu, setMenu } = menuSlice.actions;
+export const { toggleMenu } = menuSlice.actions;
 export default menuSlice.reducer;
