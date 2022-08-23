@@ -1,18 +1,18 @@
-import styles from "./Signup.module.css";
-import { emailError, passwordError, nameError } from "../../util/validate";
+import styles from "./Login.module.css";
+import { emailError, passwordError } from "../../util/validate";
 import { useState } from "react";
 import Input from "../Input";
-export default function Signup({
+export default function Login({
   handleInputChange,
   inputsData,
-  handleRegisteration,
+  handleLogin,
   goBack,
 }) {
   return (
     <>
       <button onClick={goBack}>חזור</button>
       <form className={`form`}>
-        <p>אין לך חשבון - נא הירשם</p>
+        <h2> נא התחבר </h2>
         <Input
           checkErrorCallback={emailError}
           errorText={`כתובת דוא"ל אינה תקינה`}
@@ -34,25 +34,13 @@ export default function Signup({
           name='password'
           placeholder='סיסמה'
         />
-
-        <Input
-          checkErrorCallback={nameError}
-          errorText={"שם חייב להיות לפחות 3 תווים"}
-          valueObj={inputsData}
-          onChange={handleInputChange}
-          type='text'
-          name='name'
-          placeholder='שם'
-        />
         <button
           disabled={
-            emailError(inputsData.email) ||
-            passwordError(inputsData.password) ||
-            nameError(inputsData.name)
+            emailError(inputsData.email) || passwordError(inputsData.password)
           }
-          onClick={handleRegisteration}
+          onClick={handleLogin}
         >
-          הירשם
+          התחבר
         </button>
       </form>
     </>

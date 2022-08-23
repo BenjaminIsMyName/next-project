@@ -7,6 +7,7 @@ export default function NotificationsIcon({ isOpen, onClick }) {
   }
   return (
     <button
+      aria-label={"התראות"}
       onClick={handleClick}
       className={`${isOpen ? styles.open : ""} ${styles.icon}`}
     >

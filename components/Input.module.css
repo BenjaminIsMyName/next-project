@@ -1,0 +1,96 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 15px 0 0;
+}
+
+.container input {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(var(--option-text-color), 0.4);
+  outline: 0;
+  font-size: 16px;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+  color: rgb(var(--option-text-color));
+}
+
+.container input::placeholder {
+  color: transparent;
+}
+
+.container input:placeholder-shown ~ .formLabel {
+  font-size: 16px;
+  cursor: text;
+  top: 20px;
+  user-select: none;
+}
+.formLabel,
+.container input:focus ~ .formLabel {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 12px;
+  color: rgba(var(--option-text-color), 0.4);
+}
+
+.container input:focus ~ .formLabel {
+  color: rgb(var(--option-text-color));
+}
+
+.container input:focus {
+  padding-bottom: 6px;
+  border-bottom: 2px solid rgb(var(--option-text-color));
+}
+.errorLabel {
+  /* min-height: 1.5rem; */
+  color: rgb(var(--error-color));
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+  margin: 3px 0px 0px;
+}
+
+.container input:disabled {
+  color: rgba(var(--option-text-color), 0.4);
+}
+
+/* Change the white to any color */
+.container input:-webkit-autofill,
+.container input:-webkit-autofill:hover,
+.container input:-webkit-autofill:focus,
+.container input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px rgb(var(--second-color)) inset !important;
+}
+
+/*Change text in autofill textbox*/
+.container input:-webkit-autofill {
+  -webkit-text-fill-color: rgb(var(--option-text-color)) !important;
+}
+
+.container input:-webkit-autofill {
+  caret-color: white;
+}
+
+.container.invalid {
+  animation: shake 0.3s;
+}
+
+@keyframes shake {
+  25% {
+    transform: translateX(4px);
+  }
+
+  50% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}

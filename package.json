@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.10.1",
     "@reduxjs/toolkit": "^1.8.2",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
@@ -20,7 +24,9 @@
     "next-redux-wrapper": "^7.0.5",
     "react": "18.1.0",
     "react-dom": "18.1.0",
-    "react-redux": "^8.0.2"
+    "react-redux": "^8.0.2",
+    "stylis": "^4.1.1",
+    "stylis-plugin-rtl": "^2.1.1"
   },
   "devDependencies": {
     "eslint": "8.17.0",

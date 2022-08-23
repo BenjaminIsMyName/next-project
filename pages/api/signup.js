@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   // * create hash and salt
   // * create token
   // * insert in db everything (including the date in which the user was created)
-  // * return token & name
+  // * return res
 
   // TODO:
   // * check what is the best way to save dates in MongoDB
@@ -72,10 +72,7 @@ export default async function handler(req, res) {
   const hashAndSalt = await bcrypt.hash(password, saltRounds);
 
   // create token ------------------------
-  let { token, tokenCreationDate } = createToken();
-
-  const tomorrow = new Date(tokenCreationDate);
-  tomorrow.setDate(tomorrow.getDate() + 1);
+  let { token, tokenCreationDate, loggedInUntil } = createToken();
 
   // insert in DB ------------------------
   try {
@@ -100,9 +97,9 @@ export default async function handler(req, res) {
 
   setCookie("token", token, { req, res, httpOnly: true });
   // return token & name ------------------------
-  setCookie("user", JSON.stringify({ name, loggedInUntil: tomorrow, email }), {
+  setCookie("user", JSON.stringify({ name, loggedInUntil, email }), {
     req,
     res,
   });
-  res.status(201).json({ name, loggedInUntil: JSON.stringify(tomorrow) });
+  res.status(204).end();
 }

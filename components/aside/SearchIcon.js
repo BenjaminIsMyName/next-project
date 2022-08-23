@@ -7,6 +7,7 @@ export default function SearchIcon({ onClick, isOpen }) {
   }
   return (
     <button
+      aria-label={"חיפוש"}
       onClick={handleClick}
       className={`${isOpen ? styles.open : ""} ${styles.icon}`}
     >
