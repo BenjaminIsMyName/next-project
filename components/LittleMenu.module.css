@@ -20,11 +20,20 @@
   z-index: 1; */
 }
 
+.containerLtr {
+  right: unset !important;
+  left: 320px !important;
+}
+
 @media screen and (max-width: 900px) {
   .container {
     right: unset;
     top: unset;
     bottom: calc(20px + var(--header-height));
     left: 20px;
+  }
+  .containerLtr {
+    left: unset !important;
+    right: 20px !important;
   }
 }

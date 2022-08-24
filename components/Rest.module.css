@@ -8,6 +8,10 @@
   overflow: hidden;
 }
 
+.restLtr {
+  float: right !important;
+}
+
 @media screen and (max-width: 900px) {
   .rest {
     width: 100%;

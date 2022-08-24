@@ -22,8 +22,6 @@ export default function Input(props) {
         name={name}
         id={name}
         onBlur={() => {
-          console.log(valueObj[name]);
-
           if (checkErrorCallback(valueObj[name])) setError(errorText);
           else setError("");
         }}

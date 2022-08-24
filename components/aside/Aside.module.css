@@ -9,6 +9,10 @@
   scroll-behavior: smooth;
 }
 
+.asideLtr {
+  box-shadow: 3px 0 5px 2px rgba(var(--shadows-color), 0.5);
+}
+
 @media screen and (max-width: 900px) {
   .aside {
     transition: all 0.2s ease;

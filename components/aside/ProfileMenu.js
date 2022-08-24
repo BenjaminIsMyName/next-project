@@ -6,11 +6,24 @@ import { emailError, nameError, passwordError } from "../../util/validate";
 import Loading from "../Loading";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../../store/userSlice";
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import Signup from "./Signup";
 import Login from "./Login";
 import EmailForm from "./EmailForm";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 export default function ProfileMenu() {
+  const { i18n } = useTranslation();
+  const [toggleLang, setToggleLang] = useState("en-US");
+  console.log("lang", getCookie("lang"));
+
+  function onLangClick(e, lang) {
+    setToggleLang(lang);
+    setCookie("lang", lang);
+  }
+
+  const router = useRouter();
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
   const inputsDataDefault = {
@@ -147,13 +160,19 @@ export default function ProfileMenu() {
   //     return sourceEmailCancelRef.current.cancel();
   //   };
   // }, []);
-  console.log(`error text is ${errorText}`);
 
   if (user)
     return (
       <LittleMenu>
-        <p>שלום לך, {user.name}</p>
+        <p>Welcome, {user.name}</p>
         <button onClick={logOut}>התנתק</button>
+
+        <Link href={router.asPath} locale={"he-IL"}>
+          <a onClick={e => onLangClick(e, "he-IL")}>Hebrew</a>
+        </Link>
+        <Link href={router.asPath} locale={"en-US"}>
+          <a onClick={e => onLangClick(e, "en-US")}>English</a>
+        </Link>
       </LittleMenu>
     );
 
