@@ -1,8 +1,7 @@
 import styles from "./ProfileMenu.module.css";
 import LittleMenu from "../LittleMenu";
 import axios from "axios";
-import { useState, useEffect, useRef } from "react";
-import { emailError, nameError, passwordError } from "../../util/validate";
+import { useState, useContext } from "react";
 import Loading from "../Loading";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../../store/userSlice";
@@ -12,16 +11,9 @@ import Login from "./Login";
 import EmailForm from "./EmailForm";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
+import { LangContext } from "../../context/LangContext";
 export default function ProfileMenu() {
-  const { i18n } = useTranslation();
-  const [toggleLang, setToggleLang] = useState("en-US");
-  console.log("lang", getCookie("lang"));
-
-  function onLangClick(e, lang) {
-    setToggleLang(lang);
-    setCookie("lang", lang);
-  }
+  const { language, setLanguage } = useContext(LangContext);
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -168,10 +160,10 @@ export default function ProfileMenu() {
         <button onClick={logOut}>התנתק</button>
 
         <Link href={router.asPath} locale={"he-IL"}>
-          <a onClick={e => onLangClick(e, "he-IL")}>Hebrew</a>
+          <a onClick={() => setLanguage("he-IL")}>Hebrew</a>
         </Link>
         <Link href={router.asPath} locale={"en-US"}>
-          <a onClick={e => onLangClick(e, "en-US")}>English</a>
+          <a onClick={() => setLanguage("en-US")}>English</a>
         </Link>
       </LittleMenu>
     );

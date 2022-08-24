@@ -1,5 +1,5 @@
 import FocusTrap from "focus-trap-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../../store/menuSlice.js";
 import LittleMenu from "../LittleMenu.js";
@@ -8,11 +8,11 @@ import Header from "./Header.js";
 import Option from "./Option.js";
 import ProfileMenu from "./ProfileMenu.js";
 import { useTranslation } from "next-i18next";
-import { getCookie } from "cookies-next";
+import { LangContext } from "../../context/LangContext.js";
 // import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 export default function Aside() {
-  const { t, i18n } = useTranslation("menu");
-
+  const { t } = useTranslation("menu");
+  const { language } = useContext(LangContext);
   const asideRef = useRef(); // used on the <aside> tag, to scroll back up when openning and closing the menu.
   const dispatch = useDispatch(); // to set the state in redux toolkit
   const isOpen = useSelector(state => state.menu); // to check the state in redux toolkit
@@ -44,11 +44,7 @@ export default function Aside() {
       setLittleMenuOpen(-1);
     }
   }
-  const [lang, setLang] = useState("");
 
-  useEffect(() => {
-    setLang(getCookie("lang"));
-  }, []);
   // this is needed to close the big menu when you open a little menu (why? for very small screens)
   useEffect(() => {
     if (isOpen && littleMenuOpen !== -1) {
@@ -75,7 +71,7 @@ export default function Aside() {
         <aside
           ref={asideRef}
           className={`${styles.aside} ${isOpen ? styles.clicked : ""} 
-          ${lang === "en-US" ? styles.asideLtr : ""}`}
+          ${language === "en-US" ? styles.asideLtr : ""}`}
           onClick={() => setLittleMenuOpen(-1)}
         >
           <Header

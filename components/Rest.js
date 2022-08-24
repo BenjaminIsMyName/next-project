@@ -1,17 +1,13 @@
 import styles from "./Rest.module.css";
-import { useTranslation } from "next-i18next";
-import { getCookie } from "cookies-next";
-import { useState, useEffect } from "react";
+import { useContext } from "react";
+import { LangContext } from "../context/LangContext";
 export default function Rest({ children }) {
-  const { i18n } = useTranslation();
-  const [lang, setLang] = useState("");
-
-  useEffect(() => {
-    setLang(getCookie("lang"));
-  }, []);
+  const { language } = useContext(LangContext);
 
   return (
-    <div className={`${styles.rest} ${lang === "en-US" ? styles.restLtr : ""}`}>
+    <div
+      className={`${styles.rest} ${language === "en-US" ? styles.restLtr : ""}`}
+    >
       {children}
     </div>
   );
