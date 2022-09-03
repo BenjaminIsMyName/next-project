@@ -84,3 +84,7 @@ body {
     transform: translateX(4px);
   }
 } */
+
+#g_a11y_announcement {
+  display: none;
+}

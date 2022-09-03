@@ -21,6 +21,8 @@ export default async function handler(req, res) {
 
   try {
     const { db } = await connectToDatabase();
+
+    // "findOneAndUpdate": If no document matches the filter, no document is updated.
     await db.collection("users").findOneAndUpdate(
       { email: user.email, "tokens.token": token },
       {

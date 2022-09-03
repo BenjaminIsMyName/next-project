@@ -1,7 +1,7 @@
 import styles from "./ProfileMenu.module.css";
 import LittleMenu from "../LittleMenu";
 import axios from "axios";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Loading from "../Loading";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../../store/userSlice";
@@ -153,6 +153,23 @@ export default function ProfileMenu() {
   //   };
   // }, []);
 
+  // Render button "login with google":
+  useEffect(() => {
+    window.google?.accounts?.id?.renderButton(
+      document.getElementById("signInDiv"),
+      {
+        // theme: "outline",
+        size: "small",
+        // scope: "profile email",
+        width: 180,
+        // longtitle: true,
+        // theme: "dark",
+        text: "continue_with",
+        locale: language === "he-IL" ? "iw" : "en",
+      }
+    );
+  }, []);
+
   if (user)
     return (
       <LittleMenu>
@@ -171,11 +188,42 @@ export default function ProfileMenu() {
   return (
     <LittleMenu>
       {status === 0 && (
-        <EmailForm
-          handleEmailSubmit={handleEmailSubmit}
-          inputsData={inputsData}
-          handleInputChange={handleInputChange}
-        />
+        <>
+          <div
+            id='signInDiv'
+            style={{
+              width: "min-content",
+              height: "30px",
+              overflow: "hidden",
+
+              // fontFamily: `"Google Sans",arial,sans-serif`,
+            }}
+          ></div>
+          <EmailForm
+            handleEmailSubmit={handleEmailSubmit}
+            inputsData={inputsData}
+            handleInputChange={handleInputChange}
+          />
+          {/* <div
+            id='g_id_onload'
+            data-client_id='https://51346988821-d8m0q425qo80gb7s8dl99gaooe2iorjv.apps.googleusercontent.com/'
+            data-context='signin'
+            data-ux_mode='popup'
+            data-login_uri='/fff'
+            data-itp_support='true'
+          ></div>
+
+          <div
+            className='g_id_signin'
+            data-type='standard'
+            data-shape='rectangular'
+            data-theme='filled_black'
+            data-text='continue_with'
+            data-size='medium'
+            data-logo_alignment='left'
+          ></div> */}
+          {/* abc */}
+        </>
       )}
       {status === 1 && <p> {errorText}</p>}
       {status === 2 && (
