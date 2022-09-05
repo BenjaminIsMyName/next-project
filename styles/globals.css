@@ -30,60 +30,9 @@ body {
   color: rgb(var(--option-text-color));
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
+
   gap: 10px;
 }
-
-/* .form .invalid { */
-/* background-color: rgba(var(--option-text-color), 0.8); */
-/* border: 4px solid rgb(var(--error-color));
-  animation: shake 0.3s; */
-/* } */
-
-/* .form input {
-  text-align: center;
-  padding: 4px;
-} */
-
-/* .form div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: min-content;
-} */
-
-/* .form > div > label {
-} */
-
-/* change mui input elements to rtl */
-/* .input .MuiFormLabel-root {
-  left: inherit;
-  right: 0;
-  transform-origin: right;
-} */
-
-/* change mui input error text to rtl */
-/* .input .MuiFormHelperText-root {
-  text-align: right;
-} */
-
-/* 
-.invalidInput {
-  animation: shake 0.3s;
-}
-
-@keyframes shake {
-  25% {
-    transform: translateX(4px);
-  }
-
-  50% {
-    transform: translateX(-4px);
-  }
-  75% {
-    transform: translateX(4px);
-  }
-} */
 
 #g_a11y_announcement {
   display: none;

@@ -1,7 +1,5 @@
 import FocusTrap from "focus-trap-react";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleMenu } from "../../store/menuSlice.js";
 import LittleMenu from "../LittleMenu.js";
 import styles from "./Aside.module.css";
 import Header from "./Header.js";
@@ -9,17 +7,16 @@ import Option from "./Option.js";
 import ProfileMenu from "./ProfileMenu.js";
 import { useTranslation } from "next-i18next";
 import { LangContext } from "../../context/LangContext.js";
-// import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
 export default function Aside() {
   const { t } = useTranslation("menu");
   const { language } = useContext(LangContext);
   const asideRef = useRef(); // used on the <aside> tag, to scroll back up when openning and closing the menu.
-  const dispatch = useDispatch(); // to set the state in redux toolkit
-  const isOpen = useSelector(state => state.menu); // to check the state in redux toolkit
+  const [isOpen, setIsOpen] = useState(false); // to check the state in redux toolkit
   const [littleMenuOpen, setLittleMenuOpen] = useState(-1); // is a little menu open? (none: -1, profile menu: 0, notifications menu: 1, search menu: 2)
 
   const clickToToggleMenu = useCallback(() => {
-    dispatch(toggleMenu());
+    setIsOpen(prev => !prev);
     document.body.classList.toggle("no-scroll");
     asideRef.current.scrollTop = 0;
 
@@ -32,7 +29,7 @@ export default function Aside() {
     setTimeout(() => {
       asideRef.current.scrollTop = 0;
     }, 5);
-  }, [dispatch]);
+  }, []);
 
   function handleOverlayClick() {
     if (littleMenuOpen !== -1 && isOpen) {
@@ -89,16 +86,3 @@ export default function Aside() {
     </FocusTrap>
   );
 }
-
-// export async function getStaticProps(ctx) {
-//   // query db for posts here.
-//   // using the next.js api here won't work at build time.
-//   // so we need to fetch it directly the db.
-//   // for more info: https://nextjs.org/docs/basic-features/data-fetching/get-static-props#write-server-side-code-directly
-
-//   return {
-//     props: {
-//       ...(await serverSideTranslations(ctx.locale, ["menu"])),
-//     },
-//   };
-// }

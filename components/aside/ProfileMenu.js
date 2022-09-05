@@ -3,21 +3,19 @@ import LittleMenu from "../LittleMenu";
 import axios from "axios";
 import { useState, useContext, useEffect } from "react";
 import Loading from "../Loading";
-import { useSelector, useDispatch } from "react-redux";
-import { setUser } from "../../store/userSlice";
-import { getCookie, setCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 import Signup from "./Signup";
 import Login from "./Login";
 import EmailForm from "./EmailForm";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { LangContext } from "../../context/LangContext";
+import { UserContext } from "../../context/UserContext";
 export default function ProfileMenu() {
-  const { language, setLanguage } = useContext(LangContext);
-
+  const { setLanguage } = useContext(LangContext);
+  const { user, setUser } = useContext(UserContext);
   const router = useRouter();
-  const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
+
   const inputsDataDefault = {
     email: "",
     password: "",
@@ -33,15 +31,14 @@ export default function ProfileMenu() {
 
   const [errorText, setErrorText] = useState(errorsText.general);
 
-  // const sourceEmailCancelRef = useRef(axios.CancelToken.source());
-  async function handleEmailSubmit() {
+  async function handleEmailSubmit(e) {
+    e.preventDefault();
     setStatus(4);
     try {
       const { data } = await axios.get("/api/user", {
         params: {
           email: inputsData.email,
         },
-        // cancelToken: sourceEmailCancelRef.current.token,
       });
       if (data.exists) setStatus(2);
       else setStatus(3);
@@ -51,20 +48,20 @@ export default function ProfileMenu() {
     }
   }
 
-  async function handleRegisteration() {
+  async function handleRegisteration(e) {
+    e.preventDefault();
     setStatus(4);
     try {
       await axios.post("/api/signup", {
         email: inputsData.email,
         password: inputsData.password,
         name: inputsData.name,
-        // cancelToken: sourceEmailCancelRef.current.token,
       });
       const userCookie = getCookie("user");
 
       // localStorage.setItem("name", data.name);
       // localStorage.setItem("loggedInUntil", data.loggedInUntil);
-      dispatch(setUser(JSON.parse(userCookie)));
+      setUser(JSON.parse(userCookie));
     } catch (err) {
       // if (err.response) {
       //   // The request was made and the server responded with a status code
@@ -96,7 +93,7 @@ export default function ProfileMenu() {
 
   async function logOut() {
     setStatus(4);
-    dispatch(setUser(null));
+    setUser(null);
     try {
       await axios.delete("/api/logout");
     } catch (err) {
@@ -106,7 +103,8 @@ export default function ProfileMenu() {
     setStatus(0);
   }
 
-  async function handleLogin() {
+  async function handleLogin(e) {
+    e.preventDefault();
     setStatus(4);
     try {
       await axios.post("/api/login", {
@@ -114,7 +112,7 @@ export default function ProfileMenu() {
         password: inputsData.password,
       });
       const userCookie = getCookie("user");
-      dispatch(setUser(JSON.parse(userCookie)));
+      setUser(JSON.parse(userCookie));
     } catch (err) {
       if (err.response) {
         // The request was made and the server responded with a status code
@@ -146,30 +144,6 @@ export default function ProfileMenu() {
     setInputsData(prev => ({ ...inputsDataDefault, email: prev.email })); // clear all data except email
   }
 
-  // useEffect(() => {
-  //   return () => {
-  //     console.log("cancelling"); // bug: this is called right away!
-  //     return sourceEmailCancelRef.current.cancel();
-  //   };
-  // }, []);
-
-  // Render button "login with google":
-  useEffect(() => {
-    window.google?.accounts?.id?.renderButton(
-      document.getElementById("signInDiv"),
-      {
-        // theme: "outline",
-        size: "small",
-        // scope: "profile email",
-        width: 180,
-        // longtitle: true,
-        // theme: "dark",
-        text: "continue_with",
-        locale: language === "he-IL" ? "iw" : "en",
-      }
-    );
-  }, []);
-
   if (user)
     return (
       <LittleMenu>
@@ -188,49 +162,18 @@ export default function ProfileMenu() {
   return (
     <LittleMenu>
       {status === 0 && (
-        <>
-          <div
-            id='signInDiv'
-            style={{
-              width: "min-content",
-              height: "30px",
-              overflow: "hidden",
-
-              // fontFamily: `"Google Sans",arial,sans-serif`,
-            }}
-          ></div>
-          <EmailForm
-            handleEmailSubmit={handleEmailSubmit}
-            inputsData={inputsData}
-            handleInputChange={handleInputChange}
-          />
-          {/* <div
-            id='g_id_onload'
-            data-client_id='https://51346988821-d8m0q425qo80gb7s8dl99gaooe2iorjv.apps.googleusercontent.com/'
-            data-context='signin'
-            data-ux_mode='popup'
-            data-login_uri='/fff'
-            data-itp_support='true'
-          ></div>
-
-          <div
-            className='g_id_signin'
-            data-type='standard'
-            data-shape='rectangular'
-            data-theme='filled_black'
-            data-text='continue_with'
-            data-size='medium'
-            data-logo_alignment='left'
-          ></div> */}
-          {/* abc */}
-        </>
+        <EmailForm
+          handleEmailSubmit={e => handleEmailSubmit(e)}
+          inputsData={inputsData}
+          handleInputChange={handleInputChange}
+        />
       )}
       {status === 1 && <p> {errorText}</p>}
       {status === 2 && (
         <Login
           handleInputChange={handleInputChange}
           inputsData={inputsData}
-          handleLogin={handleLogin}
+          handleLogin={e => handleLogin(e)}
           goBack={goBack}
         />
       )}
@@ -239,7 +182,7 @@ export default function ProfileMenu() {
           goBack={goBack}
           handleInputChange={handleInputChange}
           inputsData={inputsData}
-          handleRegisteration={handleRegisteration}
+          handleRegisteration={e => handleRegisteration(e)}
         />
       )}
       {status === 4 && <Loading width='30px' height='30px' padding='10px' />}

@@ -32,7 +32,7 @@ export default function Post({ title, animateProp, video }) {
         <div className={styles.skeletonText}></div>
       </div>
       {video ? (
-        <video controls>
+        <video>
           <source src={video} type='video/mp4' />
         </video>
       ) : null}

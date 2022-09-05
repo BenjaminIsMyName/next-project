@@ -1,18 +1,3 @@
-/* .input :global .MuiFormLabel-root {
-  left: inherit;
-  right: 0;
-  transform-origin: right;
-}
-
-.input :global .MuiFormHelperText-root {
-  text-align: right;
-} */
-
-/* .input :global .css-h8p133-MuiFormLabel-root-MuiInputLabel-root {
-  transform-origin: right !important;
-  right: 0;
-} */
-
 .title {
   margin-bottom: 24px;
 }

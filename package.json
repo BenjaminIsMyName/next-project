@@ -1,5 +1,5 @@
 {
-  "name": "next-project",
+  "name": "next-project4",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,29 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.0",
-    "@emotion/styled": "^11.10.0",
-    "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.10.1",
-    "@reduxjs/toolkit": "^1.8.2",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "cookies-next": "^2.1.1",
-    "focus-trap-react": "^8.11.2",
-    "framer-motion": "^6.3.11",
+    "focus-trap-react": "^10.0.0",
+    "framer-motion": "^7.2.1",
     "jwt-decode": "^3.1.2",
-    "mongodb": "^4.8.1",
-    "next": "12.1.6",
+    "mongodb": "^4.9.1",
+    "next": "12.2.5",
     "next-i18next": "^12.0.0",
-    "next-redux-wrapper": "^7.0.5",
-    "react": "18.1.0",
-    "react-dom": "18.1.0",
-    "react-redux": "^8.0.2",
-    "stylis": "^4.1.1",
-    "stylis-plugin-rtl": "^2.1.1"
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "eslint": "8.17.0",
-    "eslint-config-next": "12.1.6"
+    "eslint": "8.23.0",
+    "eslint-config-next": "12.2.5"
   }
 }

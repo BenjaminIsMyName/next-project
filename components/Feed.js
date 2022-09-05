@@ -4,7 +4,7 @@ import Post from "./Post.js";
 import Loading from "./Loading.js";
 import Error from "./Error";
 
-export default function Feed({ postsProp }) {
+export default function Feed() {
   // this component will render right away 3 times:
   // 1. when the component is first rendered
   // 2. ????
@@ -15,12 +15,12 @@ export default function Feed({ postsProp }) {
     setForceRender(prev => prev + 1);
   }
 
-  const [from, setFrom] = useState(postsProp.length);
+  const [from, setFrom] = useState(0);
   const { loading, error, posts, hasMore } = useFetch(
     "/",
     from,
     forceRender,
-    postsProp
+    []
   );
 
   const observer = useRef();

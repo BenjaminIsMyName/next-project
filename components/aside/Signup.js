@@ -1,6 +1,5 @@
 import styles from "./Signup.module.css";
 import { emailError, passwordError, nameError } from "../../util/validate";
-import { useState } from "react";
 import Input from "../Input";
 export default function Signup({
   handleInputChange,

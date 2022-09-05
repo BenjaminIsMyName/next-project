@@ -1,6 +1,5 @@
 import styles from "./Login.module.css";
 import { emailError, passwordError } from "../../util/validate";
-import { useState } from "react";
 import Input from "../Input";
 export default function Login({
   handleInputChange,

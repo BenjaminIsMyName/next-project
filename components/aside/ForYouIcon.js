@@ -2,7 +2,7 @@ export default function ForYouIcon() {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      xlink='http://www.w3.org/1999/xlink'
+      href='http://www.w3.org/1999/xlink'
       viewBox='175 175 450 450'
     >
       <path
