@@ -81,9 +81,18 @@ export default async function handler(req, res) {
   }
 
   setCookie("token", token, { req, res, httpOnly: true });
-  setCookie("user", JSON.stringify({ name: user.name, loggedInUntil, email }), {
-    req,
-    res,
-  });
+  setCookie(
+    "user",
+    JSON.stringify({
+      name: user.name,
+      loggedInUntil,
+      email,
+      isAdmin: user.isAdmin ? true : false,
+    }),
+    {
+      req,
+      res,
+    }
+  );
   res.status(204).end();
 }

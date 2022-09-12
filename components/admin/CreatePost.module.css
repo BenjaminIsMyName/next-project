@@ -1,0 +1,49 @@
+.uploadInput {
+  display: none;
+}
+.container {
+  color: white;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(var(--second-color));
+  padding: min(20px, 3%);
+  gap: 10px;
+  text-align: center;
+}
+
+.actualSelectFileButton {
+  display: block;
+  padding: 10px;
+  font-size: 2rem;
+  background-color: rgba(var(--third-color), 0.4);
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fileContainer {
+  background-color: rgba(var(--main-color), 1);
+  height: 300px;
+  width: 100%;
+}
+
+.removeFile {
+  background-color: rgb(var(--error-color));
+  cursor: pointer;
+  padding: 10px;
+}
+
+.fileExistContainer {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  padding: min(20px, 5%);
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+}

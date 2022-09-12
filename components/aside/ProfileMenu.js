@@ -9,10 +9,9 @@ import Login from "./Login";
 import EmailForm from "./EmailForm";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { LangContext } from "../../context/LangContext";
 import { UserContext } from "../../context/UserContext";
+
 export default function ProfileMenu() {
-  const { setLanguage } = useContext(LangContext);
   const { user, setUser } = useContext(UserContext);
   const router = useRouter();
 
@@ -151,11 +150,13 @@ export default function ProfileMenu() {
         <button onClick={logOut}>התנתק</button>
 
         <Link href={router.asPath} locale={"he-IL"}>
-          <a onClick={() => setLanguage("he-IL")}>Hebrew</a>
+          Hebrew
         </Link>
         <Link href={router.asPath} locale={"en-US"}>
-          <a onClick={() => setLanguage("en-US")}>English</a>
+          English
         </Link>
+        <br />
+        {user.isAdmin && <Link href={"/admin"}>Admin Page</Link>}
       </LittleMenu>
     );
 
