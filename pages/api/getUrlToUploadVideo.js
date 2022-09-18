@@ -7,8 +7,8 @@ const s3instance = new S3({
   apiVersion: "2006-03-01",
   region: "us-east-1",
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    accessKeyId: process.env.AWS_ACCESS_KEY_FOR_S3,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY_FOR_S3,
   },
   signatureVersion: "v4",
 });
