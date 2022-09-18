@@ -5,18 +5,23 @@ import axios from "axios";
 import Loading from "../Loading";
 export default function CreatePost() {
   const [file, setFile] = useState(null);
-  const [status, setStatus] = useState(0); // 0 - nothing. 1 - loading. 2 - error. 3 - done.
+  const StatusEnum = {
+    start: "The upload process didn't start yet",
+    loading: "Trying to access the backend and save the post",
+    error: "Something went wrong while posting",
+    done: "Post is already in DB and in S3",
+  };
+  const [status, setStatus] = useState(StatusEnum.start);
   const [uploadedFile, setUploadedFile] = useState(null);
   function handleFileSelect(e) {
     setFile(e.target.files[0]);
   }
 
   async function uploadFile() {
-    setStatus(1);
+    setStatus(StatusEnum.loading);
     try {
-      let { data } = await axios.put("/api/upload", {
-        name: file.name,
-        type: file.type,
+      let { data } = await axios.get("/api/getUrlToUploadVideo", {
+        params: { name: file.name, type: file.type },
       });
 
       const url = data.url;
@@ -28,14 +33,21 @@ export default function CreatePost() {
         },
       });
 
-      setFile(null);
-      setStatus(3);
+      removeSelectedFile();
+      setStatus(StatusEnum.done);
       setUploadedFile(url.split("?")[0]);
     } catch (error) {
       console.log(`error is`, error);
 
-      setStatus(2);
+      setStatus(StatusEnum.error);
     }
+  }
+
+  function removeSelectedFile() {
+    setFile(null);
+    // we need the following in case the user select a file > delete it > select the same file again.
+    // This way, the "onChange" will be triggered.
+    document.querySelector("#uploadInput").value = "";
   }
   return (
     <div className={`${styles.container}`}>
@@ -44,6 +56,7 @@ export default function CreatePost() {
       <div className={styles.fileContainer}>
         {file === null ? (
           <label
+            tabIndex='0'
             htmlFor='uploadInput'
             className={`${styles.actualSelectFileButton}`}
           >
@@ -55,11 +68,7 @@ export default function CreatePost() {
             <p>{file.name}</p>
             <button
               className={`${styles.removeFile}`}
-              onClick={
-                () =>
-                  setFile(null) ||
-                  (document.querySelector("#uploadInput").value = "") // we need this in case the user select a file > delete it > select the same file again. This way, the "onChange" will be triggered.
-              }
+              onClick={removeSelectedFile}
             >
               Delete file
             </button>
@@ -76,13 +85,13 @@ export default function CreatePost() {
       <button disabled={file === null} onClick={uploadFile}>
         צור פוסט
       </button>
-      {status === 3 && (
+      {status === StatusEnum.done && (
         <video>
           <source src={uploadedFile} type='video/mp4' />
         </video>
       )}
-      {status === 1 && <Loading />}
-      {status === 2 && (
+      {status === StatusEnum.loading && <Loading />}
+      {status === StatusEnum.error && (
         <Error tryAgainCallback={uploadFile} error={"בעיה התרחשה, נסה שוב"} />
       )}
     </div>

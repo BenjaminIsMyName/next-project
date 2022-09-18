@@ -19,9 +19,15 @@ function MyApp({ Component, pageProps }) {
   }
 
   const [language, setLanguage] = useState(locale);
-  const [user, setUser] = useState(
-    getCookie("user") ? JSON.parse(getCookie("user")) : null
-  );
+
+  // check if user is still logged in (just for UI purposes)
+  let cookie = getCookie("user") ? JSON.parse(getCookie("user")) : null;
+  let loggedInUntil = cookie?.loggedInUntil;
+  if (!loggedInUntil || new Date(loggedInUntil) < new Date()) {
+    cookie = null;
+  }
+
+  const [user, setUser] = useState(cookie);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
