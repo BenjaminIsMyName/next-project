@@ -14,8 +14,8 @@ function MyApp({ Component, pageProps }) {
 
   // on client side only:
   if (typeof window !== "undefined") {
-    document.body.dir = locale === "en-US" ? "ltr" : "rtl";
-    document.querySelector("html").dir = locale === "en-US" ? "ltr" : "rtl";
+    document.body.dir = locale === "en" ? "ltr" : "rtl";
+    document.querySelector("html").dir = locale === "en" ? "ltr" : "rtl";
   }
 
   const [language, setLanguage] = useState(locale);

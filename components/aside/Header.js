@@ -3,6 +3,7 @@ import MenuIcon from "./MenuIcon";
 import SearchIcon from "./SearchIcon";
 import NotificationsIcon from "./NotificationsIcon";
 import ProfileIcon from "./ProfileIcon";
+import Link from "next/link";
 export default function Header({
   menuOnClickHandler,
   isOpen,
@@ -13,7 +14,11 @@ export default function Header({
     <header className={styles.header}>
       <div className={styles.right}>
         <MenuIcon menuOnClickHandler={menuOnClickHandler} isOpen={isOpen} />
-        <h1 className={styles.logo}>REDILET</h1>
+        <Link href='/'>
+          <a className={styles.link}>
+            <h1 className={styles.logo}>REDILET</h1>
+          </a>
+        </Link>
       </div>
 
       <div className={styles.left}>

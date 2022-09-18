@@ -149,14 +149,18 @@ export default function ProfileMenu() {
         <p>Welcome, {user.name}</p>
         <button onClick={logOut}>התנתק</button>
 
-        <Link href={router.asPath} locale={"he-IL"}>
-          Hebrew
+        <Link href={router.asPath} locale={"he"}>
+          <a> Hebrew</a>
         </Link>
-        <Link href={router.asPath} locale={"en-US"}>
-          English
+        <Link href={router.asPath} locale={"en"}>
+          <a>English</a>
         </Link>
         <br />
-        {user.isAdmin && <Link href={"/admin"}>Admin Page</Link>}
+        {user.isAdmin && (
+          <Link href={"/admin"}>
+            <a>Admin Page</a>
+          </Link>
+        )}
       </LittleMenu>
     );
 

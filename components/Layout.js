@@ -8,9 +8,7 @@ export default function Layout({ children }) {
     <>
       <Aside />
       <div
-        className={`${styles.rest} ${
-          language === "en-US" ? styles.restLtr : ""
-        }`}
+        className={`${styles.rest} ${language === "en" ? styles.restLtr : ""}`}
       >
         {children}
       </div>

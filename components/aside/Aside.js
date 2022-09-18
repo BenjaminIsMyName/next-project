@@ -68,7 +68,7 @@ export default function Aside() {
         <aside
           ref={asideRef}
           className={`${styles.aside} ${isOpen ? styles.clicked : ""} 
-          ${language === "en-US" ? styles.asideLtr : ""}`}
+          ${language === "en" ? styles.asideLtr : ""}`}
           onClick={() => setLittleMenuOpen(-1)}
         >
           <Header

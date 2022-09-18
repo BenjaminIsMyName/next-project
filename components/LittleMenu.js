@@ -11,7 +11,7 @@ export default function LittleMenu({ children }) {
       animate={{ opacity: 1, transform: "scale(1)" }}
       transition={{ delay: 0.1, type: "tween", duration: 0.2 }}
       className={`${styles.container} ${
-        language === "en-US" ? styles.containerLtr : ""
+        language === "en" ? styles.containerLtr : ""
       }`}
     >
       {children}

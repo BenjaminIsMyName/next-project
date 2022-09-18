@@ -10,7 +10,7 @@ export default function Option({ selected, text, link }) {
     <a
       href={link}
       className={`${styles.option} ${
-        language === "en-US" ? styles.optionLtr : ""
+        language === "en" ? styles.optionLtr : ""
       }`}
       id={selected ? styles.selected : ""}
     >
