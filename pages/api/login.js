@@ -19,6 +19,8 @@ export default async function handler(req, res) {
     return;
   }
 
+  email = email.trim().toLowerCase();
+
   if (emailError(email)) {
     res.status(406).json({
       error: emailError(email),

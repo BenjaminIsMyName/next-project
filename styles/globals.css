@@ -20,6 +20,10 @@ body {
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
+.no-scroll-in-any-screen {
+  overflow: hidden;
+}
+
 @media screen and (max-width: 900px) {
   .no-scroll {
     overflow: hidden;

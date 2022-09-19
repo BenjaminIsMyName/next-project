@@ -35,6 +35,9 @@ export default async function handler(req, res) {
     return;
   }
 
+  name = name.trim();
+  email = email.trim().toLowerCase();
+
   if (passwordError(password) || emailError(email) || nameError(name)) {
     res.status(406).json({
       error: passwordError(password) || emailError(email) || nameError(name),

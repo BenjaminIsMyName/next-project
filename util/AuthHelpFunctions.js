@@ -1,86 +1,5 @@
 import { getCookie } from "cookies-next";
 import connectToDatabase from "./mongodb";
-// TODO: change this function so it won't do res.status
-// instead, it will return an object {isLoggedIn, isAdmin, error, code}
-// export async function isLoggedIn(req, res, { asAdmin }) {
-//   // step 1: get email from the 'user' cookie
-//   let email = null;
-//   try {
-//     const user = JSON.parse(getCookie("user", { req, res }));
-//     email = user.email;
-//   } catch (error) {
-//     console.log(`error`, error);
-//     res.status(401).json({ error: `couldn't get email from cookie` });
-//     return false;
-//   }
-
-//   // step 2: get token from the 'token' cookie
-//   let token = null;
-//   try {
-//     token = getCookie("token", { req, res });
-//   } catch (error) {
-//     console.log(`error`, error);
-//     res.status(401).json({ error: `couldn't get token from cookie` });
-//     return false;
-//   }
-
-//   // step 3: fetch db and check if the user has this cookie and its date didn't expire
-//   try {
-//     var { db } = await connectToDatabase();
-//     let users = await db.collection("users").find({ email }).toArray();
-
-//     if (users.length === 0) {
-//       res.status(503).json({ error: `user with this email doesn't exist` });
-//       return false;
-//     }
-
-//     if (users.length > 1) {
-//       // shouldn't ever reach here
-//       res.status(500).json({
-//         error: "no information about this error due to Information security",
-//       });
-//       return false;
-//     }
-
-//     var user = users[0];
-//     let tokenFromDb = user.tokens.find(obj => obj.token === token);
-
-//     if (!tokenFromDb) {
-//       res.status(401).json({ error: `token is not valid` });
-//       return false;
-//     }
-
-//     if (tokenFromDb.didLogOut) {
-//       res.status(503).json({ error: `token is no longer valid` });
-//       return false;
-//     }
-
-//     const tokenCreationDate = new Date(tokenFromDb.tokenCreationDate);
-//     const loggedInUntil = new Date(
-//       tokenCreationDate.getTime() +
-//         process.env.TOKEN_EXPIRATION_IN_MINUTES * 60000
-//     );
-//     console.log(`loggedInUntil`, loggedInUntil);
-//     console.log("date", new Date());
-
-//     if (loggedInUntil < new Date()) {
-//       res.status(503).json({ error: `token expired` });
-//       return false;
-//     }
-
-//     if (asAdmin) {
-//       if (user.isAdmin !== true) {
-//         res.status(503).json({ error: `user is not an admin` });
-//         return false;
-//       }
-//     }
-//   } catch (err) {
-//     res.status(503).json({ error: `failed to connect to DB: ${err}` });
-//     return false;
-//   }
-
-//   return true;
-// }
 
 export async function isLoggedInFunc(req, res) {
   // step 1: get email from the 'user' cookie
@@ -121,7 +40,7 @@ export async function isLoggedInFunc(req, res) {
       return {
         isLoggedIn: false,
         error: `user with this email doesn't exist`,
-        code: 503,
+        code: 401,
         isAdmin: false,
       };
     }
@@ -153,7 +72,7 @@ export async function isLoggedInFunc(req, res) {
       return {
         isLoggedIn: false,
         error: `token is no longer valid`,
-        code: 503,
+        code: 401,
         isAdmin: false,
       };
     }
@@ -170,7 +89,7 @@ export async function isLoggedInFunc(req, res) {
       return {
         isLoggedIn: false,
         error: `token expired`,
-        code: 503,
+        code: 401,
         isAdmin: false,
       };
     }
@@ -179,7 +98,7 @@ export async function isLoggedInFunc(req, res) {
       return {
         isLoggedIn: true,
         error: `user is not an admin`,
-        code: 503,
+        code: 401,
         isAdmin: false,
       };
     } else {
