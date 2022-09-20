@@ -21,7 +21,7 @@ export default function ProfileMenu() {
     name: "",
   };
   const [inputsData, setInputsData] = useState(inputsDataDefault);
-  const [status, setStatus] = useState(0); // 0 - waiting for email, 1 - error, 2 - user does exist, 3 - user doesn't exist, 4 - loading. the 'status' state is used if the redux 'user' state doesn't.
+  const [status, setStatus] = useState(0); // 0 - default, waiting for email, 1 - error, 2 - user does exist, 3 - user doesn't exist, 4 - loading. the 'status' state is used if the redux 'user' state doesn't.
 
   const errorsText = {
     wrongPassword: "סיסמה שגויה, נסה שוב",
@@ -29,6 +29,11 @@ export default function ProfileMenu() {
   };
 
   const [errorText, setErrorText] = useState(errorsText.general);
+
+  function defaultState() {
+    setInputsData(inputsDataDefault);
+    setStatus(0);
+  }
 
   async function handleEmailSubmit(e) {
     e.preventDefault();
@@ -57,31 +62,11 @@ export default function ProfileMenu() {
         name: inputsData.name,
       });
       const userCookie = getCookie("user");
-
-      // localStorage.setItem("name", data.name);
-      // localStorage.setItem("loggedInUntil", data.loggedInUntil);
       setUser(JSON.parse(userCookie));
+      defaultState();
     } catch (err) {
-      // if (err.response) {
-      //   // The request was made and the server responded with a status code
-      //   // that falls out of the range of 2xx
-      //   console.log("error.response.data", err.response.data);
-      //   console.log("error.response.status", err.response.status);
-      //   console.log("error.response.headers", err.response.headers);
-      // } else if (err.request) {
-      //   // The request was made but no response was received
-      //   // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-      //   // http.ClientRequest in node.js
-      //   console.log("error.request", err.request);
-      // } else {
-      //   // Something happened in setting up the request that triggered an Error
-      //   console.log("Error", err.message);
-      //   setStatus(1);
-      // }
-      // console.log(err);
       setErrorText(errorsText.general);
       setStatus(1);
-      // console.log("error: ", err?.response?.data);
     }
   }
 
@@ -112,6 +97,7 @@ export default function ProfileMenu() {
       });
       const userCookie = getCookie("user");
       setUser(JSON.parse(userCookie));
+      defaultState();
     } catch (err) {
       if (err.response) {
         // The request was made and the server responded with a status code
