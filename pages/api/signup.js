@@ -75,7 +75,7 @@ export default async function handler(req, res) {
   const hashAndSalt = await bcrypt.hash(password, saltRounds);
 
   // create token ------------------------
-  let { token, tokenCreationDate, loggedInUntil } = createToken();
+  let { token, tokenCreationDate } = createToken();
 
   // insert in DB ------------------------
   try {
@@ -100,7 +100,7 @@ export default async function handler(req, res) {
 
   setCookie("token", token, { req, res, httpOnly: true });
   // return token & name ------------------------
-  setCookie("user", JSON.stringify({ name, loggedInUntil, email }), {
+  setCookie("user", JSON.stringify({ name, email }), {
     req,
     res,
   });

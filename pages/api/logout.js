@@ -7,8 +7,11 @@ export default async function handler(req, res) {
     });
     return;
   }
+
   let user = getCookie("user", { req, res });
   const token = getCookie("token", { req, res });
+  deleteCookie("token", { req, res });
+  deleteCookie("user", { req, res });
 
   if (!user) {
     res.status(409).json({ error: `the 'user' cookie doesn't exist` });
@@ -16,8 +19,6 @@ export default async function handler(req, res) {
   }
 
   user = JSON.parse(user);
-  deleteCookie("token", { req, res });
-  deleteCookie("user", { req, res });
 
   try {
     const { db } = await connectToDatabase();

@@ -77,23 +77,6 @@ export async function isLoggedInFunc(req, res) {
       };
     }
 
-    const tokenCreationDate = new Date(tokenFromDb.tokenCreationDate);
-    const loggedInUntil = new Date(
-      tokenCreationDate.getTime() +
-        process.env.TOKEN_EXPIRATION_IN_MINUTES * 60000
-    );
-    console.log(`loggedInUntil`, loggedInUntil);
-    console.log("date", new Date());
-
-    if (loggedInUntil < new Date()) {
-      return {
-        isLoggedIn: false,
-        error: `token expired`,
-        code: 401,
-        isAdmin: false,
-      };
-    }
-
     if (user.isAdmin !== true) {
       return {
         isLoggedIn: true,

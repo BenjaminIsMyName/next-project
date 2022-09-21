@@ -10,6 +10,7 @@ import EmailForm from "./EmailForm";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { UserContext } from "../../context/UserContext";
+import useLogout from "../../hooks/useLogout";
 
 export default function ProfileMenu() {
   const { user, setUser } = useContext(UserContext);
@@ -75,14 +76,11 @@ export default function ProfileMenu() {
     setInputsData(prev => ({ ...prev, [name]: value }));
   }
 
+  const logoutFunc = useLogout();
   async function logOut() {
     setStatus(4);
     setUser(null);
-    try {
-      await axios.delete("/api/logout");
-    } catch (err) {
-      console.log(err);
-    }
+    await logoutFunc();
     setInputsData(inputsDataDefault);
     setStatus(0);
   }

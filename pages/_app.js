@@ -19,12 +19,6 @@ function MyApp({ Component, pageProps }) {
 
   // check if user is still logged in (just for UI purposes, using client-side cookie)
   let cookie = getCookie("user") ? JSON.parse(getCookie("user")) : null;
-  let loggedInUntil = cookie?.loggedInUntil;
-
-  // if he has only 5 seconds to stay logged in, just show him as logged out already
-  if (!loggedInUntil || new Date(loggedInUntil) - 5000 < new Date()) {
-    cookie = null;
-  }
 
   const [user, setUser] = useState(cookie);
   const [language, setLanguage] = useState(locale);

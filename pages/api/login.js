@@ -60,7 +60,7 @@ export default async function handler(req, res) {
   }
 
   // create token ------------------------
-  let { token, tokenCreationDate, loggedInUntil } = createToken();
+  let { token, tokenCreationDate } = createToken();
 
   // insert token in DB ------------------------
   try {
@@ -87,7 +87,6 @@ export default async function handler(req, res) {
     "user",
     JSON.stringify({
       name: user.name,
-      loggedInUntil,
       email,
       isAdmin: user.isAdmin ? true : false,
     }),

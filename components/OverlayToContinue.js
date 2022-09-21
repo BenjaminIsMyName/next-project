@@ -6,16 +6,27 @@ import FocusTrap from "focus-trap-react";
 import Input from "./Input";
 import { passwordError } from "../util/validate";
 import { useState } from "react";
+import useLogout from "../hooks/useLogout";
+import { deleteCookie, getCookie } from "cookies-next";
 export default function OverlayToContinue({ onSuccess }) {
-  const { setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
+
+  const [email, setEmail] = useState(user?.email);
+  console.log(`email is ${email}`);
+
+  const logoutFunc = useLogout();
 
   useEffect(() => {
     document.body.classList.add("no-scroll-in-any-screen");
+    async function removeCookies() {
+      await logoutFunc();
+    }
+    removeCookies();
     return () => document.body.classList.remove("no-scroll-in-any-screen");
-  }, []);
+  }, [logoutFunc]); // aka [] I guess...
 
-  function handleLogout() {
-    setUser(null);
+  async function handleLogout() {
+    setUser(null); // only this, because all cookies were already removed when this component was mounted, in removeCookies()
   }
 
   const [password, setPassword] = useState("");
