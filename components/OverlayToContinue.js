@@ -8,11 +8,12 @@ import { passwordError } from "../util/validate";
 import { useState } from "react";
 import useLogout from "../hooks/useLogout";
 import { deleteCookie, getCookie } from "cookies-next";
+import useLogin from "../hooks/useLogin";
 export default function OverlayToContinue({ onSuccess }) {
   const { user, setUser } = useContext(UserContext);
-
+  const [errorText, setErrorText] = useState("");
   const [email, setEmail] = useState(user?.email);
-  console.log(`email is ${email}`);
+  const [password, setPassword] = useState("");
 
   const logoutFunc = useLogout();
 
@@ -29,7 +30,16 @@ export default function OverlayToContinue({ onSuccess }) {
     setUser(null); // only this, because all cookies were already removed when this component was mounted, in removeCookies()
   }
 
-  const [password, setPassword] = useState("");
+  const loginFunc = useLogin();
+
+  async function handleLogin() {
+    const { errorTextPassword, success } = await loginFunc(email, password);
+    if (success) {
+      onSuccess();
+    } else {
+      setErrorText(errorTextPassword);
+    }
+  }
 
   return (
     <FocusTrap active={true}>
@@ -48,9 +58,10 @@ export default function OverlayToContinue({ onSuccess }) {
             name='password'
             placeholder='סיסמה'
           />
-          <button onClick={() => console.log(`password is ${password}`)}>
+          <button disabled={passwordError(password)} onClick={handleLogin}>
             Continue
           </button>
+          {errorText}
           <button onClick={handleLogout}>Log out</button>
         </div>
       </div>

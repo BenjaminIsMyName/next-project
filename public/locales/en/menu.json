@@ -3,6 +3,10 @@
   "popular": "Popular",
   "topics": "Topics",
   "settings": "Settings",
+  "error-text": {
+    "general": "Something went wrong, try again later",
+    "wrong-password": "Wrong password, try again"
+  },
   "change-locale": "Change locale to \"{{changeTo}}\"",
   "to-second-page": "To second page",
   "error-with-status": "A {{statusCode}} error occurred on server",

@@ -11,8 +11,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { UserContext } from "../../context/UserContext";
 import useLogout from "../../hooks/useLogout";
-
+import useLogin from "../../hooks/useLogin";
+import { useTranslation } from "next-i18next";
 export default function ProfileMenu() {
+  const { t } = useTranslation("menu");
   const { user, setUser } = useContext(UserContext);
   const router = useRouter();
 
@@ -25,9 +27,10 @@ export default function ProfileMenu() {
   const [status, setStatus] = useState(0); // 0 - default, waiting for email, 1 - error, 2 - user does exist, 3 - user doesn't exist, 4 - loading. the 'status' state is used if the redux 'user' state doesn't.
 
   const errorsText = {
-    wrongPassword: "סיסמה שגויה, נסה שוב",
-    general: "שגיאה התרחשה, נסה שוב מאוחר יותר",
+    general: t("error-text.general"),
   };
+
+  console.log(errorsText);
 
   const [errorText, setErrorText] = useState(errorsText.general);
 
@@ -77,6 +80,7 @@ export default function ProfileMenu() {
   }
 
   const logoutFunc = useLogout();
+
   async function logOut() {
     setStatus(4);
     setUser(null);
@@ -85,39 +89,21 @@ export default function ProfileMenu() {
     setStatus(0);
   }
 
+  const loginFunc = useLogin();
+
   async function handleLogin(e) {
     e.preventDefault();
     setStatus(4);
-    try {
-      await axios.post("/api/login", {
-        email: inputsData.email,
-        password: inputsData.password,
-      });
-      const userCookie = getCookie("user");
-      setUser(JSON.parse(userCookie));
+    const { errorTextPassword, success } = await loginFunc(
+      inputsData.email,
+      inputsData.password
+    );
+    if (success) {
       defaultState();
-    } catch (err) {
-      if (err.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        if (err.response.data.error === "wrong password")
-          setErrorText(errorsText.wrongPassword);
-
-        // console.log("error.response.data", err.response.data);
-        // console.log("error.response.status", err.response.status);
-        // console.log("error.response.headers", err.response.headers);
-      } else if (err.request) {
-        setErrorText(errorsText.general);
-        // The request was made but no response was received
-        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-        // http.ClientRequest in node.js
-        // console.log("error.request", err.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log("Error", err.message);
-        setErrorText(errorsText.general);
-      }
+    } else {
       setStatus(1);
+      console.log(errorTextPassword);
+      setErrorText(errorTextPassword);
     }
   }
 

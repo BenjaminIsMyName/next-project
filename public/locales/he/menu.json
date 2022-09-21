@@ -3,6 +3,10 @@
   "popular": "פופולרי",
   "topics": "נושאים",
   "settings": "הגדרות",
+  "error-text": {
+    "general": "שגיאה התרחשה, נסה שוב מאוחר יותר",
+    "wrong-password": "סיסמה שגויה, נסה שוב"
+  },
   "change-locale": "Change locale to \"{{changeTo}}\"",
   "to-second-page": "To second page",
   "error-with-status": "A {{statusCode}} error occurred on server",
