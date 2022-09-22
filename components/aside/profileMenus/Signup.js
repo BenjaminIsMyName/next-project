@@ -1,47 +1,48 @@
 import styles from "./Signup.module.css";
-import { emailError, passwordError, nameError } from "../../util/validate";
-import Input from "../Input";
+import { emailError, passwordError, nameError } from "../../../util/validate";
+import Input from "../../Input";
+import { useTranslation } from "next-i18next";
 export default function Signup({
   handleInputChange,
   inputsData,
   handleRegisteration,
   goBack,
 }) {
+  const { t } = useTranslation("menu");
+
   return (
     <>
-      <button onClick={goBack}>חזור</button>
+      <button onClick={goBack}>{t("actions.back")}</button>
       <form className={`form`}>
-        <p>אין לך חשבון - נא הירשם</p>
+        <h2>{t("titles.signup")}</h2>
         <Input
           checkErrorCallback={emailError}
-          errorText={`כתובת דוא"ל אינה תקינה`}
+          errorText={t("error-text.email-validation")}
           valueObj={inputsData}
           onChange={handleInputChange}
           type='email'
           name='email'
-          placeholder='דוא"ל'
+          placeholder={t("inputs.email")}
           disabled={true}
         />
         <Input
           checkErrorCallback={passwordError}
-          errorText={
-            "סיסמה חייבת להיות לפחות 6 תווים, עם מספרים ואותיות לועזיות"
-          }
+          errorText={t("error-text.password-validation")}
           valueObj={inputsData}
           onChange={handleInputChange}
           type='password'
           name='password'
-          placeholder='סיסמה'
+          placeholder={t("inputs.password")}
         />
 
         <Input
           checkErrorCallback={nameError}
-          errorText={"שם חייב להיות לפחות 3 תווים"}
+          errorText={t("error-text.name-validation")}
           valueObj={inputsData}
           onChange={handleInputChange}
           type='text'
           name='name'
-          placeholder='שם'
+          placeholder={t("inputs.name")}
         />
         <button
           disabled={
@@ -51,7 +52,7 @@ export default function Signup({
           }
           onClick={handleRegisteration}
         >
-          הירשם
+          {t("actions.signup")}
         </button>
       </form>
     </>

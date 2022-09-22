@@ -1,0 +1,31 @@
+.welcome {
+  font-size: 1.2rem;
+  color: rgb(var(--option-text-color));
+  font-family: var(--another-font-family);
+}
+
+.logoutButton {
+  display: block;
+  cursor: pointer;
+  padding: 5px;
+  width: 100%;
+  margin: 10px auto;
+  /* border-radius: 4px; */
+  border-radius: 0 20px;
+}
+
+.langContainer {
+  justify-content: space-around;
+  display: flex;
+}
+
+.langContainer a {
+  display: block;
+  text-decoration: none;
+
+  color: rgb(var(--option-text-color));
+}
+
+.langContainer .selected {
+  text-decoration: underline;
+}

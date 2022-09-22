@@ -3,9 +3,31 @@
   "popular": "Popular",
   "topics": "Topics",
   "settings": "Settings",
+  "admin-page": "Admin Page",
   "error-text": {
     "general": "Something went wrong, try again later",
-    "wrong-password": "Wrong password, try again"
+    "wrong-password": "Wrong password, try again",
+    "password-validation": "Password must be at least 6 characters, with numbers and letters",
+    "email-validation": "Email address needs to be valid",
+    "name-validation": "Name must be at least 3 characters long"
+  },
+  "titles": {
+    "login-or-signup": "Log-in or Sign-up",
+    "login": "Please log-in",
+    "signup": "You don't have an account - Please sign-up",
+    "welcome": "Welcome"
+  },
+  "actions": {
+    "continue": "Continue",
+    "login": "Log In",
+    "signup": "Sign Up",
+    "back": "Back",
+    "logout": "Log Out"
+  },
+  "inputs": {
+    "email": "Email",
+    "password": "Password",
+    "name": "Name"
   },
   "change-locale": "Change locale to \"{{changeTo}}\"",
   "to-second-page": "To second page",

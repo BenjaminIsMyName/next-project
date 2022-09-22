@@ -49,7 +49,7 @@
 .errorLabel {
   /* min-height: 1.5rem; */
   color: rgb(var(--error-color));
-  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--another-font-family);
   font-weight: 400;
   font-size: 0.75rem;
   line-height: 1.66;

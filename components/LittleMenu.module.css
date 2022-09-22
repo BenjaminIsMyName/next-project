@@ -18,6 +18,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1; */
+  /* max-height: 9000px;
+  transition: max-height 0.15s ease-out; */
 }
 
 .containerLtr {

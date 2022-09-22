@@ -3,9 +3,31 @@
   "popular": "פופולרי",
   "topics": "נושאים",
   "settings": "הגדרות",
+  "admin-page": "דף ניהול",
   "error-text": {
     "general": "שגיאה התרחשה, נסה שוב מאוחר יותר",
-    "wrong-password": "סיסמה שגויה, נסה שוב"
+    "wrong-password": "סיסמה שגויה, נסה שוב",
+    "password-validation": "סיסמה חייבת להיות לפחות 6 תווים, עם מספרים ואותיות לועזיות",
+    "email-validation": "כתובת דוא\"ל צריכה להיות תקינה",
+    "name-validation": "שם חייב להיות לפחות 3 תווים"
+  },
+  "titles": {
+    "login-or-signup": "התחבר או הירשם",
+    "login": "נא התחבר",
+    "signup": "אין לך חשבון - נא הירשם",
+    "welcome": "ברוך הבא"
+  },
+  "actions": {
+    "continue": "המשך",
+    "login": "התחבר",
+    "signup": "הירשם",
+    "back": "חזור",
+    "logout": "התנתק"
+  },
+  "inputs": {
+    "email": "דוא\"ל",
+    "password": "סיסמה",
+    "name": "שם"
   },
   "change-locale": "Change locale to \"{{changeTo}}\"",
   "to-second-page": "To second page",

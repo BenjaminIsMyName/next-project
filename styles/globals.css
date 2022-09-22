@@ -12,12 +12,17 @@
   --option-text-color: 255, 255, 255;
   --header-height: 56px;
   --error-color: 244, 67, 54;
+  /* TODO: select a few font families */
+  --main-font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+    sans-serif;
+  --logo-font-family: serif;
+  --another-font-family: Roboto, Helvetica, Arial, sans-serif;
   /* --media-query-width: 900px; */ /* doesn't work: https://bholmes.dev/blog/alternative-to-css-variable-media-queries/ */
 }
 
 body {
   background-color: rgb(var(--main-color));
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: var(--main-font-family);
 }
 
 .no-scroll-in-any-screen {

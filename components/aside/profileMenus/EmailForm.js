@@ -1,30 +1,32 @@
 import styles from "./EmailForm.module.css";
-import { emailError } from "../../util/validate";
-import Input from "../Input";
+import { emailError } from "../../../util/validate";
+import Input from "../../Input";
+import { useTranslation } from "next-i18next";
 
 export default function EmailForm({
   handleInputChange,
   inputsData,
   handleEmailSubmit,
 }) {
+  const { t } = useTranslation("menu");
   return (
     <form className='form'>
-      <h2>התחבר או הירשם</h2>
+      <h2>{t("titles.login-or-signup")}</h2>
       <Input
         checkErrorCallback={emailError}
-        errorText={`כתובת דוא"ל אינה תקינה`}
+        errorText={t("error-text.email-validation")}
         valueObj={inputsData}
         onChange={handleInputChange}
         type='email'
         name='email'
-        placeholder='דוא"ל'
+        placeholder={t("inputs.email")}
       />
 
       <button
         disabled={emailError(inputsData.email)}
         onClick={handleEmailSubmit}
       >
-        המשך
+        {t("actions.continue")}
       </button>
     </form>
   );

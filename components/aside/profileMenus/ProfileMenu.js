@@ -1,20 +1,22 @@
 import styles from "./ProfileMenu.module.css";
-import LittleMenu from "../LittleMenu";
+import LittleMenu from "../../LittleMenu";
 import axios from "axios";
 import { useState, useContext, useEffect } from "react";
-import Loading from "../Loading";
+import Loading from "../../Loading";
 import { getCookie } from "cookies-next";
 import Signup from "./Signup";
 import Login from "./Login";
 import EmailForm from "./EmailForm";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { UserContext } from "../../context/UserContext";
-import useLogout from "../../hooks/useLogout";
-import useLogin from "../../hooks/useLogin";
+import { UserContext } from "../../../context/UserContext";
+import useLogout from "../../../hooks/useLogout";
+import useLogin from "../../../hooks/useLogin";
 import { useTranslation } from "next-i18next";
+import { LangContext } from "../../../context/LangContext";
 export default function ProfileMenu() {
   const { t } = useTranslation("menu");
+  const { language } = useContext(LangContext);
   const { user, setUser } = useContext(UserContext);
   const router = useRouter();
 
@@ -29,8 +31,6 @@ export default function ProfileMenu() {
   const errorsText = {
     general: t("error-text.general"),
   };
-
-  console.log(errorsText);
 
   const [errorText, setErrorText] = useState(errorsText.general);
 
@@ -116,19 +116,40 @@ export default function ProfileMenu() {
   if (user)
     return (
       <LittleMenu>
-        <p>Welcome, {user.name}</p>
-        <button onClick={logOut}>התנתק</button>
+        <p className={styles.welcome}>
+          {t("titles.welcome")}, {user.name}
+        </p>
+        <button onClick={logOut} className={styles.logoutButton}>
+          {t("actions.logout")}
+        </button>
+        <div className={styles.langContainer}>
+          <Link href={router.asPath} locale={"he"}>
+            <a className={`${language === "he" ? styles.selected : ""}`}>
+              עברית
+            </a>
+          </Link>
+          <Link href={router.asPath} locale={"en"}>
+            <a className={`${language === "en" ? styles.selected : ""}`}>
+              English
+            </a>
+          </Link>
+        </div>
 
-        <Link href={router.asPath} locale={"he"}>
-          <a> Hebrew</a>
-        </Link>
-        <Link href={router.asPath} locale={"en"}>
-          <a>English</a>
-        </Link>
-        <br />
         {user.isAdmin && (
           <Link href={"/admin"}>
-            <a>Admin Page</a>
+            <a
+              style={{
+                display: "block",
+                textDecoration: "none",
+                color: "rgb(var(--option-text-color))",
+                textAlign: "center",
+                padding: "40px",
+                backgroundColor: "rgba(var(--third-color), 0.3)",
+                marginTop: "15px",
+              }}
+            >
+              {t("admin-page")}
+            </a>
           </Link>
         )}
       </LittleMenu>

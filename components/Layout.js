@@ -37,7 +37,7 @@ export default function Layout({ children }) {
     getTotalActiveTime,
   } = useIdleTimer({
     onIdle,
-    timeout: 8000, // 2 minutes
+    timeout: 1000 * 60 * process.env.NEXT_PUBLIC_LOGOUT_IN_MINUTES,
     crossTab: true, // TODO: change this?
     startManually: true,
   });

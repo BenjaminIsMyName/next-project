@@ -4,7 +4,7 @@ import LittleMenu from "../LittleMenu.js";
 import styles from "./Aside.module.css";
 import Header from "./Header.js";
 import Option from "./Option.js";
-import ProfileMenu from "./ProfileMenu.js";
+import ProfileMenu from "./profileMenus/ProfileMenu";
 import { useTranslation } from "next-i18next";
 import { LangContext } from "../../context/LangContext.js";
 

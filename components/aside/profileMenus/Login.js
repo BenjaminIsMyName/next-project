@@ -1,37 +1,37 @@
 import styles from "./Login.module.css";
-import { emailError, passwordError } from "../../util/validate";
-import Input from "../Input";
+import { emailError, passwordError } from "../../../util/validate";
+import Input from "../../Input";
+import { useTranslation } from "next-i18next";
 export default function Login({
   handleInputChange,
   inputsData,
   handleLogin,
   goBack,
 }) {
+  const { t } = useTranslation("menu");
   return (
     <>
-      <button onClick={goBack}>חזור</button>
+      <button onClick={goBack}>{t("actions.back")}</button>
       <form className={`form`}>
-        <h2> נא התחבר </h2>
+        <h2>{t("titles.login")}</h2>
         <Input
           checkErrorCallback={emailError}
-          errorText={`כתובת דוא"ל אינה תקינה`}
+          errorText={t("error-text.email-validation")}
           valueObj={inputsData}
           onChange={handleInputChange}
           type='email'
           name='email'
-          placeholder='דוא"ל'
+          placeholder={t("inputs.email")}
           disabled={true}
         />
         <Input
           checkErrorCallback={passwordError}
-          errorText={
-            "סיסמה חייבת להיות לפחות 6 תווים, עם מספרים ואותיות לועזיות"
-          }
+          errorText={t("error-text.password-validation")}
           valueObj={inputsData}
           onChange={handleInputChange}
           type='password'
           name='password'
-          placeholder='סיסמה'
+          placeholder={t("inputs.password")}
         />
         <button
           disabled={
@@ -39,7 +39,7 @@ export default function Login({
           }
           onClick={handleLogin}
         >
-          התחבר
+          {t("actions.login")}
         </button>
       </form>
     </>
