@@ -1,15 +1,11 @@
 import "../styles/globals.css";
 import { appWithTranslation } from "next-i18next";
-import { LangContext } from "../context/LangContext";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { UserContext } from "../context/UserContext";
 import { getCookie } from "cookies-next";
 function MyApp({ Component, pageProps }) {
-  // We need to know the language across the entire app.
-
-  const router = useRouter();
-  const { locale } = router;
+  const { locale } = useRouter();
 
   // on client side only:
   if (typeof window !== "undefined") {
@@ -21,13 +17,10 @@ function MyApp({ Component, pageProps }) {
   let cookie = getCookie("user") ? JSON.parse(getCookie("user")) : null;
 
   const [user, setUser] = useState(cookie);
-  const [language, setLanguage] = useState(locale);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      <LangContext.Provider value={{ language, setLanguage }}>
-        <Component {...pageProps} />
-      </LangContext.Provider>
+      <Component {...pageProps} />
     </UserContext.Provider>
   );
 }

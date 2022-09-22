@@ -1,18 +1,17 @@
 import styles from "./Options.module.css";
 import ForYouIcon from "./ForYouIcon.js";
 import Link from "next/link";
-import { useContext } from "react";
-import { LangContext } from "../../context/LangContext";
+import { useRouter } from "next/router";
 
 export default function Option({ selected, text, link }) {
-  const { language } = useContext(LangContext);
+  const { locale } = useRouter();
 
   return (
     <Link href='/'>
       <a
         href={link}
         className={`${styles.option} ${
-          language === "en" ? styles.optionLtr : ""
+          locale === "en" ? styles.optionLtr : ""
         }`}
         id={selected ? styles.selected : ""}
       >

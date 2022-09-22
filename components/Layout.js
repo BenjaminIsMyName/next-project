@@ -1,14 +1,15 @@
 import Aside from "./aside/Aside";
 import styles from "./Layout.module.css";
 import { useContext } from "react";
-import { LangContext } from "../context/LangContext";
 import { useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import OverlayToContinue from "./OverlayToContinue";
 import { useIdleTimer } from "react-idle-timer";
+import { useRouter } from "next/router";
 
 export default function Layout({ children }) {
-  const { language } = useContext(LangContext);
+  const { locale } = useRouter();
+
   const { user, setUser } = useContext(UserContext);
   const [askForPassowrd, setAskForPassowrd] = useState(false);
 
@@ -61,7 +62,7 @@ export default function Layout({ children }) {
       )}
       <Aside />
       <div
-        className={`${styles.rest} ${language === "en" ? styles.restLtr : ""}`}
+        className={`${styles.rest} ${locale === "en" ? styles.restLtr : ""}`}
       >
         {children}
       </div>

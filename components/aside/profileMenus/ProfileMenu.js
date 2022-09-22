@@ -13,10 +13,10 @@ import { UserContext } from "../../../context/UserContext";
 import useLogout from "../../../hooks/useLogout";
 import useLogin from "../../../hooks/useLogin";
 import { useTranslation } from "next-i18next";
-import { LangContext } from "../../../context/LangContext";
+
 export default function ProfileMenu() {
   const { t } = useTranslation("menu");
-  const { language } = useContext(LangContext);
+  const { locale } = useRouter();
   const { user, setUser } = useContext(UserContext);
   const router = useRouter();
 
@@ -124,12 +124,10 @@ export default function ProfileMenu() {
         </button>
         <div className={styles.langContainer}>
           <Link href={router.asPath} locale={"he"}>
-            <a className={`${language === "he" ? styles.selected : ""}`}>
-              עברית
-            </a>
+            <a className={`${locale === "he" ? styles.selected : ""}`}>עברית</a>
           </Link>
           <Link href={router.asPath} locale={"en"}>
-            <a className={`${language === "en" ? styles.selected : ""}`}>
+            <a className={`${locale === "en" ? styles.selected : ""}`}>
               English
             </a>
           </Link>

@@ -6,7 +6,8 @@ export default function Document() {
       <Head />
       {/* When sending the documant to the client, send it with RTL.
           That way, most users (RTL users) won't see a flicker.
-          TODO: try to find a way to change it on the server already, based on user's language */}
+          TODO: try to find a way to change it on the server already, based on user's language.
+          Known issue: https://github.com/vercel/next.js/discussions/37767 */}
       <body dir='rtl'>
         <Main />
         <NextScript />
