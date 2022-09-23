@@ -29,3 +29,10 @@
 .langContainer .selected {
   text-decoration: underline;
 }
+
+.themesTitle {
+  display: block;
+  padding: 10px;
+  text-align: center;
+  color: rgb(var(--option-text-color));
+}

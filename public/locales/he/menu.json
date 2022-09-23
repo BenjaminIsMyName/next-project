@@ -15,7 +15,8 @@
     "login-or-signup": "התחבר או הירשם",
     "login": "נא התחבר",
     "signup": "אין לך חשבון - נא הירשם",
-    "welcome": "ברוך הבא"
+    "welcome": "ברוך הבא",
+    "themes": "ערכות נושא"
   },
   "actions": {
     "continue": "המשך",
@@ -28,6 +29,12 @@
     "email": "דוא\"ל",
     "password": "סיסמה",
     "name": "שם"
+  },
+  "themes": {
+    "dark-blue": "כחול כהה",
+    "light-blue": "כחול בהיר",
+    "dark-green": "ירוק כהה",
+    "light-green": "ירוק בהיר"
   },
   "change-locale": "Change locale to \"{{changeTo}}\"",
   "to-second-page": "To second page",

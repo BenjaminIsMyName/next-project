@@ -1,0 +1,72 @@
+.themeButton {
+  border-radius: 4px;
+  width: 100%;
+  height: 20px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  position: relative;
+  border: none;
+}
+
+.themeButton::before {
+  border-radius: 4px;
+  z-index: -1;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  margin-bottom: -4px;
+  transform: translateX(-50%);
+  width: 0;
+  background: linear-gradient(70deg, rgba(var(--option-text-color), 0.4), red);
+  transition: all 0.5s ease;
+  height: calc(100% + 8px);
+}
+
+.themeButton:not(.selected):hover::before {
+  width: calc(100% + 8px);
+  left: 0;
+  margin-left: -4px;
+  transform: translateX(0);
+  border-radius: 16px;
+  /* border: 4px solid red; */
+}
+.themeButton:hover {
+  border-radius: 16px;
+}
+
+.selected {
+  box-shadow: 0 0 0 1px white, 0 0 0 2px black;
+}
+
+.darkgreen {
+  background: linear-gradient(
+    45deg,
+    rgb(var(--darkgreen-second-color)),
+    rgb(var(--darkgreen-third-color))
+  );
+}
+
+.lightgreen {
+  background: linear-gradient(
+    45deg,
+    rgb(var(--lightgreen-second-color)),
+    rgb(var(--lightgreen-third-color))
+  );
+}
+
+.darkblue {
+  background: linear-gradient(
+    45deg,
+    rgb(var(--darkblue-second-color)),
+    rgb(var(--darkblue-third-color))
+  );
+}
+
+.lightblue {
+  background: linear-gradient(
+    45deg,
+    rgb(var(--lightblue-second-color)),
+    rgb(var(--lightblue-third-color))
+  );
+}

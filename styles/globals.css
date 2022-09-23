@@ -4,20 +4,57 @@
   padding: 0;
 }
 :root {
-  --aside-width: 300px;
+  /* for buttons: */
+  --darkgreen-second-color: 35, 35, 35;
+  --darkgreen-third-color: 109, 207, 102;
+  --lightgreen-second-color: 255, 255, 255;
+  --lightgreen-third-color: 69, 139, 64;
+  --darkblue-second-color: 35, 35, 75;
+  --darkblue-third-color: 102, 120, 207;
+  --lightblue-second-color: 245, 245, 255;
+  --lightblue-third-color: 64, 101, 139;
+  /* colors */
   --main-color: 20, 20, 20;
-  --second-color: 35, 35, 35;
-  --third-color: 109, 207, 102;
+  --second-color: var(--darkgreen-second-color);
+  --third-color: var(--darkgreen-third-color);
   --shadows-color: 0, 0, 0;
   --option-text-color: 255, 255, 255;
-  --header-height: 56px;
   --error-color: 244, 67, 54;
+  --header-height: 56px;
+  --aside-width: 300px;
   /* TODO: select a few font families */
   --main-font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
     sans-serif;
   --logo-font-family: serif;
   --another-font-family: Roboto, Helvetica, Arial, sans-serif;
   /* --media-query-width: 900px; */ /* doesn't work: https://bholmes.dev/blog/alternative-to-css-variable-media-queries/ */
+}
+
+body.lightgreen {
+  --main-color: 240, 240, 240;
+  --second-color: var(--lightgreen-second-color);
+  --third-color: var(--lightgreen-third-color);
+  --shadows-color: 155, 155, 155;
+  --option-text-color: 0, 0, 0;
+  --error-color: 244, 67, 54;
+}
+
+body.darkblue {
+  --main-color: 20, 20, 50;
+  --second-color: var(--darkblue-second-color);
+  --third-color: var(--darkblue-third-color);
+  --shadows-color: 0, 0, 0;
+  --option-text-color: 255, 255, 255;
+  --error-color: 244, 67, 54;
+}
+
+body.lightblue {
+  --main-color: 230, 230, 255;
+  --second-color: var(--lightblue-second-color);
+  --third-color: var(--lightblue-third-color);
+  --shadows-color: 155, 155, 155;
+  --option-text-color: 0, 0, 0;
+  --error-color: 149, 0, 0;
 }
 
 body {

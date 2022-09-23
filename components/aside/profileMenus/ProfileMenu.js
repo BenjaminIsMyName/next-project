@@ -13,11 +13,15 @@ import { UserContext } from "../../../context/UserContext";
 import useLogout from "../../../hooks/useLogout";
 import useLogin from "../../../hooks/useLogin";
 import { useTranslation } from "next-i18next";
+import { ThemeContext } from "../../../context/ThemeContext";
+import ThemeButton from "./ThemeButton";
+import ThemesSection from "./ThemesSection";
 
 export default function ProfileMenu() {
   const { t } = useTranslation("menu");
   const { locale } = useRouter();
   const { user, setUser } = useContext(UserContext);
+
   const router = useRouter();
 
   const inputsDataDefault = {
@@ -150,6 +154,9 @@ export default function ProfileMenu() {
             </a>
           </Link>
         )}
+
+        <strong className={styles.themesTitle}>{t("titles.themes")}:</strong>
+        <ThemesSection />
       </LittleMenu>
     );
 

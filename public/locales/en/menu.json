@@ -15,7 +15,8 @@
     "login-or-signup": "Log-in or Sign-up",
     "login": "Please log-in",
     "signup": "You don't have an account - Please sign-up",
-    "welcome": "Welcome"
+    "welcome": "Welcome",
+    "themes": "Themes"
   },
   "actions": {
     "continue": "Continue",
@@ -28,6 +29,12 @@
     "email": "Email",
     "password": "Password",
     "name": "Name"
+  },
+  "themes": {
+    "dark-blue": "Dark blue",
+    "light-blue": "Light blue",
+    "dark-green": "Dark green",
+    "light-green": "Light green"
   },
   "change-locale": "Change locale to \"{{changeTo}}\"",
   "to-second-page": "To second page",
