@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { UserContext } from "../context/UserContext";
 import { getCookie } from "cookies-next";
 import { ThemeContext } from "../context/ThemeContext";
+import { useRef } from "react";
 function MyApp({ Component, pageProps }) {
   const { locale } = useRouter();
 
@@ -38,8 +39,10 @@ function MyApp({ Component, pageProps }) {
     setTheme(getInitTheme());
   }, [getInitTheme]); // getInitTheme changes whenever 'user' changes
 
+  const themeRef = useRef(getInitTheme()); // we need to know the theme just to show which theme button is selected
+
   return (
-    <ThemeContext.Provider value={{ init: getInitTheme(), setTheme }}>
+    <ThemeContext.Provider value={{ theme: themeRef, setTheme }}>
       <UserContext.Provider value={{ user, setUser }}>
         <Component {...pageProps} />
       </UserContext.Provider>
