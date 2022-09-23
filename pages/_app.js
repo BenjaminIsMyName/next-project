@@ -25,24 +25,14 @@ function MyApp({ Component, pageProps }) {
     localStorage.setItem("theme", themeName);
   }
 
-  // useCallback: don't create this function again on every render, only when user changes.
-  // why? so I could put it in the useEffect dependency array without making it run every time.
-  // I need to use it in the useEffect, so I must include it in its dependency array
-  const getInitTheme = useCallback(
-    () => (user ? localStorage.getItem("theme") || "darkgreen" : "darkgreen"), // user exist? try to get the theme from localStorage. if it doesn't exist, or the user is not logged in, use the default
-    [user]
-  );
-
   useEffect(() => {
     // if user logout, remove theme
     // if user in - try to get the theme from localStorage
-    setTheme(getInitTheme());
-  }, [getInitTheme]); // getInitTheme changes whenever 'user' changes
-
-  const themeRef = useRef(getInitTheme()); // we need to know the theme just to show which theme button is selected
+    setTheme(user ? localStorage.getItem("theme") || "darkgreen" : "darkgreen");
+  }, [user]); // getInitTheme changes whenever 'user' changes
 
   return (
-    <ThemeContext.Provider value={{ theme: themeRef, setTheme }}>
+    <ThemeContext.Provider value={{ setTheme }}>
       <UserContext.Provider value={{ user, setUser }}>
         <Component {...pageProps} />
       </UserContext.Provider>
