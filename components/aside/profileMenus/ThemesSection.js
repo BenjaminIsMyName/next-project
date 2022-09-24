@@ -4,7 +4,9 @@ import ThemeButton from "./ThemeButton";
 import styles from "./ThemesSection.module.css";
 
 export default function ThemesSection() {
-  const [selected, setSelected] = useState(document.body.className); // we need this just to re-render this compoennt when theme selection change, to apply style to the selected button
+  // we need state just to re-render this compoennt when theme selection change,
+  // to apply style to the selected button
+  const [selected, setSelected] = useState(document.body.dataset.theme);
   const { t } = useTranslation("menu");
 
   return (

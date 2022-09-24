@@ -30,7 +30,7 @@
   /* --media-query-width: 900px; */ /* doesn't work: https://bholmes.dev/blog/alternative-to-css-variable-media-queries/ */
 }
 
-body.lightgreen {
+body[data-theme="lightgreen"] {
   --main-color: 240, 240, 240;
   --second-color: var(--lightgreen-second-color);
   --third-color: var(--lightgreen-third-color);
@@ -39,7 +39,7 @@ body.lightgreen {
   --error-color: 244, 67, 54;
 }
 
-body.darkblue {
+body[data-theme="darkblue"] {
   --main-color: 20, 20, 50;
   --second-color: var(--darkblue-second-color);
   --third-color: var(--darkblue-third-color);
@@ -48,7 +48,7 @@ body.darkblue {
   --error-color: 244, 67, 54;
 }
 
-body.lightblue {
+body[data-theme="lightblue"] {
   --main-color: 230, 230, 255;
   --second-color: var(--lightblue-second-color);
   --third-color: var(--lightblue-third-color);

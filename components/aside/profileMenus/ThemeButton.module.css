@@ -23,16 +23,18 @@
   height: calc(100% + 8px);
 }
 
-.themeButton:not(.selected):hover::before {
-  width: calc(100% + 8px);
-  left: 0;
-  margin-left: -4px;
-  transform: translateX(0);
-  border-radius: 16px;
-  /* border: 4px solid red; */
-}
-.themeButton:hover {
-  border-radius: 16px;
+@media (hover: hover) and (pointer: fine) {
+  .themeButton:not(.selected):hover::before {
+    width: calc(100% + 8px);
+    left: 0;
+    margin-left: -4px;
+    transform: translateX(0);
+    border-radius: 16px;
+    /* border: 4px solid red; */
+  }
+  .themeButton:hover {
+    border-radius: 16px;
+  }
 }
 
 .selected {

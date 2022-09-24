@@ -24,7 +24,7 @@ export default function OverlayToContinue({ onSuccess }) {
     }
     removeCookies();
     return () => document.body.classList.remove("no-scroll-in-any-screen");
-  }, [logoutFunc]); // aka [] I guess...
+  }, [logoutFunc]); // aka [] I guess... because I used useCallback in useLogout
 
   async function handleLogout() {
     setUser(null); // only this, because all cookies were already removed when this component was mounted, in removeCookies()

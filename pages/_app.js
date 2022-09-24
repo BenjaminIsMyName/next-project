@@ -21,7 +21,7 @@ function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState(cookie);
 
   function setTheme(themeName) {
-    document.body.className = themeName;
+    document.body.dataset.theme = themeName;
     localStorage.setItem("theme", themeName);
   }
 
@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }) {
     // if user logout, remove theme
     // if user in - try to get the theme from localStorage
     setTheme(user ? localStorage.getItem("theme") || "darkgreen" : "darkgreen");
-  }, [user]); // getInitTheme changes whenever 'user' changes
+  }, [user]);
 
   return (
     <ThemeContext.Provider value={{ setTheme }}>

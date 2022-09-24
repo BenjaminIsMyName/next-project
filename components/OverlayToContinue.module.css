@@ -14,10 +14,12 @@
 }
 
 .containerInsideOverlay {
+  width: clamp(60%, 500px, 90%);
   display: flex;
   gap: 10px;
   flex-direction: column;
-  background-color: rgba(var(--second-color), 0.5);
+  /* just like the input color for autofill: */
+  background-color: rgb(var(--second-color));
   box-shadow: 0 0 5px 2px rgba(var(--main-color), 0.9),
     0 0 3px 1px rgba(var(--option-text-color));
   padding: 20px;
