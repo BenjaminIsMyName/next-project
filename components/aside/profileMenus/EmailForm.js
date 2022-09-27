@@ -14,7 +14,6 @@ export default function EmailForm({
       <h2>{t("titles.login-or-signup")}</h2>
       <Input
         checkErrorCallback={emailError}
-        errorText={t("error-text.email-validation")}
         valueObj={inputsData}
         onChange={handleInputChange}
         type='email'

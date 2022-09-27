@@ -1,12 +1,13 @@
 import styles from "./Input.module.css";
 import { useState } from "react";
+import { useTranslation } from "next-i18next";
 export default function Input(props) {
+  const { t } = useTranslation("menu");
   const [error, setError] = useState("");
-  const { checkErrorCallback, errorText, valueObj, name, icon } = props;
+  const { checkErrorCallback, valueObj, name, icon } = props;
 
   let copyOfProps = { ...props };
   delete copyOfProps.checkErrorCallback;
-  delete copyOfProps.errorText;
   delete copyOfProps.valueObj;
   delete copyOfProps.name;
   delete copyOfProps.icon;
@@ -22,7 +23,8 @@ export default function Input(props) {
         name={name}
         id={name}
         onBlur={() => {
-          if (checkErrorCallback(valueObj[name])) setError(errorText);
+          let errorTextKey = checkErrorCallback(valueObj[name]);
+          if (errorTextKey) setError(t(errorTextKey));
           else setError("");
         }}
       />

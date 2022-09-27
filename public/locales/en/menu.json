@@ -9,7 +9,8 @@
     "wrong-password": "Wrong password, try again",
     "password-validation": "Password must be at least 6 characters, with numbers and letters",
     "email-validation": "Email address needs to be valid",
-    "name-validation": "Name must be at least 2 characters long"
+    "email-validation-too-long": "Email can't be more than 99 characters",
+    "name-validation": "Name must be between 2-30 characters"
   },
   "titles": {
     "login-or-signup": "Log-in or Sign-up",

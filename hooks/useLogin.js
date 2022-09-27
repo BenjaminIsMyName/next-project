@@ -4,7 +4,7 @@ import { getCookie } from "cookies-next";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import { useTranslation } from "next-i18next";
-export default function useLogout() {
+export default function useLogin() {
   const { t } = useTranslation("menu");
   const { setUser } = useContext(UserContext);
   const errorsText = {

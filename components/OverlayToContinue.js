@@ -49,9 +49,6 @@ export default function OverlayToContinue({ onSuccess }) {
         <div className={`${styles.containerInsideOverlay}`}>
           <Input
             checkErrorCallback={passwordError}
-            errorText={
-              "סיסמה חייבת להיות לפחות 6 תווים, עם מספרים ואותיות לועזיות"
-            }
             valueObj={{ password }}
             onChange={e => setPassword(e.target.value)}
             type='password'

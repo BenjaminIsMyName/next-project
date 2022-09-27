@@ -18,7 +18,6 @@ export default function Login({
         <h2>{t("titles.login")}</h2>
         <Input
           checkErrorCallback={emailError}
-          errorText={t("error-text.email-validation")}
           valueObj={inputsData}
           onChange={handleInputChange}
           type='email'
@@ -28,7 +27,6 @@ export default function Login({
         />
         <Input
           checkErrorCallback={passwordError}
-          errorText={t("error-text.password-validation")}
           valueObj={inputsData}
           onChange={handleInputChange}
           type='password'

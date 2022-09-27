@@ -19,7 +19,6 @@ export default function Signup({
         <h2>{t("titles.signup")}</h2>
         <Input
           checkErrorCallback={emailError}
-          errorText={t("error-text.email-validation")}
           valueObj={inputsData}
           onChange={handleInputChange}
           type='email'
@@ -29,7 +28,6 @@ export default function Signup({
         />
         <Input
           checkErrorCallback={passwordError}
-          errorText={t("error-text.password-validation")}
           valueObj={inputsData}
           onChange={handleInputChange}
           type='password'
@@ -39,7 +37,6 @@ export default function Signup({
 
         <Input
           checkErrorCallback={nameError}
-          errorText={t("error-text.name-validation")}
           valueObj={inputsData}
           onChange={handleInputChange}
           type='text'
