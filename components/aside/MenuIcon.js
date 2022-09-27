@@ -3,6 +3,7 @@ import iconsStyles from "./Icons.module.css";
 export default function MenuIcon({ menuOnClickHandler, isOpen }) {
   return (
     <button
+      type='button'
       aria-label={"תפריט"}
       onClick={menuOnClickHandler}
       className={`${isOpen ? styles.opened : ""} ${iconsStyles.icon}`}

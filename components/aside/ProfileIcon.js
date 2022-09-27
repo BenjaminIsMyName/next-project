@@ -7,6 +7,7 @@ export default function ProfileIcon({ onClick, isOpen }) {
   }
   return (
     <button
+      type='button'
       aria-label={"פרופיל"}
       onClick={handleClick}
       className={`${isOpen ? styles.open : ""} ${styles.icon}`}

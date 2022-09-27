@@ -12,7 +12,9 @@ export default function Signup({
 
   return (
     <>
-      <button onClick={goBack}>{t("actions.back")}</button>
+      <button type='button' onClick={goBack}>
+        {t("actions.back")}
+      </button>
       <form className={`form`}>
         <h2>{t("titles.signup")}</h2>
         <Input

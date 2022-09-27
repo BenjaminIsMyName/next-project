@@ -62,7 +62,9 @@ export default function OverlayToContinue({ onSuccess }) {
             Continue
           </button>
           {errorText}
-          <button onClick={handleLogout}>Log out</button>
+          <button type='button' onClick={handleLogout}>
+            Log out
+          </button>
         </div>
       </div>
     </FocusTrap>

@@ -17,7 +17,8 @@ export function emailError(email) {
       .toLowerCase()
       .match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      )
+      ) &&
+    email.length < 100
   )
     return "";
   else return "email is not valid";
@@ -25,6 +26,7 @@ export function emailError(email) {
 
 export function nameError(name) {
   if (typeof name !== "string") return "name must be a string";
-  if (name.length < 3) return "name's length must be at least 3 characters";
+  if (name.length < 2) return "name's length must be at least 2 characters";
+  if (name.length > 30) return "name cannot be more than 30 characters";
   return "";
 }

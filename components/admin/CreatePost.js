@@ -67,6 +67,7 @@ export default function CreatePost() {
             <h2>קובץ זה נבחר:</h2>
             <p>{file.name}</p>
             <button
+              type='button'
               className={`${styles.removeFile}`}
               onClick={removeSelectedFile}
             >

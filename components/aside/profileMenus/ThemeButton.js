@@ -11,6 +11,7 @@ export default function ThemeButton({
   const { setTheme } = useContext(ThemeContext);
   return (
     <button
+      type='button'
       title={description}
       aria-label={description}
       className={`${styles.themeButton} ${styles[themeName]} ${

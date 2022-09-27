@@ -9,7 +9,7 @@
     "wrong-password": "סיסמה שגויה, נסה שוב",
     "password-validation": "סיסמה חייבת להיות לפחות 6 תווים, עם מספרים ואותיות לועזיות",
     "email-validation": "כתובת דוא\"ל צריכה להיות תקינה",
-    "name-validation": "שם חייב להיות לפחות 3 תווים"
+    "name-validation": "שם חייב להיות לפחות 2 תווים"
   },
   "titles": {
     "login-or-signup": "התחבר או הירשם",

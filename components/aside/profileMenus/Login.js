@@ -11,7 +11,9 @@ export default function Login({
   const { t } = useTranslation("menu");
   return (
     <>
-      <button onClick={goBack}>{t("actions.back")}</button>
+      <button onClick={goBack} type='button'>
+        {t("actions.back")}
+      </button>
       <form className={`form`}>
         <h2>{t("titles.login")}</h2>
         <Input

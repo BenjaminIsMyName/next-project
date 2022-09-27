@@ -123,7 +123,7 @@ export default function ProfileMenu() {
         <p className={styles.welcome}>
           {t("titles.welcome")}, {user.name}
         </p>
-        <button onClick={logOut} className={styles.logoutButton}>
+        <button onClick={logOut} className={styles.logoutButton} type='button'>
           {t("actions.logout")}
         </button>
         <div className={styles.langContainer}>
