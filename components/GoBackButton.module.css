@@ -1,0 +1,16 @@
+.btn {
+  padding: 10px 0;
+  background-color: transparent;
+  width: 20px;
+  border: none;
+  cursor: pointer;
+  fill: rgba(var(--option-text-color), 1);
+}
+.btn svg {
+  transition: all 0.2s ease;
+}
+
+.btn:hover svg {
+  fill: rgba(var(--option-text-color), 0.5);
+  transform: rotate(20deg);
+}

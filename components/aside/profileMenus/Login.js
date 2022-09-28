@@ -2,6 +2,7 @@ import styles from "./Login.module.css";
 import { emailError, passwordError } from "../../../util/validate";
 import Input from "../../Input";
 import { useTranslation } from "next-i18next";
+import GoBackButton from "../../GoBackButton";
 export default function Login({
   handleInputChange,
   inputsData,
@@ -11,9 +12,7 @@ export default function Login({
   const { t } = useTranslation("menu");
   return (
     <>
-      <button onClick={goBack} type='button'>
-        {t("actions.back")}
-      </button>
+      <GoBackButton callback={goBack} />
       <form className={`form`}>
         <h2>{t("titles.login")}</h2>
         <Input

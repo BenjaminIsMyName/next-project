@@ -11,7 +11,7 @@ export default function EmailForm({
   const { t } = useTranslation("menu");
   return (
     <form className='form'>
-      <h2>{t("titles.login-or-signup")}</h2>
+      <h2 className={styles.title}>{t("titles.login-or-signup")}</h2>
       <Input
         checkErrorCallback={emailError}
         valueObj={inputsData}

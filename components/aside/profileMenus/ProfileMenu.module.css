@@ -2,6 +2,8 @@
   font-size: 1.2rem;
   color: rgb(var(--option-text-color));
   font-family: var(--another-font-family);
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .logoutButton {
@@ -35,4 +37,9 @@
   padding: 10px;
   text-align: center;
   color: rgb(var(--option-text-color));
+}
+
+.loadingContainer {
+  height: 40px;
+  overflow: hidden;
 }

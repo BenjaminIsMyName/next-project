@@ -13,9 +13,8 @@ import { UserContext } from "../../../context/UserContext";
 import useLogout from "../../../hooks/useLogout";
 import useLogin from "../../../hooks/useLogin";
 import { useTranslation } from "next-i18next";
-import { ThemeContext } from "../../../context/ThemeContext";
-import ThemeButton from "./ThemeButton";
 import ThemesSection from "./ThemesSection";
+import ErrorInMenu from "./ErrorInMenu";
 
 export default function ProfileMenu() {
   const { t } = useTranslation("menu");
@@ -169,7 +168,7 @@ export default function ProfileMenu() {
           handleInputChange={handleInputChange}
         />
       )}
-      {status === 1 && <p> {errorText}</p>}
+      {status === 1 && <ErrorInMenu goBack={goBack} text={errorText} />}
       {status === 2 && (
         <Login
           handleInputChange={handleInputChange}
@@ -186,7 +185,11 @@ export default function ProfileMenu() {
           handleRegisteration={e => handleRegisteration(e)}
         />
       )}
-      {status === 4 && <Loading width='30px' height='30px' padding='10px' />}
+      {status === 4 && (
+        <div className={styles.loadingContainer}>
+          <Loading width='40px' height='40px' padding='0' />
+        </div>
+      )}
     </LittleMenu>
   );
 }

@@ -2,6 +2,7 @@ import styles from "./Signup.module.css";
 import { emailError, passwordError, nameError } from "../../../util/validate";
 import Input from "../../Input";
 import { useTranslation } from "next-i18next";
+import GoBackButton from "../../GoBackButton";
 export default function Signup({
   handleInputChange,
   inputsData,
@@ -12,9 +13,7 @@ export default function Signup({
 
   return (
     <>
-      <button type='button' onClick={goBack}>
-        {t("actions.back")}
-      </button>
+      <GoBackButton callback={goBack} />
       <form className={`form`}>
         <h2>{t("titles.signup")}</h2>
         <Input
