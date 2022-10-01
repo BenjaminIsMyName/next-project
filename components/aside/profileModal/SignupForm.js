@@ -1,15 +1,39 @@
-import styles from "./Signup.module.css";
+import styles from "./SignupForm.module.css";
 import { emailError, passwordError, nameError } from "../../../util/validate";
 import Input from "../../Input";
 import { useTranslation } from "next-i18next";
 import GoBackButton from "../../GoBackButton";
+import { getCookie } from "cookies-next";
+import axios from "axios";
 export default function Signup({
   handleInputChange,
   inputsData,
-  handleRegisteration,
+  setStatus,
+  setUser,
+  setErrorText,
   goBack,
+  defaultState,
+  errorsText,
 }) {
   const { t } = useTranslation("menu");
+
+  async function handleRegisteration(e) {
+    e.preventDefault();
+    setStatus(4);
+    try {
+      await axios.post("/api/signup", {
+        email: inputsData.email,
+        password: inputsData.password,
+        name: inputsData.name,
+      });
+      const userCookie = getCookie("user");
+      setUser(JSON.parse(userCookie));
+      defaultState();
+    } catch (err) {
+      setErrorText(errorsText.general);
+      setStatus(1);
+    }
+  }
 
   return (
     <>

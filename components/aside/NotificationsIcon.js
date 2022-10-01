@@ -3,7 +3,7 @@ import styles from "./Icons.module.css";
 export default function NotificationsIcon({ isOpen, onClick }) {
   function handleClick(e) {
     e.stopPropagation(); // stop propagation, don't call the other onClick event listener (the one that closes the menu when clicking somewhere)
-    onClick(); // set littleMenuOpen to -1 (close it) if it's 1 (if this menu is open), otherwise 1 (open it)
+    onClick(); // set modalOpen to -1 (close it) if it's 1 (if this menu is open), otherwise 1 (open it)
   }
   return (
     <button

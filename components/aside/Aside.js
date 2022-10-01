@@ -1,10 +1,10 @@
 import FocusTrap from "focus-trap-react";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import LittleMenu from "../LittleMenu.js";
+import Modal from "../Modal.js";
 import styles from "./Aside.module.css";
 import Header from "./Header.js";
 import Option from "./Option.js";
-import ProfileMenu from "./profileMenus/ProfileMenu";
+import ProfileModal from "./profileModal/ProfileModal";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
@@ -12,8 +12,8 @@ export default function Aside() {
   const { t } = useTranslation("menu");
   const { locale } = useRouter();
   const asideRef = useRef(); // used on the <aside> tag, to scroll back up when openning and closing the menu.
-  const [isOpen, setIsOpen] = useState(false); // to check the state in redux toolkit
-  const [littleMenuOpen, setLittleMenuOpen] = useState(-1); // is a little menu open? (none: -1, profile menu: 0, notifications menu: 1, search menu: 2)
+  const [isOpen, setIsOpen] = useState(false); // is the <aside> open, on mobile
+  const [modalOpen, setModalOpen] = useState(-1); // is a little menu open? (none: -1, profile menu: 0, notifications menu: 1, search menu: 2)
 
   const clickToToggleMenu = useCallback(() => {
     setIsOpen(prev => !prev);
@@ -32,48 +32,48 @@ export default function Aside() {
   }, []);
 
   function handleOverlayClick() {
-    if (littleMenuOpen !== -1 && isOpen) {
+    if (modalOpen !== -1 && isOpen) {
       clickToToggleMenu();
-      setLittleMenuOpen(-1);
+      setModalOpen(-1);
     } else if (isOpen) {
       clickToToggleMenu();
     } else {
-      setLittleMenuOpen(-1);
+      setModalOpen(-1);
     }
   }
 
   // this is needed to close the big menu when you open a little menu (why? for very small screens)
   useEffect(() => {
-    if (isOpen && littleMenuOpen !== -1) {
+    if (isOpen && modalOpen !== -1) {
       clickToToggleMenu();
     }
-  }, [littleMenuOpen, isOpen, clickToToggleMenu]); // it's ok to remove this dependency array, and let it run on each render.
+  }, [modalOpen, isOpen, clickToToggleMenu]); // it's ok to remove this dependency array, and let it run on each render.
 
   return (
-    <FocusTrap active={littleMenuOpen !== -1 || isOpen}>
+    <FocusTrap active={modalOpen !== -1 || isOpen}>
       <div>
         <div
           onClick={handleOverlayClick}
           className={`${styles.overlay} ${
-            littleMenuOpen !== -1
+            modalOpen !== -1
               ? styles.backdropDesktop
               : isOpen
               ? styles.backdrop
               : ""
           }`}
         ></div>
-        {littleMenuOpen === 0 && <ProfileMenu />}
-        {littleMenuOpen === 1 && <LittleMenu>Notifications menu</LittleMenu>}
-        {littleMenuOpen === 2 && <LittleMenu>Search menu</LittleMenu>}
+        {modalOpen === 0 && <ProfileModal />}
+        {modalOpen === 1 && <Modal>Notifications menu</Modal>}
+        {modalOpen === 2 && <Modal>Search menu</Modal>}
         <aside
           ref={asideRef}
           className={`${styles.aside} ${isOpen ? styles.clicked : ""} 
           ${locale === "en" ? styles.asideLtr : ""}`}
-          onClick={() => setLittleMenuOpen(-1)}
+          onClick={() => setModalOpen(-1)}
         >
           <Header
-            littleMenuOpen={littleMenuOpen}
-            setLittleMenuOpen={setLittleMenuOpen}
+            modalOpen={modalOpen}
+            setModalOpen={setModalOpen}
             menuOnClickHandler={clickToToggleMenu}
             isOpen={isOpen}
           />

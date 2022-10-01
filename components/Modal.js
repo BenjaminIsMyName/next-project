@@ -1,8 +1,8 @@
-import styles from "./LittleMenu.module.css";
+import styles from "./Modal.module.css";
 import { useContext } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-export default function LittleMenu({ children }) {
+export default function Modal({ children }) {
   const { locale } = useRouter();
 
   return (

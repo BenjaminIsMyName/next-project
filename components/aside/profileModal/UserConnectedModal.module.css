@@ -38,8 +38,3 @@
   text-align: center;
   color: rgb(var(--option-text-color));
 }
-
-.loadingContainer {
-  height: 40px;
-  overflow: hidden;
-}

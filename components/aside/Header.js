@@ -7,8 +7,8 @@ import Link from "next/link";
 export default function Header({
   menuOnClickHandler,
   isOpen,
-  littleMenuOpen,
-  setLittleMenuOpen,
+  modalOpen,
+  setModalOpen,
 }) {
   return (
     <header className={styles.header}>
@@ -23,16 +23,16 @@ export default function Header({
 
       <div className={styles.left}>
         <ProfileIcon
-          isOpen={littleMenuOpen === 0}
-          onClick={() => setLittleMenuOpen(e => (e === 0 ? -1 : 0))}
+          isOpen={modalOpen === 0}
+          onClick={() => setModalOpen(e => (e === 0 ? -1 : 0))}
         />
         <NotificationsIcon
-          isOpen={littleMenuOpen === 1}
-          onClick={() => setLittleMenuOpen(e => (e === 1 ? -1 : 1))}
+          isOpen={modalOpen === 1}
+          onClick={() => setModalOpen(e => (e === 1 ? -1 : 1))}
         />
         <SearchIcon
-          isOpen={littleMenuOpen === 2}
-          onClick={() => setLittleMenuOpen(e => (e === 2 ? -1 : 2))}
+          isOpen={modalOpen === 2}
+          onClick={() => setModalOpen(e => (e === 2 ? -1 : 2))}
         />
       </div>
     </header>

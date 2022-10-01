@@ -8,6 +8,7 @@
     "general": "Something went wrong, try again later",
     "wrong-password": "Wrong password, try again",
     "password-validation": "Password must be at least 6 characters, with numbers and letters",
+    "password-validation-too-long": "Password can't be more than 99 characters",
     "email-validation": "Email address needs to be valid",
     "email-validation-too-long": "Email can't be more than 99 characters",
     "name-validation": "Name must be between 2-30 characters"

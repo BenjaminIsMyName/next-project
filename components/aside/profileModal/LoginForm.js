@@ -1,15 +1,35 @@
-import styles from "./Login.module.css";
+import styles from "./LoginForm.module.css";
 import { emailError, passwordError } from "../../../util/validate";
 import Input from "../../Input";
 import { useTranslation } from "next-i18next";
 import GoBackButton from "../../GoBackButton";
+import useLogin from "../../../hooks/useLogin";
 export default function Login({
   handleInputChange,
   inputsData,
-  handleLogin,
   goBack,
+  setStatus,
+  defaultState,
+  setErrorText,
 }) {
   const { t } = useTranslation("menu");
+  const loginFunc = useLogin();
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    setStatus(4);
+    const { errorTextPassword, success } = await loginFunc(
+      inputsData.email,
+      inputsData.password
+    );
+    if (success) {
+      defaultState();
+    } else {
+      setStatus(1);
+      console.log(errorTextPassword);
+      setErrorText(errorTextPassword);
+    }
+  }
   return (
     <>
       <GoBackButton callback={goBack} />

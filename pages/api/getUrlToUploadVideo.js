@@ -2,7 +2,7 @@ import S3 from "aws-sdk/clients/s3";
 import crypto from "crypto";
 import { getCookie } from "cookies-next";
 import connectToDatabase from "../../util/mongodb";
-import { isLoggedInFunc } from "../../util/AuthHelpFunctions";
+import { isLoggedInFunc } from "../../util/authHelpFunctions";
 const s3instance = new S3({
   apiVersion: "2006-03-01",
   region: "us-east-1",

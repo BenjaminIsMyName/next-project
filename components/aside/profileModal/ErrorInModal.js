@@ -1,5 +1,5 @@
 import GoBackButton from "../../GoBackButton";
-import styles from "./ErrorInMenu.module.css";
+import styles from "./ErrorInModal.module.css";
 
 export default function ErrorInMenu({ text, goBack }) {
   return (

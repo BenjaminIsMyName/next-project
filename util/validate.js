@@ -3,6 +3,7 @@ export function passwordError(pass) {
   if (pass.length < 6) return "error-text.password-validation";
   if (pass.search(/[a-z]/i) < 0) return "error-text.password-validation";
   if (pass.search(/[0-9]/) < 0) return "error-text.password-validation";
+  if (pass.length > 99) return "error-text.password-validation-too-long";
   return "";
 }
 

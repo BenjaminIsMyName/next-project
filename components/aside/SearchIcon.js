@@ -3,7 +3,7 @@ import styles from "./Icons.module.css";
 export default function SearchIcon({ onClick, isOpen }) {
   function handleClick(e) {
     e.stopPropagation();
-    onClick(); // set littleMenuOpen to -1 (close it) if it's 2 (if this menu is open), otherwise 2 (open it)
+    onClick(); // set modalOpen to -1 (close it) if it's 2 (if this menu is open), otherwise 2 (open it)
   }
   return (
     <button
