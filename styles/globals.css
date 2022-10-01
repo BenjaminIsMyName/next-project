@@ -76,10 +76,10 @@ body {
   color: rgb(var(--option-text-color));
   display: flex;
   flex-direction: column;
-
   gap: 10px;
 }
 
+/* for Sign In With Google on ltr - must remove this div  */
 #g_a11y_announcement {
   display: none;
 }

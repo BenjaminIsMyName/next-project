@@ -32,8 +32,8 @@ export default function Login({
   }
   return (
     <>
-      <GoBackButton callback={goBack} />
       <form className={`form`}>
+        <GoBackButton callback={goBack} />
         <h2>{t("titles.login")}</h2>
         <Input
           checkErrorCallback={emailError}

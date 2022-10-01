@@ -37,8 +37,8 @@ export default function Signup({
 
   return (
     <>
-      <GoBackButton callback={goBack} />
       <form className={`form`}>
+        <GoBackButton callback={goBack} />
         <h2>{t("titles.signup")}</h2>
         <Input
           checkErrorCallback={emailError}
