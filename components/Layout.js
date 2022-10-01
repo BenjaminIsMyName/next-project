@@ -14,9 +14,6 @@ export default function Layout({ children }) {
   const [askForPassowrd, setAskForPassowrd] = useState(false);
 
   function onIdle() {
-    // Close Modal Prompt
-    // Do some idle action like log out your user
-    console.log(`onIdle`);
     setAskForPassowrd(true);
   }
 

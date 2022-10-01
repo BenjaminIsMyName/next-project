@@ -5,6 +5,7 @@ import { useTranslation } from "next-i18next";
 import GoBackButton from "../../GoBackButton";
 import { getCookie } from "cookies-next";
 import axios from "axios";
+import Button from "../../Button";
 export default function Signup({
   handleInputChange,
   inputsData,
@@ -66,7 +67,7 @@ export default function Signup({
           name='name'
           placeholder={t("inputs.name")}
         />
-        <button
+        <Button
           disabled={
             emailError(inputsData.email) ||
             passwordError(inputsData.password) ||
@@ -75,7 +76,7 @@ export default function Signup({
           onClick={handleRegisteration}
         >
           {t("actions.signup")}
-        </button>
+        </Button>
       </form>
     </>
   );

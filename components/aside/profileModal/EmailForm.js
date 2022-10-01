@@ -3,6 +3,7 @@ import { emailError } from "../../../util/validate";
 import Input from "../../Input";
 import { useTranslation } from "next-i18next";
 import axios from "axios";
+import Button from "../../Button";
 export default function EmailForm({
   handleInputChange,
   inputsData,
@@ -40,12 +41,12 @@ export default function EmailForm({
         placeholder={t("inputs.email")}
       />
 
-      <button
+      <Button
         disabled={emailError(inputsData.email)}
         onClick={handleEmailSubmit}
       >
         {t("actions.continue")}
-      </button>
+      </Button>
     </form>
   );
 }

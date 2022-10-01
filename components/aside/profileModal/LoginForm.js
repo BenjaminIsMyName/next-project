@@ -4,6 +4,7 @@ import Input from "../../Input";
 import { useTranslation } from "next-i18next";
 import GoBackButton from "../../GoBackButton";
 import useLogin from "../../../hooks/useLogin";
+import Button from "../../Button";
 export default function Login({
   handleInputChange,
   inputsData,
@@ -52,14 +53,14 @@ export default function Login({
           name='password'
           placeholder={t("inputs.password")}
         />
-        <button
+        <Button
           disabled={
             emailError(inputsData.email) || passwordError(inputsData.password)
           }
           onClick={handleLogin}
         >
           {t("actions.login")}
-        </button>
+        </Button>
       </form>
     </>
   );
