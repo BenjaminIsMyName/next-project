@@ -1,4 +1,4 @@
-import { isLoggedInFunc } from "../../util/authHelpFunctions";
+import { isLoggedInFunc } from "../../util/authHelpers";
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.status(405).json({
