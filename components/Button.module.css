@@ -21,6 +21,7 @@
 }
 
 .btn:disabled::before {
+  /* create line on the button to show it when hover and button is disabled  */
   content: "";
   position: absolute;
   width: 100%;
@@ -35,10 +36,6 @@
   transition: all 0.2s linear;
 }
 
-.btn:hover {
-  box-shadow: 0 0 5px 2px rgba(var(--shadows-color), 0.2);
-}
-
 .btn span {
   background: linear-gradient(
     25deg,
@@ -49,6 +46,11 @@
   color: transparent;
 }
 
-.btn:disabled:hover::before {
-  opacity: 1;
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    box-shadow: 0 0 5px 2px rgba(var(--shadows-color), 0.2);
+  }
+  .btn:disabled:hover::before {
+    opacity: 1;
+  }
 }

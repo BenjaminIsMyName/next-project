@@ -1,5 +1,5 @@
 import styles from "./OverlayToContinue.module.css";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { UserContext } from "../context/UserContext";
 import Link from "next/link";
 import FocusTrap from "focus-trap-react";
@@ -9,12 +9,16 @@ import { useState } from "react";
 import useLogout from "../hooks/useLogout";
 import { deleteCookie, getCookie } from "cookies-next";
 import useLogin from "../hooks/useLogin";
+import { useTranslation } from "next-i18next";
+import Button from "./Button";
+import Loading from "./Loading";
 export default function OverlayToContinue({ onSuccess }) {
   const { user, setUser } = useContext(UserContext);
   const [errorText, setErrorText] = useState("");
-  const [email, setEmail] = useState(user?.email);
+  const email = useRef(user?.email);
   const [password, setPassword] = useState("");
-
+  const [loading, setLoading] = useState(false);
+  const { t } = useTranslation("menu");
   const logoutFunc = useLogout();
 
   useEffect(() => {
@@ -24,7 +28,7 @@ export default function OverlayToContinue({ onSuccess }) {
     }
     removeCookies();
     return () => document.body.classList.remove("no-scroll-in-any-screen");
-  }, [logoutFunc]); // aka [] I guess... because I used useCallback in useLogout
+  }, [logoutFunc]); // same as []... because I used useCallback in useLogout
 
   async function handleLogout() {
     setUser(null); // only this, because all cookies were already removed when this component was mounted, in removeCookies()
@@ -33,7 +37,12 @@ export default function OverlayToContinue({ onSuccess }) {
   const loginFunc = useLogin();
 
   async function handleLogin() {
-    const { errorTextPassword, success } = await loginFunc(email, password);
+    setLoading(true);
+    const { errorTextPassword, success } = await loginFunc(
+      email.current,
+      password
+    );
+    setLoading(false);
     if (success) {
       onSuccess();
     } else {
@@ -53,15 +62,22 @@ export default function OverlayToContinue({ onSuccess }) {
             onChange={e => setPassword(e.target.value)}
             type='password'
             name='password'
-            placeholder='סיסמה'
+            placeholder={t("inputs.password")}
           />
-          <button disabled={passwordError(password)} onClick={handleLogin}>
-            Continue
-          </button>
-          {errorText}
-          <button type='button' onClick={handleLogout}>
-            Log out
-          </button>
+          <Button
+            disabled={passwordError(password) || loading}
+            onClick={handleLogin}
+          >
+            {t("actions.continue")}
+          </Button>
+          <div className={styles.loadingAndErrorContainer}>
+            {loading && <Loading width='50px' height='50px' padding='0' />}
+            {loading || <span>{errorText}</span>}
+          </div>
+
+          <Button type='button' onClick={handleLogout}>
+            {t("actions.logout")}
+          </Button>
         </div>
       </div>
     </FocusTrap>

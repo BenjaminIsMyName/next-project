@@ -24,3 +24,12 @@
     0 0 3px 1px rgba(var(--option-text-color));
   padding: 20px;
 }
+
+.loadingAndErrorContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.loadingAndErrorContainer span {
+  color: rgba(var(--error-color));
+}
