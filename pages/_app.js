@@ -1,11 +1,10 @@
 import "../styles/globals.css";
 import { appWithTranslation } from "next-i18next";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { UserContext } from "../context/UserContext";
 import { getCookie } from "cookies-next";
 import { ThemeContext } from "../context/ThemeContext";
-import { useRef } from "react";
 function MyApp({ Component, pageProps }) {
   const { locale } = useRouter();
 
