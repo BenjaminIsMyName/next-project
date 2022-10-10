@@ -11,6 +11,8 @@ import useLogout from "../../../hooks/useLogout";
 import { useTranslation } from "next-i18next";
 import ErrorInMenu from "./ErrorInModal";
 import UserConnectedModal from "./UserConnectedModal";
+import useFormData from "../../../hooks/useFormData";
+import LoadingModal from "../../LoadingModal";
 
 export default function ProfileModal() {
   // all this component does is checking what to show in the profile modal,
@@ -24,7 +26,8 @@ export default function ProfileModal() {
     password: "",
     name: "",
   };
-  const [inputsData, setInputsData] = useState(inputsDataDefault);
+  const { inputsData, setInputsData, handleInputChange } =
+    useFormData(inputsDataDefault);
   const [status, setStatus] = useState(0); // 0 - default, waiting for email, 1 - error, 2 - user does exist, 3 - user doesn't exist, 4 - loading. the 'status' state is used if the redux 'user' state doesn't.
 
   const errorsText = {
@@ -36,11 +39,6 @@ export default function ProfileModal() {
   function defaultState() {
     setInputsData(inputsDataDefault);
     setStatus(0);
-  }
-
-  function handleInputChange(event) {
-    const { name, value } = event.target;
-    setInputsData(prev => ({ ...prev, [name]: value }));
   }
 
   const logoutFunc = useLogout();
@@ -60,7 +58,7 @@ export default function ProfileModal() {
   }
 
   if (user) return <UserConnectedModal logOut={logOut} />;
-
+  if (status === 4) return <LoadingModal />;
   return (
     <Modal>
       {status === 0 && (
@@ -94,11 +92,6 @@ export default function ProfileModal() {
           defaultState={defaultState}
           errorsText={errorsText}
         />
-      )}
-      {status === 4 && (
-        <div className={styles.loadingContainer}>
-          <Loading width='40px' height='40px' padding='0' />
-        </div>
       )}
     </Modal>
   );

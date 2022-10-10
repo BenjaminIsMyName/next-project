@@ -4,6 +4,22 @@
   font-family: var(--another-font-family);
   overflow: hidden;
   text-overflow: ellipsis;
+  display: inline;
+}
+
+.editBtn {
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.editBtn svg {
+  width: 20px;
+  height: 20px;
+  fill: rgb(var(--third-color));
+  vertical-align: middle;
+  transition: all 0.3s linear;
 }
 
 .logoutButton {
@@ -37,4 +53,20 @@
   padding: 10px;
   text-align: center;
   color: rgb(var(--option-text-color));
+}
+
+.adminPage {
+  display: block;
+  text-decoration: none;
+  color: rgb(var(--option-text-color));
+  text-align: center;
+  padding: 40px;
+  background-color: rgba(var(--third-color), 0.3);
+  margin-top: 15px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .editBtn:hover svg {
+    transform: rotateZ(-60deg);
+  }
 }
