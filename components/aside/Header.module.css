@@ -39,7 +39,7 @@
 .logo {
   font-size: 25px;
   font-weight: 300;
-  font-family: var(--logo-font-family);
+  font-family: var(--custom-font-family);
   color: rgb(var(--third-color));
 }
 

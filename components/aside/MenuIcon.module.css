@@ -1,19 +1,20 @@
-.opened .firstPath {
-  transition: all 0.5s ease;
+.firstPath,
+.secondPath,
+.thirdPath {
+  transition: all 1s ease;
   transform-origin: center;
-  transform: translateY(200%) rotate(45deg);
   transform-box: fill-box;
 }
 
+.opened .firstPath {
+  transform: translateY(200%) rotate(45deg);
+}
+
 .opened .secondPath {
-  transition: all 0.5s ease;
   transform: translateX(-100%);
   opacity: 0;
 }
 
 .opened .thirdPath {
-  transition: all 0.5s ease;
   transform: translateY(-200%) rotate(-45deg);
-  transform-origin: center;
-  transform-box: fill-box;
 }

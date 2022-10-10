@@ -9,6 +9,7 @@
   box-shadow: 0 0 8px rgba(var(--option-text-color), 0.2);
   font-size: 1.4rem;
   position: relative;
+  overflow: hidden; /* solves bug when red line is overflowing */
 }
 
 .btn:disabled {
