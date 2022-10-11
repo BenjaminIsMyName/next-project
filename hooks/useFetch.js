@@ -18,10 +18,6 @@ export default function useFetch(query, from, forceRender, posts) {
   });
 
   useEffect(() => {
-    setState(prev => ({ ...prev, ...{ posts: posts } }));
-  }, [query]);
-
-  useEffect(() => {
     const source = axios.CancelToken.source();
     async function forAsync() {
       setState(prev => ({ ...prev, ...{ loading: true, error: null } }));
@@ -37,7 +33,7 @@ export default function useFetch(query, from, forceRender, posts) {
         setState(prev => ({
           ...prev,
           ...{
-            posts: [...state.posts, ...data.posts],
+            posts: [...prev.posts, ...data.posts],
             hasMore: data.hasMore,
             loading: false,
           },
@@ -49,7 +45,7 @@ export default function useFetch(query, from, forceRender, posts) {
     }
     forAsync();
     return () => {
-      console.log("cancelling"); // bug: this is called right away!
+      // TODO: check bug, this is called right away?
       return source.cancel();
     };
   }, [query, from, forceRender]);

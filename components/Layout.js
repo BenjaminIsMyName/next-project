@@ -52,12 +52,10 @@ export default function Layout({ children }) {
   useEffect(() => {
     if (!user) {
       setAskForPassowrd(false);
-      // reset();
-      console.log(`pausing`);
       pause();
       return;
     }
-    console.log(`starting`);
+
     start();
   }, [user, setUser, start, reset, pause]);
 

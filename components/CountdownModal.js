@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import Button from "./Button";
 import styles from "./CountdownModal.module.css";
 import Modal from "./Modal";
-
+import { useTranslation } from "next-i18next";
 export default function CountdownModal({
   title,
   nextCallback,
@@ -13,7 +13,7 @@ export default function CountdownModal({
   const [count, setCount] = useState(10);
   const downloadTimer = useRef(null);
 
-  //   const next = useCallback(nextCallback, []);
+  const { t } = useTranslation("menu");
 
   useEffect(() => {
     downloadTimer.current = setInterval(() => {
@@ -34,7 +34,9 @@ export default function CountdownModal({
       <div className={styles.container}>
         <b>{title}</b>
         <span className={styles.count}>{count}</span>
-        <Button onClick={cancelCallback}>Cancel</Button>
+        <Button onClick={cancelCallback}>
+          {t("actions.cancel").toUpperCase()}
+        </Button>
       </div>
     </Modal>
   );

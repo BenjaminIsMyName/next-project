@@ -149,9 +149,5 @@ export default function UserConnectedModal({ logOut }) {
   if (status === StatusEnum.loading) return <LoadingModal />;
 
   if (status === StatusEnum.error)
-    return (
-      <Modal>
-        <ErrorInMenu text={t("error-text.general")} goBack={goBack} />
-      </Modal>
-    );
+    return <ErrorInMenu text={t("error-text.general")} goBack={goBack} />;
 }

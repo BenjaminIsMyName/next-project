@@ -5,6 +5,7 @@ import { useTranslation } from "next-i18next";
 import GoBackButton from "../../GoBackButton";
 import useLogin from "../../../hooks/useLogin";
 import Button from "../../Button";
+import Modal from "../../Modal";
 export default function Login({
   handleInputChange,
   inputsData,
@@ -32,7 +33,7 @@ export default function Login({
     }
   }
   return (
-    <>
+    <Modal>
       <form className={`form`}>
         <GoBackButton callback={goBack} />
         <h2>{t("titles.login")}</h2>
@@ -62,6 +63,6 @@ export default function Login({
           {t("actions.login")}
         </Button>
       </form>
-    </>
+    </Modal>
   );
 }

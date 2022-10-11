@@ -4,6 +4,7 @@ import Input from "../../Input";
 import { useTranslation } from "next-i18next";
 import axios from "axios";
 import Button from "../../Button";
+import Modal from "../../Modal";
 export default function EmailForm({
   handleInputChange,
   inputsData,
@@ -30,23 +31,25 @@ export default function EmailForm({
     }
   }
   return (
-    <form className='form'>
-      <h2 className={styles.title}>{t("titles.login-or-signup")}</h2>
-      <Input
-        checkErrorCallback={emailError}
-        valueObj={inputsData}
-        onChange={handleInputChange}
-        type='email'
-        name='email'
-        placeholder={t("inputs.email")}
-      />
+    <Modal>
+      <form className='form'>
+        <h2 className={styles.title}>{t("titles.login-or-signup")}</h2>
+        <Input
+          checkErrorCallback={emailError}
+          valueObj={inputsData}
+          onChange={handleInputChange}
+          type='email'
+          name='email'
+          placeholder={t("inputs.email")}
+        />
 
-      <Button
-        disabled={emailError(inputsData.email)}
-        onClick={handleEmailSubmit}
-      >
-        {t("actions.continue")}
-      </Button>
-    </form>
+        <Button
+          disabled={emailError(inputsData.email)}
+          onClick={handleEmailSubmit}
+        >
+          {t("actions.continue")}
+        </Button>
+      </form>
+    </Modal>
   );
 }

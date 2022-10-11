@@ -59,40 +59,39 @@ export default function ProfileModal() {
 
   if (user) return <UserConnectedModal logOut={logOut} />;
   if (status === 4) return <LoadingModal />;
-  return (
-    <Modal>
-      {status === 0 && (
-        <EmailForm
-          setStatus={setStatus}
-          errorsText={errorsText}
-          setErrorText={setErrorText}
-          inputsData={inputsData}
-          handleInputChange={handleInputChange}
-        />
-      )}
-      {status === 1 && <ErrorInMenu goBack={goBack} text={errorText} />}
-      {status === 2 && (
-        <Login
-          handleInputChange={handleInputChange}
-          inputsData={inputsData}
-          defaultState={defaultState}
-          setStatus={setStatus}
-          setErrorText={setErrorText}
-          goBack={goBack}
-        />
-      )}
-      {status === 3 && (
-        <Signup
-          goBack={goBack}
-          handleInputChange={handleInputChange}
-          inputsData={inputsData}
-          setErrorText={setErrorText}
-          setStatus={setStatus}
-          setUser={setUser}
-          defaultState={defaultState}
-          errorsText={errorsText}
-        />
-      )}
-    </Modal>
-  );
+  if (status === 0)
+    return (
+      <EmailForm
+        setStatus={setStatus}
+        errorsText={errorsText}
+        setErrorText={setErrorText}
+        inputsData={inputsData}
+        handleInputChange={handleInputChange}
+      />
+    );
+  if (status === 1) return <ErrorInMenu goBack={goBack} text={errorText} />;
+  if (status === 2)
+    return (
+      <Login
+        handleInputChange={handleInputChange}
+        inputsData={inputsData}
+        defaultState={defaultState}
+        setStatus={setStatus}
+        setErrorText={setErrorText}
+        goBack={goBack}
+      />
+    );
+  if (status === 3)
+    return (
+      <Signup
+        goBack={goBack}
+        handleInputChange={handleInputChange}
+        inputsData={inputsData}
+        setErrorText={setErrorText}
+        setStatus={setStatus}
+        setUser={setUser}
+        defaultState={defaultState}
+        errorsText={errorsText}
+      />
+    );
 }

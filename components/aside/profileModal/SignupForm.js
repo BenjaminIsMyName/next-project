@@ -6,6 +6,7 @@ import GoBackButton from "../../GoBackButton";
 import { getCookie } from "cookies-next";
 import axios from "axios";
 import Button from "../../Button";
+import Modal from "../../Modal";
 export default function Signup({
   handleInputChange,
   inputsData,
@@ -37,7 +38,7 @@ export default function Signup({
   }
 
   return (
-    <>
+    <Modal>
       <form className={`form`}>
         <GoBackButton callback={goBack} />
         <h2>{t("titles.signup")}</h2>
@@ -78,6 +79,6 @@ export default function Signup({
           {t("actions.signup")}
         </Button>
       </form>
-    </>
+    </Modal>
   );
 }
