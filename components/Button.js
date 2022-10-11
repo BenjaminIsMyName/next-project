@@ -7,6 +7,7 @@ export default function Button(props) {
   delete copyOfProps.className;
   return (
     <button
+      onMouseDown={e => e.preventDefault()} // solves bug when clicking a button and losing focus from input with error, see: https://stackoverflow.com/a/57630197/19460851
       className={`${styles.btn} ${props.className || ""}`}
       {...copyOfProps}
     >

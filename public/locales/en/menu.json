@@ -18,14 +18,22 @@
     "login": "Please log-in",
     "signup": "You don't have an account - Please sign-up",
     "welcome": "Welcome",
-    "themes": "Themes"
+    "themes": "Themes",
+    "edit": "Edit your account"
   },
   "actions": {
     "continue": "Continue",
     "login": "Log In",
     "signup": "Sign Up",
     "back": "Back",
-    "logout": "Log Out"
+    "logout": "Log Out",
+    "save": "Save",
+    "delete-account": "Delete Account",
+    "cancel": "Cancel"
+  },
+  "countdown-actions": {
+    "deleting": "Deleting in...",
+    "saving": "Saving in..."
   },
   "inputs": {
     "email": "Email",

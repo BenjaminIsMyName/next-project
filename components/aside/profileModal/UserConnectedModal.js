@@ -62,13 +62,13 @@ export default function UserConnectedModal({ logOut }) {
     theAsyncFunc();
   }, [StatusEnum.error, StatusEnum.loading, setUser, status]); // idk, eslint says so...
 
+  // without useCallback this time. the IF at the beginning supposed to prevent problems.
   async function handleEdit() {
     if (status === StatusEnum.loading) return;
     setStatus(StatusEnum.loading);
     try {
       await axios.put("/api/editUser", inputsData);
       const userCookie = getCookie("user");
-      console.log(`user is`, userCookie);
       setUser(JSON.parse(userCookie));
       setStatus(StatusEnum.default);
       setInputsData(prev => ({ ...prev, password: "" })); // don't show the password when going back to edit
@@ -131,7 +131,7 @@ export default function UserConnectedModal({ logOut }) {
   if (status === StatusEnum.countdownDelete)
     return (
       <CountdownModal
-        title={"Deleting in..."}
+        title={t("countdown-actions.deleting")}
         cancelCallback={goBack}
         nextCallback={handleDelete}
       />
@@ -140,7 +140,7 @@ export default function UserConnectedModal({ logOut }) {
   if (status === StatusEnum.countdownEdit)
     return (
       <CountdownModal
-        title={"Saving changes in..."}
+        title={t("countdown-actions.saving")}
         cancelCallback={goBack}
         nextCallback={handleEdit}
       />
@@ -151,10 +151,7 @@ export default function UserConnectedModal({ logOut }) {
   if (status === StatusEnum.error)
     return (
       <Modal>
-        <ErrorInMenu
-          text='Couldnt delete/edit the user right now'
-          goBack={goBack}
-        />
+        <ErrorInMenu text={t("error-text.general")} goBack={goBack} />
       </Modal>
     );
 }

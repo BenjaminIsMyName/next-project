@@ -15,7 +15,7 @@ export default function EditProfileModal({
   return (
     <Modal>
       <form className={`form`}>
-        <h2>Edit Your Profile</h2>
+        <h2>{t("titles.edit")}</h2>
         <Input
           checkErrorCallback={emailError}
           valueObj={inputsData}
@@ -52,17 +52,17 @@ export default function EditProfileModal({
             handleEdit();
           }}
         >
-          SAVE
+          {t("actions.save").toUpperCase()}
         </Button>
         <Button
           type='button'
           className={styles.deleteAccount}
           onClick={handleDelete}
         >
-          DELETE ACCOUNT
+          {t("actions.delete-account").toUpperCase()}
         </Button>
         <Button type='button' className={styles.cancel} onClick={goBack}>
-          CANCEL
+          {t("actions.cancel").toUpperCase()}
         </Button>
       </form>
     </Modal>

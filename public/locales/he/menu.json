@@ -18,14 +18,22 @@
     "login": "נא התחבר",
     "signup": "אין לך חשבון - נא הירשם",
     "welcome": "ברוך הבא",
-    "themes": "ערכות נושא"
+    "themes": "ערכות נושא",
+    "edit": "ערוך את חשבונך"
   },
   "actions": {
     "continue": "המשך",
     "login": "התחבר",
     "signup": "הירשם",
     "back": "חזור",
-    "logout": "התנתק"
+    "logout": "התנתק",
+    "save": "שמור",
+    "delete-account": "מחק חשבון",
+    "cancel": "ביטול"
+  },
+  "countdown-actions": {
+    "deleting": "מוחק בעוד...",
+    "saving": "שומר בעוד..."
   },
   "inputs": {
     "email": "דוא\"ל",
