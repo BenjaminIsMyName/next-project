@@ -9,6 +9,7 @@ export default function EditProfileModal({
   handleInputChange,
   goBack,
   handleDelete,
+  handleEdit,
 }) {
   const { t } = useTranslation("menu");
   return (
@@ -46,7 +47,10 @@ export default function EditProfileModal({
             passwordError(inputsData.password) ||
             nameError(inputsData.name)
           }
-          onClick={() => {}}
+          onClick={e => {
+            e.preventDefault();
+            handleEdit();
+          }}
         >
           SAVE
         </Button>

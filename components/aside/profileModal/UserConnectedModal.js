@@ -15,6 +15,7 @@ import ThemesSection from "./ThemesSection";
 import styles from "./UserConnectedModal.module.css";
 import axios from "axios";
 import ErrorInMenu from "./ErrorInModal";
+import { getCookie } from "cookies-next";
 export default function UserConnectedModal({ logOut }) {
   const { t } = useTranslation("menu");
   const router = useRouter();
@@ -60,6 +61,21 @@ export default function UserConnectedModal({ logOut }) {
     }
     theAsyncFunc();
   }, [StatusEnum.error, StatusEnum.loading, setUser, status]); // idk, eslint says so...
+
+  async function handleEdit() {
+    if (status === StatusEnum.loading) return;
+    setStatus(StatusEnum.loading);
+    try {
+      await axios.put("/api/editUser", inputsData);
+      const userCookie = getCookie("user");
+      console.log(`user is`, userCookie);
+      setUser(JSON.parse(userCookie));
+      setStatus(StatusEnum.default);
+      setInputsData(prev => ({ ...prev, password: "" })); // don't show the password when going back to edit
+    } catch (err) {
+      setStatus(StatusEnum.error);
+    }
+  }
 
   if (status === StatusEnum.default)
     return (
@@ -108,6 +124,7 @@ export default function UserConnectedModal({ logOut }) {
         inputsData={inputsData}
         handleInputChange={handleInputChange}
         handleDelete={() => setStatus(StatusEnum.countdownDelete)}
+        handleEdit={() => setStatus(StatusEnum.countdownEdit)}
       />
     );
 
@@ -120,12 +137,24 @@ export default function UserConnectedModal({ logOut }) {
       />
     );
 
+  if (status === StatusEnum.countdownEdit)
+    return (
+      <CountdownModal
+        title={"Saving changes in..."}
+        cancelCallback={goBack}
+        nextCallback={handleEdit}
+      />
+    );
+
   if (status === StatusEnum.loading) return <LoadingModal />;
 
   if (status === StatusEnum.error)
     return (
       <Modal>
-        <ErrorInMenu text='Couldnt delete the user right now' goBack={goBack} />
+        <ErrorInMenu
+          text='Couldnt delete/edit the user right now'
+          goBack={goBack}
+        />
       </Modal>
     );
 }

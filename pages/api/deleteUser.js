@@ -3,7 +3,7 @@ import connectToDatabase from "../../util/mongodb";
 export default async function handler(req, res) {
   if (req.method !== "DELETE") {
     res.status(405).json({
-      error: `logout is a DELETE request, not ${req.method}!`,
+      error: `deleteUser is a DELETE request, not ${req.method}!`,
     });
     return;
   }

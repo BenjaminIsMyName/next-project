@@ -83,6 +83,8 @@ export async function isLoggedInFunc(req, res) {
         error: `user is not an admin`,
         code: 401,
         isAdmin: false,
+        db,
+        user,
       };
     } else {
       return {
@@ -90,6 +92,8 @@ export async function isLoggedInFunc(req, res) {
         error: null,
         code: null,
         isAdmin: true,
+        db,
+        user,
       };
     }
   } catch (err) {
