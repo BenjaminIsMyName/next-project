@@ -1,4 +1,5 @@
 import { isLoggedInFunc } from "../../util/authHelpers";
+import { ObjectId } from "mongodb";
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.status(405).json({
@@ -7,11 +8,42 @@ export default async function handler(req, res) {
     return;
   }
 
-  const { isLoggedIn, isAdmin, error, code } = await isLoggedInFunc(req, res);
+  // validate params ------------------------
+  const { url, title } = req.body;
+
+  if (!url || !title) {
+    // TODO: more validations
+    res.status(406).json({ error: `did not provide all query params` });
+    return;
+  }
+
+  const { isLoggedIn, isAdmin, error, code, db, user } = await isLoggedInFunc(
+    req,
+    res
+  );
   if (!isLoggedIn || !isAdmin) {
     res.status(code).json({ error });
     return;
   }
 
-  res.status(200).json({ name: "John Doe" });
+  // TODO: check if post with this url already exist
+  try {
+    await db.collection("posts").insertOne({
+      url,
+      type: "video",
+      title,
+      postCreationDate: new Date(),
+      uploaderId: new ObjectId(user._id),
+      comments: [],
+      likes: [],
+      topics: [],
+    });
+  } catch (err) {
+    console.log("error", err);
+    res.status(503).json({ error: `failed to add post to DB: ${err}` });
+    return;
+  }
+
+  // TODO: return the post's url
+  res.status(201).end();
 }

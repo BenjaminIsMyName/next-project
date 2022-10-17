@@ -1,7 +1,7 @@
 import { useRef, useCallback } from "react";
 import styles from "./Post.module.css";
-
-export default function Post({ title, animateProp, video }) {
+import Link from "next/link";
+export default function Post({ title, animateProp, video, urlKey }) {
   const observer = useRef();
   const animate = useCallback(node => {
     if (observer.current) observer.current.disconnect();
@@ -21,7 +21,11 @@ export default function Post({ title, animateProp, video }) {
       ref={animateProp ? animate : null}
     >
       <header>
-        <div className={styles.skeletonPic}></div>
+        {urlKey && (
+          <Link href={`/post/${urlKey}`}>
+            <a className={styles.skeletonPic}></a>
+          </Link>
+        )}
         <div className={styles.title}>
           {title || <div className={styles.skeletonText}></div>}
         </div>
@@ -33,7 +37,7 @@ export default function Post({ title, animateProp, video }) {
       </div>
       {video ? (
         <video controls>
-          <source src={video} type='video/mp4' />
+          <source src={video} type="video/mp4" />
         </video>
       ) : null}
     </div>

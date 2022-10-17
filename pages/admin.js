@@ -10,23 +10,23 @@ import CreatePost from "../components/admin/CreatePost";
 
 export default function Admin() {
   const { t } = useTranslation(["common", "admin"]);
-  const [allowd, setAllowd] = useState(false);
+  const [allowed, setAllowed] = useState(false);
   const THE_TITLE = `${t("admin", { ns: "admin" })} - ${t("app-name")}`;
 
   const { user } = useContext(UserContext);
 
   // on client side only, change state
   useEffect(() => {
-    if (user?.isAdmin) setAllowd(true);
-    else setAllowd(false);
+    if (user?.isAdmin) setAllowed(true);
+    else setAllowed(false);
   }, [user]);
 
-  if (!allowd)
+  if (!allowed)
     return (
       <>
         <Head>
           <title>{THE_TITLE}</title>
-          <meta name='description' content='content' />
+          <meta name="description" content="content" />
         </Head>
         <Layout>
           <Error error={"You're not allowed to view this page"} />
@@ -37,7 +37,7 @@ export default function Admin() {
     <>
       <Head>
         <title>{THE_TITLE}</title>
-        <meta name='description' content='content' />
+        <meta name="description" content="content" />
       </Head>
       <Layout>
         <CreatePost />

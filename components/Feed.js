@@ -44,9 +44,10 @@ export default function Feed() {
       {posts.map((post, index) => (
         <Post
           title={post.title}
-          key={post.id}
+          key={post._id}
+          urlKey={post._id}
           animateProp={index > 3}
-          video={post.video}
+          video={post.url}
         />
       ))}
       {hasMore && <div ref={lastPost}></div>}

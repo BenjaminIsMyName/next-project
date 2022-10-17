@@ -1,37 +1,19 @@
-let posts = [];
-const PORT = process.env.PORT || 8080;
-for (let i = 0; i < 100; i++)
-  posts.push({
-    id: i,
-    title: `Post ${i}`,
-    video: `https://www.w3schools.com/html/mov_bbb.mp4`,
-  });
+import connectToDatabase from "../../util/mongodb";
 
-let popularPosts = [];
-
-for (let i = 0; i < 100; i++)
-  popularPosts.push({
-    id: i,
-    title: `Popular post ${i}`,
-    video: `https://www.w3schools.com/html/mov_bbb.mp4`,
-  });
-
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== "GET") return;
   let { from, amount, type } = req.query;
   from = parseInt(from);
   amount = parseInt(amount);
-  let output = [];
-  //   Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 1500);
 
-  if (type === "/popular") {
-    for (let i = from; i < from + amount && i < 100; i++) {
-      output.push(popularPosts[i]);
-    }
-  } else if (type === "/") {
-    for (let i = from; i < from + amount && i < 100; i++) {
-      output.push(posts[i]);
-    }
+  // connect to db ------------------------
+  try {
+    var { db } = await connectToDatabase();
+    var posts = await db.collection("posts").find().toArray();
+  } catch (err) {
+    res.status(503).json({ error: `failed to connect to DB: ${err}` });
+    return;
   }
-  res.status(200).send({ posts: output, hasMore: amount + from < 99 });
+
+  res.status(200).send({ posts, hasMore: false });
 }

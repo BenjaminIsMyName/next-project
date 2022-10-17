@@ -12,6 +12,7 @@ export default function CreatePost() {
     done: "Post is already in DB and in S3",
   };
   const [status, setStatus] = useState(StatusEnum.start);
+  const [title, setTitle] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
   function handleFileSelect(e) {
     setFile(e.target.files[0]);
@@ -34,11 +35,15 @@ export default function CreatePost() {
       });
 
       removeSelectedFile();
+      const videoUrl = url.split("?")[0];
+      await axios.post("/api/savePostToDb", {
+        url: videoUrl,
+        title,
+      });
+      setUploadedFile(videoUrl);
       setStatus(StatusEnum.done);
-      setUploadedFile(url.split("?")[0]);
     } catch (error) {
       console.log(`error is`, error);
-
       setStatus(StatusEnum.error);
     }
   }
@@ -52,12 +57,16 @@ export default function CreatePost() {
   return (
     <div className={`${styles.container}`}>
       <h1>העלאת פוסט</h1>
-      <input type={"text"} placeholder='כותרת' />
+      <input
+        type={"text"}
+        placeholder="כותרת"
+        onChange={e => setTitle(e.target.value)}
+      />
       <div className={styles.fileContainer}>
         {file === null ? (
           <label
-            tabIndex='0'
-            htmlFor='uploadInput'
+            tabIndex="0"
+            htmlFor="uploadInput"
             className={`${styles.actualSelectFileButton}`}
           >
             <span>בחר סרטון</span>
@@ -67,7 +76,7 @@ export default function CreatePost() {
             <h2>קובץ זה נבחר:</h2>
             <p>{file.name}</p>
             <button
-              type='button'
+              type="button"
               className={`${styles.removeFile}`}
               onClick={removeSelectedFile}
             >
@@ -77,10 +86,10 @@ export default function CreatePost() {
         )}
         <input
           className={`${styles.uploadInput}`}
-          id='uploadInput'
+          id="uploadInput"
           type={"file"}
           onChange={handleFileSelect}
-          accept='video/*'
+          accept="video/*"
         />
       </div>
       <button disabled={file === null} onClick={uploadFile}>
@@ -88,7 +97,7 @@ export default function CreatePost() {
       </button>
       {status === StatusEnum.done && (
         <video>
-          <source src={uploadedFile} type='video/mp4' />
+          <source src={uploadedFile} type="video/mp4" />
         </video>
       )}
       {status === StatusEnum.loading && <Loading />}
