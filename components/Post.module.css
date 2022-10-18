@@ -25,10 +25,6 @@
   fill: rgb(var(--option-text-color));
 }
 
-.open:hover {
-  padding: 4px;
-}
-
 .skeletonVideo {
   height: 300px;
   animation: skeleton 1s linear infinite alternate;
@@ -44,13 +40,10 @@
 
 .title {
   font-size: 1, 5rem;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  opacity: 0.6;
   display: inline-flex;
   align-items: center;
   padding: 0 10px;
+  /* TODO: limit long text */
 }
 
 .skeletonFooter span {
@@ -120,5 +113,11 @@
   to {
     opacity: 0.2;
     background-color: rgb(var(--third-color));
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .open:hover {
+    padding: 4px;
   }
 }
