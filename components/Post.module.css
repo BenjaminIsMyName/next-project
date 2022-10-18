@@ -2,7 +2,7 @@
   background-color: rgb(var(--second-color));
   min-height: 200px;
   margin-bottom: 20px;
-  color: white;
+  color: rgb(var(--option-text-color));
   overflow: hidden;
 }
 
