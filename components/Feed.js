@@ -48,6 +48,8 @@ export default function Feed() {
           urlKey={post._id}
           animateProp={index > 3}
           video={post.url}
+          numberOfLikes={post.likes.length}
+          numberOfComments={post.comments.length}
         />
       ))}
       {hasMore && <div ref={lastPost}></div>}

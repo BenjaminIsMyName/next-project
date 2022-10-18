@@ -4,7 +4,14 @@ import Link from "next/link";
 import OpenFullIcon from "./icons/OpenFullIcon";
 import LikeIcon from "./icons/LikeIcon";
 import CommentIcon from "./icons/CommentIcon";
-export default function Post({ title, animateProp, video, urlKey }) {
+export default function Post({
+  title,
+  animateProp,
+  video,
+  urlKey,
+  numberOfLikes,
+  numberOfComments,
+}) {
   const observer = useRef();
   const animate = useCallback(node => {
     if (observer.current) observer.current.disconnect();
@@ -43,16 +50,18 @@ export default function Post({ title, animateProp, video, urlKey }) {
 
       <div
         className={`${styles.likeAndCommentContainer} ${
-          title ? "" : styles.skeletonFooter
+          isNaN(numberOfComments) || isNaN(numberOfLikes)
+            ? styles.skeletonFooter
+            : ""
         }`}
       >
         <div className={styles.likes}>
           <LikeIcon />
-          <span>{title && 224}</span>
+          <span>{numberOfLikes}</span>
         </div>
         <div className={styles.comments}>
           <CommentIcon />
-          <span>{title && 12}</span>
+          <span>{numberOfComments}</span>
         </div>
       </div>
     </div>
