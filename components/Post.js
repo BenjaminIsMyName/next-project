@@ -1,6 +1,9 @@
 import { useRef, useCallback } from "react";
 import styles from "./Post.module.css";
 import Link from "next/link";
+import OpenFullIcon from "./icons/OpenFullIcon";
+import LikeIcon from "./icons/LikeIcon";
+import CommentIcon from "./icons/CommentIcon";
 export default function Post({ title, animateProp, video, urlKey }) {
   const observer = useRef();
   const animate = useCallback(node => {
@@ -21,25 +24,37 @@ export default function Post({ title, animateProp, video, urlKey }) {
       ref={animateProp ? animate : null}
     >
       <header>
-        {urlKey && (
-          <Link href={`/post/${urlKey}`}>
-            <a className={styles.skeletonPic}></a>
-          </Link>
-        )}
-        <div className={styles.title}>
-          {title || <div className={styles.skeletonText}></div>}
-        </div>
+        <span className={`${styles.title} ${title ? "" : styles.skeletonText}`}>
+          {title}
+        </span>
+        <Link href={urlKey ? `/post/${urlKey}` : ""}>
+          <a className={`${styles.open} ${urlKey ? "" : styles.skeletonOpen}`}>
+            {urlKey && <OpenFullIcon />}
+          </a>
+        </Link>
       </header>
-      <div className={styles.content}>
-        <div className={styles.skeletonText}></div>
-        <div className={styles.skeletonText}></div>
-        <div className={styles.skeletonText}></div>
-      </div>
       {video ? (
         <video controls>
           <source src={video} type="video/mp4" />
         </video>
-      ) : null}
+      ) : (
+        <div className={styles.skeletonVideo}></div>
+      )}
+
+      <div
+        className={`${styles.likeAndCommentContainer} ${
+          title ? "" : styles.skeletonFooter
+        }`}
+      >
+        <div className={styles.likes}>
+          <LikeIcon />
+          <span>{title && 224}</span>
+        </div>
+        <div className={styles.comments}>
+          <CommentIcon />
+          <span>{title && 12}</span>
+        </div>
+      </div>
     </div>
   );
 }

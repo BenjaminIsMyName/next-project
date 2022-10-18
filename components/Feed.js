@@ -65,6 +65,9 @@ export default function Feed() {
       {error !== null && (
         <Error tryAgainCallback={tryAgainCallback} error={error} />
       )}
+
+      {/* TODO: delete later: */}
+      <Post />
     </>
   );
 }
