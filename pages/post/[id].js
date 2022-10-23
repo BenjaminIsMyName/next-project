@@ -33,13 +33,16 @@ export async function getServerSideProps(ctx) {
       .collection("posts")
       .find({ _id: new ObjectId(ctx.params.id) })
       .toArray();
+    if (post.length === 0)
+      throw new Error("Couldn't find a post with this _id");
   } catch (error) {
-    ctx.res.writeHead(301, { Location: "/404" });
-    ctx.res.end();
-    console.log(`error:`, error);
-    return;
+    return {
+      redirect: {
+        destination: "/404",
+        statusCode: 308,
+      },
+    };
   }
-
   return {
     props: {
       ...(await serverSideTranslations(ctx.locale, ["menu", "common"])),
