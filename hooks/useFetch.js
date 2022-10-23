@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-export default function useFetch(query, from, forceRender, posts) {
+export default function useFetch(query, forceRender) {
   // this is a custom hook that uses the axios library to fetch data from the server.
   // it returns an object with a few properties: loading, error, posts, and hasMore.
   // at first, the function will return the default values for these properties.
@@ -13,7 +13,7 @@ export default function useFetch(query, from, forceRender, posts) {
   const [state, setState] = useState({
     loading: true,
     error: null,
-    posts: posts,
+    posts: [],
     hasMore: false,
   });
 
@@ -24,8 +24,8 @@ export default function useFetch(query, from, forceRender, posts) {
       try {
         const { data } = await axios.get("/api/posts", {
           params: {
-            from: from,
-            amount: 5,
+            exist: JSON.stringify(state.posts.map(p => p._id)),
+            amount: 2,
             type: query,
           },
           cancelToken: source.token,
@@ -48,7 +48,7 @@ export default function useFetch(query, from, forceRender, posts) {
       // TODO: check bug, this is called right away?
       return source.cancel();
     };
-  }, [query, from, forceRender]);
+  }, [query, forceRender]); // It seems like eslint suggestion to add state.posts is not good, and in this case - the code is perfectly fine as it is.
 
   return state;
 }

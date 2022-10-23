@@ -5,23 +5,12 @@ import Loading from "./Loading.js";
 import Error from "./Error";
 
 export default function Feed() {
-  // this component will render right away 3 times:
-  // 1. when the component is first rendered
-  // 2. ????
-  // 3. when we fetched data in useFetch
-
   const [forceRender, setForceRender] = useState(0);
   function tryAgainCallback() {
     setForceRender(prev => prev + 1);
   }
 
-  const [from, setFrom] = useState(0);
-  const { loading, error, posts, hasMore } = useFetch(
-    "/",
-    from,
-    forceRender,
-    []
-  );
+  const { loading, error, posts, hasMore } = useFetch("/", forceRender);
 
   const observer = useRef();
   const lastPost = useCallback(
@@ -31,7 +20,7 @@ export default function Feed() {
       observer.current = new IntersectionObserver(
         entries => {
           if (entries[0].isIntersecting && hasMore)
-            setFrom(prevFrom => prevFrom + 5);
+            setForceRender(prev => prev + 1);
         },
         { rootMargin: "150px" }
       );
@@ -67,9 +56,6 @@ export default function Feed() {
       {error !== null && (
         <Error tryAgainCallback={tryAgainCallback} error={error} />
       )}
-
-      {/* TODO: delete later: */}
-      <Post />
     </>
   );
 }
