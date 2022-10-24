@@ -28,7 +28,8 @@ export default function useFetch(query, forceRender) {
   existRef.current = JSON.stringify(state.posts.map(p => p._id));
 
   useEffect(() => {
-    existRef.current = JSON.stringify([]);
+    existRef.current = JSON.stringify([]); // this is needed just to make sure existRef is up to date. Removing it will cause issues with posts when log-in or log-out
+    window.scrollTo(0, 0);
     // when we are asking for something else (query changes), delete everything and start from scratch
     setState(init);
   }, [init, query]); // same as: [query]

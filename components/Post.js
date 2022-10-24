@@ -23,7 +23,7 @@ export default function Post({ animateProp, post }) {
 
   const { user } = useContext(UserContext);
   const [localPost, setLocalPost] = useState(post || null);
-  // console.log(`post ${post?._id} didLike is ${didLike}`);
+
   async function handleLike() {
     if (user === null) {
       alert(`You must be logged in to like`);
@@ -33,16 +33,18 @@ export default function Post({ animateProp, post }) {
       await axios.post("/api/like", {
         post: localPost._id,
       });
-      setDidLike(prev => !prev);
+      setLocalPost(prev => ({
+        ...prev,
+        didLike: !prev.didLike,
+        numberOfLikes: prev.didLike
+          ? prev.numberOfLikes - 1
+          : prev.numberOfLikes + 1,
+      }));
     } catch (error) {
       console.log(`error`, error);
+      alert(`Error, can't like right now`);
     }
   }
-
-  // useEffect(() => {
-  //   // TODO: when user changes (log-in, log-out etc) run a function to change the data of the post
-  //   console.log(`running`);
-  // }, [user]);
 
   return (
     <div
