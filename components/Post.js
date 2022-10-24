@@ -22,7 +22,7 @@ export default function Post({ animateProp, post }) {
   }, []);
 
   const { user } = useContext(UserContext);
-  const [localPost, setLocalPost] = useState(post || null);
+  const [localPost, setLocalPost] = useState(post || null); // any change to this post - will just update this state. not the state of all the posts...
 
   async function handleLike() {
     if (user === null) {

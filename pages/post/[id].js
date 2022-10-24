@@ -20,7 +20,7 @@ export default function PostPage({ post }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <Post title={postToDisplay.title} video={postToDisplay.url} />
+        <Post post={postToDisplay} />
       </Layout>
     </>
   );

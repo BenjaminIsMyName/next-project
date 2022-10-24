@@ -28,7 +28,10 @@ export default function useFetch(query, forceRender) {
   existRef.current = JSON.stringify(state.posts.map(p => p._id));
 
   useEffect(() => {
-    existRef.current = JSON.stringify([]); // this is needed just to make sure existRef is up to date. Removing it will cause issues with posts when log-in or log-out
+    existRef.current = JSON.stringify([]);
+    // ^^ this is needed just to make sure existRef is up to date,
+    // Removing it will cause issues with posts when log-in or log-out.
+    // Because when "query" changes, both effects run. before "setState(init)" happens, and... existRef is not empty yet
     window.scrollTo(0, 0);
     // when we are asking for something else (query changes), delete everything and start from scratch
     setState(init);
@@ -41,7 +44,7 @@ export default function useFetch(query, forceRender) {
       try {
         const { data } = await axios.get("/api/posts", {
           params: {
-            exist: existRef.current,
+            exist: existRef.current, // see: https://stackoverflow.com/a/63261270/19460851
             amount: 2,
             type: query,
           },
@@ -64,7 +67,7 @@ export default function useFetch(query, forceRender) {
     return () => {
       return source.cancel();
     };
-  }, [query, forceRender]); // TODO: solve bug, how to send the existing posts (and keep them up to date when login/logout) without causing infinite loop
+  }, [query, forceRender]);
 
   return state;
 }
