@@ -1,17 +1,14 @@
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useContext, useEffect } from "react";
 import styles from "./Post.module.css";
 import Link from "next/link";
 import OpenFullIcon from "./icons/OpenFullIcon";
 import LikeIcon from "./icons/LikeIcon";
 import CommentIcon from "./icons/CommentIcon";
-export default function Post({
-  title,
-  animateProp,
-  video,
-  urlKey,
-  numberOfLikes,
-  numberOfComments,
-}) {
+import { UserContext } from "../context/UserContext";
+import axios from "axios";
+import { useState } from "react";
+
+export default function Post({ animateProp, post }) {
   const observer = useRef();
   const animate = useCallback(node => {
     if (observer.current) observer.current.disconnect();
@@ -23,6 +20,30 @@ export default function Post({
     );
     if (node) observer.current.observe(node);
   }, []);
+
+  const { user } = useContext(UserContext);
+  const [localPost, setLocalPost] = useState(post || null);
+  // console.log(`post ${post?._id} didLike is ${didLike}`);
+  async function handleLike() {
+    if (user === null) {
+      alert(`You must be logged in to like`);
+      return;
+    }
+    try {
+      await axios.post("/api/like", {
+        post: localPost._id,
+      });
+      setDidLike(prev => !prev);
+    } catch (error) {
+      console.log(`error`, error);
+    }
+  }
+
+  // useEffect(() => {
+  //   // TODO: when user changes (log-in, log-out etc) run a function to change the data of the post
+  //   console.log(`running`);
+  // }, [user]);
+
   return (
     <div
       className={`${styles.post} ${
@@ -31,18 +52,26 @@ export default function Post({
       ref={animateProp ? animate : null}
     >
       <header>
-        <span className={`${styles.title} ${title ? "" : styles.skeletonText}`}>
-          {title}
+        <span
+          className={`${styles.title} ${
+            localPost?.title ? "" : styles.skeletonText
+          }`}
+        >
+          {localPost?.title}
         </span>
-        <Link href={urlKey ? `/post/${urlKey}` : ""}>
-          <a className={`${styles.open} ${urlKey ? "" : styles.skeletonOpen}`}>
-            {urlKey && <OpenFullIcon />}
+        <Link href={localPost?._id ? `/post/${localPost._id}` : ""}>
+          <a
+            className={`${styles.open} ${
+              localPost?._id ? "" : styles.skeletonOpen
+            }`}
+          >
+            {localPost?._id && <OpenFullIcon />}
           </a>
         </Link>
       </header>
-      {video ? (
+      {localPost?.url ? (
         <video controls>
-          <source src={video} type="video/mp4" />
+          <source src={localPost?.url} type="video/mp4" />
         </video>
       ) : (
         <div className={styles.skeletonVideo}></div>
@@ -50,18 +79,22 @@ export default function Post({
 
       <div
         className={`${styles.likeAndCommentContainer} ${
-          isNaN(numberOfComments) || isNaN(numberOfLikes)
+          isNaN(localPost?.numberOfComments) || isNaN(localPost?.numberOfLikes)
             ? styles.skeletonFooter
             : ""
         }`}
       >
-        <div className={styles.likes}>
-          <LikeIcon />
-          <span>{numberOfLikes}</span>
+        <div
+          className={`${styles.likes} ${
+            localPost?.didLike ? styles.liked : ""
+          }`}
+        >
+          <LikeIcon onClick={handleLike} />
+          <span>{localPost?.numberOfLikes}</span>
         </div>
         <div className={styles.comments}>
           <CommentIcon />
-          <span>{numberOfComments}</span>
+          <span>{localPost?.numberOfComments}</span>
         </div>
       </div>
     </div>

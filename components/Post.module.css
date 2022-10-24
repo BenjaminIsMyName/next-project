@@ -94,6 +94,10 @@
   cursor: pointer;
 }
 
+.liked svg {
+  fill: rgb(var(--third-color)) !important;
+}
+
 @keyframes post-on-scroll {
   from {
     opacity: 0;

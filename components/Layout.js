@@ -20,10 +20,10 @@ export default function Layout({ children }) {
   const { locale } = useRouter();
 
   const { user, setUser } = useContext(UserContext);
-  const [askForPassowrd, setAskForPassowrd] = useState(false);
+  const [askForPassword, setAskForPassword] = useState(false);
 
   function onIdle() {
-    setAskForPassowrd(true);
+    setAskForPassword(true);
   }
 
   const {
@@ -51,7 +51,7 @@ export default function Layout({ children }) {
 
   useEffect(() => {
     if (!user) {
-      setAskForPassowrd(false);
+      setAskForPassword(false);
       pause();
       return;
     }
@@ -61,8 +61,8 @@ export default function Layout({ children }) {
 
   return (
     <>
-      {askForPassowrd && (
-        <OverlayToContinue onSuccess={() => setAskForPassowrd(false)} />
+      {askForPassword && (
+        <OverlayToContinue onSuccess={() => setAskForPassword(false)} />
       )}
       <Aside />
       <div

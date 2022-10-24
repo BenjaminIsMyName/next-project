@@ -64,7 +64,7 @@ export default async function handler(req, res) {
 
   // insert in DB ------------------------
   try {
-    await db.collection("users").insertOne({
+    const { insertedId } = await db.collection("users").insertOne({
       name,
       email,
       password: hashAndSalt,
@@ -85,7 +85,7 @@ export default async function handler(req, res) {
 
   setCookie("token", token, { req, res, httpOnly: true });
   // return token & name ------------------------
-  setCookie("user", JSON.stringify({ name, email }), {
+  setCookie("user", JSON.stringify({ name, email, id: insertedId }), {
     req,
     res,
   });

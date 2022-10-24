@@ -8,7 +8,6 @@ export async function isLoggedInFunc(req, res) {
     const user = JSON.parse(getCookie("user", { req, res }));
     email = user.email;
   } catch (error) {
-    console.log(`error`, error);
     return {
       isLoggedIn: false,
       error: `couldn't get email from cookie`,

@@ -64,7 +64,7 @@ export default async function handler(req, res) {
 
   // insert token in DB ------------------------
   try {
-    await db.collection("users").updateOne(
+    var result = await db.collection("users").findOneAndUpdate(
       { email },
       {
         $push: {
@@ -86,6 +86,7 @@ export default async function handler(req, res) {
   setCookie(
     "user",
     JSON.stringify({
+      id: result.value._id,
       name: user.name,
       email,
       isAdmin: user.isAdmin ? true : false,

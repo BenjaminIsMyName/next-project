@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 export default function useFetch(query, forceRender) {
   // this is a custom hook that uses the axios library to fetch data from the server.
@@ -10,12 +10,28 @@ export default function useFetch(query, forceRender) {
   // https://stackoverflow.com/questions/56345853/should-custom-react-hooks-cause-re-renders-of-dependent-components
   // https://reactjs.org/docs/hooks-custom.html#using-a-custom-hook
 
-  const [state, setState] = useState({
-    loading: true,
-    error: null,
-    posts: [],
-    hasMore: false,
-  });
+  const init = useMemo(
+    // the object will always be the same object. same reference.
+    () => ({
+      loading: true,
+      error: null,
+      posts: [],
+      hasMore: false,
+    }),
+    []
+  );
+
+  const [state, setState] = useState(init);
+
+  const existRef = useRef([]);
+
+  existRef.current = JSON.stringify(state.posts.map(p => p._id));
+
+  useEffect(() => {
+    existRef.current = JSON.stringify([]);
+    // when we are asking for something else (query changes), delete everything and start from scratch
+    setState(init);
+  }, [init, query]); // same as: [query]
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -24,7 +40,7 @@ export default function useFetch(query, forceRender) {
       try {
         const { data } = await axios.get("/api/posts", {
           params: {
-            exist: JSON.stringify(state.posts.map(p => p._id)),
+            exist: existRef.current,
             amount: 2,
             type: query,
           },
@@ -45,10 +61,9 @@ export default function useFetch(query, forceRender) {
     }
     forAsync();
     return () => {
-      // TODO: check bug, this is called right away?
       return source.cancel();
     };
-  }, [query, forceRender]); // It seems like eslint suggestion to add state.posts is not good, and in this case - the code is perfectly fine as it is.
+  }, [query, forceRender]); // TODO: solve bug, how to send the existing posts (and keep them up to date when login/logout) without causing infinite loop
 
   return state;
 }
