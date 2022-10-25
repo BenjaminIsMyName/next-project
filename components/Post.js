@@ -8,10 +8,12 @@ import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/router";
 
 export default function Post({ animateProp, post }) {
   const [isFullyOpened, setIsFullyOpened] = useState(false);
   const [alreadyAnimated, setAlreadyAnimated] = useState(false);
+  const { locale } = useRouter();
   const observer = useRef();
   const animate = useCallback(node => {
     if (observer.current) observer.current.disconnect();
@@ -59,7 +61,9 @@ export default function Post({ animateProp, post }) {
         layout
         className={`${styles.post} ${
           animateProp && !alreadyAnimated ? styles.animationStartPoint : ""
-        } ${isFullyOpened ? styles.full : ""}`}
+        } ${isFullyOpened ? styles.full : ""} ${
+          locale === "en" ? styles.fullLtr : ""
+        }`}
         ref={animateProp && !alreadyAnimated ? animate : null}
       >
         <header>

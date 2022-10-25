@@ -6,6 +6,7 @@
   transition: width 1s ease;
   min-height: 120vh;
   overflow: hidden;
+  isolation: isolate;
 }
 
 .restLtr {

@@ -7,14 +7,21 @@
 }
 
 .full {
+  padding: 20px;
+  border: 20px solid rgb(var(--main-color));
   overflow: auto;
-  height: 100vh;
   position: fixed;
+  right: var(--aside-width);
   left: 0;
-  right: 0;
   bottom: 0;
   top: 0;
   z-index: 100;
+  margin-bottom: 0;
+}
+
+.full.fullLtr {
+  right: 0;
+  left: var(--aside-width);
 }
 
 .post header {
@@ -148,5 +155,15 @@
 @media (hover: hover) and (pointer: fine) {
   .open:hover {
     padding: 4px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .full {
+    right: 0;
+    padding: 0;
+    border-width: 0;
+    left: 0 !important;
+    bottom: var(--header-height);
   }
 }
