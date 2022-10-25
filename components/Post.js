@@ -16,9 +16,11 @@ export default function Post({ animateProp, post }) {
 
   useEffect(() => {
     if (isFullyOpened) {
-      document.body.classList.add("no-scroll-in-any-screen");
+      document.body.classList.add("no-scroll-in-any-screen-due-to-opened-post");
     } else {
-      document.body.classList.remove("no-scroll-in-any-screen");
+      document.body.classList.remove(
+        "no-scroll-in-any-screen-due-to-opened-post"
+      );
     }
   }, [isFullyOpened]);
 

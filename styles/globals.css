@@ -66,6 +66,10 @@ body {
   overflow: hidden;
 }
 
+.no-scroll-in-any-screen-due-to-opened-post {
+  overflow: hidden;
+}
+
 @media screen and (max-width: 900px) {
   .no-scroll {
     overflow: hidden;
