@@ -13,6 +13,15 @@ import { useRouter } from "next/router";
 export default function Post({ animateProp, post }) {
   const [isFullyOpened, setIsFullyOpened] = useState(false);
   const [alreadyAnimated, setAlreadyAnimated] = useState(false);
+
+  useEffect(() => {
+    if (isFullyOpened) {
+      document.body.classList.add("no-scroll-in-any-screen");
+    } else {
+      document.body.classList.remove("no-scroll-in-any-screen");
+    }
+  }, [isFullyOpened]);
+
   const { locale } = useRouter();
   const observer = useRef();
   const animate = useCallback(node => {
