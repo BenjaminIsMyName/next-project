@@ -7,14 +7,20 @@ import CommentIcon from "./icons/CommentIcon";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Post({ animateProp, post }) {
+  const [isFullyOpened, setIsFullyOpened] = useState(false);
+  const [alreadyAnimated, setAlreadyAnimated] = useState(false);
   const observer = useRef();
   const animate = useCallback(node => {
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver(
       entries => {
-        if (entries[0].isIntersecting) node.classList.add(styles.animate);
+        if (entries[0].isIntersecting) {
+          node.classList.add(styles.animate);
+          setAlreadyAnimated(true);
+        }
       },
       { rootMargin: "200px" }
     );
@@ -47,58 +53,75 @@ export default function Post({ animateProp, post }) {
   }
 
   return (
-    <div
-      className={`${styles.post} ${
-        animateProp ? styles.animationStartPoint : ""
-      }`}
-      ref={animateProp ? animate : null}
-    >
-      <header>
-        <span
-          className={`${styles.title} ${
-            localPost?.title ? "" : styles.skeletonText
-          }`}
-        >
-          {localPost?.title}
-        </span>
-        <Link href={localPost?._id ? `/post/${localPost._id}` : ""}>
+    <>
+      {isFullyOpened && <div className={styles.placeholder}></div>}
+      <motion.div
+        layout
+        className={`${styles.post} ${
+          animateProp && !alreadyAnimated ? styles.animationStartPoint : ""
+        } ${isFullyOpened ? styles.full : ""}`}
+        ref={animateProp && !alreadyAnimated ? animate : null}
+      >
+        <header>
+          <div
+            className={styles.dateAndTitleContainer}
+            style={{ display: "flex", flexDirection: "column" }}
+          >
+            <span className={styles.date}>{localPost?.postCreationDate}</span>
+            <span
+              className={`${styles.title} ${
+                localPost?.title ? "" : styles.skeletonText
+              }`}
+            >
+              {localPost?.title}
+            </span>
+          </div>
+
           <a
             className={`${styles.open} ${
               localPost?._id ? "" : styles.skeletonOpen
             }`}
+            onClick={
+              localPost?._id
+                ? () => {
+                    setIsFullyOpened(prev => !prev);
+                  }
+                : null
+            }
           >
             {localPost?._id && <OpenFullIcon />}
           </a>
-        </Link>
-      </header>
-      {localPost?.url ? (
-        <video controls>
-          <source src={localPost?.url} type="video/mp4" />
-        </video>
-      ) : (
-        <div className={styles.skeletonVideo}></div>
-      )}
+        </header>
+        {localPost?.url ? (
+          <video controls>
+            <source src={localPost?.url} type="video/mp4" />
+          </video>
+        ) : (
+          <div className={styles.skeletonVideo}></div>
+        )}
 
-      <div
-        className={`${styles.likeAndCommentContainer} ${
-          isNaN(localPost?.numberOfComments) || isNaN(localPost?.numberOfLikes)
-            ? styles.skeletonFooter
-            : ""
-        }`}
-      >
         <div
-          className={`${styles.likes} ${
-            localPost?.didLike ? styles.liked : ""
+          className={`${styles.likeAndCommentContainer} ${
+            isNaN(localPost?.numberOfComments) ||
+            isNaN(localPost?.numberOfLikes)
+              ? styles.skeletonFooter
+              : ""
           }`}
         >
-          <LikeIcon onClick={handleLike} />
-          <span>{localPost?.numberOfLikes}</span>
+          <div
+            className={`${styles.likes} ${
+              localPost?.didLike ? styles.liked : ""
+            }`}
+          >
+            <LikeIcon onClick={handleLike} />
+            <span>{localPost?.numberOfLikes}</span>
+          </div>
+          <div className={styles.comments}>
+            <CommentIcon />
+            <span>{localPost?.numberOfComments}</span>
+          </div>
         </div>
-        <div className={styles.comments}>
-          <CommentIcon />
-          <span>{localPost?.numberOfComments}</span>
-        </div>
-      </div>
-    </div>
+      </motion.div>
+    </>
   );
 }

@@ -6,12 +6,33 @@
   overflow: hidden;
 }
 
+.full {
+  overflow: auto;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 100;
+}
+
 .post header {
   display: grid;
   grid-template-columns: calc(100% - 40px) auto;
   justify-content: center;
+  align-items: center;
   padding: 20px 10px;
   gap: 10px;
+}
+
+.dateAndTitleContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.date {
+  font-size: 0.9rem;
 }
 
 .open {
@@ -68,7 +89,7 @@
 }
 
 .animationStartPoint {
-  opacity: 0;
+  opacity: 0; /* to prevent glitch when scrolling */
 }
 
 .animate {
@@ -96,6 +117,10 @@
 
 .liked svg {
   fill: rgb(var(--third-color)) !important;
+}
+
+.placeholder {
+  height: 500px; /* when the post is showing on full screen, put something there in the meantime */
 }
 
 @keyframes post-on-scroll {
