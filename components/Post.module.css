@@ -36,6 +36,7 @@
 .dateAndTitleContainer {
   display: flex;
   flex-direction: column;
+  padding: 0 10px;
 }
 
 .date {
@@ -67,10 +68,8 @@
 }
 
 .title {
-  font-size: 1, 5rem;
-  display: inline-flex;
-  align-items: center;
-  padding: 0 10px;
+  font-size: 1.5rem;
+
   /* TODO: limit long text */
 }
 

@@ -9,6 +9,8 @@ import axios from "axios";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
+import { formatDistance } from "date-fns";
+import { he, en } from "date-fns/locale";
 
 export default function Post({ animateProp, post }) {
   const [isFullyOpened, setIsFullyOpened] = useState(false);
@@ -103,7 +105,17 @@ export default function Post({ animateProp, post }) {
             className={styles.dateAndTitleContainer}
             style={{ display: "flex", flexDirection: "column" }}
           >
-            <span className={styles.date}>{localPost?.postCreationDate}</span>
+            <span className={styles.date}>
+              {localPost &&
+                formatDistance(
+                  new Date(localPost.postCreationDate),
+                  new Date(),
+                  {
+                    addSuffix: true,
+                    locale: locale === "en" ? en : he,
+                  }
+                )}
+            </span>
             <span
               className={`${styles.title} ${
                 localPost?.title ? "" : styles.skeletonText
