@@ -141,7 +141,7 @@ export default function Post({ animateProp, post }) {
           </a>
         </header>
         {localPost?.url ? (
-          <video controls>
+          <video className={styles.media} controls>
             <source src={localPost?.url} type="video/mp4" />
           </video>
         ) : (

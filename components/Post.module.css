@@ -125,6 +125,10 @@
   fill: rgb(var(--third-color)) !important;
 }
 
+.media {
+  max-height: 70vh;
+}
+
 @keyframes post-on-scroll {
   from {
     opacity: 0;
