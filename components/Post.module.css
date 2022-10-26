@@ -1,7 +1,7 @@
 .post {
   background-color: rgb(var(--second-color));
   min-height: 200px;
-  margin-bottom: 20px;
+  margin-bottom: 20px; /* if changing this, also change the placeholder's margin  */
   color: rgb(var(--option-text-color));
   overflow: hidden;
 }
@@ -100,7 +100,7 @@
 }
 
 .animate {
-  animation: post-on-scroll 1s ease-in-out forwards;
+  animation: post-on-scroll 1s ease-in-out forwards; /* if you change the timing, change the setTimeout in <Post/> too */
 }
 
 .likeAndCommentContainer {
@@ -124,10 +124,6 @@
 
 .liked svg {
   fill: rgb(var(--third-color)) !important;
-}
-
-.placeholder {
-  height: 500px; /* when the post is showing on full screen, put something there in the meantime */
 }
 
 @keyframes post-on-scroll {

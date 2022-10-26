@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 
 export default function Post({ animateProp, post }) {
   const [isFullyOpened, setIsFullyOpened] = useState(false);
-  const [alreadyAnimated, setAlreadyAnimated] = useState(false);
+  const [shouldAnimate, setShouldAnimate] = useState(animateProp);
 
   useEffect(() => {
     if (isFullyOpened) {
@@ -26,19 +26,35 @@ export default function Post({ animateProp, post }) {
 
   const { locale } = useRouter();
   const observer = useRef();
-  const animate = useCallback(node => {
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(
-      entries => {
-        if (entries[0].isIntersecting) {
-          node.classList.add(styles.animate);
-          setAlreadyAnimated(true);
-        }
-      },
-      { rootMargin: "200px" }
-    );
-    if (node) observer.current.observe(node);
-  }, []);
+  const postRef = useRef();
+
+  // for the IntersectionObserver, to apply animation when scrolling:
+  useEffect(() => {
+    if (!shouldAnimate) return;
+    function handleIntersection(entries) {
+      let entry = entries[0];
+      if (
+        entry.isIntersecting &&
+        entry.boundingClientRect.top > 0 &&
+        shouldAnimate
+      ) {
+        postRef.current.classList.add(styles.animate);
+        setTimeout(() => {
+          setShouldAnimate(false);
+        }, 1000);
+        observer.current.disconnect(); // don't observe anymore, no need
+      }
+    }
+    const options = {
+      rootMargin: "0px",
+    };
+    observer.current = new IntersectionObserver(handleIntersection, options);
+    observer.current.observe(postRef.current);
+    return () => {
+      if (!shouldAnimate) return;
+      observer.current?.disconnect();
+    };
+  }, [shouldAnimate]);
 
   const { user } = useContext(UserContext);
   const [localPost, setLocalPost] = useState(post || null); // any change to this post - will just update this state. not the state of all the posts...
@@ -67,15 +83,20 @@ export default function Post({ animateProp, post }) {
 
   return (
     <>
-      {isFullyOpened && <div className={styles.placeholder}></div>}
+      {/* placeholder... when the post is showing on full screen, put something there in the meantime. same height as the post, same margin  */}
+      {isFullyOpened && (
+        <div
+          style={{ height: postRef.current.offsetHeight, marginBottom: "20px" }}
+        ></div>
+      )}
       <motion.div
         layout
         className={`${styles.post} ${
-          animateProp && !alreadyAnimated ? styles.animationStartPoint : ""
+          shouldAnimate ? styles.animationStartPoint : ""
         } ${isFullyOpened ? styles.full : ""} ${
           locale === "en" ? styles.fullLtr : ""
         }`}
-        ref={animateProp && !alreadyAnimated ? animate : null}
+        ref={postRef} // converted from https://reactjs.org/docs/refs-and-the-dom.html#callback-refs to simple ref
       >
         <header>
           <div
@@ -123,15 +144,11 @@ export default function Post({ animateProp, post }) {
               : ""
           }`}
         >
-          <div
-            className={`${styles.likes} ${
-              localPost?.didLike ? styles.liked : ""
-            }`}
-          >
+          <div className={`${localPost?.didLike ? styles.liked : ""}`}>
             <LikeIcon onClick={handleLike} />
             <span>{localPost?.numberOfLikes}</span>
           </div>
-          <div className={styles.comments}>
+          <div>
             <CommentIcon />
             <span>{localPost?.numberOfComments}</span>
           </div>
