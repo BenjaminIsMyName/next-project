@@ -40,7 +40,6 @@
 .langContainer a {
   display: block;
   text-decoration: none;
-
   color: rgb(var(--option-text-color));
 }
 

@@ -12,7 +12,6 @@ export default function CountdownModal({
 }) {
   const [count, setCount] = useState(10);
   const downloadTimer = useRef(null);
-
   const { t } = useTranslation("menu");
 
   useEffect(() => {

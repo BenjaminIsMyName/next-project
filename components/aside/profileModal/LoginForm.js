@@ -41,8 +41,8 @@ export default function Login({
           checkErrorCallback={emailError}
           valueObj={inputsData}
           onChange={handleInputChange}
-          type='email'
-          name='email'
+          type="email"
+          name="email"
           placeholder={t("inputs.email")}
           disabled={true}
         />
@@ -50,8 +50,8 @@ export default function Login({
           checkErrorCallback={passwordError}
           valueObj={inputsData}
           onChange={handleInputChange}
-          type='password'
-          name='password'
+          type="password"
+          name="password"
           placeholder={t("inputs.password")}
         />
         <Button
