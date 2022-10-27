@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
-export default function useFetch(query, forceRender) {
+export default function useFetch(query, forceRender, HOW_MANY_TO_FETCH) {
   // this is a custom hook that uses the axios library to fetch data from the server.
   // it returns an object with a few properties: loading, error, posts, and hasMore.
   // at first, the function will return the default values for these properties.
@@ -45,7 +45,7 @@ export default function useFetch(query, forceRender) {
         const { data } = await axios.get("/api/posts", {
           params: {
             exist: existRef.current, // see: https://stackoverflow.com/a/63261270/19460851
-            amount: 2,
+            amount: process.env.NEXT_PUBLIC_HOW_MANY_TO_FETCH,
             type: query,
           },
           cancelToken: source.token,

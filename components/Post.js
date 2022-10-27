@@ -35,11 +35,7 @@ export default function Post({ animateProp, post }) {
     if (!shouldAnimate) return;
     function handleIntersection(entries) {
       let entry = entries[0];
-      if (
-        entry.isIntersecting &&
-        entry.boundingClientRect.top > 0 &&
-        shouldAnimate
-      ) {
+      if (entry.isIntersecting && shouldAnimate) {
         postRef.current.classList.add(styles.animate);
         setTimeout(() => {
           setShouldAnimate(false);

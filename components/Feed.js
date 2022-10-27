@@ -38,15 +38,21 @@ export default function Feed() {
   return (
     <>
       {posts.map((post, index) => (
-        <Post key={post._id} animateProp={index > 3} post={post} />
+        <Post
+          key={post._id}
+          animateProp={index > process.env.NEXT_PUBLIC_HOW_MANY_TO_FETCH}
+          post={post}
+        />
       ))}
-      {hasMore && <div id="last" ref={lastPostRef}></div>}
+      {hasMore && <div ref={lastPostRef}></div>}
       {loading && !error && posts.length === 0 && (
         <>
-          <Post animateProp={false} />
-          <Post animateProp={false} />
-          <Post animateProp={false} />
-          <Post animateProp={false} />
+          {Array.apply(
+            null,
+            Array(Number(process.env.NEXT_PUBLIC_HOW_MANY_TO_FETCH))
+          ).map((_element, index) => (
+            <Post key={index} animateProp={false} />
+          ))}
         </>
       )}
 
