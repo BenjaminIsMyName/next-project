@@ -11,9 +11,9 @@ import { useTranslation } from "next-i18next";
 export default function Aside() {
   const { t } = useTranslation("menu");
   const { locale } = useRouter();
-  const asideRef = useRef(); // used on the <aside> tag, to scroll back up when openning and closing the menu.
+  const asideRef = useRef(); // used on the <aside> tag, to scroll back up when opening and closing the menu.
   const [isOpen, setIsOpen] = useState(false); // is the <aside> open, on mobile
-  const [modalOpen, setModalOpen] = useState(-1); // is a little menu open? (none: -1, profile menu: 0, notifications menu: 1, search menu: 2)
+  const [modalOpen, setModalOpen] = useState(-1); // is a little menu open? (none: -1, profile menu: 0)
 
   const clickToToggleMenu = useCallback(() => {
     setIsOpen(prev => !prev);
@@ -77,10 +77,10 @@ export default function Aside() {
             menuOnClickHandler={clickToToggleMenu}
             isOpen={isOpen}
           />
-          <Option text={t("for-you")} link='./' selected />
-          <Option text={t("popular")} link='./' />
-          <Option text={t("topics")} link='./' />
-          <Option text={t("settings")} link='./' />
+          <Option text={t("for-you")} link="./" selected />
+          <Option text={t("popular")} link="./" />
+          <Option text={t("topics")} link="./" />
+          <Option text={t("settings")} link="./" />
         </aside>
       </div>
     </FocusTrap>
