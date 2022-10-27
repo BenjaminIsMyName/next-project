@@ -52,10 +52,7 @@ export default function Post({ animateProp, post }) {
     };
     observer.current = new IntersectionObserver(handleIntersection, options);
     observer.current.observe(postRef.current);
-    return () => {
-      if (!shouldAnimate) return;
-      observer.current?.disconnect();
-    };
+    return () => observer.current?.disconnect();
   }, [shouldAnimate]);
 
   const { user } = useContext(UserContext);

@@ -4,6 +4,7 @@ import Post from "./Post.js";
 import Loading from "./Loading.js";
 import Error from "./Error";
 import { UserContext } from "../context/UserContext.js";
+import { useEffect } from "react";
 
 export default function Feed() {
   const [forceRender, setForceRender] = useState(0);
@@ -17,27 +18,29 @@ export default function Feed() {
   );
 
   const observer = useRef();
-  const lastPost = useCallback(
-    node => {
-      if (loading) return;
-      if (observer.current) observer.current.disconnect();
-      observer.current = new IntersectionObserver(
-        entries => {
-          if (entries[0].isIntersecting && hasMore)
-            setForceRender(prev => prev + 1);
-        },
-        { rootMargin: "150px" }
-      );
-      if (node) observer.current.observe(node);
-    },
-    [loading, hasMore]
-  );
+  const lastPostRef = useRef();
+  // for the IntersectionObserver, to fetch more when scrolling
+  useEffect(() => {
+    if (!lastPostRef.current) return;
+    function handleIntersection(entries) {
+      if (entries[0].isIntersecting && hasMore && !loading)
+        setForceRender(prev => prev + 1);
+    }
+    const options = {
+      rootMargin: "150px",
+    };
+    observer.current = new IntersectionObserver(handleIntersection, options);
+    observer.current.observe(lastPostRef.current);
+
+    return () => observer.current?.disconnect();
+  }, [hasMore, loading]);
+
   return (
     <>
       {posts.map((post, index) => (
         <Post key={post._id} animateProp={index > 3} post={post} />
       ))}
-      {hasMore && <div ref={lastPost}></div>}
+      {hasMore && <div id="last" ref={lastPostRef}></div>}
       {loading && !error && posts.length === 0 && (
         <>
           <Post animateProp={false} />
