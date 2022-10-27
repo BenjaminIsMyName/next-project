@@ -22,6 +22,7 @@ export default async function handler(req, res) {
     const { db } = await connectToDatabase();
     var posts = await db.collection("posts").find().toArray();
   } catch (err) {
+    console.log(err);
     res.status(503).json({ error: `failed to get posts from DB: ${err}` });
     return;
   }
