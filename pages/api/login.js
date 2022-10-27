@@ -89,7 +89,7 @@ export default async function handler(req, res) {
       id: result.value._id,
       name: user.name,
       email,
-      isAdmin: user.isAdmin ? true : false,
+      isAdmin: user.isAdmin,
     }),
     {
       req,
