@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import { UserContext } from "../context/UserContext";
 import { getCookie } from "cookies-next";
 import { ThemeContext } from "../context/ThemeContext";
+import { Analytics } from "@vercel/analytics/react";
+
 function MyApp({ Component, pageProps }) {
   const { locale } = useRouter();
 
@@ -34,6 +36,7 @@ function MyApp({ Component, pageProps }) {
     <ThemeContext.Provider value={{ setTheme }}>
       <UserContext.Provider value={{ user, setUser }}>
         <Component {...pageProps} />
+        <Analytics />
       </UserContext.Provider>
     </ThemeContext.Provider>
   );
