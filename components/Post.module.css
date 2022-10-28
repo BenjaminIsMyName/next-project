@@ -17,6 +17,8 @@
   top: 0;
   z-index: 100;
   margin-bottom: 0;
+  background-color: rgba(var(--second-color), 0.5);
+  backdrop-filter: blur(30px);
 }
 
 .full.fullLtr {
