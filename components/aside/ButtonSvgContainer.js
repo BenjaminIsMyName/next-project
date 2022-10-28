@@ -5,9 +5,13 @@ export default function ButtonSvgContainer({
   children,
   isOpen,
   onClick,
+  applyPropagation,
 }) {
   function handleClick(e) {
-    e.stopPropagation();
+    if (!applyPropagation) {
+      // this check is for the <MenuIcon/>.... We don't want to stopPropagation if it's the menu button...
+      e.stopPropagation();
+    }
     onClick();
   }
   return (
