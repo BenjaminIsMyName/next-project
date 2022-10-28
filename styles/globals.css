@@ -87,3 +87,33 @@ body {
 #g_a11y_announcement {
   display: none;
 }
+
+/* when selecting text etc: */
+::-moz-selection {
+  background: rgb(var(--main-color));
+  color: rgba(var(--third-color), 1);
+}
+::selection {
+  background: rgb(var(--main-color));
+  color: rgba(var(--third-color), 0.6);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(var(--second-color));
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--third-color), 0.6);
+  border-radius: 30px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--third-color));
+}
