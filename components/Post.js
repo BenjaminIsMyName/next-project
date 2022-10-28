@@ -10,7 +10,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { formatDistance } from "date-fns";
-import { he, en } from "date-fns/locale";
+import { he } from "date-fns/locale";
 
 export default function Post({ animateProp, post }) {
   const [isFullyOpened, setIsFullyOpened] = useState(false);
@@ -105,7 +105,7 @@ export default function Post({ animateProp, post }) {
                   new Date(),
                   {
                     addSuffix: true,
-                    locale: locale === "en" ? en : he,
+                    locale: locale === "en" ? undefined : he,
                   }
                 )}
             </span>
