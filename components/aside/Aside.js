@@ -31,6 +31,11 @@ export default function Aside() {
     }, 5);
   }, []);
 
+  useEffect(() => {
+    // when navigating to a different page
+    return () => document.body.classList.remove("no-scroll");
+  }, []);
+
   function handleOverlayClick() {
     if (modalOpen !== -1 && isOpen) {
       clickToToggleMenu();
