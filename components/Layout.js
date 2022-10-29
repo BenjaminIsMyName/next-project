@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 // because i18n causes problems when components that use it are in _app.js file:
 // see: https://github.com/i18next/next-i18next/issues/1917
 // But maybe because of the use of a layout component instead of _app.js there is another issue:
-// The entire app gets remounted whenever I go to a different page.
+// The entire app gets remounted whenever I go to a different page. see: https://github.com/i18next/next-i18next/issues/1075
 // TODO: try removing this component and use _app.js again, maybe the issue will be resolved.
 // if not, use a different package, like next-translate or something else
 // because, how am I gonna use framer-motion for page transition if the entire page gets unmounted?!
