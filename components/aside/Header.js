@@ -7,6 +7,7 @@ import { UserContext } from "../../context/UserContext";
 import ButtonSvgContainer from "./ButtonSvgContainer";
 import LoginIcon from "../icons/LoginIcon";
 import { useTranslation } from "next-i18next";
+import useLoaded from "../../hooks/useLoaded";
 
 export default function Header({
   menuOnClickHandler,
@@ -14,6 +15,7 @@ export default function Header({
   modalOpen,
   setModalOpen,
 }) {
+  const loaded = useLoaded();
   const { user } = useContext(UserContext);
   const { t } = useTranslation("common");
   return (
@@ -33,7 +35,7 @@ export default function Header({
           isOpen={modalOpen === 0}
           onClick={() => setModalOpen(e => (e === 0 ? -1 : 0))}
         >
-          {user ? <ProfileIcon /> : <LoginIcon />}
+          {loaded && user ? <ProfileIcon /> : <LoginIcon />}
         </ButtonSvgContainer>
       </div>
     </header>
