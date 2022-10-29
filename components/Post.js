@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { formatDistance } from "date-fns";
 import { he } from "date-fns/locale";
+import FocusTrap from "focus-trap-react";
 
 export default function Post({ animateProp, post }) {
   const [isFullyOpened, setIsFullyOpened] = useState(false);
@@ -77,88 +78,98 @@ export default function Post({ animateProp, post }) {
   }
 
   return (
-    <>
-      {/* placeholder... when the post is showing on full screen, put something there in the meantime. same height as the post, same margin  */}
-      {isFullyOpened && (
-        <div
-          style={{ height: postRef.current.offsetHeight, marginBottom: "20px" }}
-        ></div>
-      )}
-      <motion.div
-        layout
-        className={`${styles.post} ${
-          shouldAnimate ? styles.animationStartPoint : ""
-        } ${isFullyOpened ? styles.full : ""} ${
-          locale === "en" ? styles.fullLtr : ""
-        }`}
-        ref={postRef} // converted from https://reactjs.org/docs/refs-and-the-dom.html#callback-refs to simple ref
-      >
-        <header>
+    <FocusTrap active={isFullyOpened}>
+      <div>
+        {/* placeholder... when the post is showing on full screen, put something there in the meantime. same height as the post, same margin  */}
+        {isFullyOpened && (
           <div
-            className={styles.dateAndTitleContainer}
-            style={{ display: "flex", flexDirection: "column" }}
-          >
-            <span className={styles.date}>
-              {localPost &&
-                formatDistance(
-                  new Date(localPost.postCreationDate),
-                  new Date(),
-                  {
-                    addSuffix: true,
-                    locale: locale === "en" ? undefined : he,
-                  }
-                )}
-            </span>
-            <span
-              className={`${styles.title} ${
-                localPost?.title ? "" : styles.skeletonText
-              }`}
-            >
-              {localPost?.title}
-            </span>
-          </div>
-
-          <a
-            className={`${styles.open} ${
-              localPost?._id ? "" : styles.skeletonOpen
-            }`}
-            onClick={
-              localPost?._id
-                ? () => {
-                    setIsFullyOpened(prev => !prev);
-                  }
-                : null
-            }
-          >
-            {localPost?._id && <OpenFullIcon />}
-          </a>
-        </header>
-        {localPost?.url ? (
-          <video className={styles.media} controls>
-            <source src={localPost?.url} type="video/mp4" />
-          </video>
-        ) : (
-          <div className={styles.skeletonVideo}></div>
+            style={{
+              height: postRef.current.offsetHeight,
+              marginBottom: "20px",
+            }}
+          ></div>
         )}
-
-        <div
-          className={`${styles.likeAndCommentContainer} ${
-            isNaN(localPost?.numberOfComments) ||
-            isNaN(localPost?.numberOfLikes)
-              ? styles.skeletonFooter
-              : ""
+        <motion.div
+          layout
+          className={`${styles.post} ${
+            shouldAnimate ? styles.animationStartPoint : ""
+          } ${isFullyOpened ? styles.full : ""} ${
+            locale === "en" ? styles.fullLtr : ""
           }`}
+          ref={postRef} // converted from https://reactjs.org/docs/refs-and-the-dom.html#callback-refs to simple ref
         >
-          <div className={`${localPost?.didLike ? styles.liked : ""}`}>
-            <LikeIcon onClick={handleLike} />
-            <span>{localPost?.numberOfLikes}</span>
+          <header>
+            <div
+              className={styles.dateAndTitleContainer}
+              style={{ display: "flex", flexDirection: "column" }}
+            >
+              <span className={styles.date}>
+                {localPost &&
+                  formatDistance(
+                    new Date(localPost.postCreationDate),
+                    new Date(),
+                    {
+                      addSuffix: true,
+                      locale: locale === "en" ? undefined : he,
+                    }
+                  )}
+              </span>
+              <span
+                className={`${styles.title} ${
+                  localPost?.title ? "" : styles.skeletonText
+                }`}
+              >
+                {localPost?.title}
+              </span>
+            </div>
+
+            <button
+              type="button"
+              className={`${styles.open} ${
+                localPost?._id ? "" : styles.skeletonOpen
+              }`}
+              onClick={
+                localPost?._id
+                  ? () => {
+                      setIsFullyOpened(prev => !prev);
+                    }
+                  : null
+              }
+            >
+              {localPost?._id && <OpenFullIcon />}
+            </button>
+          </header>
+          {localPost?.url ? (
+            <video className={styles.media} controls>
+              <source src={localPost?.url} type="video/mp4" />
+            </video>
+          ) : (
+            <div className={styles.skeletonVideo}></div>
+          )}
+
+          <div
+            className={`${styles.likeAndCommentContainer} ${
+              isNaN(localPost?.numberOfComments) ||
+              isNaN(localPost?.numberOfLikes)
+                ? styles.skeletonFooter
+                : ""
+            }`}
+          >
+            <div className={`${localPost?.didLike ? styles.liked : ""}`}>
+              <button className={styles.btn} type="button" onClick={handleLike}>
+                <LikeIcon />
+              </button>
+              <span>{localPost?.numberOfLikes}</span>
+            </div>
+            <div>
+              <button className={styles.btn} type="button" onClick={null}>
+                <CommentIcon />
+              </button>
+              <span>{localPost?.numberOfComments}</span>
+            </div>
           </div>
-          <div>
-            <CommentIcon />
-            <span>{localPost?.numberOfComments}</span>
-          </div>
-        </div>
-      </motion.div>
-    </>
+        </motion.div>
+      </div>
+    </FocusTrap>
   );
 }

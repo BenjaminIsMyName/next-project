@@ -50,6 +50,13 @@
   height: 30px;
   padding: 7px;
   transition: padding 0.4s linear;
+  background-color: transparent;
+  border: none;
+}
+
+.btn {
+  background-color: transparent;
+  border: none;
 }
 
 .open svg {

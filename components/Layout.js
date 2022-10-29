@@ -8,13 +8,13 @@ import { useIdleTimer } from "react-idle-timer";
 import { useRouter } from "next/router";
 
 // Using a layout component instead of using _app.js
-// because i18n causes probelms when components that use it are in _app.js file:
+// because i18n causes problems when components that use it are in _app.js file:
 // see: https://github.com/i18next/next-i18next/issues/1917
 // But maybe because of the use of a layout component instead of _app.js there is another issue:
 // The entire app gets remounted whenever I go to a different page.
 // TODO: try removing this component and use _app.js again, maybe the issue will be resolved.
 // if not, use a different package, like next-translate or something else
-// because, how am I gonna use framer-motion for page transition if the entire page gets umounted?!
+// because, how am I gonna use framer-motion for page transition if the entire page gets unmounted?!
 
 export default function Layout({ children }) {
   const { locale } = useRouter();
