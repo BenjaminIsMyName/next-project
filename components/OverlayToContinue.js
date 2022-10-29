@@ -51,7 +51,12 @@ export default function OverlayToContinue({ onSuccess }) {
   }
 
   return (
-    <FocusTrap active={true}>
+    <FocusTrap
+      active={true}
+      focusTrapOptions={{
+        escapeDeactivates: false,
+      }}
+    >
       {/* for some reason, this works even when the focus trap in <Aside/> is active. perfect. */}
       {/* warning: without this focus trap here, we won't be able to click anything here while the menu is open, because of the focus trap there */}
       <div className={`${styles.overlay}`}>
@@ -60,8 +65,8 @@ export default function OverlayToContinue({ onSuccess }) {
             checkErrorCallback={passwordError}
             valueObj={{ password }}
             onChange={e => setPassword(e.target.value)}
-            type='password'
-            name='password'
+            type="password"
+            name="password"
             placeholder={t("inputs.password")}
           />
           <Button
@@ -71,11 +76,11 @@ export default function OverlayToContinue({ onSuccess }) {
             {t("actions.continue")}
           </Button>
           <div className={styles.loadingAndErrorContainer}>
-            {loading && <Loading width='50px' height='50px' padding='0' />}
+            {loading && <Loading width="50px" height="50px" padding="0" />}
             {loading || <span>{errorText}</span>}
           </div>
 
-          <Button type='button' onClick={handleLogout}>
+          <Button type="button" onClick={handleLogout}>
             {t("actions.logout")}
           </Button>
         </div>

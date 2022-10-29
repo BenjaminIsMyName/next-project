@@ -78,7 +78,26 @@ export default function Post({ animateProp, post }) {
   }
 
   return (
-    <FocusTrap active={isFullyOpened}>
+    <FocusTrap
+      focusTrapOptions={{
+        clickOutsideDeactivates: () => {
+          setIsFullyOpened(false);
+          return true;
+        },
+        escapeDeactivates: true, // default
+        onDeactivate: () => {
+          setIsFullyOpened(false);
+        },
+        clickOutsideDeactivates: () => {
+          setIsFullyOpened(false);
+          return true;
+        },
+        ///// a little bug with those options (instead of the above). Opening modal (to log in) and clicking ESC will allow the user to move to other posts with TAB
+        // allowOutsideClick: true,
+        // clickOutsideDeactivates: false,
+      }}
+      active={isFullyOpened}
+    >
       <div>
         {/* placeholder... when the post is showing on full screen, put something there in the meantime. same height as the post, same margin  */}
         {isFullyOpened && (

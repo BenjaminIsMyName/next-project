@@ -50,7 +50,16 @@ export default function Aside() {
   }, [modalOpen, isOpen, clickToToggleMenu]); // it's ok to remove this dependency array, and let it run on each render.
 
   return (
-    <FocusTrap active={modalOpen !== -1 || isOpen}>
+    <FocusTrap
+      active={modalOpen !== -1 || isOpen}
+      focusTrapOptions={{
+        escapeDeactivates: true, // default
+        onDeactivate: () => {
+          setModalOpen(-1);
+          setIsOpen(false);
+        },
+      }}
+    >
       <div>
         <div
           onClick={handleOverlayClick}
