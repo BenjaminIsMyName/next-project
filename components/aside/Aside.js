@@ -7,6 +7,7 @@ import Option from "./Option.js";
 import ProfileModal from "./profileModal/ProfileModal";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
+import { useMedia } from "react-use";
 
 export default function Aside() {
   const { t } = useTranslation("menu");
@@ -54,14 +55,17 @@ export default function Aside() {
     }
   }, [modalOpen, isOpen, clickToToggleMenu]); // it's ok to remove this dependency array, and let it run on each render.
 
+  const isMobile = useMedia("(max-width: 900px)", true);
+
   return (
     <FocusTrap
-      active={modalOpen !== -1 || isOpen}
+      active={modalOpen !== -1 || (isOpen && isMobile)} // the "isMobile" is needed because if it doesn't exist, there will be a bug: open menu on mobile, make it wider, try to open post / like. You can't. You are still locked in the menu...
       focusTrapOptions={{
         escapeDeactivates: true, // default
         onDeactivate: () => {
           setModalOpen(-1);
           setIsOpen(false);
+          document.body.classList.remove("no-scroll"); // this is needed because if it doesn't exist, there will be a bug: open menu on mobile, make it wider, and go back to mobile. You cannot scroll, but menu is closed... because of line above "setIsOpen(false)"
         },
       }}
     >
