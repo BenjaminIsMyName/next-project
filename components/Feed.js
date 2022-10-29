@@ -6,16 +6,20 @@ import Error from "./Error";
 import { UserContext } from "../context/UserContext.js";
 import { useEffect } from "react";
 
-export default function Feed() {
+export default function Feed({ type }) {
   const [forceRender, setForceRender] = useState(0);
   function tryAgainCallback() {
     setForceRender(prev => prev + 1);
   }
+
   const { user } = useContext(UserContext);
-  const { loading, error, posts, hasMore } = useFetch(
-    `/${user ? user.id : ""}`, // fetch again if user changes (login/logout)
-    forceRender
-  );
+
+  const query = JSON.stringify({
+    userId: user ? user.id : null, // fetch again if user changes (login/logout)
+    type: type, // get different posts, based on the type
+  });
+
+  const { loading, error, posts, hasMore } = useFetch(query, forceRender);
 
   const observer = useRef();
   const lastPostRef = useRef();

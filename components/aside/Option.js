@@ -7,9 +7,8 @@ export default function Option({ selected, text, link }) {
   const { locale } = useRouter();
 
   return (
-    <Link href='/'>
+    <Link href={link}>
       <a
-        href={link}
         className={`${styles.option} ${
           locale === "en" ? styles.optionLtr : ""
         }`}

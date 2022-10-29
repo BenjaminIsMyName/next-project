@@ -32,19 +32,32 @@ export default async function handler(req, res) {
   }
 
   // Simple algorithm to sort the posts based on the time and likes:
-  posts.sort((a, b) => {
-    let scoreA = 0;
-    scoreA -= getNumberOfMinutesPassed(a.postCreationDate);
-    scoreA += a.likes.length;
 
-    let scoreB = 0;
-    scoreB -= getNumberOfMinutesPassed(b.postCreationDate);
-    scoreB += b.likes.length;
+  switch (type) {
+    case "for-you":
+      posts.sort((a, b) => {
+        let scoreA = 0;
+        scoreA -= getNumberOfMinutesPassed(a.postCreationDate);
+        scoreA += a.likes.length;
 
-    if (scoreA < scoreB) return 1;
-    else if (scoreA > scoreB) return -1;
-    else return 0;
-  });
+        let scoreB = 0;
+        scoreB -= getNumberOfMinutesPassed(b.postCreationDate);
+        scoreB += b.likes.length;
+
+        if (scoreA < scoreB) return 1;
+        else if (scoreA > scoreB) return -1;
+        else return 0;
+      });
+      break;
+    case "popular":
+      posts.sort((a, b) => {
+        if (a.likes.length < b.likes.length) return 1;
+        else if (a.likes.length > b.likes.length) return -1;
+        else return 0;
+      });
+    default:
+      break;
+  }
 
   // Send only some of the posts, the amount that was requested
   const getSome = posts.slice(0, AMOUNT);

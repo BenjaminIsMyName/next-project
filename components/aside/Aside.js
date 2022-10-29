@@ -77,10 +77,10 @@ export default function Aside() {
             menuOnClickHandler={clickToToggleMenu}
             isOpen={isOpen}
           />
-          <Option text={t("for-you")} link="./" selected />
-          <Option text={t("popular")} link="./" />
-          <Option text={t("topics")} link="./" />
-          <Option text={t("settings")} link="./" />
+          <Option text={t("for-you")} link="/" selected />
+          <Option text={t("popular")} link="/popular" />
+          <Option text={t("topics")} link="/" />
+          <Option text={t("settings")} link="/" />
         </aside>
       </div>
     </FocusTrap>
