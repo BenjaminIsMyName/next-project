@@ -31,6 +31,14 @@ export default function Post({ animateProp, post }) {
   const observer = useRef();
   const postRef = useRef();
 
+  // those ref and useEffect are needed, in order to know the original height of the post when it's already opened.
+  // without them, a bug will happen: when liking a post, the "placeholder" div will update its height and take more space
+  const postHeightNotOpenedYetRef = useRef();
+  useEffect(() => {
+    if (isFullyOpened) return;
+    postHeightNotOpenedYetRef.current = postRef.current.offsetHeight;
+  }, [isFullyOpened]);
+
   // for the IntersectionObserver, to apply animation when scrolling:
   useEffect(() => {
     if (!shouldAnimate) return;
@@ -103,7 +111,7 @@ export default function Post({ animateProp, post }) {
         {isFullyOpened && (
           <div
             style={{
-              height: postRef.current.offsetHeight,
+              height: postHeightNotOpenedYetRef.current,
               marginBottom: "20px",
             }}
           ></div>
