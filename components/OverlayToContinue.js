@@ -23,15 +23,12 @@ export default function OverlayToContinue({ onSuccess }) {
 
   useEffect(() => {
     document.body.classList.add("no-scroll-in-any-screen");
-    async function removeCookies() {
-      await logoutFunc();
-    }
-    removeCookies();
+    logoutFunc(); // will be called twice, due to strict mode
     return () => document.body.classList.remove("no-scroll-in-any-screen");
   }, [logoutFunc]); // same as []... because I used useCallback in useLogout
 
   async function handleLogout() {
-    setUser(null); // only this, because all cookies were already removed when this component was mounted, in removeCookies()
+    setUser(null); // only this, because all cookies were already removed when this component was mounted, in useEffect()
   }
 
   const loginFunc = useLogin();
