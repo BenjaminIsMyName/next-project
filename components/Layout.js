@@ -6,7 +6,7 @@ import { UserContext } from "../context/UserContext";
 import OverlayToContinue from "./OverlayToContinue";
 import { useIdleTimer } from "react-idle-timer";
 import { useRouter } from "next/router";
-
+import { AnimatePresence, motion } from "framer-motion";
 // Using a layout component instead of using _app.js
 // because i18n causes problems when components that use it are in _app.js file:
 // see: https://github.com/i18next/next-i18next/issues/1917
@@ -17,8 +17,8 @@ import { useRouter } from "next/router";
 // because, how am I gonna use framer-motion for page transition if the entire page gets unmounted?!
 
 export default function Layout({ children }) {
-  const { locale } = useRouter();
-
+  const router = useRouter();
+  const locale = router.locale;
   const { user, setUser } = useContext(UserContext);
   const [askForPassword, setAskForPassword] = useState(false);
 
@@ -65,11 +65,18 @@ export default function Layout({ children }) {
         <OverlayToContinue onSuccess={() => setAskForPassword(false)} />
       )}
       <Aside />
-      <div
-        className={`${styles.rest} ${locale === "en" ? styles.restLtr : ""}`}
-      >
-        {children}
-      </div>
+      <AnimatePresence mode={"wait"}>
+        <motion.div
+          className={`${styles.rest} ${locale === "en" ? styles.restLtr : ""}`}
+          key={router.route}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0, background: "red" }}
+          transition={{ duration: 3 }}
+        >
+          {children}
+        </motion.div>
+      </AnimatePresence>
     </>
   );
 }
