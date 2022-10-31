@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Layout from "../../components/Layout";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import connectToDatabase from "../../util/mongodb";
 import { ObjectId } from "mongodb";
@@ -19,9 +18,8 @@ export default function PostPage({ post }) {
         and: https://github.com/vercel/next.js/discussions/13301 */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout>
-        <Post post={postToDisplay} />
-      </Layout>
+
+      <Post post={postToDisplay} />
     </>
   );
 }

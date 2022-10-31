@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Layout from "../components/Layout";
 // import styles from './Admin.module.css'
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
@@ -28,9 +27,8 @@ export default function Admin() {
           <title>{THE_TITLE}</title>
           <meta name="description" content="content" />
         </Head>
-        <Layout>
-          <Error error={"You're not allowed to view this page"} />
-        </Layout>
+
+        <Error error={"You're not allowed to view this page"} />
       </>
     );
   return (
@@ -39,9 +37,8 @@ export default function Admin() {
         <title>{THE_TITLE}</title>
         <meta name="description" content="content" />
       </Head>
-      <Layout>
-        <CreatePost />
-      </Layout>
+
+      <CreatePost />
     </>
   );
 }
