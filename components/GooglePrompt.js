@@ -1,4 +1,3 @@
-import styles from "./GooglePrompt.module.css";
 import { useEffect, useRef, useState } from "react";
 import jwt_decode from "jwt-decode";
 export default function GooglePrompt({ locale }) {

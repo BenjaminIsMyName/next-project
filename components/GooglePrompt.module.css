@@ -1,6 +1,0 @@
-.promptContainer {
-  position: fixed;
-  top: 20px;
-  z-index: 9999;
-  transition: all 0.2s ease-in;
-}
