@@ -98,3 +98,10 @@ function MyApp({ Component, pageProps }) {
 }
 
 export default appWithTranslation(MyApp);
+
+// TODO: bug in production (npm start) only - CSS modules being removed before AnimatePresence finished to animate the exiting page.
+// See: https://rick-moore.medium.com/solution-css-styles-are-removed-too-early-on-page-transitions-with-framer-motion-55d40e6652e
+// Also see: https://github.com/vercel/next.js/issues/17464
+// Possible solutions:
+// 1. Try tailwind?
+// 2. Make existing animation super fast, it won't be noticeable?
