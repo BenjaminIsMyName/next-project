@@ -19,7 +19,7 @@ export default function Signup({
 }) {
   const { t } = useTranslation("menu");
 
-  async function handleRegisteration(e) {
+  async function handleRegistration(e) {
     e.preventDefault();
     setStatus(4);
     try {
@@ -74,7 +74,7 @@ export default function Signup({
             passwordError(inputsData.password) ||
             nameError(inputsData.name)
           }
-          onClick={handleRegisteration}
+          onClick={handleRegistration}
         >
           {t("actions.signup")}
         </Button>

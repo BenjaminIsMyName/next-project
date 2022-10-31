@@ -12,10 +12,10 @@ import LoadingModal from "../../LoadingModal";
 import Modal from "../../Modal";
 import EditProfileModal from "./EditProfileModal";
 import ThemesSection from "./ThemesSection";
-import styles from "./UserConnectedModal.module.css";
 import axios from "axios";
 import ErrorInMenu from "./ErrorInModal";
 import { getCookie } from "cookies-next";
+
 export default function UserConnectedModal({ logOut }) {
   const { t } = useTranslation("menu");
   const router = useRouter();
@@ -81,38 +81,52 @@ export default function UserConnectedModal({ logOut }) {
     return (
       <Modal>
         <div>
-          <p className={styles.welcome}>
+          <p
+            className={`text-2xl text-option-text-color font-another-font-family overflow-hidden text-ellipsis inline`}
+          >
             {t("titles.welcome")}, {user.name}
           </p>
           <button
-            type='button'
-            className={styles.editBtn}
+            type="button"
+            className={`bg-opacity-0 border-0 p-1 cursor-pointer [&_svg]:w-5 [&_svg]:h-5 [&_svg]:fill-third-color [&_svg]:align-middle [&_svg]:transition-all [&_svg]:duration-300 [&_svg]:ease-linear hover:[&_svg]:rotate-[-60deg]`}
             onClick={() => setStatus(StatusEnum.edit)}
           >
             <EditIcon />
           </button>
         </div>
-        <button onClick={logOut} className={styles.logoutButton} type='button'>
+
+        <button
+          onClick={logOut}
+          className={`block cursor-pointer p-1 w-full mx-auto my-2 rounded-tr-3xl rounded-bl-3xl bg-option-text-color bg-opacity-10 text-error-color border-0 transition-all duration-300 ease-linear font-bold
+          hover:rounded-none`}
+          type="button"
+        >
           {t("actions.logout")}
         </button>
-        <div className={styles.langContainer}>
+        <div
+          className={`justify-around flex [&_a]:block [&_a]:no-underline [&_a]:text-option-text-color`}
+        >
           <Link href={router.asPath} locale={"he"}>
-            <a className={`${locale === "he" ? styles.selected : ""}`}>עברית</a>
+            <a className={`${locale === "he" ? "!underline" : ""}`}>עברית</a>
           </Link>
           <Link href={router.asPath} locale={"en"}>
-            <a className={`${locale === "en" ? styles.selected : ""}`}>
-              English
-            </a>
+            <a className={`${locale === "en" ? "!underline" : ""}`}>English</a>
           </Link>
         </div>
 
         {user.isAdmin && (
           <Link href={"/admin"}>
-            <a className={styles.adminPage}>{t("admin-page")}</a>
+            <a
+              className={`block no-underline text-option-text-color text-center p-10 bg-third-color bg-opacity-30 mt-4`}
+            >
+              {t("admin-page")}
+            </a>
           </Link>
         )}
 
-        <strong className={styles.themesTitle}>{t("titles.themes")}:</strong>
+        <strong className={`block p-3 text-center text-option-text-color`}>
+          {t("titles.themes")}:
+        </strong>
         <ThemesSection />
       </Modal>
     );

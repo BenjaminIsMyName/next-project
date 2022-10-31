@@ -14,6 +14,11 @@ module.exports = {
       "option-text-color": withOpacity("--option-text-color"),
       "error-color": withOpacity("--error-color"),
     },
+    fontFamily: {
+      "main-font-family": "var(--main-font-family)",
+      "another-font-family": "var(--another-font-family)",
+      "custom-font-family": "var(--custom-font-family)",
+    },
   },
 
   plugins: [],
