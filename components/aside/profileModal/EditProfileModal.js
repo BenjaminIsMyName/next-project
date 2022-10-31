@@ -1,9 +1,9 @@
 import Input from "../../Input";
 import Modal from "../../Modal";
-import styles from "./EditProfileModal.module.css";
 import { emailError, passwordError, nameError } from "../../../util/validate";
 import Button from "../../Button";
 import { useTranslation } from "next-i18next";
+
 export default function EditProfileModal({
   inputsData,
   handleInputChange,
@@ -20,16 +20,16 @@ export default function EditProfileModal({
           checkErrorCallback={emailError}
           valueObj={inputsData}
           onChange={handleInputChange}
-          type='email'
-          name='email'
+          type="email"
+          name="email"
           placeholder={t("inputs.email")}
         />
         <Input
           checkErrorCallback={passwordError}
           valueObj={inputsData}
           onChange={handleInputChange}
-          type='password'
-          name='password'
+          type="password"
+          name="password"
           placeholder={t("inputs.password")}
         />
 
@@ -37,8 +37,8 @@ export default function EditProfileModal({
           checkErrorCallback={nameError}
           valueObj={inputsData}
           onChange={handleInputChange}
-          type='text'
-          name='name'
+          type="text"
+          name="name"
           placeholder={t("inputs.name")}
         />
         <Button
@@ -55,13 +55,17 @@ export default function EditProfileModal({
           {t("actions.save").toUpperCase()}
         </Button>
         <Button
-          type='button'
-          className={styles.deleteAccount}
+          type="button"
+          className={`text-sm [&_span]:bg-error-color border-2 border-solid border-error-color`}
           onClick={handleDelete}
         >
           {t("actions.delete-account").toUpperCase()}
         </Button>
-        <Button type='button' className={styles.cancel} onClick={goBack}>
+        <Button
+          type="button"
+          className={`[&_span]:bg-error-color text-xl border-2 border-solid border-error-color`}
+          onClick={goBack}
+        >
           {t("actions.cancel").toUpperCase()}
         </Button>
       </form>

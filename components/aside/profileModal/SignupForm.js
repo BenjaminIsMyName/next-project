@@ -1,4 +1,3 @@
-import styles from "./SignupForm.module.css";
 import { emailError, passwordError, nameError } from "../../../util/validate";
 import Input from "../../Input";
 import { useTranslation } from "next-i18next";
@@ -7,6 +6,7 @@ import { getCookie } from "cookies-next";
 import axios from "axios";
 import Button from "../../Button";
 import Modal from "../../Modal";
+
 export default function Signup({
   handleInputChange,
   inputsData,
@@ -46,8 +46,8 @@ export default function Signup({
           checkErrorCallback={emailError}
           valueObj={inputsData}
           onChange={handleInputChange}
-          type='email'
-          name='email'
+          type="email"
+          name="email"
           placeholder={t("inputs.email")}
           disabled={true}
         />
@@ -55,8 +55,8 @@ export default function Signup({
           checkErrorCallback={passwordError}
           valueObj={inputsData}
           onChange={handleInputChange}
-          type='password'
-          name='password'
+          type="password"
+          name="password"
           placeholder={t("inputs.password")}
         />
 
@@ -64,8 +64,8 @@ export default function Signup({
           checkErrorCallback={nameError}
           valueObj={inputsData}
           onChange={handleInputChange}
-          type='text'
-          name='name'
+          type="text"
+          name="name"
           placeholder={t("inputs.name")}
         />
         <Button

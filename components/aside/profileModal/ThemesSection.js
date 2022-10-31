@@ -1,7 +1,6 @@
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import ThemeButton from "./ThemeButton";
-import styles from "./ThemesSection.module.css";
 
 export default function ThemesSection() {
   // we need state just to re-render this component when theme selection change,
@@ -10,7 +9,7 @@ export default function ThemesSection() {
   const { t } = useTranslation("menu");
 
   return (
-    <div className={styles.themeContainer}>
+    <div className={`grid grid-cols-[auto,auto] gap-3`}>
       <ThemeButton
         setSelected={setSelected}
         selected={selected}

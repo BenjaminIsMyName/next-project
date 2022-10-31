@@ -1,4 +1,3 @@
-import styles from "./ProfileModal.module.css";
 import Modal from "../../Modal";
 import { useState, useContext } from "react";
 import Loading from "../../Loading";

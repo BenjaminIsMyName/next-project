@@ -1,4 +1,3 @@
-import styles from "./LoginForm.module.css";
 import { emailError, passwordError } from "../../../util/validate";
 import Input from "../../Input";
 import { useTranslation } from "next-i18next";
@@ -6,6 +5,7 @@ import GoBackButton from "../../GoBackButton";
 import useLogin from "../../../hooks/useLogin";
 import Button from "../../Button";
 import Modal from "../../Modal";
+
 export default function Login({
   handleInputChange,
   inputsData,
