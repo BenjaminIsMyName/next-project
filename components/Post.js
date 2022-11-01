@@ -1,5 +1,4 @@
 import { useRef, useCallback, useContext, useEffect } from "react";
-import styles from "./Post.module.css";
 import Link from "next/link";
 import OpenFullIcon from "./icons/OpenFullIcon";
 import LikeIcon from "./icons/LikeIcon";
@@ -52,7 +51,7 @@ export default function Post({ animateProp, post }) {
     function handleIntersection(entries) {
       let entry = entries[0];
       if (entry.isIntersecting && shouldAnimate) {
-        postRef.current.classList.add(styles.animate);
+        postRef.current.classList.add("animate-fade-up");
         setTimeout(() => {
           setShouldAnimate(false);
         }, 1000);
@@ -124,19 +123,27 @@ export default function Post({ animateProp, post }) {
         )}
         <motion.div
           layout
-          className={`${styles.post} ${
-            shouldAnimate ? styles.animationStartPoint : ""
-          } ${isFullyOpened ? styles.full : ""} ${
-            locale === "en" ? styles.fullLtr : ""
+          className={`bg-second-color min-h-[200px] text-option-text-color overflow-hidden
+          
+          ${shouldAnimate ? "opacity-0" : ""} ${
+            isFullyOpened
+              ? `md:p-5 md:border-[20px] border-main-color overflow-auto fixed md:right-[var(--aside-width)] md:left-0 md:bottom-0 top-0 z-50 bg-opacity-50 backdrop-blur-lg
+                  right-0 p-0 border-0 left-0 bottom-[var(--header-height)]`
+              : "mb-5"
+          } ${
+            locale === "en" && isFullyOpened
+              ? "!right-0 md:left-[var(--aside-width)] left-0"
+              : ""
           }`}
           ref={postRef} // converted from https://reactjs.org/docs/refs-and-the-dom.html#callback-refs to simple ref
         >
-          <header>
-            <div
-              className={styles.dateAndTitleContainer}
-              style={{ display: "flex", flexDirection: "column" }}
-            >
-              <span className={styles.date}>
+          <header className="grid grid-cols-[calc(100%-40px)_auto] justify-center items-center py-5 px-2 gap-2">
+            <div className={`flex flex-col gap-1 px-2`}>
+              <span
+                className={`text-sm
+                ${localPost ? "" : "animate-skeleton w-20 h-6"} 
+               `}
+              >
                 {localPost &&
                   formatDistance(
                     new Date(localPost.postCreationDate),
@@ -148,9 +155,8 @@ export default function Post({ animateProp, post }) {
                   )}
               </span>
               <span
-                className={`${styles.title} ${
-                  localPost?.title ? "" : styles.skeletonText
-                }`}
+                className={`text-2xl
+                ${localPost ? "" : "w-[80%] h-9 animate-skeleton"}`}
               >
                 {localPost?.title}
               </span>
@@ -161,53 +167,55 @@ export default function Post({ animateProp, post }) {
               href={`${route}?post=${localPost?._id}`}
               as={`/post/${localPost?._id}`}
             >
-              <a>
-                <button
-                  type="button"
-                  className={`${styles.open} ${
-                    localPost?._id ? "" : styles.skeletonOpen
-                  }`}
-                  // onClick={
-                  //   localPost?._id
-                  //     ? () => {
-                  //         setIsFullyOpened(prev => !prev);
-                  //       }
-                  //     : null
-                  // }
-                >
-                  {localPost?._id && <OpenFullIcon />}
-                </button>
+              <a
+                className={`w-[30px] h-[30px] p-2 transition-[padding] hover:p-1 duration-300 bg-opacity-0 border-0 [&_svg]:fill-option-text-color ${
+                  localPost?._id ? "" : "animate-skeleton"
+                }`}
+              >
+                {localPost?._id && <OpenFullIcon />}
               </a>
             </Link>
           </header>
           {localPost?.url ? (
             <video
-              className={styles.media}
+              className={`block w-full max-h-[70vh]`}
               controls
               onCanPlay={() => setCanPlay(true)}
             >
               <source src={localPost?.url} type="video/mp4" />
             </video>
           ) : (
-            <div className={styles.skeletonVideo}></div>
+            <div className={`h-80 animate-skeleton`}></div>
           )}
 
           <div
-            className={`${styles.likeAndCommentContainer} ${
-              isNaN(localPost?.numberOfComments) ||
-              isNaN(localPost?.numberOfLikes)
-                ? styles.skeletonFooter
-                : ""
+            className={`flex justify-evenly content-center py-4 px-2 [&>div]:flex [&>div]:gap-2
+            [&>div_svg]:w-5 [&>div_svg]:h-5 [&>div_svg]:fill-option-text-color [&>div_svg]:cursor-pointer ${
+              localPost
+                ? ""
+                : "[&_span]:h-5 [&_span]:animate-skeleton [&_span]:w-[50px] [&_span]:rounded-[40px] [&_svg]:hidden"
             }`}
           >
-            <div className={`${localPost?.didLike ? styles.liked : ""}`}>
-              <button className={styles.btn} type="button" onClick={handleLike}>
+            <div
+              className={`${
+                localPost?.didLike ? "[&_svg]:fill-third-color" : ""
+              }`}
+            >
+              <button
+                className={`bg-opacity-0 border-0`}
+                type="button"
+                onClick={handleLike}
+              >
                 <LikeIcon />
               </button>
               <span>{localPost?.numberOfLikes}</span>
             </div>
             <div>
-              <button className={styles.btn} type="button" onClick={null}>
+              <button
+                className={`bg-opacity-0 border-0`}
+                type="button"
+                onClick={null}
+              >
                 <CommentIcon />
               </button>
               <span>{localPost?.numberOfComments}</span>

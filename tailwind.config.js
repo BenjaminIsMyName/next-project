@@ -24,11 +24,34 @@ module.exports = {
     extend: {
       animation: {
         up: "up 1s ease-in-out forwards",
+        skeleton: "skeleton 1s linear infinite alternate",
+        "fade-up":
+          "fade-up 1s ease-in-out forwards" /* if you change the timing, change the setTimeout in <Post/> too */,
       },
       keyframes: {
         up: {
           "0%": { transform: "translateY(100%)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        skeleton: {
+          "0%": {
+            opacity: "0.05",
+            "background-color": "rgb(var(--third-color))",
+          },
+          "100%": {
+            opacity: "0.2",
+            "background-color": "rgb(var(--third-color))",
+          },
+        },
+        "fade-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(100%) rotateY(80deg)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0%) rotateY(0deg)",
+          },
         },
       },
     },
