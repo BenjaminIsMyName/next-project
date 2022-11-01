@@ -164,8 +164,8 @@ export default function Post({ animateProp, post }) {
             <Link
               scroll={false}
               // shallow={true}
-              href={`${route}?post=${localPost?._id}`}
-              as={`/post/${localPost?._id}`}
+              href={localPost ? `${route}?post=${localPost._id}` : "/"}
+              as={localPost ? `/post/${localPost?._id}` : "/"}
             >
               <a
                 className={`w-[30px] h-[30px] p-2 transition-[padding] hover:p-1 duration-300 bg-opacity-0 border-0 [&_svg]:fill-option-text-color ${

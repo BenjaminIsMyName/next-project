@@ -99,15 +99,16 @@ body {
 }
 
 /* when selecting text etc: */
-::-moz-selection {
+/* ::-moz-selection {
   background: rgb(var(--main-color));
   color: rgba(var(--third-color), 1);
 }
 ::selection {
   background: rgb(var(--main-color));
   color: rgba(var(--third-color), 0.6);
-}
+} */
 
+/* for scrollbar: */
 ::-webkit-scrollbar {
   width: 10px;
 }
