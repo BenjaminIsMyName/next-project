@@ -5,7 +5,17 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        up: "up 1s ease-in-out forwards",
+      },
+      keyframes: {
+        up: {
+          "0%": { transform: "translateY(100%)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+      },
+    },
     colors: {
       "main-color": withOpacity("--main-color"),
       "second-color": withOpacity("--second-color"),

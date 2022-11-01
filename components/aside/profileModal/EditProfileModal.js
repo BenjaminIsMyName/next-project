@@ -56,14 +56,14 @@ export default function EditProfileModal({
         </Button>
         <Button
           type="button"
-          className={`text-sm [&_span]:bg-error-color border-2 border-solid border-error-color`}
+          className={`shadow-none rounded-none text-sm [&_span]:text-error-color border-2 border-solid border-error-color`}
           onClick={handleDelete}
         >
           {t("actions.delete-account").toUpperCase()}
         </Button>
         <Button
           type="button"
-          className={`[&_span]:bg-error-color text-xl border-2 border-solid border-error-color`}
+          className={`shadow-none rounded-none [&_span]:text-error-color text-xl border-2 border-solid border-error-color`}
           onClick={goBack}
         >
           {t("actions.cancel").toUpperCase()}
