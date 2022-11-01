@@ -10,7 +10,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import OverlayToContinue from "../components/OverlayToContinue";
 import Aside from "../components/aside/Aside";
 import { useIdleTimer } from "react-idle-timer";
-import styles from "../components/Layout.module.css";
 
 function MyApp({ Component, pageProps }) {
   // next-i18next has a bug - if using translations on top level layout (_app.js), warning appears:
@@ -78,9 +77,11 @@ function MyApp({ Component, pageProps }) {
         <Aside />
         <AnimatePresence mode={"wait"}>
           <motion.div
-            className={`${styles.rest} ${
-              locale === "en" ? styles.restLtr : ""
-            }`}
+            className={`bg-main-color transition-[width] duration-1000 ease-in
+                        min-h-screen overflow-hidden isolate
+                        w-full p-[0_0_var(--header-height)_0]
+                        md:w-[calc(100%-var(--aside-width))] md:p-[8%]
+            ${locale === "en" ? "float-right" : "float-left"}`}
             key={router.route}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
