@@ -1,7 +1,6 @@
 import FocusTrap from "focus-trap-react";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import Modal from "../Modal.js";
-import styles from "./Aside.module.css";
 import Header from "./Header.js";
 import Option from "./Option.js";
 import ProfileModal from "./profileModal/ProfileModal";
@@ -72,21 +71,33 @@ export default function Aside() {
       <div>
         <div
           onClick={handleOverlayClick}
-          className={`${styles.overlay} ${
+          className={`opacity-0 transition-[opacity] duration-500 ${
             modalOpen !== -1
-              ? styles.backdropDesktop
+              ? "fixed z-[1] top-0 left-0 w-full h-full"
               : isOpen
-              ? styles.backdrop
+              ? `opacity-100 fixed z-[1] top-0 left-0 w-full h-full bg-shadows-color bg-opacity-50 backdrop-blur-md md:hidden`
               : ""
           }`}
         ></div>
         {modalOpen === 0 && <ProfileModal />}
         {modalOpen === 1 && <Modal>Notifications menu</Modal>}
         {modalOpen === 2 && <Modal>Search menu</Modal>}
+
         <aside
           ref={asideRef}
-          className={`${styles.aside} ${isOpen ? styles.clicked : ""} 
-          ${locale === "en" ? styles.asideLtr : ""}`}
+          className={`select-none bg-second-color h-[var(--header-height)] bottom-0
+                      fixed z-[1] scroll-smooth transition-all w-full 
+                      md:h-screen md:w-[300px] 
+          ${
+            isOpen
+              ? "duration-500 bottom-0 overflow-auto h-64 max-h-screen"
+              : ""
+          } 
+          ${
+            locale === "en"
+              ? "shadow-[3px_0_5px_2px_rgba(var(--shadows-color),_0.5)]"
+              : "shadow-[-3px_0_5px_2px_rgba(var(--shadows-color),_0.5)]"
+          }`}
           onClick={() => setModalOpen(-1)}
         >
           <Header
