@@ -14,7 +14,15 @@ import { he } from "date-fns/locale";
 import FocusTrap from "focus-trap-react";
 
 export default function Post({ animateProp, post }) {
-  const [isFullyOpened, setIsFullyOpened] = useState(false);
+  const { locale, query, push, route } = useRouter();
+  const [localPost, setLocalPost] = useState(post || null); // any change to this post - will just update this state. not the state of all the posts...
+
+  const isFullyOpened = localPost ? query.post === localPost._id : false;
+  // console.log(`${localPost?._id} : ${isFullyOpened}`);
+
+  function closeFull() {
+    push(route, undefined, { scroll: false });
+  }
   const [shouldAnimate, setShouldAnimate] = useState(animateProp);
 
   useEffect(() => {
@@ -27,7 +35,6 @@ export default function Post({ animateProp, post }) {
     }
   }, [isFullyOpened]);
 
-  const { locale } = useRouter();
   const observer = useRef();
   const postRef = useRef();
 
@@ -61,7 +68,6 @@ export default function Post({ animateProp, post }) {
   }, [shouldAnimate]);
 
   const { user } = useContext(UserContext);
-  const [localPost, setLocalPost] = useState(post || null); // any change to this post - will just update this state. not the state of all the posts...
 
   async function handleLike() {
     if (user === null) {
@@ -89,15 +95,15 @@ export default function Post({ animateProp, post }) {
     <FocusTrap
       focusTrapOptions={{
         clickOutsideDeactivates: () => {
-          setIsFullyOpened(false);
+          closeFull();
           return true;
         },
         escapeDeactivates: true, // default
         onDeactivate: () => {
-          setIsFullyOpened(false);
+          closeFull();
         },
         clickOutsideDeactivates: () => {
-          setIsFullyOpened(false);
+          closeFull();
           return true;
         },
         ///// a little bug with those options (instead of the above). Opening modal (to log in) and clicking ESC will allow the user to move to other posts with TAB
@@ -149,22 +155,30 @@ export default function Post({ animateProp, post }) {
                 {localPost?.title}
               </span>
             </div>
-
-            <button
-              type="button"
-              className={`${styles.open} ${
-                localPost?._id ? "" : styles.skeletonOpen
-              }`}
-              onClick={
-                localPost?._id
-                  ? () => {
-                      setIsFullyOpened(prev => !prev);
-                    }
-                  : null
-              }
+            <Link
+              scroll={false}
+              // shallow={true}
+              href={`${route}?post=${localPost?._id}`}
+              as={`/post/${localPost?._id}`}
             >
-              {localPost?._id && <OpenFullIcon />}
-            </button>
+              <a>
+                <button
+                  type="button"
+                  className={`${styles.open} ${
+                    localPost?._id ? "" : styles.skeletonOpen
+                  }`}
+                  // onClick={
+                  //   localPost?._id
+                  //     ? () => {
+                  //         setIsFullyOpened(prev => !prev);
+                  //       }
+                  //     : null
+                  // }
+                >
+                  {localPost?._id && <OpenFullIcon />}
+                </button>
+              </a>
+            </Link>
           </header>
           {localPost?.url ? (
             <video className={styles.media} controls>
