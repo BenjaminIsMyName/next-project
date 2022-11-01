@@ -16,7 +16,7 @@ import FocusTrap from "focus-trap-react";
 export default function Post({ animateProp, post }) {
   const { locale, query, push, route } = useRouter();
   const [localPost, setLocalPost] = useState(post || null); // any change to this post - will just update this state. not the state of all the posts...
-
+  const [canPlay, setCanPlay] = useState(false); // we don't need to use this state atm, just to force render
   const isFullyOpened = localPost ? query.post === localPost._id : false;
   // console.log(`${localPost?._id} : ${isFullyOpened}`);
 
@@ -44,7 +44,7 @@ export default function Post({ animateProp, post }) {
   useEffect(() => {
     if (isFullyOpened) return;
     postHeightNotOpenedYetRef.current = postRef.current.offsetHeight;
-  }, [isFullyOpened]);
+  });
 
   // for the IntersectionObserver, to apply animation when scrolling:
   useEffect(() => {
@@ -181,7 +181,11 @@ export default function Post({ animateProp, post }) {
             </Link>
           </header>
           {localPost?.url ? (
-            <video className={styles.media} controls>
+            <video
+              className={styles.media}
+              controls
+              onCanPlay={() => setCanPlay(true)}
+            >
               <source src={localPost?.url} type="video/mp4" />
             </video>
           ) : (
