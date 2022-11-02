@@ -190,7 +190,7 @@ export default function Post({ animateProp, post }) {
 
           <div
             className={`flex justify-evenly content-center py-4 px-2 [&>div]:flex [&>div]:gap-2
-            [&>div_svg]:w-5 [&>div_svg]:h-5 [&>div_svg]:fill-option-text-color [&>div_svg]:cursor-pointer ${
+            [&>div_svg]:w-5 [&>div_svg]:h-5 [&>div_svg]:cursor-pointer ${
               localPost
                 ? ""
                 : "[&_span]:h-5 [&_span]:animate-skeleton [&_span]:w-[50px] [&_span]:rounded-[40px] [&_svg]:hidden"
@@ -198,7 +198,9 @@ export default function Post({ animateProp, post }) {
           >
             <div
               className={`${
-                localPost?.didLike ? "[&_svg]:fill-third-color" : ""
+                localPost?.didLike
+                  ? "[&_svg]:fill-third-color"
+                  : "[&_svg]:fill-option-text-color"
               }`}
             >
               <button
@@ -210,7 +212,7 @@ export default function Post({ animateProp, post }) {
               </button>
               <span>{localPost?.numberOfLikes}</span>
             </div>
-            <div>
+            <div className="[&_svg]:fill-option-text-color">
               <button
                 className={`bg-opacity-0 border-0`}
                 type="button"
