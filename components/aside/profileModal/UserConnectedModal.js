@@ -16,7 +16,7 @@ import axios from "axios";
 import ErrorInMenu from "./ErrorInModal";
 import { getCookie } from "cookies-next";
 
-export default function UserConnectedModal({ logOut }) {
+export default function UserConnectedModal({ logOut, closeModals }) {
   const { t } = useTranslation("menu");
   const router = useRouter();
   const { locale } = router;
@@ -47,7 +47,7 @@ export default function UserConnectedModal({ logOut }) {
     setStatus(StatusEnum.default);
   }
 
-  // using useCallback to prevent the useEfect from running multiple times
+  // using useCallback to prevent the useEffect from running multiple times
   const handleDelete = useCallback(() => {
     async function theAsyncFunc() {
       if (status === StatusEnum.loading) return; // just in case
@@ -117,6 +117,7 @@ export default function UserConnectedModal({ logOut }) {
         {user.isAdmin && (
           <Link href={"/admin"}>
             <a
+              onClick={() => closeModals()}
               className={`block no-underline text-option-text-color text-center p-10 bg-third-color bg-opacity-30 mt-4`}
             >
               {t("admin-page")}

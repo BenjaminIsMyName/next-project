@@ -79,7 +79,9 @@ export default function Aside() {
               : ""
           }`}
         ></div>
-        {modalOpen === 0 && <ProfileModal />}
+        {modalOpen === 0 && (
+          <ProfileModal closeModals={() => setModalOpen(-1)} />
+        )}
         {modalOpen === 1 && <Modal>Notifications menu</Modal>}
         {modalOpen === 2 && <Modal>Search menu</Modal>}
 
@@ -106,9 +108,21 @@ export default function Aside() {
             menuOnClickHandler={clickToToggleMenu}
             isOpen={isOpen}
           />
-          <Option text={t("for-you")} link="/" />
-          <Option text={t("popular")} link="/popular" />
-          <Option text={t("topics")} link="/topics" />
+          <Option
+            onClick={() => setIsOpen(false)}
+            text={t("for-you")}
+            link="/"
+          />
+          <Option
+            onClick={() => setIsOpen(false)}
+            text={t("popular")}
+            link="/popular"
+          />
+          <Option
+            onClick={() => setIsOpen(false)}
+            text={t("topics")}
+            link="/topics"
+          />
         </aside>
       </div>
     </FocusTrap>

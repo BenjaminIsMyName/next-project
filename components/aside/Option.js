@@ -3,12 +3,13 @@ import ForYouIcon from "./ForYouIcon.js";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function Option({ text, link }) {
+export default function Option({ text, link, onClick }) {
   const router = useRouter();
   const locale = router.locale;
   return (
     <Link href={link}>
       <a
+        onClick={onClick}
         className={`${styles.option} ${
           locale === "en" ? styles.optionLtr : ""
         }`}

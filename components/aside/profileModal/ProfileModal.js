@@ -13,7 +13,7 @@ import UserConnectedModal from "./UserConnectedModal";
 import useFormData from "../../../hooks/useFormData";
 import LoadingModal from "../../LoadingModal";
 
-export default function ProfileModal() {
+export default function ProfileModal({ closeModals }) {
   // all this component does is checking what to show in the profile modal,
   // based on the status state and if the user is connected or not.
 
@@ -56,7 +56,8 @@ export default function ProfileModal() {
     setInputsData(prev => ({ ...inputsDataDefault, email: prev.email })); // clear all data except email
   }
 
-  if (user) return <UserConnectedModal logOut={logOut} />;
+  if (user)
+    return <UserConnectedModal logOut={logOut} closeModals={closeModals} />;
   if (status === 4) return <LoadingModal />;
   if (status === 0)
     return (
