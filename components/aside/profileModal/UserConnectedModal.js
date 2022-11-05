@@ -106,16 +106,16 @@ export default function UserConnectedModal({ logOut, closeModals }) {
         <div
           className={`justify-around flex [&_a]:block [&_a]:no-underline [&_a]:text-option-text-color`}
         >
-          <Link href={router.asPath} locale={"he"}>
+          <Link href={router.asPath} locale={"he"} scroll={false}>
             <a className={`${locale === "he" ? "!underline" : ""}`}>עברית</a>
           </Link>
-          <Link href={router.asPath} locale={"en"}>
+          <Link href={router.asPath} locale={"en"} scroll={false}>
             <a className={`${locale === "en" ? "!underline" : ""}`}>English</a>
           </Link>
         </div>
 
         {user.isAdmin && (
-          <Link href={"/admin"}>
+          <Link href={"/admin"} scroll={false}>
             <a
               onClick={() => closeModals()}
               className={`block no-underline text-option-text-color text-center p-10 bg-third-color bg-opacity-30 mt-4`}

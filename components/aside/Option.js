@@ -7,7 +7,7 @@ export default function Option({ text, link, onClick }) {
   const router = useRouter();
   const locale = router.locale;
   return (
-    <Link href={link}>
+    <Link href={link} scroll={false}>
       <a
         onClick={onClick}
         className={`${styles.option} ${

@@ -22,7 +22,7 @@ export default function Header({
     <header className={styles.header}>
       <div className={styles.right}>
         <MenuIcon menuOnClickHandler={menuOnClickHandler} isOpen={isOpen} />
-        <Link href="/">
+        <Link href="/" scroll={false}>
           <a className={styles.link}>
             <h1 className={styles.logo}>REDILET</h1>
           </a>
