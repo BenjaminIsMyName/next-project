@@ -178,6 +178,7 @@ export default function Post({ animateProp, post }) {
           </header>
           {localPost?.url ? (
             <video
+              preload="metadata"
               className={`block w-full max-h-[70vh]`}
               controls
               onCanPlay={() => setCanPlay(true)}
