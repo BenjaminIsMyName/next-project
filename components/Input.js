@@ -19,7 +19,7 @@ export default function Input(props) {
     <div className={`flex flex-col relative pt-4 ${error ? "invalid" : ""}`}>
       <input
         {...copyOfProps}
-        className={`input w-full border-0 border-b-[1px_solid_rgba(var(--option-text-color),_0.4)] outline-0 text-base
+        className={`input w-full border-0 border-b-[1px] border-b-option-text-color border-opacity-40 outline-0 text-base
         py-[7px] bg-[transparent] transition-[border-color] text-option-text-color
         placeholder:text-opacity-0
         ${props.className || ""}`}
