@@ -128,3 +128,78 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(var(--third-color));
 }
+
+/* inputs */
+.input::placeholder {
+  color: transparent; /* hide placeholder, we have formLabel instead */
+}
+
+.input:placeholder-shown ~ .formLabel {
+  font-size: 16px;
+  cursor: text;
+  top: 20px;
+  user-select: none;
+}
+
+.input ~ .formLabel,
+.input:focus ~ .formLabel {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 12px;
+  color: rgba(var(--option-text-color), 0.4);
+}
+
+.input:focus ~ .formLabel {
+  color: rgb(var(--option-text-color));
+}
+
+.input:focus {
+  padding-bottom: 6px;
+  border-bottom: 2px solid rgb(var(--option-text-color));
+}
+.input ~ .errorLabel {
+  color: rgb(var(--error-color));
+  font-family: var(--another-font-family);
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 1.66;
+  letter-spacing: 0.03333em;
+  margin: 3px 0px 0px;
+}
+
+.input:disabled {
+  color: rgba(var(--option-text-color), 0.4);
+}
+
+/* Change the white to any color */
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus,
+.input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px rgb(var(--second-color)) inset !important;
+}
+
+/*Change text in autofill textbox*/
+.input:-webkit-autofill {
+  -webkit-text-fill-color: rgb(var(--option-text-color)) !important;
+  caret-color: rgb(var(--option-text-color));
+}
+
+.invalid {
+  animation: shake 0.3s;
+}
+
+@keyframes shake {
+  25% {
+    transform: translateX(4px);
+  }
+
+  50% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
