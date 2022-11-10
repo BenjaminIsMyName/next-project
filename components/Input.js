@@ -21,7 +21,7 @@ export default function Input(props) {
         {...copyOfProps}
         className={`input w-full border-0 border-b-[1px] border-b-option-text-color border-opacity-40 outline-0 text-base
         py-[7px] bg-[transparent] transition-[border-color] text-option-text-color
-        placeholder:text-opacity-0
+        placeholder:text-opacity-0 outline-none
         ${props.className || ""}`}
         value={valueObj[name]}
         name={name}
