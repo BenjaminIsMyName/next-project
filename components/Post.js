@@ -12,16 +12,20 @@ import { formatDistance } from "date-fns";
 import { he } from "date-fns/locale";
 import FocusTrap from "focus-trap-react";
 
-export default function Post({ animateProp, post }) {
+export default function Post({ animateProp, post, isPostPage }) {
   const { locale, query, push, route } = useRouter();
   const [localPost, setLocalPost] = useState(post || null); // any change to this post - will just update this state. not the state of all the posts...
   const [canPlay, setCanPlay] = useState(false); // we don't need to use this state atm, just to force render
-  const isFullyOpened = localPost ? query.post === localPost._id : false;
-  // console.log(`${localPost?._id} : ${isFullyOpened}`);
+  const isFullyOpened = isPostPage
+    ? true
+    : localPost
+    ? query.post === localPost._id
+    : false;
 
   function closeFull() {
     push(route, undefined, { scroll: false });
   }
+
   const [shouldAnimate, setShouldAnimate] = useState(animateProp);
 
   useEffect(() => {
@@ -109,7 +113,7 @@ export default function Post({ animateProp, post }) {
         // allowOutsideClick: true,
         // clickOutsideDeactivates: false,
       }}
-      active={isFullyOpened}
+      active={isFullyOpened && !isPostPage}
     >
       <div>
         {/* placeholder... when the post is showing on full screen, put something there in the meantime. same height as the post, same margin  */}
@@ -127,7 +131,9 @@ export default function Post({ animateProp, post }) {
           
           ${shouldAnimate ? "opacity-0" : ""} ${
             isFullyOpened
-              ? `md:p-5 md:border-[20px] border-main-color overflow-auto fixed md:right-[var(--aside-width)] md:left-0 md:bottom-0 top-0 z-50 bg-opacity-50 backdrop-blur-lg
+              ? `md:p-5 md:border-[20px] border-main-color overflow-auto fixed md:right-[var(--aside-width)] md:left-0 md:bottom-0 top-0 z-50 ${
+                  isPostPage ? "" : "bg-opacity-50 backdrop-blur-lg"
+                }
                   right-0 p-0 border-0 left-0 bottom-[var(--header-height)]`
               : "mb-5"
           } ${
@@ -161,20 +167,22 @@ export default function Post({ animateProp, post }) {
                 {localPost?.title}
               </span>
             </div>
-            <Link
-              scroll={false}
-              // shallow={true}
-              href={localPost ? `${route}?post=${localPost._id}` : "/"}
-              as={localPost ? `/post/${localPost?._id}` : "/"}
-            >
-              <a
-                className={`w-[30px] h-[30px] p-2 transition-[padding] hover:p-1 duration-300 bg-opacity-0 border-0 [&_svg]:fill-option-text-color ${
-                  localPost?._id ? "" : "animate-skeleton"
-                }`}
+            {isPostPage || (
+              <Link
+                scroll={false}
+                // shallow={true}
+                href={localPost ? `${route}?post=${localPost._id}` : "/"}
+                as={localPost ? `/post/${localPost?._id}` : "/"}
               >
-                {localPost?._id && <OpenFullIcon />}
-              </a>
-            </Link>
+                <a
+                  className={`w-[30px] h-[30px] p-2 transition-[padding] hover:p-1 duration-300 bg-opacity-0 border-0 [&_svg]:fill-option-text-color ${
+                    localPost?._id ? "" : "animate-skeleton"
+                  }`}
+                >
+                  {localPost?._id && <OpenFullIcon />}
+                </a>
+              </Link>
+            )}
           </header>
           {localPost?.url ? (
             <video

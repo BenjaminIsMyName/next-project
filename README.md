@@ -6,6 +6,7 @@ It was built using [Next.js](https://nextjs.org) to be fast, responsive, secure 
 
 1. [Why?](#why)
 2. [How to contribute?](#how-to-contribute)
+3. [Known issues](#known-issues)
 
 ## Why?
 
@@ -32,3 +33,10 @@ yarn dev
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 6. Try to make changes. The page (usually) auto-updates as you edit the file.
 7. If the changes you made are good, you can submit a pull request.
+
+## Known issues
+
+Some "issues" are so minor, there is no need to fix them.
+
+1. when resizing the window and opening a post - the
+   post's placeholder in the background will take the previous height.

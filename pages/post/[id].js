@@ -4,6 +4,8 @@ import connectToDatabase from "../../util/mongodb";
 import { ObjectId } from "mongodb";
 import Post from "../../components/Post";
 import { useTranslation } from "next-i18next";
+import { getCookie } from "cookies-next";
+
 export default function PostPage({ post }) {
   const postToDisplay = JSON.parse(post);
   const { t } = useTranslation(["common"]);
@@ -19,19 +21,21 @@ export default function PostPage({ post }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Post post={postToDisplay} />
+      <Post post={postToDisplay} isPostPage={true} />
     </>
   );
 }
 
 export async function getServerSideProps(ctx) {
+  const { req, res } = ctx;
+  let posts;
   try {
-    var { db } = await connectToDatabase();
-    var post = await db
+    let { db } = await connectToDatabase();
+    posts = await db
       .collection("posts")
       .find({ _id: new ObjectId(ctx.params.id) })
       .toArray();
-    if (post.length === 0)
+    if (posts.length === 0)
       throw new Error("Couldn't find a post with this _id");
   } catch (error) {
     return {
@@ -41,10 +45,32 @@ export async function getServerSideProps(ctx) {
       },
     };
   }
+
+  let post = posts[0];
+  let userCookie = getCookie("user", { req, res });
+  if (userCookie) JSON.parse(userCookie);
+
+  post = {
+    _id: post._id,
+    url: post.url,
+    type: post.type,
+    title: post.title,
+    postCreationDate: post.postCreationDate,
+    uploaderId: post.uploaderId,
+    numberOfComments: post.comments.length,
+    numberOfLikes: post.likes.length,
+    topics: post.topics,
+    didLike: userCookie
+      ? post.likes.find(userId => userId.equals(userCookie.id))
+        ? true
+        : false
+      : false,
+  };
+
   return {
     props: {
       ...(await serverSideTranslations(ctx.locale, ["menu", "common"])),
-      post: JSON.stringify(post[0]),
+      post: JSON.stringify(post),
     },
   };
 }
