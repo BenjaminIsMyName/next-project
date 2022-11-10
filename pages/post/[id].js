@@ -5,11 +5,40 @@ import { ObjectId } from "mongodb";
 import Post from "../../components/Post";
 import { useTranslation } from "next-i18next";
 import { getCookie } from "cookies-next";
-
+import { useRouter } from "next/router";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
+import { useRef } from "react";
+import { useEffect } from "react";
 export default function PostPage({ post }) {
   const postToDisplay = JSON.parse(post);
   const { t } = useTranslation(["common"]);
   const THE_TITLE = `${postToDisplay.title} - ${t("app-name")}`;
+
+  // const router = useRouter();
+  // const { user } = useContext(UserContext);
+  // const firstLoad = useRef(true);
+  // const timeoutRef = useRef();
+  // useEffect(() => {
+  //   if (firstLoad.current) {
+  //     firstLoad.current = false;
+  //     return;
+  //   }
+  //   timeoutRef.current = setTimeout(() => {
+  //     window.location.reload(); // will cause infinite loop when reactStrictMode is enabled
+  //   }, 3000); // TODO: I'M NOT PLEASED WITH THIS SOLUTION!!!!
+  //   return () => clearTimeout(timeoutRef.current);
+  // }, [user?.id]);
+
+  // // another try:
+  // useEffect(() => {
+  //   if (firstLoad.current) {
+  //     firstLoad.current = false;
+  //     return;
+  //   }
+  //   router.replace(router.asPath);
+  // }, [router, user?.id]);
+
   return (
     <>
       <Head>
@@ -48,7 +77,7 @@ export async function getServerSideProps(ctx) {
 
   let post = posts[0];
   let userCookie = getCookie("user", { req, res });
-  if (userCookie) JSON.parse(userCookie);
+  if (userCookie) userCookie = JSON.parse(userCookie);
 
   post = {
     _id: post._id,

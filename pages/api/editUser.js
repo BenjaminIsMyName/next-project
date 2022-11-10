@@ -56,11 +56,11 @@ export default async function handler(req, res) {
   }
   setCookie(
     "user",
-    JSON.stringify({
+    {
       name,
       email,
       isAdmin: user.isAdmin ? true : false,
-    }),
+    },
     {
       req,
       res,
