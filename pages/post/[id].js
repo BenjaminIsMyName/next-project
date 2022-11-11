@@ -15,29 +15,17 @@ export default function PostPage({ post }) {
   const { t } = useTranslation(["common"]);
   const THE_TITLE = `${postToDisplay.title} - ${t("app-name")}`;
 
-  // const router = useRouter();
-  // const { user } = useContext(UserContext);
-  // const firstLoad = useRef(true);
-  // const timeoutRef = useRef();
-  // useEffect(() => {
-  //   if (firstLoad.current) {
-  //     firstLoad.current = false;
-  //     return;
-  //   }
-  //   timeoutRef.current = setTimeout(() => {
-  //     window.location.reload(); // will cause infinite loop when reactStrictMode is enabled
-  //   }, 3000); // TODO: I'M NOT PLEASED WITH THIS SOLUTION!!!!
-  //   return () => clearTimeout(timeoutRef.current);
-  // }, [user?.id]);
-
-  // // another try:
-  // useEffect(() => {
-  //   if (firstLoad.current) {
-  //     firstLoad.current = false;
-  //     return;
-  //   }
-  //   router.replace(router.asPath);
-  // }, [router, user?.id]);
+  const { user } = useContext(UserContext);
+  const renderCount = useRef(0);
+  useEffect(() => {
+    const rendersOnMount = process.env.NODE_ENV === "production" ? 1 : 2; // with strict mode it's 2 times
+    renderCount.current++;
+    if (renderCount.current <= rendersOnMount) {
+      return;
+    }
+    // router.replace(router.asPath);
+    window.location.reload();
+  }, [user?.id]);
 
   return (
     <>

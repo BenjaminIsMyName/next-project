@@ -44,8 +44,9 @@ export default function ProfileModal({ closeModals }) {
 
   async function logOut() {
     setStatus(4);
-    setUser(null);
+    alert("logging out..."); // remove the alert after logging out
     await logoutFunc();
+    setUser(null);
     setInputsData(inputsDataDefault);
     setStatus(0);
   }
