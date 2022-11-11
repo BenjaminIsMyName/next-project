@@ -74,7 +74,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <AlertContext.Provider value={{ add, remove }}>
-      {alerts.length > 0 && <Alerts alerts={alerts} remove={remove} />}
+      <Alerts alerts={alerts} remove={remove} />
       <ThemeContext.Provider value={{ setTheme }}>
         <UserContext.Provider value={{ user, setUser }}>
           {askForPassword && (
