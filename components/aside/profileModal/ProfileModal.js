@@ -12,6 +12,7 @@ import ErrorInMenu from "./ErrorInModal";
 import UserConnectedModal from "./UserConnectedModal";
 import useFormData from "../../../hooks/useFormData";
 import LoadingModal from "../../LoadingModal";
+import { AlertContext } from "../../../context/AlertConext";
 
 export default function ProfileModal({ closeModals }) {
   // all this component does is checking what to show in the profile modal,
@@ -19,7 +20,7 @@ export default function ProfileModal({ closeModals }) {
 
   const { t } = useTranslation("menu");
   const { user, setUser } = useContext(UserContext);
-
+  const { add, remove } = useContext(AlertContext);
   const inputsDataDefault = {
     email: "",
     password: "",
@@ -44,11 +45,12 @@ export default function ProfileModal({ closeModals }) {
 
   async function logOut() {
     setStatus(4);
-    alert("logging out..."); // remove the alert after logging out
+    const id = add({ title: "Logging out..." });
     await logoutFunc();
     setUser(null);
     setInputsData(inputsDataDefault);
     setStatus(0);
+    remove(id);
   }
 
   // this function is used to go back from login/signup to the email form

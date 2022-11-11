@@ -10,7 +10,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import OverlayToContinue from "../components/OverlayToContinue";
 import Aside from "../components/aside/Aside";
 import { useIdleTimer } from "react-idle-timer";
-
+import useToast from "../hooks/useToast";
+import Alerts from "../components/Alerts";
+import { AlertContext } from "../context/AlertConext";
 function MyApp({ Component, pageProps }) {
   // next-i18next has a bug - if using translations on top level layout (_app.js), warning appears:
   // the warning: react-i18next:: You will need to pass in an i18next instance by using initReactI18next
@@ -68,33 +70,38 @@ function MyApp({ Component, pageProps }) {
     setTheme(user ? localStorage.getItem("theme") || "darkgreen" : "darkgreen");
   }, [user]);
 
+  const [add, remove, alerts] = useToast();
+
   return (
-    <ThemeContext.Provider value={{ setTheme }}>
-      <UserContext.Provider value={{ user, setUser }}>
-        {askForPassword && (
-          <OverlayToContinue onSuccess={() => setAskForPassword(false)} />
-        )}
-        <Aside />
-        <AnimatePresence mode={"wait"}>
-          <motion.div
-            className={`bg-main-color transition-[width] duration-1000 ease-in
+    <AlertContext.Provider value={{ add, remove }}>
+      {alerts.length > 0 && <Alerts alerts={alerts} remove={remove} />}
+      <ThemeContext.Provider value={{ setTheme }}>
+        <UserContext.Provider value={{ user, setUser }}>
+          {askForPassword && (
+            <OverlayToContinue onSuccess={() => setAskForPassword(false)} />
+          )}
+          <Aside />
+          <AnimatePresence mode={"wait"}>
+            <motion.div
+              className={`bg-main-color transition-[width] duration-1000 ease-in
                         min-h-screen overflow-hidden isolate
                         w-full p-[0_0_var(--header-height)_0]
                         md:w-[calc(100%-var(--aside-width))] md:p-[8%]
             ${locale === "en" ? "float-right" : "float-left"}`}
-            key={router.route}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-          >
-            <Component {...pageProps} />
-          </motion.div>
-        </AnimatePresence>
+              key={router.route}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              <Component {...pageProps} />
+            </motion.div>
+          </AnimatePresence>
 
-        <Analytics />
-      </UserContext.Provider>
-    </ThemeContext.Provider>
+          <Analytics />
+        </UserContext.Provider>
+      </ThemeContext.Provider>
+    </AlertContext.Provider>
   );
 }
 

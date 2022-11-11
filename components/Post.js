@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { formatDistance } from "date-fns";
 import { he } from "date-fns/locale";
 import FocusTrap from "focus-trap-react";
+import { AlertContext } from "../context/AlertConext";
 
 export default function Post({ animateProp, post, isPostPage }) {
   const { locale, query, push, route } = useRouter();
@@ -71,10 +72,10 @@ export default function Post({ animateProp, post, isPostPage }) {
   }, [shouldAnimate]);
 
   const { user } = useContext(UserContext);
-
+  const { add } = useContext(AlertContext);
   async function handleLike() {
     if (user === null) {
-      alert(`You must be logged in to like`);
+      add({ title: `You must be logged in to like` });
       return;
     }
     try {
@@ -90,7 +91,7 @@ export default function Post({ animateProp, post, isPostPage }) {
       }));
     } catch (error) {
       console.log(`error`, error);
-      alert(`Error, can't like right now`);
+      add({ title: `Error, can't like right now` });
     }
   }
 
