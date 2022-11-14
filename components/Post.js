@@ -12,6 +12,9 @@ import { formatDistance, format } from "date-fns";
 import { he } from "date-fns/locale";
 import FocusTrap from "focus-trap-react";
 import { AlertContext } from "../context/AlertConext";
+import Button from "./Button";
+import CopyIcon from "./icons/CopyIcon";
+import ButtonForPost from "./ButtonForPost";
 
 export default function Post({ animateProp, post, isPostPage }) {
   const { locale, query, push, route } = useRouter();
@@ -128,7 +131,7 @@ export default function Post({ animateProp, post, isPostPage }) {
         )}
         <motion.div
           layout
-          className={`bg-second-color min-h-[200px] text-option-text-color overflow-hidden
+          className={`bg-second-color min-h-[200px] text-option-text-color 
           
           ${shouldAnimate ? "opacity-0" : ""} ${
             isFullyOpened
@@ -136,7 +139,7 @@ export default function Post({ animateProp, post, isPostPage }) {
                   isPostPage ? "" : "bg-opacity-50 backdrop-blur-lg"
                 }
                   right-0 p-0 border-0 left-0 bottom-[var(--header-height)]`
-              : "mb-5"
+              : "mb-5 overflow-hidden"
           } ${
             locale === "en" && isFullyOpened
               ? "!right-0 md:left-[var(--aside-width)] left-0"
@@ -239,6 +242,24 @@ export default function Post({ animateProp, post, isPostPage }) {
               <span>{localPost?.numberOfComments}</span>
             </div>
           </div>
+          {isFullyOpened && (
+            <div className="p-4 md:p-0">
+              <div className="flex gap-5 p-3 md:p-0 overflow-x-auto [&_svg]:flex-shrink-0">
+                <ButtonForPost>
+                  <CopyIcon />
+                  <span>Share</span>
+                </ButtonForPost>
+                <ButtonForPost>
+                  <CopyIcon />
+                  <span>Edit</span>
+                </ButtonForPost>
+                <ButtonForPost>
+                  <CopyIcon />
+                  <span>Delete</span>
+                </ButtonForPost>
+              </div>
+            </div>
+          )}
         </motion.div>
       </div>
     </FocusTrap>
