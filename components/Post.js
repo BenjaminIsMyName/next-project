@@ -1,4 +1,4 @@
-import { useRef, useCallback, useContext, useEffect } from "react";
+import { useRef, useContext, useEffect } from "react";
 import Link from "next/link";
 import OpenFullIcon from "./icons/OpenFullIcon";
 import LikeIcon from "./icons/LikeIcon";
@@ -11,8 +11,7 @@ import { useRouter } from "next/router";
 import { formatDistance, format } from "date-fns";
 import { he } from "date-fns/locale";
 import FocusTrap from "focus-trap-react";
-import { AlertContext } from "../context/AlertConext";
-import Button from "./Button";
+import { AlertContext } from "../context/AlertContext";
 import CopyIcon from "./icons/CopyIcon";
 import ButtonForPost from "./ButtonForPost";
 
@@ -242,6 +241,7 @@ export default function Post({ animateProp, post, isPostPage }) {
               <span>{localPost?.numberOfComments}</span>
             </div>
           </div>
+          {/* TODO: extract the following section to its own component: */}
           {isFullyOpened && (
             <div className="p-4 md:p-0">
               <div className="flex gap-5 p-3 md:p-0 overflow-x-auto [&_svg]:flex-shrink-0">
@@ -257,6 +257,7 @@ export default function Post({ animateProp, post, isPostPage }) {
                   <CopyIcon />
                   <span>Delete</span>
                 </ButtonForPost>
+                {/* TODO: add "Save" button */}
               </div>
             </div>
           )}

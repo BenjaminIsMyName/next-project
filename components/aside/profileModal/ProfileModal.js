@@ -12,7 +12,7 @@ import ErrorInMenu from "./ErrorInModal";
 import UserConnectedModal from "./UserConnectedModal";
 import useFormData from "../../../hooks/useFormData";
 import LoadingModal from "../../LoadingModal";
-import { AlertContext } from "../../../context/AlertConext";
+import { AlertContext } from "../../../context/AlertContext";
 
 export default function ProfileModal({ closeModals }) {
   // all this component does is checking what to show in the profile modal,

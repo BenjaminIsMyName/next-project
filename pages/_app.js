@@ -12,7 +12,7 @@ import Aside from "../components/aside/Aside";
 import { useIdleTimer } from "react-idle-timer";
 import useToast from "../hooks/useToast";
 import Alerts from "../components/Alerts";
-import { AlertContext } from "../context/AlertConext";
+import { AlertContext } from "../context/AlertContext";
 function MyApp({ Component, pageProps }) {
   // next-i18next has a bug - if using translations on top level layout (_app.js), warning appears:
   // the warning: react-i18next:: You will need to pass in an i18next instance by using initReactI18next
