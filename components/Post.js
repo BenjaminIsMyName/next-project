@@ -8,7 +8,7 @@ import axios from "axios";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import { formatDistance } from "date-fns";
+import { formatDistance, format } from "date-fns";
 import { he } from "date-fns/locale";
 import FocusTrap from "focus-trap-react";
 import { AlertContext } from "../context/AlertConext";
@@ -152,14 +152,20 @@ export default function Post({ animateProp, post, isPostPage }) {
                `}
               >
                 {localPost &&
-                  formatDistance(
-                    new Date(localPost.postCreationDate),
-                    new Date(),
-                    {
-                      addSuffix: true,
-                      locale: locale === "en" ? undefined : he,
-                    }
-                  )}
+                  (isFullyOpened
+                    ? format(
+                        new Date(localPost.postCreationDate),
+                        "dd MMMM yyyy HH:mm:ss",
+                        { locale: locale === "en" ? undefined : he }
+                      )
+                    : formatDistance(
+                        new Date(localPost.postCreationDate),
+                        new Date(),
+                        {
+                          addSuffix: true,
+                          locale: locale === "en" ? undefined : he,
+                        }
+                      ))}
               </span>
               <span
                 className={`text-2xl
