@@ -21,7 +21,7 @@ export default function Alerts({ alerts, remove }) {
               rotate: locale === "en" ? -240 : 240,
             }}
             animate={{ x: 0, opacity: 1, rotate: 0 }}
-            exit={{ x: locale === "en" ? "200%" : "-200%", opacity: 0.5 }}
+            // exit={{ x: locale === "en" ? "200%" : "-200%", opacity: 0.5 }} // see bug: https://github.com/framer/motion/issues/1769
             className="bg-error-color p-3 flex gap-2"
             key={i.id}
           >

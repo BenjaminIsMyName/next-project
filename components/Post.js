@@ -25,10 +25,6 @@ export default function Post({ animateProp, post, isPostPage }) {
     ? query.post === localPost._id
     : false;
 
-  function closeFull() {
-    push(route, undefined, { scroll: false });
-  }
-
   const [shouldAnimate, setShouldAnimate] = useState(animateProp);
 
   useEffect(() => {
@@ -100,17 +96,10 @@ export default function Post({ animateProp, post, isPostPage }) {
   return (
     <FocusTrap
       focusTrapOptions={{
-        clickOutsideDeactivates: () => {
-          closeFull();
-          return true;
-        },
+        clickOutsideDeactivates: true,
         escapeDeactivates: true, // default
         onDeactivate: () => {
-          closeFull();
-        },
-        clickOutsideDeactivates: () => {
-          closeFull();
-          return true;
+          push(route, undefined, { scroll: false });
         },
         ///// a little bug with those options (instead of the above). Opening modal (to log in) and clicking ESC will allow the user to move to other posts with TAB
         // allowOutsideClick: true,
@@ -176,7 +165,7 @@ export default function Post({ animateProp, post, isPostPage }) {
                 {localPost?.title}
               </span>
             </div>
-            {isPostPage || (
+            {isFullyOpened || (
               <Link
                 scroll={false}
                 // shallow={true}
@@ -243,7 +232,7 @@ export default function Post({ animateProp, post, isPostPage }) {
           </div>
           {/* TODO: extract the following section to its own component: */}
           {isFullyOpened && (
-            <div className="p-4 md:p-0">
+            <div className="py-2 px-4 md:px-0">
               <div className="flex gap-5 p-3 md:p-0 overflow-x-auto [&_svg]:flex-shrink-0">
                 <ButtonForPost>
                   <CopyIcon />
@@ -257,7 +246,10 @@ export default function Post({ animateProp, post, isPostPage }) {
                   <CopyIcon />
                   <span>Delete</span>
                 </ButtonForPost>
-                {/* TODO: add "Save" button */}
+                <ButtonForPost>
+                  <CopyIcon />
+                  <span>Save</span>
+                </ButtonForPost>
               </div>
             </div>
           )}
