@@ -2,10 +2,12 @@ import axios from "axios";
 import { useContext } from "react";
 import { useState } from "react";
 import { AlertContext } from "../context/AlertContext";
+import { UserContext } from "../context/UserContext";
 
 export default function AddComment({ postId, addCommentLocally }) {
   const [comment, setComment] = useState("");
   const { add } = useContext(AlertContext);
+  const { user } = useContext(UserContext);
   const StatusEnum = {
     initial: "Nothing happened yet",
     loading: "Trying to access the backend and save the comment",
@@ -15,6 +17,11 @@ export default function AddComment({ postId, addCommentLocally }) {
   const [status, setStatus] = useState(StatusEnum.initial);
 
   async function putComment() {
+    if (user === null) {
+      add({ title: `You must be logged in to comment` });
+      return;
+    }
+
     setStatus(StatusEnum.loading);
     try {
       await axios.put("/api/post/addComment", {
