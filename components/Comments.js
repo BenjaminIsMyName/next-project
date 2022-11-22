@@ -6,8 +6,14 @@ export default function Comments({ postId }) {
   const [comments, setComments] = useState([]);
 
   function addCommentLocally(text) {
+    // TODO: make sure it's the same as the one that got fetched. stringify etc
     setComments(prev => [
-      { text, user: "TODO: get user id from cookie", liked: [] },
+      {
+        text,
+        user: "TODO: get user id from cookie",
+        liked: [],
+        date: new Date(),
+      },
       ...prev,
     ]);
   }
