@@ -14,6 +14,8 @@ import FocusTrap from "focus-trap-react";
 import { AlertContext } from "../context/AlertContext";
 import CopyIcon from "./icons/CopyIcon";
 import ButtonForPost from "./ButtonForPost";
+import PostOptions from "./PostOptions";
+import AddComment from "./AddComment";
 
 export default function Post({ animateProp, post, isPostPage }) {
   const { locale, query, push, route } = useRouter();
@@ -230,29 +232,8 @@ export default function Post({ animateProp, post, isPostPage }) {
               <span>{localPost?.numberOfComments}</span>
             </div>
           </div>
-          {/* TODO: extract the following section to its own component: */}
-          {isFullyOpened && (
-            <div className="py-2 px-4 md:px-0">
-              <div className="flex gap-5 p-3 md:p-0 overflow-x-auto [&_svg]:flex-shrink-0">
-                <ButtonForPost>
-                  <CopyIcon />
-                  <span>Share</span>
-                </ButtonForPost>
-                <ButtonForPost>
-                  <CopyIcon />
-                  <span>Edit</span>
-                </ButtonForPost>
-                <ButtonForPost>
-                  <CopyIcon />
-                  <span>Delete</span>
-                </ButtonForPost>
-                <ButtonForPost>
-                  <CopyIcon />
-                  <span>Save</span>
-                </ButtonForPost>
-              </div>
-            </div>
-          )}
+          {isFullyOpened && <PostOptions />}
+          {isFullyOpened && <AddComment />}
         </motion.div>
       </div>
     </FocusTrap>
