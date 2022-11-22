@@ -95,7 +95,18 @@ export default function Post({ animateProp, post, isPostPage }) {
     }
   }
 
-  let formattedDate = localPost ? getFormattedDate() : "";
+  // display the date only after we are on the client,
+  // because we don't want the server to display the date with its timezone.
+  // so only after we are on the client, we'll display the date with the client's timezone.
+  // see: https://github.com/vercel/next.js/discussions/35773#discussioncomment-2510947
+  // and: https://stackoverflow.com/questions/50883916/how-to-format-time-in-react-ssr-rendered-page-using-client-time-zone
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  let formattedDate = localPost && isClient ? getFormattedDate() : "";
 
   function getFormattedDate() {
     if (isFullyOpened) {
