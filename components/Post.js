@@ -251,7 +251,7 @@ export default function Post({ animateProp, post, isPostPage }) {
             </div>
           </div>
           {isFullyOpened && <PostOptions post={localPost} />}
-          {isFullyOpened && <AddComment />}
+          {isFullyOpened && <AddComment postId={localPost._id} />}
         </motion.div>
       </div>
     </FocusTrap>
