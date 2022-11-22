@@ -26,6 +26,7 @@ export default function AddComment({ postId, addCommentLocally }) {
       add({ title: "Comment added!", color: "success" });
       addCommentLocally(comment);
     } catch (error) {
+      console.log(error);
       setStatus(StatusEnum.error);
     }
   }
