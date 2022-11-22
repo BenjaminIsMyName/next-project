@@ -232,8 +232,8 @@ export default function Post({ animateProp, post, isPostPage }) {
               <span>{localPost?.numberOfComments}</span>
             </div>
           </div>
-          {/* {isFullyOpened && <PostOptions post={localPost} />}
-          {isFullyOpened && <AddComment />} */}
+          {isFullyOpened && <PostOptions post={localPost} />}
+          {isFullyOpened && <AddComment />}
         </motion.div>
       </div>
     </FocusTrap>
