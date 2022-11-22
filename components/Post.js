@@ -111,7 +111,7 @@ export default function Post({ animateProp, post, isPostPage }) {
     >
       <div>
         {/* placeholder... when the post is showing on full screen, put something there in the meantime. same height as the post, same margin  */}
-        {isFullyOpened && (
+        {isFullyOpened && !isPostPage && (
           <div
             style={{
               height: postHeightNotOpenedYetRef.current,
@@ -232,8 +232,8 @@ export default function Post({ animateProp, post, isPostPage }) {
               <span>{localPost?.numberOfComments}</span>
             </div>
           </div>
-          {isFullyOpened && <PostOptions post={localPost} />}
-          {isFullyOpened && <AddComment />}
+          {/* {isFullyOpened && <PostOptions post={localPost} />}
+          {isFullyOpened && <AddComment />} */}
         </motion.div>
       </div>
     </FocusTrap>
