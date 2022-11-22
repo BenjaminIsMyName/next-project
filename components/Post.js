@@ -95,6 +95,24 @@ export default function Post({ animateProp, post, isPostPage }) {
     }
   }
 
+  let formattedDate = localPost ? getFormattedDate() : "";
+
+  function getFormattedDate() {
+    if (isFullyOpened) {
+      return format(
+        new Date(localPost.postCreationDate),
+        "dd MMMM yyyy HH:mm:ss",
+        {
+          locale: locale === "en" ? undefined : he,
+        }
+      );
+    }
+    return formatDistance(new Date(localPost.postCreationDate), new Date(), {
+      addSuffix: true,
+      locale: locale === "en" ? undefined : he,
+    });
+  }
+
   return (
     <FocusTrap
       focusTrapOptions={{
@@ -137,31 +155,17 @@ export default function Post({ animateProp, post, isPostPage }) {
           }`}
           ref={postRef} // converted from https://reactjs.org/docs/refs-and-the-dom.html#callback-refs to simple ref
         >
-          {/* the problem is somewhere here, inside the header: */}
           <header className="grid grid-cols-[calc(100%-40px)_auto] justify-center items-center py-5 px-2 gap-2">
             {/* container for the date & title: */}
             <div className={`flex flex-col gap-1 px-2`}>
-              {/* <span
+              {/* the problem is somewhere here, inside the span for the date: */}
+              <span
                 className={`text-sm ${
                   localPost ? "" : "animate-skeleton w-20 h-6"
                 }`}
               >
-                {localPost &&
-                  (isFullyOpened
-                    ? format(
-                        new Date(localPost.postCreationDate),
-                        "dd MMMM yyyy HH:mm:ss",
-                        { locale: locale === "en" ? undefined : he }
-                      )
-                    : formatDistance(
-                        new Date(localPost.postCreationDate),
-                        new Date(),
-                        {
-                          addSuffix: true,
-                          locale: locale === "en" ? undefined : he,
-                        }
-                      ))}
-              </span> */}
+                {formattedDate}
+              </span>
               <span
                 className={`text-2xl
                 ${localPost ? "" : "w-[80%] h-9 animate-skeleton"}`}
