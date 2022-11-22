@@ -16,6 +16,7 @@ import CopyIcon from "./icons/CopyIcon";
 import ButtonForPost from "./ButtonForPost";
 import PostOptions from "./PostOptions";
 import AddComment from "./AddComment";
+import Comments from "./Comments";
 
 export default function Post({ animateProp, post, isPostPage }) {
   const { locale, query, push, route } = useRouter();
@@ -251,7 +252,7 @@ export default function Post({ animateProp, post, isPostPage }) {
             </div>
           </div>
           {isFullyOpened && <PostOptions post={localPost} />}
-          {isFullyOpened && <AddComment postId={localPost._id} />}
+          {isFullyOpened && <Comments postId={localPost._id} />}
         </motion.div>
       </div>
     </FocusTrap>

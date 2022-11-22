@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { useState } from "react";
 import { AlertContext } from "../context/AlertContext";
 
-export default function AddComment({ postId }) {
+export default function AddComment({ postId, addCommentLocally }) {
   const [comment, setComment] = useState("");
   const { add } = useContext(AlertContext);
   const StatusEnum = {
@@ -24,6 +24,7 @@ export default function AddComment({ postId }) {
       setStatus(StatusEnum.done);
       setComment("");
       add({ title: "Comment added!", color: "success" });
+      addCommentLocally(comment);
     } catch (error) {
       setStatus(StatusEnum.error);
     }

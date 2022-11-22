@@ -28,7 +28,7 @@ export default async function handler(req, res) {
       { _id: ObjectId(postId) },
       {
         $push: {
-          comments: { user: ObjectId(user._id), text: comment },
+          comments: { user: ObjectId(user._id), text: comment, liked: [] },
         },
       }
     );
