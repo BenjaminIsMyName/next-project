@@ -38,7 +38,7 @@ export default function PostPage({ post }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {/* <Post post={postToDisplay} isPostPage={true} /> */}
+      <Post post={postToDisplay} isPostPage={true} />
     </>
   );
 }
