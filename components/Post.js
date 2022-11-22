@@ -138,7 +138,7 @@ export default function Post({ animateProp, post, isPostPage }) {
           ref={postRef} // converted from https://reactjs.org/docs/refs-and-the-dom.html#callback-refs to simple ref
         >
           {/* the problem is somewhere here, inside the motion.div */}
-          <header className="grid grid-cols-[calc(100%-40px)_auto] justify-center items-center py-5 px-2 gap-2">
+          {/* <header className="grid grid-cols-[calc(100%-40px)_auto] justify-center items-center py-5 px-2 gap-2">
             <div className={`flex flex-col gap-1 px-2`}>
               <span
                 className={`text-sm
@@ -184,7 +184,7 @@ export default function Post({ animateProp, post, isPostPage }) {
                 </a>
               </Link>
             )}
-          </header>
+          </header> */}
           {localPost?.url ? (
             <video
               preload="metadata"
