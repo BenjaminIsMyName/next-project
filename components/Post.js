@@ -232,7 +232,7 @@ export default function Post({ animateProp, post, isPostPage }) {
               <span>{localPost?.numberOfComments}</span>
             </div>
           </div>
-          {isFullyOpened && <PostOptions />}
+          {isFullyOpened && <PostOptions post={localPost} />}
           {isFullyOpened && <AddComment />}
         </motion.div>
       </div>

@@ -7,7 +7,7 @@ export default function Alerts({ alerts, remove }) {
 
   return (
     <div
-      className={`fixed bottom-[calc(12px+var(--header-height))] md:bottom-3 flex flex-col gap-3
+      className={`fixed bottom-[calc(12px+var(--header-height))] md:bottom-3 flex items-end flex-col gap-3
       ${locale === "en" ? "right-3" : "left-3"}
     z-10`}
     >
@@ -22,11 +22,15 @@ export default function Alerts({ alerts, remove }) {
             }}
             animate={{ x: 0, opacity: 1, rotate: 0 }}
             // exit={{ x: locale === "en" ? "200%" : "-200%", opacity: 0.5 }} // see bug: https://github.com/framer/motion/issues/1769
-            className="bg-error-color p-3 flex gap-2"
+            className={`${
+              i.color === "success" ? "bg-third-color" : "bg-error-color"
+            } p-3 flex gap-2`}
             key={i.id}
           >
-            <span>{i.title}</span>
-            <button onClick={() => remove(i.id)}>X</button>
+            <span className="text-main-color">{i.title}</span>
+            <button className="text-main-color" onClick={() => remove(i.id)}>
+              X
+            </button>
           </motion.div>
         ))}
       </AnimatePresence>
