@@ -137,13 +137,14 @@ export default function Post({ animateProp, post, isPostPage }) {
           }`}
           ref={postRef} // converted from https://reactjs.org/docs/refs-and-the-dom.html#callback-refs to simple ref
         >
-          {/* the problem is somewhere here, inside the motion.div */}
-          {/* <header className="grid grid-cols-[calc(100%-40px)_auto] justify-center items-center py-5 px-2 gap-2">
+          {/* the problem is somewhere here, inside the header: */}
+          <header className="grid grid-cols-[calc(100%-40px)_auto] justify-center items-center py-5 px-2 gap-2">
+            {/* container for the date & title: */}
             <div className={`flex flex-col gap-1 px-2`}>
-              <span
-                className={`text-sm
-                ${localPost ? "" : "animate-skeleton w-20 h-6"} 
-               `}
+              {/* <span
+                className={`text-sm ${
+                  localPost ? "" : "animate-skeleton w-20 h-6"
+                }`}
               >
                 {localPost &&
                   (isFullyOpened
@@ -160,7 +161,7 @@ export default function Post({ animateProp, post, isPostPage }) {
                           locale: locale === "en" ? undefined : he,
                         }
                       ))}
-              </span>
+              </span> */}
               <span
                 className={`text-2xl
                 ${localPost ? "" : "w-[80%] h-9 animate-skeleton"}`}
@@ -168,6 +169,7 @@ export default function Post({ animateProp, post, isPostPage }) {
                 {localPost?.title}
               </span>
             </div>
+            {/* button/link to open the post: */}
             {isFullyOpened || (
               <Link
                 scroll={false}
@@ -184,7 +186,7 @@ export default function Post({ animateProp, post, isPostPage }) {
                 </a>
               </Link>
             )}
-          </header> */}
+          </header>
           {localPost?.url ? (
             <video
               preload="metadata"
