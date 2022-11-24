@@ -32,8 +32,19 @@ function MyApp({ Component, pageProps }) {
     document.querySelector("html").dir = locale === "en" ? "ltr" : "rtl";
   }
 
+  // TODO: revert commit ac0fd29179258c2144960a34c16bb58d94d22d6b
+  // we need to know when the cookie expires so we could:
+  // 1. log out the user if he closed the site and went back in after awhile
+  // 2. restrict the user from API after it was expired
+
   // check if user is still logged in (just for UI purposes, using client-side cookie)
   let cookie = getCookie("user") ? JSON.parse(getCookie("user")) : null;
+  // let loggedInUntil = cookie?.loggedInUntil;
+
+  // // if he has only 5 seconds to stay logged in, just show him as logged out already
+  // if (!loggedInUntil || new Date(loggedInUntil) - 5000 < new Date()) {
+  //   cookie = null;
+  // }
 
   const [user, setUser] = useState(cookie);
   const [askForPassword, setAskForPassword] = useState(false);

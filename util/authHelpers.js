@@ -66,7 +66,7 @@ export async function isLoggedInFunc(req, res) {
         isAdmin: false,
       };
     }
-
+    // TODO: check if date didn't expire
     if (tokenFromDb.didLogOut) {
       return {
         isLoggedIn: false,
