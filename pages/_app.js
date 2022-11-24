@@ -32,19 +32,34 @@ function MyApp({ Component, pageProps }) {
     document.querySelector("html").dir = locale === "en" ? "ltr" : "rtl";
   }
 
-  // TODO: revert commit ac0fd29179258c2144960a34c16bb58d94d22d6b
-  // we need to know when the cookie expires so we could:
-  // 1. log out the user if he closed the site and went back in after awhile
-  // 2. restrict the user from API after it was expired
+  // ----------------------------------- auth -----------------------------------
+  // how it should be:
+  // user should be logged in as long as he uses the app.
+  // when idle for X minutes - user should be logged out (asking for password only).
+  // when returning to the app after X minutes - user should be logged out completely.
+  // API must check if token expired. token should expire when we log out user.
+
+  // steps to accomplish this:
+  // backend sets in the cookie expiration date of the token.
+  // if user is active and token is about to expire, new token will be issued.
+  // if user is inactive (idle) - we'll only log out the user from the frontend. after awhile, the token will expire automatically.
+  // if user is returning to the site after expiration date - he won't be logged in.
+
+  // see commit ac0fd29179258c2144960a34c16bb58d94d22d6b
+
+  // how it is now:
+  // token never expires on the backend.
+  // user will be logged out on idle. from backend too (if possible).
+  // when returning to the site after awhile, user is still logged in. until the end of the session.
+
+  // issues with the current situation:
+  // 1. token never expires.
+  // 2. it doesn't make sense that we log out the user on idle but don't log him out after closing the site for awhile.
+
+  // ----------------------------------- auth -----------------------------------
 
   // check if user is still logged in (just for UI purposes, using client-side cookie)
   let cookie = getCookie("user") ? JSON.parse(getCookie("user")) : null;
-  // let loggedInUntil = cookie?.loggedInUntil;
-
-  // // if he has only 5 seconds to stay logged in, just show him as logged out already
-  // if (!loggedInUntil || new Date(loggedInUntil) - 5000 < new Date()) {
-  //   cookie = null;
-  // }
 
   const [user, setUser] = useState(cookie);
   const [askForPassword, setAskForPassword] = useState(false);

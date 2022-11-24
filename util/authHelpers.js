@@ -30,7 +30,7 @@ export async function isLoggedInFunc(req, res) {
     };
   }
 
-  // step 3: fetch db and check if the user has this cookie and its date didn't expire
+  // step 3: fetch db and check if the user has this token
   try {
     var { db } = await connectToDatabase();
     let users = await db.collection("users").find({ email }).toArray();
@@ -66,7 +66,7 @@ export async function isLoggedInFunc(req, res) {
         isAdmin: false,
       };
     }
-    // TODO: check if date didn't expire
+
     if (tokenFromDb.didLogOut) {
       return {
         isLoggedIn: false,
