@@ -33,32 +33,17 @@ function MyApp({ Component, pageProps }) {
   }
 
   // ----------------------------------- auth -----------------------------------
-  // how it should be:
+  // how it should be in super-secured apps:
   // user should be logged in as long as he uses the app.
   // when idle for X minutes - user should be logged out (asking for password only).
   // when returning to the app after X minutes - user should be logged out completely.
   // API must check if token expired. token should expire when we log out user.
 
-  // steps to accomplish this:
-  // backend sets in the cookie expiration date of the token.
-  // if user is active and token is about to expire, new token will be issued.
-  // if user is inactive (idle) - we'll only log out the user from the frontend. after awhile, the token will expire automatically.
-  // if user is returning to the site after expiration date - he won't be logged in.
-
-  // see commit ac0fd29179258c2144960a34c16bb58d94d22d6b
-
-  // how it is now:
-  // token never expires on the backend.
-  // user will be logged out on idle. from backend too (if possible).
-  // when returning to the site after awhile, user is still logged in. until the end of the session.
-
-  // issues with the current situation:
-  // 1. token never expires.
-  // 2. it doesn't make sense that we log out the user on idle but don't log him out after closing the site for awhile.
-
+  //  but this app doesn't need to be super-secure. "log out on idle" shouldn't be a feature.
+  // I keep this feature for now because I already built it. But it should be removed.
   // ----------------------------------- auth -----------------------------------
 
-  // check if user is still logged in (just for UI purposes, using client-side cookie)
+  // check if user is logged in (just for UI purposes, using client-side cookie)
   let cookie = getCookie("user") ? JSON.parse(getCookie("user")) : null;
 
   const [user, setUser] = useState(cookie);

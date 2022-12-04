@@ -70,6 +70,7 @@ body[data-theme="lightblue"] {
 body {
   background-color: rgb(var(--main-color));
   font-family: var(--main-font-family);
+  overflow-y: overlay; /* if the scrollbar takes space, opening a post will cause the placeholder to take more width than the actual post. see: https://stackoverflow.com/questions/18548465/prevent-scroll-bar-from-adding-up-to-the-width-of-page-on-chrome */
 }
 
 .no-scroll-in-any-screen {
