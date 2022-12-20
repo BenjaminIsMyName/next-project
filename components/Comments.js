@@ -34,12 +34,10 @@ export default function Comments({ postId, increaseCommentsCount }) {
     fetchComments();
 
     return () => {
-      console.log(`clearing`);
       setComments([]);
     };
   }, [postId]);
 
-  console.log(comments);
   return (
     <div>
       <AddComment postId={postId} addCommentLocally={addCommentLocally} />
