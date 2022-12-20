@@ -3,19 +3,20 @@ import { useState } from "react";
 import AddComment from "./AddComment";
 import axios from "axios";
 import OneComment from "./OneComment";
+import { getCookie } from "cookies-next";
 export default function Comments({ postId, increaseCommentsCount }) {
   const [comments, setComments] = useState([]);
+  let userCookie = getCookie("user");
 
   function addCommentLocally(text) {
-    // TODO: also, change the localPost. We need to show the number of comments....
-    // TODO: make sure it's the same as the one that got fetched. stringify etc
+    userCookie = JSON.parse(userCookie);
     setComments(prev => [
       {
         text,
-        user: "TODO: get user id from cookie",
-        date: new Date(),
+        user: userCookie.id,
+        date: new Date().toISOString(), // same format as the dates we fetch from db
         didLike: false,
-        name: "TODO: get name from cookie",
+        name: userCookie.name,
         numberOfLikes: 0,
       },
       ...prev,
