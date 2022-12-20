@@ -125,6 +125,13 @@ export default function Post({ animateProp, post, isPostPage }) {
     });
   }
 
+  function increaseCommentsCount() {
+    setLocalPost(prev => ({
+      ...prev,
+      numberOfComments: prev.numberOfComments + 1,
+    }));
+  }
+
   return (
     <FocusTrap
       focusTrapOptions={{
@@ -252,7 +259,12 @@ export default function Post({ animateProp, post, isPostPage }) {
             </div>
           </div>
           {isFullyOpened && <PostOptions post={localPost} />}
-          {isFullyOpened && <Comments postId={localPost._id} />}
+          {isFullyOpened && (
+            <Comments
+              increaseCommentsCount={increaseCommentsCount}
+              postId={localPost._id}
+            />
+          )}
         </motion.div>
       </div>
     </FocusTrap>
