@@ -13,7 +13,7 @@ export default function Comments({ postId, increaseCommentsCount }) {
       {
         text,
         user: "TODO: get user id from cookie",
-        date: JSON.stringify(new Date()),
+        date: new Date(),
         didLike: false,
         name: "TODO: get name from cookie",
         numberOfLikes: 0,

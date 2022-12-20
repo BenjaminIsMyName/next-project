@@ -61,5 +61,5 @@ export default async function handler(req, res) {
 
   // TODO: mark comments that got liked by this user (if logged in), map the comments to show relevant data
 
-  res.status(200).send(withNames);
+  res.status(200).send(withNames.reverse()); // from new to old
 }

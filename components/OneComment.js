@@ -37,7 +37,8 @@ export default function OneComment({
           {formattedDate}
         </span>
       </div>
-      <span>{text}</span>
+      {/* the "whitespace-pre-wrap" is for displaying comments with line break. Show multiple lines... */}
+      <span className="whitespace-pre-wrap">{text}</span>
       <div>
         <span>{numberOfLikes}</span>
       </div>
