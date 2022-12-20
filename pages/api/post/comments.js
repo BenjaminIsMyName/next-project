@@ -40,7 +40,7 @@ export default async function handler(req, res) {
           { _id: ObjectId(post.comments[i].user) },
           { projection: { name: 1, _id: 0 } }
         );
-      let didLike = post.comments[i].liked.find(id => id.equals(user._id))
+      let didLike = post.comments[i].liked.find(id => id.equals(user?._id))
         ? true
         : false;
       withNames.push({
