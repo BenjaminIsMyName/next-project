@@ -24,14 +24,15 @@ export default function AddComment({ postId, addCommentLocally }) {
 
     setStatus(StatusEnum.loading);
     try {
-      await axios.put("/api/post/addComment", {
+      const { data } = await axios.put("/api/post/addComment", {
         postId,
         comment: comment,
       });
+      const { date, id } = data;
       setStatus(StatusEnum.done);
       setComment("");
       add({ title: "Comment added!", color: "success" });
-      addCommentLocally(comment);
+      addCommentLocally(comment, date, id);
     } catch (error) {
       console.log(error);
       setStatus(StatusEnum.error);

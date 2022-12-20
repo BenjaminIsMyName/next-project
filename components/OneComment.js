@@ -12,6 +12,7 @@ export default function OneComment({
   name,
   numberOfLikes,
   likeCallback,
+  id,
 }) {
   const { locale } = useRouter();
 
@@ -51,7 +52,7 @@ export default function OneComment({
           <button
             className={`bg-opacity-0 border-0`}
             type="button"
-            onClick={() => {}}
+            onClick={() => likeCallback(id)}
           >
             <LikeIcon />
           </button>

@@ -1,27 +1,65 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useState } from "react";
 import AddComment from "./AddComment";
 import axios from "axios";
 import OneComment from "./OneComment";
 import { getCookie } from "cookies-next";
+import { AlertContext } from "../context/AlertContext";
+import { UserContext } from "../context/UserContext";
 export default function Comments({ postId, increaseCommentsCount }) {
   const [comments, setComments] = useState([]);
   let userCookie = getCookie("user");
 
-  function addCommentLocally(text) {
+  function addCommentLocally(text, date, id) {
     userCookie = JSON.parse(userCookie);
+
     setComments(prev => [
       {
         text,
         user: userCookie.id,
-        date: new Date().toISOString(), // same format as the dates we fetch from db
+        date: date, // same format as the dates we fetch from db
         didLike: false,
         name: userCookie.name,
         numberOfLikes: 0,
+        id,
       },
       ...prev,
     ]);
     increaseCommentsCount();
+  }
+
+  const { add } = useContext(AlertContext);
+  const { user } = useContext(UserContext);
+  async function handleLikeOfComment(commentId) {
+    if (user === null) {
+      add({ title: `You must be logged in to like` });
+      return;
+    }
+
+    // using postId and commentId to make the fetch request...
+
+    try {
+      await axios.post("/api/post/likeComment", {
+        postId,
+        commentId,
+      });
+      const updatedArray = comments.map(c => {
+        if (c.id === commentId) {
+          return {
+            ...c,
+            didLike: !c.didLike,
+            numberOfLikes: c.didLike
+              ? c.numberOfLikes - 1
+              : c.numberOfLikes + 1,
+          };
+        }
+        return c;
+      });
+      setComments(updatedArray);
+    } catch (error) {
+      console.log(`error`, error);
+      add({ title: `Error, can't like right now` });
+    }
   }
 
   useEffect(() => {
@@ -52,7 +90,8 @@ export default function Comments({ postId, increaseCommentsCount }) {
             didLike={i.didLike}
             name={i.name}
             numberOfLikes={i.numberOfLikes}
-            likeCallback={null}
+            likeCallback={handleLikeOfComment}
+            id={i.id}
           />
         ))}
       </div>

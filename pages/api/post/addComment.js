@@ -1,5 +1,6 @@
 import { isLoggedInFunc } from "../../../util/authHelpers";
 import { ObjectId } from "mongodb";
+const { randomUUID } = require("crypto");
 
 export default async function handler(req, res) {
   if (req.method !== "PUT") {
@@ -22,7 +23,8 @@ export default async function handler(req, res) {
     res.status(code).json({ error });
     return;
   }
-
+  let id = randomUUID();
+  let date = new Date();
   try {
     let { modifiedCount } = await db.collection("posts").updateOne(
       { _id: ObjectId(postId) },
@@ -32,7 +34,8 @@ export default async function handler(req, res) {
             user: ObjectId(user._id),
             text: comment,
             liked: [],
-            date: new Date(),
+            date,
+            id,
           },
         },
       }
@@ -44,5 +47,5 @@ export default async function handler(req, res) {
     console.log(`error ${err}`);
     res.status(503).json({ error: `failed to add comment to DB: ${err}` });
   }
-  res.status(204).end();
+  res.status(200).send({ id, date });
 }

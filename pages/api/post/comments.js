@@ -34,21 +34,21 @@ export default async function handler(req, res) {
     var withNames = [];
 
     for (let i = 0; i < post.comments.length; i++) {
-      let user = await db
+      let userAuthor = await db
         .collection("users")
         .findOne(
           { _id: ObjectId(post.comments[i].user) },
           { projection: { name: 1, _id: 0 } }
         );
-      let didLike = post.comments[i].liked.find(id => id === user._id)
+      let didLike = post.comments[i].liked.find(id => id.equals(user._id))
         ? true
         : false;
       withNames.push({
         ...post.comments[i],
-        name: user.name,
+        name: userAuthor.name,
         didLike,
         numberOfLikes: post.comments[i].liked.length,
-        liked: undefined,
+        liked: undefined, // remove the array, no need for it on the client side
       });
     }
   } catch (err) {
