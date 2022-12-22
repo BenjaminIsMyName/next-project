@@ -1,3 +1,10 @@
 {
-  "admin": "Admin"
+  "admin": "Admin",
+  "create-post-title": "Create a new post",
+  "title-placeholder": "Write the title",
+  "select": "Click here to choose a video",
+  "this-was-selected": "This file was selected",
+  "delete-file": "Unselect file",
+  "create-btn": "Create the post",
+  "error": "Umm something ain't right, try again later"
 }

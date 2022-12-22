@@ -36,7 +36,9 @@ export default function Login({
     <Modal>
       <form className={`form`}>
         <GoBackButton callback={goBack} />
-        <h2>{t("titles.login")}</h2>
+        <h2 className="text-[23px] font-another-font-family">
+          {t("titles.login")}
+        </h2>
         <Input
           checkErrorCallback={emailError}
           valueObj={inputsData}

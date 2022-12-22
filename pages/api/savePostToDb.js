@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 
   // TODO: check if post with this url already exist
   try {
-    await db.collection("posts").insertOne({
+    var { insertedId } = await db.collection("posts").insertOne({
       url,
       type: "video",
       title,
@@ -44,6 +44,5 @@ export default async function handler(req, res) {
     return;
   }
 
-  // TODO: return the post's url
-  res.status(201).end();
+  res.status(200).send(insertedId);
 }

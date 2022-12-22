@@ -15,7 +15,9 @@ export default function EditProfileModal({
   return (
     <Modal>
       <form className={`form`}>
-        <h2>{t("titles.edit")}</h2>
+        <h2 className={`text-[23px] font-another-font-family`}>
+          {t("titles.edit")}
+        </h2>
         <Input
           checkErrorCallback={emailError}
           valueObj={inputsData}

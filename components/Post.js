@@ -17,6 +17,8 @@ import ButtonForPost from "./ButtonForPost";
 import PostOptions from "./PostOptions";
 import AddComment from "./AddComment";
 import Comments from "./Comments";
+import Balancer from "react-wrap-balancer";
+import { useTranslation } from "next-i18next";
 
 export default function Post({ animateProp, post, isPostPage }) {
   const { locale, query, push, route } = useRouter();
@@ -185,12 +187,15 @@ export default function Post({ animateProp, post, isPostPage }) {
               >
                 {formattedDate}
               </span>
+              {/* <Balancer> */}
+              {/* bug with the Balancer here: Warning: Prop `dangerouslySetInnerHTML` did not match. Server: "self.__wrap_balancer... */}
               <span
                 className={`text-2xl
                 ${localPost ? "" : "w-[80%] h-9 animate-skeleton"}`}
               >
                 {localPost?.title}
               </span>
+              {/* </Balancer> */}
             </div>
             {/* button/link to open the post: */}
             {isFullyOpened || (

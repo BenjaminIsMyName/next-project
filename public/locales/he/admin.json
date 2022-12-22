@@ -1,3 +1,10 @@
 {
-  "admin": "מנהל"
+  "admin": "מנהל",
+  "create-post-title": "צור פוסט חדש",
+  "title-placeholder": "כתוב את הכותרת",
+  "select": "לחץ כאן כדי לבחור סרטון",
+  "this-was-selected": "קובץ זה נבחר",
+  "delete-file": "בטל בחירה",
+  "create-btn": "צור פוסט",
+  "error": "אוי, משהו השתבש. נסה שוב מאוחר יותר"
 }

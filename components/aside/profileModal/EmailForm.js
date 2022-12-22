@@ -4,6 +4,8 @@ import { useTranslation } from "next-i18next";
 import axios from "axios";
 import Button from "../../Button";
 import Modal from "../../Modal";
+import Balancer from "react-wrap-balancer";
+
 export default function EmailForm({
   handleInputChange,
   inputsData,
@@ -32,7 +34,11 @@ export default function EmailForm({
   return (
     <Modal>
       <form className="form">
-        <h2 className={`text-2xl`}>{t("titles.login-or-signup")}</h2>
+        <Balancer>
+          <h2 className={`text-[23px] font-another-font-family`}>
+            {t("titles.login-or-signup")}
+          </h2>
+        </Balancer>
         <Input
           checkErrorCallback={emailError}
           valueObj={inputsData}

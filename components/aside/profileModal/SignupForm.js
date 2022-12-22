@@ -6,6 +6,7 @@ import { getCookie } from "cookies-next";
 import axios from "axios";
 import Button from "../../Button";
 import Modal from "../../Modal";
+import Balancer from "react-wrap-balancer";
 
 export default function Signup({
   handleInputChange,
@@ -41,7 +42,11 @@ export default function Signup({
     <Modal>
       <form className={`form`}>
         <GoBackButton callback={goBack} />
-        <h2>{t("titles.signup")}</h2>
+        <Balancer>
+          <h2 className="text-[23px] font-another-font-family">
+            {t("titles.signup")}
+          </h2>
+        </Balancer>
         <Input
           checkErrorCallback={emailError}
           valueObj={inputsData}

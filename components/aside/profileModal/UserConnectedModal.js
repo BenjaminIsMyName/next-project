@@ -15,7 +15,7 @@ import ThemesSection from "./ThemesSection";
 import axios from "axios";
 import ErrorInMenu from "./ErrorInModal";
 import { getCookie } from "cookies-next";
-
+import Balancer from "react-wrap-balancer";
 export default function UserConnectedModal({ logOut, closeModals }) {
   const { t } = useTranslation("menu");
   const router = useRouter();
@@ -80,20 +80,26 @@ export default function UserConnectedModal({ logOut, closeModals }) {
   if (status === StatusEnum.default)
     return (
       <Modal>
-        <div>
-          <p
+        <Balancer>
+          {/* Balancer makes sure there is no one-word line at the end */}
+          <h2
             className={`text-2xl text-option-text-color font-another-font-family overflow-hidden text-ellipsis inline`}
           >
             {t("titles.welcome")}, {user.name}
-          </p>
-          <button
-            type="button"
-            className={`bg-opacity-0 border-0 p-1 cursor-pointer [&_svg]:w-5 [&_svg]:h-5 [&_svg]:fill-third-color [&_svg]:align-middle [&_svg]:transition-all [&_svg]:duration-300 [&_svg]:ease-linear hover:[&_svg]:rotate-[-60deg]`}
-            onClick={() => setStatus(StatusEnum.edit)}
-          >
-            <EditIcon />
-          </button>
-        </div>
+            <button
+              type="button"
+              className={`bg-opacity-0 border-0 p-1 cursor-pointer 
+              [&_svg]:w-5 [&_svg]:h-5 [&_svg]:fill-third-color 
+              [&_svg]:align-middle [&_svg]:transition-all 
+              [&_svg]:duration-300 [&_svg]:ease-linear hover:[&_svg]:rotate-[-60deg]
+              [&_svg]:mx-1
+              `}
+              onClick={() => setStatus(StatusEnum.edit)}
+            >
+              <EditIcon />
+            </button>
+          </h2>
+        </Balancer>
 
         <button
           onClick={logOut}

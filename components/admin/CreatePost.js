@@ -2,8 +2,14 @@ import { useState } from "react";
 import Error from "../Error";
 import axios from "axios";
 import Loading from "../Loading";
+import { useTranslation } from "next-i18next";
+import Balancer from "react-wrap-balancer";
+import { useRouter } from "next/router";
 
 export default function CreatePost() {
+  const { t } = useTranslation("admin");
+  const router = useRouter();
+
   const [file, setFile] = useState(null);
   const StatusEnum = {
     start: "The upload process didn't start yet",
@@ -13,7 +19,7 @@ export default function CreatePost() {
   };
   const [status, setStatus] = useState(StatusEnum.start);
   const [title, setTitle] = useState("");
-  const [uploadedFile, setUploadedFile] = useState(null);
+
   function handleFileSelect(e) {
     setFile(e.target.files[0]);
   }
@@ -36,12 +42,11 @@ export default function CreatePost() {
 
       removeSelectedFile();
       const videoUrl = url.split("?")[0];
-      await axios.post("/api/savePostToDb", {
+      const res = await axios.post("/api/savePostToDb", {
         url: videoUrl,
         title,
       });
-      setUploadedFile(videoUrl);
-      setStatus(StatusEnum.done);
+      router.push(`/post/${res.data}`);
     } catch (error) {
       console.log(`error is`, error);
       setStatus(StatusEnum.error);
@@ -58,11 +63,20 @@ export default function CreatePost() {
     <div
       className={`bg-second-color text-option-text-color w-full flex flex-col p-[min(20px,3%)] gap-3 text-center`}
     >
-      <h1>העלאת פוסט</h1>
+      <div>
+        <Balancer>
+          <span className="block text-4xl px-2 text-center">
+            {t("create-post-title")}
+          </span>
+        </Balancer>
+      </div>
       <input
         type={"text"}
-        placeholder="כותרת"
+        placeholder={t("title-placeholder") + "..."}
         onChange={e => setTitle(e.target.value)}
+        className={
+          "bg-main-color shadow-inner shadow-shadows-color p-2 rounded-3xl text-center"
+        }
       />
       <div className={`bg-main-color h-80 w-full`}>
         {file === null ? (
@@ -71,20 +85,22 @@ export default function CreatePost() {
             htmlFor="uploadInput"
             className={`p-3 text-3xl bg-third-color bg-opacity-40 w-full h-full cursor-pointer flex items-center justify-center`}
           >
-            <span>בחר סרטון</span>
+            <Balancer>
+              <span>{t("select")}</span>
+            </Balancer>
           </label>
         ) : (
           <div
             className={`flex gap-3 flex-col p-[min(20px,5%)] w-full h-full justify-center`}
           >
-            <h2>קובץ זה נבחר:</h2>
+            <span className="text-xl">{t("this-was-selected")}:</span>
             <p>{file.name}</p>
             <button
               type="button"
               className={`bg-error-color cursor-pointer p-3`}
               onClick={removeSelectedFile}
             >
-              Delete file
+              {t("delete-file").toUpperCase()}
             </button>
           </div>
         )}
@@ -96,17 +112,17 @@ export default function CreatePost() {
           accept="video/*"
         />
       </div>
-      <button disabled={file === null} onClick={uploadFile}>
-        צור פוסט
+      <button
+        disabled={file === null}
+        onClick={uploadFile}
+        className={"bg-main-color p-3 text-third-color"}
+      >
+        {t("create-btn")}
       </button>
-      {status === StatusEnum.done && (
-        <video>
-          <source src={uploadedFile} type="video/mp4" />
-        </video>
-      )}
+
       {status === StatusEnum.loading && <Loading />}
       {status === StatusEnum.error && (
-        <Error tryAgainCallback={uploadFile} error={"בעיה התרחשה, נסה שוב"} />
+        <Error tryAgainCallback={uploadFile} error={t("error")} />
       )}
     </div>
   );
