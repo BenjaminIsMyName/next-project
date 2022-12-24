@@ -210,9 +210,9 @@ export default function Post({ animateProp, post, isPostPage }) {
               </span>
               {/* <Balancer> */}
               {/* bug with the Balancer here: Warning: Prop `dangerouslySetInnerHTML` did not match. Server: "self.__wrap_balancer... */}
-              {isEditing ? (
+              {isEditing && isFullyOpened ? (
                 <input
-                  className={`text-2xl bg-opacity-0 bg-second-color`}
+                  className={`text-2xl bg-opacity-0 bg-second-color border-2 p-2`}
                   onChange={handleTitleChange}
                   value={title}
                 />
@@ -244,28 +244,30 @@ export default function Post({ animateProp, post, isPostPage }) {
               </Link>
             )}
           </header>
-          {isEditing && (
-            <button
-              onClick={submitTitleChange}
-              disabled={
-                title.length === 0 ||
-                titleEditingStatus === StatusEnumForTitle.loading
-              }
-              type="button"
-              className={`block bg-third-color w-full p-2 mt-2 text-main-color transition-all 
+          {isEditing && isFullyOpened && (
+            <div className="px-6">
+              <button
+                onClick={submitTitleChange}
+                disabled={
+                  title.length === 0 ||
+                  titleEditingStatus === StatusEnumForTitle.loading
+                }
+                type="button"
+                className={`mb-9 w-full block bg-third-color p-2 mt-2 text-main-color transition-all 
         ${title.length === 0 ? "bg-opacity-80" : ""}
         ${
           titleEditingStatus === StatusEnumForTitle.loading
             ? "bg-opacity-80 rounded-lg"
             : ""
         }`}
-            >
-              {titleEditingStatus === StatusEnumForTitle.loading
-                ? "Loading..."
-                : title.length === 0
-                ? "Write something..."
-                : "Save"}
-            </button>
+              >
+                {titleEditingStatus === StatusEnumForTitle.loading
+                  ? "Loading..."
+                  : title.length === 0
+                  ? "Write something..."
+                  : "Save"}
+              </button>
+            </div>
           )}
           {localPost?.url ? (
             <video
