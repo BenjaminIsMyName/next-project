@@ -31,7 +31,18 @@ export default function Post({ animateProp, post, isPostPage }) {
     : false;
 
   const [shouldAnimate, setShouldAnimate] = useState(animateProp);
+  const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState(localPost?.title || "");
 
+  const StatusEnumForTitle = {
+    initial: "Nothing happened yet",
+    loading: "Trying to access the backend and save the edited title",
+    error: "Something went wrong while saving the title",
+    done: "Title saved successfully",
+  };
+  const [titleEditingStatus, setTitleEditingStatus] = useState(
+    StatusEnumForTitle.initial
+  );
   useEffect(() => {
     if (isFullyOpened) {
       document.body.classList.add("no-scroll-in-any-screen-due-to-opened-post");
@@ -134,6 +145,16 @@ export default function Post({ animateProp, post, isPostPage }) {
     }));
   }
 
+  function handleTitleChange(e) {
+    if (!isEditing) return;
+    console.log(e.target.value);
+    setTitle(e.target.value);
+  }
+
+  function submitTitleChange() {
+    // TODO: send the new title to the backend
+  }
+
   return (
     <FocusTrap
       focusTrapOptions={{
@@ -189,12 +210,20 @@ export default function Post({ animateProp, post, isPostPage }) {
               </span>
               {/* <Balancer> */}
               {/* bug with the Balancer here: Warning: Prop `dangerouslySetInnerHTML` did not match. Server: "self.__wrap_balancer... */}
-              <span
-                className={`text-2xl
+              {isEditing ? (
+                <input
+                  className={`text-2xl bg-opacity-0 bg-second-color`}
+                  onChange={handleTitleChange}
+                  value={title}
+                />
+              ) : (
+                <span
+                  className={`text-2xl
                 ${localPost ? "" : "w-[80%] h-9 animate-skeleton"}`}
-              >
-                {localPost?.title}
-              </span>
+                >
+                  {title}
+                </span>
+              )}
               {/* </Balancer> */}
             </div>
             {/* button/link to open the post: */}
@@ -215,6 +244,29 @@ export default function Post({ animateProp, post, isPostPage }) {
               </Link>
             )}
           </header>
+          {isEditing && (
+            <button
+              onClick={submitTitleChange}
+              disabled={
+                title.length === 0 ||
+                titleEditingStatus === StatusEnumForTitle.loading
+              }
+              type="button"
+              className={`block bg-third-color w-full p-2 mt-2 text-main-color transition-all 
+        ${title.length === 0 ? "bg-opacity-80" : ""}
+        ${
+          titleEditingStatus === StatusEnumForTitle.loading
+            ? "bg-opacity-80 rounded-lg"
+            : ""
+        }`}
+            >
+              {titleEditingStatus === StatusEnumForTitle.loading
+                ? "Loading..."
+                : title.length === 0
+                ? "Write something..."
+                : "Save"}
+            </button>
+          )}
           {localPost?.url ? (
             <video
               preload="metadata"
@@ -263,7 +315,12 @@ export default function Post({ animateProp, post, isPostPage }) {
               <span>{localPost?.numberOfComments}</span>
             </div>
           </div>
-          {isFullyOpened && <PostOptions post={localPost} />}
+          {isFullyOpened && (
+            <PostOptions
+              post={localPost}
+              editClick={() => setIsEditing(prev => !prev)}
+            />
+          )}
           {isFullyOpened && (
             <Comments
               increaseCommentsCount={increaseCommentsCount}

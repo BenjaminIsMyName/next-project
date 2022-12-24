@@ -3,7 +3,7 @@ import ButtonForPost from "./ButtonForPost";
 import { useContext } from "react";
 import { AlertContext } from "../context/AlertContext";
 
-export default function PostOptions({ post }) {
+export default function PostOptions({ post, editClick }) {
   const { add } = useContext(AlertContext);
   function handleShare() {
     navigator.clipboard.writeText(`${window.location.href}`);
@@ -17,7 +17,7 @@ export default function PostOptions({ post }) {
           <CopyIcon />
           <span>Share</span>
         </ButtonForPost>
-        <ButtonForPost>
+        <ButtonForPost onClick={editClick}>
           <CopyIcon />
           <span>Edit</span>
         </ButtonForPost>
