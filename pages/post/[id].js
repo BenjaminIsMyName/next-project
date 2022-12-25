@@ -86,7 +86,11 @@ export async function getServerSideProps(ctx) {
 
   return {
     props: {
-      ...(await serverSideTranslations(ctx.locale, ["menu", "common"])),
+      ...(await serverSideTranslations(ctx.locale, [
+        "menu",
+        "common",
+        "admin",
+      ])),
       post: JSON.stringify(post),
     },
   };

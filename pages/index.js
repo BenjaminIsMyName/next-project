@@ -24,7 +24,11 @@ export default function Home() {
 export async function getStaticProps(ctx) {
   return {
     props: {
-      ...(await serverSideTranslations(ctx.locale, ["menu", "common"])),
+      ...(await serverSideTranslations(ctx.locale, [
+        "menu",
+        "common",
+        "admin",
+      ])),
     },
   };
 }

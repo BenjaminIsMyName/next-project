@@ -19,9 +19,11 @@ import AddComment from "./AddComment";
 import Comments from "./Comments";
 import Balancer from "react-wrap-balancer";
 import { useTranslation } from "next-i18next";
+import Input from "./Input";
+import { titleError } from "../util/validate";
 
 export default function Post({ animateProp, post, isPostPage }) {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation(["common", "admin"]);
   const { locale, query, push, route } = useRouter();
   const [localPost, setLocalPost] = useState(post || null); // any change to this post - will just update this state. not the state of all the posts...
   const [canPlay, setCanPlay] = useState(false); // we don't need to use this state atm, just to force render
@@ -146,12 +148,6 @@ export default function Post({ animateProp, post, isPostPage }) {
     }));
   }
 
-  function handleTitleChange(e) {
-    if (!isEditing) return;
-    console.log(e.target.value);
-    setTitle(e.target.value);
-  }
-
   function submitTitleChange() {
     // TODO: send the new title to the backend
   }
@@ -212,10 +208,16 @@ export default function Post({ animateProp, post, isPostPage }) {
               {/* <Balancer> */}
               {/* bug with the Balancer here: Warning: Prop `dangerouslySetInnerHTML` did not match. Server: "self.__wrap_balancer... */}
               {isEditing && isFullyOpened ? (
-                <input
+                <Input
+                  placeholder={t("title-placeholder", { ns: "admin" }) + "..."}
+                  type={"text"}
+                  translationFile="admin"
+                  checkErrorCallback={titleError}
+                  removeDefaultStyle={true}
                   className={`text-2xl bg-opacity-0 bg-second-color border-2 p-2`}
-                  onChange={handleTitleChange}
-                  value={title}
+                  onChange={e => setTitle(e.target.value)}
+                  valueObj={{ title }}
+                  name={"title"}
                 />
               ) : (
                 <span
@@ -250,11 +252,11 @@ export default function Post({ animateProp, post, isPostPage }) {
               <button
                 onClick={submitTitleChange}
                 disabled={
-                  title.length === 0 ||
+                  titleError(title) ||
                   titleEditingStatus === StatusEnumForTitle.loading
                 }
                 type="button"
-                className={`mb-9 w-full block bg-third-color p-2 mt-2 text-main-color transition-all 
+                className={`disabled:opacity-60 disabled:cursor-not-allowed mb-9 w-full block bg-third-color p-2 mt-2 text-main-color transition-all 
         ${title.length === 0 ? "bg-opacity-80" : ""}
         ${
           titleEditingStatus === StatusEnumForTitle.loading
@@ -263,10 +265,10 @@ export default function Post({ animateProp, post, isPostPage }) {
         }`}
               >
                 {titleEditingStatus === StatusEnumForTitle.loading
-                  ? t("loading") + "..."
+                  ? t("loading", { ns: "common" }) + "..."
                   : title.length === 0
-                  ? t("write-something") + "..."
-                  : t("save")}
+                  ? t("write-something", { ns: "common" }) + "..."
+                  : t("save", { ns: "common" })}
               </button>
             </div>
           )}

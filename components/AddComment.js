@@ -53,7 +53,7 @@ export default function AddComment({ postId, addCommentLocally }) {
         onClick={putComment}
         disabled={comment.length === 0 || status === StatusEnum.loading}
         type="button"
-        className={`block bg-third-color w-full p-2 mt-2 text-main-color transition-all 
+        className={`disabled:opacity-60 disabled:cursor-not-allowed block bg-third-color w-full p-2 mt-2 text-main-color transition-all 
         ${comment.length === 0 ? "bg-opacity-80" : ""}
         ${status === StatusEnum.loading ? "bg-opacity-80 rounded-lg" : ""}`}
       >
