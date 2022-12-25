@@ -250,6 +250,16 @@ export default function Post({ animateProp, post, isPostPage }) {
           {isEditing && isFullyOpened && (
             <div className="px-6">
               <button
+                type="button"
+                className="block bg-opacity-0 w-min m-auto"
+                onClick={() => {
+                  setIsEditing(false);
+                  setTitle(localPost.title); // return the title to its previous state
+                }}
+              >
+                Cancel
+              </button>
+              <button
                 onClick={submitTitleChange}
                 disabled={
                   titleError(title) ||
@@ -323,7 +333,7 @@ export default function Post({ animateProp, post, isPostPage }) {
           {isFullyOpened && (
             <PostOptions
               post={localPost}
-              editClick={() => setIsEditing(prev => !prev)}
+              editClick={() => setIsEditing(true)}
             />
           )}
           {isFullyOpened && (
