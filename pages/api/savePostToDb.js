@@ -1,5 +1,7 @@
 import { isLoggedInFunc } from "../../util/authHelpers";
 import { ObjectId } from "mongodb";
+import { titleError, urlError } from "../../util/validate";
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.status(405).json({
@@ -11,9 +13,8 @@ export default async function handler(req, res) {
   // validate params ------------------------
   const { url, title } = req.body;
 
-  if (!url || !title) {
-    // TODO: more validations
-    res.status(406).json({ error: `did not provide all query params` });
+  if (urlError(url) || titleError(title)) {
+    res.status(406).json({ error: urlError(url) || titleError(title) });
     return;
   }
 

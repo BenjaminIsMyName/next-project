@@ -29,3 +29,19 @@ export function nameError(name) {
   if (name.length > 30) return "error-text.name-validation";
   return "";
 }
+
+export function titleError(title) {
+  if (typeof title !== "string") return "error-text.title-validation-required";
+  title = title.trim();
+  if (title.length < 1) return "error-text.title-validation-required";
+  if (title.length > 99) return "error-text.title-validation-too-long";
+  return "";
+}
+
+export function urlError(url) {
+  if (typeof url !== "string") return "error-text.url-validation-required";
+  url = url.trim();
+  if (url.length < 5) return "error-text.url-validation-too-short";
+  if (url.length > 999) return "error-text.url-validation-too-long";
+  return "";
+}

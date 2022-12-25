@@ -1,10 +1,12 @@
 import axios from "axios";
+import { useTranslation } from "next-i18next";
 import { useContext } from "react";
 import { useState } from "react";
 import { AlertContext } from "../context/AlertContext";
 import { UserContext } from "../context/UserContext";
 
 export default function AddComment({ postId, addCommentLocally }) {
+  const { t } = useTranslation("common");
   const [comment, setComment] = useState("");
   const { add } = useContext(AlertContext);
   const { user } = useContext(UserContext);
@@ -56,10 +58,10 @@ export default function AddComment({ postId, addCommentLocally }) {
         ${status === StatusEnum.loading ? "bg-opacity-80 rounded-lg" : ""}`}
       >
         {status === StatusEnum.loading
-          ? "Loading..."
+          ? t("loading") + "..."
           : comment.length === 0
-          ? "Write something..."
-          : "Send comment"}
+          ? t("write-something") + "..."
+          : t("send-comment")}
       </button>
 
       <span className="text-error-color block mt-1 h-6 text-sm">

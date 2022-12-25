@@ -160,7 +160,7 @@ body {
   padding-bottom: 6px;
   border-bottom: 2px solid rgb(var(--option-text-color));
 }
-.input ~ .errorLabel {
+.errorLabel {
   color: rgb(var(--error-color));
   font-family: var(--another-font-family);
   font-weight: 400;

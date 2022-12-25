@@ -1,4 +1,8 @@
 {
   "app-name": "רדילט",
-  "account": "חשבון"
+  "account": "חשבון",
+  "loading": "טוען",
+  "write-something": "כתוב משהו",
+  "save": "שמור",
+  "send-comment": "שלח תגובה"
 }

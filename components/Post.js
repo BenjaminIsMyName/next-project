@@ -21,6 +21,7 @@ import Balancer from "react-wrap-balancer";
 import { useTranslation } from "next-i18next";
 
 export default function Post({ animateProp, post, isPostPage }) {
+  const { t } = useTranslation("common");
   const { locale, query, push, route } = useRouter();
   const [localPost, setLocalPost] = useState(post || null); // any change to this post - will just update this state. not the state of all the posts...
   const [canPlay, setCanPlay] = useState(false); // we don't need to use this state atm, just to force render
@@ -262,10 +263,10 @@ export default function Post({ animateProp, post, isPostPage }) {
         }`}
               >
                 {titleEditingStatus === StatusEnumForTitle.loading
-                  ? "Loading..."
+                  ? t("loading") + "..."
                   : title.length === 0
-                  ? "Write something..."
-                  : "Save"}
+                  ? t("write-something") + "..."
+                  : t("save")}
               </button>
             </div>
           )}

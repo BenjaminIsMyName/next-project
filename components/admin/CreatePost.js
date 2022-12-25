@@ -5,6 +5,8 @@ import Loading from "../Loading";
 import { useTranslation } from "next-i18next";
 import Balancer from "react-wrap-balancer";
 import { useRouter } from "next/router";
+import Input from "../Input";
+import { titleError } from "../../util/validate";
 
 export default function CreatePost() {
   const { t } = useTranslation("admin");
@@ -70,7 +72,12 @@ export default function CreatePost() {
           </span>
         </Balancer>
       </div>
-      <input
+      <Input
+        translationFile="admin"
+        name={"title"}
+        checkErrorCallback={titleError}
+        valueObj={{ title }}
+        removeDefaultStyle={true}
         type={"text"}
         placeholder={t("title-placeholder") + "..."}
         onChange={e => setTitle(e.target.value)}
@@ -113,9 +120,11 @@ export default function CreatePost() {
         />
       </div>
       <button
-        disabled={file === null}
+        disabled={file === null || titleError(title)}
         onClick={uploadFile}
-        className={"bg-main-color p-3 text-third-color"}
+        className={
+          "bg-main-color p-3 text-third-color disabled:opacity-60 disabled:cursor-not-allowed"
+        }
       >
         {t("create-btn")}
       </button>

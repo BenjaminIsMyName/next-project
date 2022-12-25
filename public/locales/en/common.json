@@ -1,4 +1,8 @@
 {
   "app-name": "REDILET",
-  "account": "Account"
+  "account": "Account",
+  "loading": "Loading",
+  "write-something": "Write something",
+  "save": "Save",
+  "send-comment": "Send comment"
 }

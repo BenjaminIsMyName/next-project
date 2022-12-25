@@ -6,5 +6,12 @@
   "this-was-selected": "קובץ זה נבחר",
   "delete-file": "בטל בחירה",
   "create-btn": "צור פוסט",
-  "error": "אוי, משהו השתבש. נסה שוב מאוחר יותר"
+  "error": "אוי, משהו השתבש. נסה שוב מאוחר יותר",
+  "error-text": {
+    "title-validation-required": "הכותרת לא יכולה להיות ריקה",
+    "title-validation-too-long": "הכותרת לא יכולה להיות יותר מ-99 תווים",
+    "url-validation-required": "הכתובת חסרה",
+    "url-validation-too-short": "הכתובת קצרה מדי, היא חייבת להיות לפחות 5 תווים",
+    "url-validation-too-long": "הכתובת ארוכה מדי, היא אינה יכולה להיות יותר מ-999 תווים"
+  }
 }
