@@ -6,7 +6,12 @@ import OneComment from "./OneComment";
 import { getCookie } from "cookies-next";
 import { AlertContext } from "../context/AlertContext";
 import { UserContext } from "../context/UserContext";
-export default function Comments({ postId, increaseCommentsCount }) {
+export default function Comments({
+  postId,
+  increaseCommentsCount,
+  setNumberOfComment,
+  numberOfComments,
+}) {
   const [comments, setComments] = useState([]);
   let userCookie = getCookie("user");
 
@@ -76,6 +81,11 @@ export default function Comments({ postId, increaseCommentsCount }) {
       setComments([]);
     };
   }, [postId]);
+
+  // if the data in localPost is not up to date, update it.
+  if (comments.length > 0 && comments.length != numberOfComments) {
+    setNumberOfComment(comments.length);
+  }
 
   return (
     <div>

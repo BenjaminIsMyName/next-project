@@ -148,6 +148,13 @@ export default function Post({ animateProp, post, isPostPage }) {
     }));
   }
 
+  function setNumberOfComment(n) {
+    setLocalPost(prev => ({
+      ...prev,
+      numberOfComments: n,
+    }));
+  }
+
   function submitTitleChange() {
     // TODO: send the new title to the backend
   }
@@ -339,6 +346,8 @@ export default function Post({ animateProp, post, isPostPage }) {
           {isFullyOpened && (
             <Comments
               increaseCommentsCount={increaseCommentsCount}
+              setNumberOfComment={setNumberOfComment}
+              numberOfComments={localPost.numberOfComments}
               postId={localPost._id}
             />
           )}
