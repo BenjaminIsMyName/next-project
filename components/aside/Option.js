@@ -14,7 +14,7 @@ export default function Option({ text, link, onClick, icon }) {
         onClick={onClick}
         className={`${styles.option} ${
           locale === "en" ? styles.optionLtr : ""
-        }`}
+        } ${router.route === link ? "[&_svg]:animate-go-in" : ""} `}
         id={router.route === link ? styles.selected : ""}
       >
         <IconComponent />
