@@ -7,6 +7,10 @@ import ProfileModal from "./profileModal/ProfileModal";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { useMedia } from "react-use";
+import ForYouIcon from "../icons/ForYouIcon";
+import PopularIcon from "../icons/PopularIcon";
+import TopicsIcon from "../icons/TopicsIcon.js";
+import SavedIcon from "../icons/SavedIcon.js";
 
 export default function Aside() {
   const { t } = useTranslation("menu");
@@ -112,16 +116,26 @@ export default function Aside() {
             onClick={() => setIsOpen(false)}
             text={t("for-you")}
             link="/"
+            icon={() => ForYouIcon}
           />
           <Option
             onClick={() => setIsOpen(false)}
             text={t("popular")}
             link="/popular"
+            icon={() => PopularIcon}
           />
           <Option
             onClick={() => setIsOpen(false)}
             text={t("topics")}
             link="/topics"
+            icon={() => TopicsIcon}
+          />
+
+          <Option
+            onClick={() => setIsOpen(false)}
+            text={t("saved")}
+            link="/saved"
+            icon={() => SavedIcon}
           />
         </aside>
       </div>

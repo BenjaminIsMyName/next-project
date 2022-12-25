@@ -1,9 +1,11 @@
 import styles from "./Options.module.css";
-import ForYouIcon from "./ForYouIcon.js";
+import ForYouIcon from "../icons/ForYouIcon.js";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function Option({ text, link, onClick }) {
+export default function Option({ text, link, onClick, icon }) {
+  const IconComponent = icon();
+
   const router = useRouter();
   const locale = router.locale;
   return (
@@ -15,7 +17,7 @@ export default function Option({ text, link, onClick }) {
         }`}
         id={router.route === link ? styles.selected : ""}
       >
-        <ForYouIcon selected={router.route === link} />
+        <IconComponent />
         <span>{text}</span>
       </a>
     </Link>
