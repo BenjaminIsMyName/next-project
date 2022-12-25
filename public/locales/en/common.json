@@ -8,5 +8,6 @@
   "error-text": {
     "comment-validation-required": "Comment can't be empty",
     "comment-validation-too-long": "Comment can be up to 99 characters"
-  }
+  },
+  "cancel": "Cancel"
 }

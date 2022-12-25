@@ -8,5 +8,6 @@
   "error-text": {
     "comment-validation-required": "התגובה לא יכולה להיות ריקה",
     "comment-validation-too-long": "התגובה לא יכולה להיות מעל 99 תווים"
-  }
+  },
+  "cancel": "בטל"
 }

@@ -257,7 +257,7 @@ export default function Post({ animateProp, post, isPostPage }) {
                   setTitle(localPost.title); // return the title to its previous state
                 }}
               >
-                Cancel
+                {t("cancel")}
               </button>
               <button
                 onClick={submitTitleChange}
