@@ -130,6 +130,13 @@ body {
   background: rgb(var(--third-color));
 }
 
+/* Change size of scrollbar to its default on mobile... */
+@media screen and (max-width: 900px) {
+  ::-webkit-scrollbar {
+    width: auto;
+  }
+}
+
 /* inputs */
 .input::placeholder {
   color: transparent; /* hide placeholder, we have formLabel instead */
