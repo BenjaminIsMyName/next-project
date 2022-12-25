@@ -15,7 +15,7 @@ export default function Comments({ postId, increaseCommentsCount }) {
 
     setComments(prev => [
       {
-        text,
+        text: text.trim(),
         user: userCookie.id,
         date: date, // same format as the dates we fetch from db
         didLike: false,

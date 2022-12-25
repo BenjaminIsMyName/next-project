@@ -11,12 +11,14 @@ export default async function handler(req, res) {
   }
 
   // validate params ------------------------
-  const { url, title } = req.body;
+  let { url, title } = req.body;
 
   if (urlError(url) || titleError(title)) {
     res.status(406).json({ error: urlError(url) || titleError(title) });
     return;
   }
+
+  title = title.trim();
 
   const { isLoggedIn, isAdmin, error, code, db, user } = await isLoggedInFunc(
     req,

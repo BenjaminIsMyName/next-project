@@ -4,5 +4,9 @@
   "loading": "טוען",
   "write-something": "כתוב משהו",
   "save": "שמור",
-  "send-comment": "שלח תגובה"
+  "send-comment": "שלח תגובה",
+  "error-text": {
+    "comment-validation-required": "התגובה לא יכולה להיות ריקה",
+    "comment-validation-too-long": "התגובה לא יכולה להיות מעל 99 תווים"
+  }
 }

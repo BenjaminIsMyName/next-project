@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { useState } from "react";
 import { AlertContext } from "../context/AlertContext";
 import { UserContext } from "../context/UserContext";
+import { commentError } from "../util/validate";
 
 export default function AddComment({ postId, addCommentLocally }) {
   const { t } = useTranslation("common");
@@ -51,7 +52,7 @@ export default function AddComment({ postId, addCommentLocally }) {
       ></textarea>
       <button
         onClick={putComment}
-        disabled={comment.length === 0 || status === StatusEnum.loading}
+        disabled={commentError(comment) || status === StatusEnum.loading}
         type="button"
         className={`disabled:opacity-60 disabled:cursor-not-allowed block bg-third-color w-full p-2 mt-2 text-main-color transition-all 
         ${comment.length === 0 ? "bg-opacity-80" : ""}
@@ -61,7 +62,7 @@ export default function AddComment({ postId, addCommentLocally }) {
           ? t("loading") + "..."
           : comment.length === 0
           ? t("write-something") + "..."
-          : t("send-comment")}
+          : t(commentError(comment)) || t("send-comment")}
       </button>
 
       <span className="text-error-color block mt-1 h-6 text-sm">

@@ -45,3 +45,12 @@ export function urlError(url) {
   if (url.length > 999) return "error-text.url-validation-too-long";
   return "";
 }
+
+export function commentError(comment) {
+  if (typeof comment !== "string")
+    return "error-text.comment-validation-required";
+  comment = comment.trim();
+  if (comment.length < 1) return "error-text.comment-validation-required";
+  if (comment.length > 99) return "error-text.comment-validation-too-long";
+  return "";
+}

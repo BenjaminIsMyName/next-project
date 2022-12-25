@@ -1,5 +1,6 @@
 import { isLoggedInFunc } from "../../../util/authHelpers";
 import { ObjectId } from "mongodb";
+import { commentError } from "../../../util/validate";
 const { randomUUID } = require("crypto");
 
 export default async function handler(req, res) {
@@ -13,10 +14,14 @@ export default async function handler(req, res) {
   // validate params ------------------------
   let { postId, comment } = req.body;
 
-  if (!postId || !comment) {
-    res.status(406).json({ error: `did not provide all query params` });
+  if (!postId || commentError(comment)) {
+    res.status(406).json({
+      error: commentError(comment) || `did not provide all query params`,
+    });
     return;
   }
+
+  comment = comment.trim();
 
   const { isLoggedIn, error, code, db, user } = await isLoggedInFunc(req, res);
   if (!isLoggedIn) {
