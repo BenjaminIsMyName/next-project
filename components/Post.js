@@ -221,7 +221,7 @@ export default function Post({ animateProp, post, isPostPage }) {
                 />
               ) : (
                 <span
-                  className={`text-2xl
+                  className={`break-words text-2xl 
                 ${localPost ? "" : "w-[80%] h-9 animate-skeleton"}`}
                 >
                   {title}

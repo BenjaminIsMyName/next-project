@@ -40,7 +40,7 @@ export default function OneComment({
         </span>
       </div>
       {/* the "whitespace-pre-wrap" is for displaying comments with line break. Show multiple lines... */}
-      <span className="whitespace-pre-wrap">{text}</span>
+      <span className="whitespace-pre-wrap break-words">{text}</span>
       <div>
         <div
           className={`py-2 flex gap-2 [&_svg]:w-5 [&_svg]:h-5 [&_svg]:cursor-pointer ${
