@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { useState } from "react";
 import AddComment from "./AddComment";
 import axios from "axios";
@@ -6,6 +6,9 @@ import OneComment from "./OneComment";
 import { getCookie } from "cookies-next";
 import { AlertContext } from "../context/AlertContext";
 import { UserContext } from "../context/UserContext";
+import Loading from "./Loading";
+import Error from "./Error";
+import { useTranslation } from "next-i18next";
 export default function Comments({
   postId,
   increaseCommentsCount,
@@ -13,6 +16,14 @@ export default function Comments({
   numberOfComments,
 }) {
   const [comments, setComments] = useState([]);
+  const { t } = useTranslation("common");
+  const StatusEnum = {
+    loading: "Trying to access the backend and get the comments",
+    error: "Something went wrong while getting the comments",
+    done: "Comments fetched successfully",
+  };
+
+  const [status, setStatus] = useState(StatusEnum.loading);
   let userCookie = getCookie("user");
 
   function addCommentLocally(text, date, id) {
@@ -67,20 +78,39 @@ export default function Comments({
     }
   }
 
-  useEffect(() => {
-    async function fetchComments() {
+  // async function fetchComments() {
+  //   setStatus(StatusEnum.loading);
+  //   try {
+  //     let { data } = await axios.get("/api/post/comments", {
+  //       params: { postId },
+  //     });
+  //     setComments(data);
+  //     setStatus(StatusEnum.done);
+  //   } catch (error) {
+  //     setStatus(StatusEnum.error);
+  //   }
+  // }
+
+  const fetchComments = useCallback(async () => {
+    setStatus(StatusEnum.loading);
+    try {
       let { data } = await axios.get("/api/post/comments", {
         params: { postId },
       });
-
       setComments(data);
+      setStatus(StatusEnum.done);
+    } catch (error) {
+      setStatus(StatusEnum.error);
     }
+  }, [StatusEnum.done, StatusEnum.error, StatusEnum.loading, postId]); // much like [] because they never change
+
+  useEffect(() => {
     fetchComments();
 
     return () => {
       setComments([]);
     };
-  }, [postId]);
+  }, [fetchComments]); // much like [] because it never changes
 
   // if the data in localPost is not up to date, update it.
   if (comments.length > 0 && comments.length != numberOfComments) {
@@ -90,6 +120,13 @@ export default function Comments({
   return (
     <div>
       <AddComment postId={postId} addCommentLocally={addCommentLocally} />
+      {status === StatusEnum.loading && <Loading />}
+      {status === StatusEnum.error && (
+        <Error
+          tryAgainCallback={fetchComments}
+          error={t("error-getting-comments")}
+        />
+      )}
       <div className="flex flex-col gap-3">
         {comments.map((i, key) => (
           <OneComment

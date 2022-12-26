@@ -9,5 +9,7 @@
     "comment-validation-required": "התגובה לא יכולה להיות ריקה",
     "comment-validation-too-long": "התגובה לא יכולה להיות מעל 99 תווים"
   },
-  "cancel": "בטל"
+  "cancel": "בטל",
+  "error-getting-comments": "אוי, מצטערים, משהו השתבש בדרך ולא הצלחנו להציג את התגובות של הפוסט. אתה בטוח שיש לך חיבור לאינטרנט?",
+  "try-again": "נסה שוב"
 }

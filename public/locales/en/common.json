@@ -9,5 +9,7 @@
     "comment-validation-required": "Comment can't be empty",
     "comment-validation-too-long": "Comment can be up to 99 characters"
   },
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "error-getting-comments": "Oh, sorry, something went wrong and we couldn't display the comments. Are you sure you have an internet connection?",
+  "try-again": "Try Again"
 }

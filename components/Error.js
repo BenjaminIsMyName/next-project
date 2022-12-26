@@ -1,7 +1,10 @@
+import { useTranslation } from "next-i18next";
+
 export default function Error({ tryAgainCallback, error }) {
+  const { t } = useTranslation("common");
   return (
     <div className={`p-12 animate-up`}>
-      <span className="text-2xl font-bold text-center text-third-color text-opacity-50 p-1">
+      <span className="text-2xl font-bold block text-center text-error-color text-opacity-50 p-1">
         {error.toString()}
       </span>
       {tryAgainCallback && (
@@ -10,7 +13,7 @@ export default function Error({ tryAgainCallback, error }) {
           type="button"
           onClick={tryAgainCallback}
         >
-          נסה שוב
+          {t("try-again")}
         </button>
       )}
     </div>
