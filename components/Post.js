@@ -185,7 +185,7 @@ export default function Post({ animateProp, post, isPostPage }) {
         )}
         <motion.div
           layout
-          className={`bg-second-color min-h-[200px] text-option-text-color 
+          className={`bg-second-color text-option-text-color 
           
           ${shouldAnimate ? "opacity-0" : ""} ${
             isFullyOpened
