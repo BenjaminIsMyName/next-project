@@ -258,7 +258,7 @@ export default function Post({ animateProp, post, isPostPage }) {
             <div className="px-6">
               <button
                 type="button"
-                className="block bg-opacity-0 w-min m-auto"
+                className="block bg-opacity-0 w-min m-auto mb-4"
                 onClick={() => {
                   setIsEditing(false);
                   setTitle(localPost.title); // return the title to its previous state
