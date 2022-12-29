@@ -155,8 +155,20 @@ export default function Post({ animateProp, post, isPostPage }) {
     }));
   }
 
-  function submitTitleChange() {
-    // TODO: send the new title to the backend
+  async function submitTitleChange() {
+    setTitleEditingStatus(StatusEnumForTitle.loading);
+    try {
+      await axios.put("/api/post/editPost", {
+        postId: localPost._id,
+        newTitle: title,
+      });
+      setTitleEditingStatus(StatusEnumForTitle.done);
+      setIsEditing(false);
+      localPost.title = title; // this is now the actual title, change it here too.
+    } catch (error) {
+      console.log(error);
+      setTitleEditingStatus(StatusEnumForTitle.error);
+    }
   }
 
   return (
@@ -285,6 +297,8 @@ export default function Post({ animateProp, post, isPostPage }) {
                   ? t("loading", { ns: "common" }) + "..."
                   : title.length === 0
                   ? t("write-something", { ns: "common" }) + "..."
+                  : titleEditingStatus === StatusEnumForTitle.error
+                  ? t("try-again", { ns: "common" })
                   : t("save", { ns: "common" })}
               </button>
             </div>
