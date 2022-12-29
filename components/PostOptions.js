@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { AlertContext } from "../context/AlertContext";
 import { UserContext } from "../context/UserContext";
 
-export default function PostOptions({ post, editClick }) {
+export default function PostOptions({ post, editClick, deleteClick }) {
   const { add } = useContext(AlertContext);
   const { user } = useContext(UserContext);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -38,7 +38,7 @@ export default function PostOptions({ post, editClick }) {
               <span>Edit</span>
             </ButtonForPost>
 
-            <ButtonForPost>
+            <ButtonForPost onClick={deleteClick}>
               <CopyIcon />
               <span>Delete</span>
             </ButtonForPost>

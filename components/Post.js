@@ -36,6 +36,7 @@ export default function Post({ animateProp, post, isPostPage }) {
   const [shouldAnimate, setShouldAnimate] = useState(animateProp);
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(localPost?.title || "");
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const StatusEnumForTitle = {
     initial: "Nothing happened yet",
@@ -64,6 +65,7 @@ export default function Post({ animateProp, post, isPostPage }) {
   const postHeightNotOpenedYetRef = useRef();
   useEffect(() => {
     if (isFullyOpened) return;
+    if (!postRef.current) return;
     postHeightNotOpenedYetRef.current = postRef.current.offsetHeight;
   });
 
@@ -169,6 +171,24 @@ export default function Post({ animateProp, post, isPostPage }) {
       console.log(error);
       setTitleEditingStatus(StatusEnumForTitle.error);
     }
+  }
+
+  async function handleDelete() {
+    add({ title: `Deleting...` });
+    try {
+      await axios.delete("/api/post/deletePost", {
+        data: { postId: localPost._id },
+      });
+      setIsDeleted(true);
+      add({ title: `Deleted!`, color: "success" });
+    } catch (error) {
+      console.log(error);
+      add({ title: `Failed to delete, try again later!` });
+    }
+  }
+
+  if (isDeleted) {
+    return <div></div>;
   }
 
   return (
@@ -355,6 +375,7 @@ export default function Post({ animateProp, post, isPostPage }) {
             <PostOptions
               post={localPost}
               editClick={() => setIsEditing(true)}
+              deleteClick={handleDelete}
             />
           )}
           {isFullyOpened && (
