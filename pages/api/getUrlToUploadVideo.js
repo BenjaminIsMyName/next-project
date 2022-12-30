@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { getCookie } from "cookies-next";
 import connectToDatabase from "../../util/mongodb";
 import { isLoggedInFunc } from "../../util/authHelpers";
+
 const s3instance = new S3({
   apiVersion: "2006-03-01",
   region: "us-east-1",
@@ -42,18 +43,18 @@ export default async function handler(req, res) {
     const { name, type } = req.query;
 
     const ext = name.substring(name.lastIndexOf(".") + 1);
-
+    const key = crypto.randomBytes(32).toString("hex") + `.${ext}`;
     // Setting parameters - ACL will allow us to see a file
     const fileParams = {
       Bucket: process.env.AWS_BUCKET_NAME,
-      Key: crypto.randomBytes(32).toString("hex") + `.${ext}`,
+      Key: key,
       Expires: 600,
       ContentType: type,
       ACL: "public-read",
     };
     // Generating a signed URL which we'll use to upload a file
     const url = await s3instance.getSignedUrlPromise("putObject", fileParams);
-    res.status(200).json({ url });
+    res.status(200).json({ url, objectS3key: key });
   } catch (error) {
     console.log(`error: ${error}`);
     res.status(400).json({ message: error });

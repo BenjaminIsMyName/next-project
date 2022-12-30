@@ -11,10 +11,12 @@ export default async function handler(req, res) {
   }
 
   // validate params ------------------------
-  let { url, title } = req.body;
+  let { url, title, objectS3key } = req.body;
 
-  if (urlError(url) || titleError(title)) {
-    res.status(406).json({ error: urlError(url) || titleError(title) });
+  if (urlError(url) || titleError(title) || !objectS3key) {
+    res.status(406).json({
+      error: urlError(url) || titleError(title) || "objectS3key is missing",
+    });
     return;
   }
 
@@ -33,6 +35,7 @@ export default async function handler(req, res) {
   try {
     var { insertedId } = await db.collection("posts").insertOne({
       url,
+      objectS3key,
       type: "video",
       title,
       postCreationDate: new Date(),

@@ -34,7 +34,8 @@ export default function CreatePost() {
       });
 
       const url = data.url;
-      console.log(url);
+      const objectS3key = data.objectS3key;
+
       await axios.put(url, file, {
         headers: {
           "Content-type": file.type,
@@ -47,6 +48,7 @@ export default function CreatePost() {
       const res = await axios.post("/api/savePostToDb", {
         url: videoUrl,
         title,
+        objectS3key,
       });
       router.push(`/post/${res.data}`);
     } catch (error) {
