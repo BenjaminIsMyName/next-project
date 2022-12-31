@@ -7,6 +7,10 @@ import Balancer from "react-wrap-balancer";
 import { useRouter } from "next/router";
 import Input from "../Input";
 import { titleError } from "../../util/validate";
+import SelectedTopic from "./SelectedTopic";
+import Topics from "./Topics";
+import TopicsModal from "./TopicsModal";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function CreatePost() {
   const { t } = useTranslation("admin");
@@ -21,6 +25,7 @@ export default function CreatePost() {
   };
   const [status, setStatus] = useState(StatusEnum.start);
   const [title, setTitle] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   function handleFileSelect(e) {
     setFile(e.target.files[0]);
@@ -62,8 +67,9 @@ export default function CreatePost() {
     document.querySelector("#uploadInput").value = "";
   }
   return (
-    <div
-      className={`bg-second-color text-option-text-color w-full flex flex-col p-[min(20px,3%)] gap-3 text-center`}
+    <motion.div
+      layout
+      className={`relative bg-second-color text-option-text-color w-full flex flex-col p-[min(20px,3%)] gap-3 text-center`}
     >
       <div>
         <Balancer>
@@ -85,6 +91,12 @@ export default function CreatePost() {
           "bg-main-color shadow-inner shadow-shadows-color p-2 rounded-3xl text-center"
         }
       />
+      <Topics addTopicCallback={() => setIsModalOpen(true)} />
+      <AnimatePresence>
+        {isModalOpen && (
+          <TopicsModal closeCallback={() => setIsModalOpen(false)} />
+        )}
+      </AnimatePresence>
       <div className={`bg-main-color h-80 w-full`}>
         {file === null ? (
           <label
@@ -133,6 +145,6 @@ export default function CreatePost() {
       {status === StatusEnum.error && (
         <Error tryAgainCallback={uploadFile} error={t("error")} />
       )}
-    </div>
+    </motion.div>
   );
 }

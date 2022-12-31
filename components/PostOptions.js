@@ -23,28 +23,32 @@ export default function PostOptions({ post, editClick, deleteClick }) {
       <div className="flex gap-5 p-3 md:p-1 overflow-x-auto [&_svg]:flex-shrink-0">
         <ButtonForPost onClick={handleShare}>
           <CopyIcon />
-          <span>Share</span>
+          <TextForPost text={"Share"} />
         </ButtonForPost>
 
         <ButtonForPost>
           <CopyIcon />
-          <span>Save</span>
+          <TextForPost text={"Save"} />
         </ButtonForPost>
 
         {isAdmin && (
           <>
             <ButtonForPost onClick={editClick}>
               <CopyIcon />
-              <span>Edit</span>
+              <TextForPost text={"Edit"} />
             </ButtonForPost>
 
             <ButtonForPost onClick={deleteClick}>
               <CopyIcon />
-              <span>Delete</span>
+              <TextForPost text={"Delete"} />
             </ButtonForPost>
           </>
         )}
       </div>
     </div>
   );
+}
+
+function TextForPost({ text }) {
+  return <span className="whitespace-nowrap">{text}</span>;
 }
