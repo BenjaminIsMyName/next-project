@@ -110,7 +110,8 @@ body {
 } */
 
 /* Custom scrollbar on desktop... */
-@media screen and (min-width: 900px) {
+@media (hover: hover) and (pointer: fine) {
+  /* or: @media screen and (min-width: 900px)  */
   /* for scrollbar: */
   ::-webkit-scrollbar {
     width: 10px;
