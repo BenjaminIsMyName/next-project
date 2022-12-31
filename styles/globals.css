@@ -29,7 +29,7 @@
   --third-color: var(--darkgreen-third-color);
   --shadows-color: 0, 0, 0;
   --option-text-color: 255, 255, 255;
-  --error-color: 244, 67, 54;
+  --error-color: 244, 67, 54; /* TODO: create TWO error colors for each theme: dark and light, to be used across the app */
   --header-height: 56px;
   --aside-width: 300px;
   /* fonts: */
