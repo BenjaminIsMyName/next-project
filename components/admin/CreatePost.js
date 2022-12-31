@@ -44,9 +44,7 @@ export default function CreatePost() {
       });
 
       removeSelectedFile();
-      const videoUrl = url.split("?")[0];
       const res = await axios.post("/api/savePostToDb", {
-        url: videoUrl,
         title,
         objectS3key,
       });

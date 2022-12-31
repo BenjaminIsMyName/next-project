@@ -66,7 +66,7 @@ export default async function handler(req, res) {
   const customize = getSome.map(p => {
     return {
       _id: p._id,
-      url: p.url,
+      url: process.env.AWS_URL_PREFIX + p.objectS3key,
       type: p.type,
       title: p.title,
       postCreationDate: p.postCreationDate,

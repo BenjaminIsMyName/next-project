@@ -1,6 +1,6 @@
 import { isLoggedInFunc } from "../../util/authHelpers";
 import { ObjectId } from "mongodb";
-import { titleError, urlError } from "../../util/validate";
+import { titleError } from "../../util/validate";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -11,11 +11,11 @@ export default async function handler(req, res) {
   }
 
   // validate params ------------------------
-  let { url, title, objectS3key } = req.body;
+  let { title, objectS3key } = req.body;
 
-  if (urlError(url) || titleError(title) || !objectS3key) {
+  if (titleError(title) || !objectS3key) {
     res.status(406).json({
-      error: urlError(url) || titleError(title) || "objectS3key is missing",
+      error: titleError(title) || "objectS3key is missing",
     });
     return;
   }
@@ -31,10 +31,9 @@ export default async function handler(req, res) {
     return;
   }
 
-  // TODO: check if post with this url already exist
+  // TODO: check if post with this objectS3key already exist (?)
   try {
     var { insertedId } = await db.collection("posts").insertOne({
-      url,
       objectS3key,
       type: "video",
       title,

@@ -53,11 +53,29 @@ export default async function handler(req, res) {
     Key: post.value.objectS3key,
   };
 
-  s3instance.deleteObject(fileParams, (err, _data) => {
-    if (err) {
-      console.log(`error ${err}`);
-    }
-  });
+  // ------------ OLD CODE, it will always return 204, even before deleting from s3
+  // s3instance.deleteObject(fileParams, (err, _data) => {
+  //   if (err) {
+  //     console.log(`error ${err}`);
+  //   }
+  // });
 
-  res.status(204).end();
+  // res.status(204).end();
+
+  // ------------ NEW CODE, it will wait for the function to complete before returning 204/503
+  return new Promise((resolve, reject) => {
+    s3instance.deleteObject(fileParams, (err, _data) => {
+      // Note: the deleteObject method doesn't throw an error if the object doesn't exist.
+      if (err) {
+        console.log(`error ${err}`);
+        reject();
+        res
+          .status(503)
+          .json({ error: `failed to delete post from S3 bucket: ${err}` });
+      } else {
+        resolve();
+        res.status(204).end();
+      }
+    });
+  });
 }
