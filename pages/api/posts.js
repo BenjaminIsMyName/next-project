@@ -4,10 +4,12 @@ import connectToDatabase from "../../util/mongodb";
 import { ObjectId } from "mongodb";
 
 export default async function handler(req, res) {
-  if (req.method !== "GET") return;
-  // let { from, amount, type } = req.query;
-  // from = parseInt(from);
-  // amount = parseInt(amount);
+  if (req.method !== "GET") {
+    res.status(405).json({
+      error: `posts is a GET request, not ${req.method}!`,
+    });
+    return;
+  }
 
   let { exist, amount, type } = req.query;
 
