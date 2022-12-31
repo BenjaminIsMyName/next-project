@@ -6,15 +6,17 @@ import GoBackButton from "../GoBackButton";
 import TrashIcon from "../icons/TrashIcon";
 import Loading from "../Loading";
 
-export default function TopicsModal({ closeCallback }) {
+export default function TopicsModal({
+  closeCallback,
+  selectedTopics,
+  setSelectedTopics,
+}) {
   const { locale } = useRouter();
   const [topics, setTopics] = useState([]);
 
   useEffect(() => {
     async function fetchAll() {
       const { data } = await axios.get("/api/topics/getAll");
-      console.log(typeof data.topics[0]._id);
-
       setTopics(data.topics);
     }
 
@@ -51,6 +53,15 @@ export default function TopicsModal({ closeCallback }) {
             key={t._id}
             id={t._id}
             text={locale === "en" ? t.english : t.hebrew}
+            isSelected={selectedTopics.some(obj => obj._id === t._id)}
+            toggle={() => {
+              if (selectedTopics.some(obj => t._id === obj._id))
+                setSelectedTopics(prev =>
+                  prev.filter(obj => t._id !== obj._id)
+                );
+              else setSelectedTopics(prev => [...prev, t]);
+              console.log(selectedTopics);
+            }}
           />
         ))}
       </div>
@@ -58,11 +69,17 @@ export default function TopicsModal({ closeCallback }) {
   );
 }
 
-function TopicToPick({ text, id }) {
+function TopicToPick({ text, id, isSelected, toggle }) {
   return (
     <div className="bg-main-color p-4 flex justify-between">
       <div className="flex gap-3">
-        <input type={"checkbox"} id={id} className={"accent-third-color"} />
+        <input
+          type={"checkbox"}
+          id={id}
+          className={"accent-third-color"}
+          checked={isSelected}
+          onChange={toggle}
+        />
         <label htmlFor={id}>{text}</label>
       </div>
       <button className="fill-error-color w-5 h-5">

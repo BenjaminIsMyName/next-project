@@ -26,6 +26,7 @@ export default function CreatePost() {
   const [status, setStatus] = useState(StatusEnum.start);
   const [title, setTitle] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTopics, setSelectedTopics] = useState([]);
 
   function handleFileSelect(e) {
     setFile(e.target.files[0]);
@@ -91,10 +92,18 @@ export default function CreatePost() {
           "bg-main-color shadow-inner shadow-shadows-color p-2 rounded-3xl text-center"
         }
       />
-      <Topics addTopicCallback={() => setIsModalOpen(true)} />
+      <Topics
+        addTopicCallback={() => setIsModalOpen(true)}
+        setSelectedTopics={setSelectedTopics}
+        selectedTopics={selectedTopics}
+      />
       <AnimatePresence>
         {isModalOpen && (
-          <TopicsModal closeCallback={() => setIsModalOpen(false)} />
+          <TopicsModal
+            closeCallback={() => setIsModalOpen(false)}
+            setSelectedTopics={setSelectedTopics}
+            selectedTopics={selectedTopics}
+          />
         )}
       </AnimatePresence>
       <div className={`bg-main-color h-80 w-full`}>
