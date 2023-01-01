@@ -44,7 +44,7 @@ export default function TopicsModal({
         animate={{ scale: 1, rotate: 0, opacity: 1 }}
         exit={{ scale: 0, rotate: 40, opacity: 0 }}
         transition={{ ease: "easeIn", duration: 0.2, opacity: 0 }}
-        className="absolute inset-0 bg-second-color bg-opacity-80 z-20 backdrop-blur-md"
+        className="absolute inset-0 bg-second-color bg-opacity-80 z-20 backdrop-blur-md overflow-y-auto pb-5"
       >
         <div
           className={`fixed top-4 ${
@@ -105,7 +105,7 @@ function TopicToPick({ text, id, isSelected, toggle }) {
         />
         <label htmlFor={id}>{text}</label>
       </div>
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-4 items-center">
         <button className="w-5 h-5 fill-third-color">
           <EditIcon />
         </button>
