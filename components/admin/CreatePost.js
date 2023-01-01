@@ -78,7 +78,7 @@ export default function CreatePost() {
   return (
     <motion.div
       layout
-      className={`relative min-h-[100vh] md:min-h-[unset] bg-second-color text-option-text-color w-full flex flex-col p-[min(20px,3%)] gap-3 text-center`}
+      className={`overflow-visible relative min-h-[100vh] md:min-h-[unset] bg-second-color text-option-text-color w-full flex flex-col p-[min(20px,3%)] gap-3 text-center`}
     >
       <div>
         <Balancer>

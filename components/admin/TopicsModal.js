@@ -39,12 +39,13 @@ export default function TopicsModal({
 
   return (
     <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
+      {/* TODO: this div needs to be higher than its parent, and also let the body's scrollbar scroll for its content */}
       <m.div
         initial={{ scale: 0, rotate: 40, opacity: 0 }}
         animate={{ scale: 1, rotate: 0, opacity: 1 }}
         exit={{ scale: 0, rotate: 40, opacity: 0 }}
         transition={{ ease: "easeIn", duration: 0.2, opacity: 0 }}
-        className="absolute inset-0 bg-second-color bg-opacity-80 z-20 backdrop-blur-md overflow-y-auto pb-5"
+        className="absolute top-0 left-0 right-0 bg-second-color bg-opacity-80 z-20 backdrop-blur-md min-h-full"
       >
         <div
           className={`fixed top-4 ${
@@ -65,7 +66,7 @@ export default function TopicsModal({
           value={searchTerm}
         />
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 p-3">
           {topics.length ? "" : <Loading />}
           {topics.length > 0 && filteredTopics.length === 0 && (
             <NoResults createCallback={createCallback} />
