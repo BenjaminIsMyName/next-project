@@ -74,7 +74,7 @@ export default function CreatePost() {
     >
       <div>
         <Balancer>
-          <span className="block text-4xl px-2 text-center">
+          <span className="block text-4xl px-2 mt-4 text-center">
             {t("create-post-title")}
           </span>
         </Balancer>

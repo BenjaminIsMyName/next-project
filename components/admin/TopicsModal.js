@@ -31,8 +31,8 @@ export default function TopicsModal({
 
   const filteredTopics = topics.filter(
     t =>
-      t.hebrew.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      t.english.toLowerCase().includes(searchTerm.toLowerCase())
+      t.hebrew.toLowerCase().trim().includes(searchTerm.trim().toLowerCase()) ||
+      t.english.toLowerCase().trim().includes(searchTerm.trim().toLowerCase())
   );
 
   return (

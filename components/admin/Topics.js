@@ -9,8 +9,8 @@ export default function Topics({
   const { locale } = useRouter();
 
   return (
-    <div className="py-2 px-4 md:px-0">
-      <div className="flex gap-5 p-3 md:p-1 overflow-x-auto [&_svg]:flex-shrink-0">
+    <div className="py-2">
+      <div className="flex gap-5 px-3 !py-4 md:p-1 overflow-x-auto overflow-y-hidden [&_svg]:flex-shrink-0">
         <button
           className="whitespace-nowrap bg-third-color p-3 rounded-md bg-opacity-40 shadow-md shadow-shadows-color"
           onClick={addTopicCallback}
