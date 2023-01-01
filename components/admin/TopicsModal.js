@@ -29,6 +29,12 @@ export default function TopicsModal({
   const searchRef = useRef();
   useEffect(() => searchRef.current && searchRef.current.focus(), []);
 
+  const filteredTopics = topics.filter(
+    t =>
+      t.hebrew.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      t.english.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
       <m.div
@@ -59,28 +65,23 @@ export default function TopicsModal({
 
         <div className="flex flex-col gap-4">
           {topics.length ? "" : <Loading />}
-          {topics
-            .filter(
-              t =>
-                t.hebrew.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                t.english.toLowerCase().includes(searchTerm.toLowerCase())
-            )
-            .map(t => (
-              <TopicToPick
-                key={t._id}
-                id={t._id}
-                text={locale === "en" ? t.english : t.hebrew}
-                isSelected={selectedTopics.some(obj => obj._id === t._id)}
-                toggle={() => {
-                  if (selectedTopics.some(obj => t._id === obj._id))
-                    setSelectedTopics(prev =>
-                      prev.filter(obj => t._id !== obj._id)
-                    );
-                  else setSelectedTopics(prev => [...prev, t]);
-                  console.log(selectedTopics);
-                }}
-              />
-            ))}
+          {topics.length > 0 && filteredTopics.length === 0 && <NoResults />}
+          {filteredTopics.map(t => (
+            <TopicToPick
+              key={t._id}
+              id={t._id}
+              text={locale === "en" ? t.english : t.hebrew}
+              isSelected={selectedTopics.some(obj => obj._id === t._id)}
+              toggle={() => {
+                if (selectedTopics.some(obj => t._id === obj._id))
+                  setSelectedTopics(prev =>
+                    prev.filter(obj => t._id !== obj._id)
+                  );
+                else setSelectedTopics(prev => [...prev, t]);
+                console.log(selectedTopics);
+              }}
+            />
+          ))}
         </div>
       </m.div>
     </FocusTrap>
@@ -94,7 +95,7 @@ function TopicToPick({ text, id, isSelected, toggle }) {
         <input
           type={"checkbox"}
           id={id}
-          className={"accent-third-color"}
+          className={"accent-third-color w-4"}
           checked={isSelected}
           onChange={toggle}
         />
@@ -108,6 +109,17 @@ function TopicToPick({ text, id, isSelected, toggle }) {
           <TrashIcon />
         </button>
       </div>
+    </div>
+  );
+}
+
+function NoResults() {
+  return (
+    <div className="flex flex-col gap-2 items-center">
+      <div className="text-error-color">No Results</div>
+      <button className="bg-main-color p-3 rounded-lg text-third-color">
+        CREATE NEW TOPIC
+      </button>
     </div>
   );
 }
