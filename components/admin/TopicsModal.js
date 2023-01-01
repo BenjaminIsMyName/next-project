@@ -12,6 +12,7 @@ export default function TopicsModal({
   closeCallback,
   selectedTopics,
   setSelectedTopics,
+  createCallback,
 }) {
   const { locale } = useRouter();
   const [topics, setTopics] = useState([]);
@@ -19,6 +20,7 @@ export default function TopicsModal({
 
   useEffect(() => {
     async function fetchAll() {
+      // TODO: try catch etc...
       const { data } = await axios.get("/api/topics/getAll");
       setTopics(data.topics);
     }
@@ -65,7 +67,9 @@ export default function TopicsModal({
 
         <div className="flex flex-col gap-4">
           {topics.length ? "" : <Loading />}
-          {topics.length > 0 && filteredTopics.length === 0 && <NoResults />}
+          {topics.length > 0 && filteredTopics.length === 0 && (
+            <NoResults createCallback={createCallback} />
+          )}
           {filteredTopics.map(t => (
             <TopicToPick
               key={t._id}
@@ -113,11 +117,14 @@ function TopicToPick({ text, id, isSelected, toggle }) {
   );
 }
 
-function NoResults() {
+function NoResults({ createCallback }) {
   return (
     <div className="flex flex-col gap-2 items-center">
       <div className="text-error-color">No Results</div>
-      <button className="bg-main-color p-3 rounded-lg text-third-color">
+      <button
+        className="bg-main-color p-3 rounded-lg text-third-color"
+        onClick={createCallback}
+      >
         CREATE NEW TOPIC
       </button>
     </div>

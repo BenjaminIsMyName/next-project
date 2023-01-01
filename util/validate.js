@@ -54,3 +54,11 @@ export function commentError(comment) {
   if (comment.length > 99) return "error-text.comment-validation-too-long";
   return "";
 }
+
+export function topicError(topic) {
+  if (typeof topic !== "string") return "error-text.topic-validation-required";
+  topic = topic.trim();
+  if (topic.length < 1) return "error-text.topic-validation-required";
+  if (topic.length > 99) return "error-text.topic-validation-too-long";
+  return "";
+}
