@@ -97,6 +97,7 @@ export default function CreatePost() {
         setSelectedTopics={setSelectedTopics}
         selectedTopics={selectedTopics}
       />
+
       <AnimatePresence>
         {isModalOpen && (
           <TopicsModal
@@ -106,6 +107,7 @@ export default function CreatePost() {
           />
         )}
       </AnimatePresence>
+
       <div className={`bg-main-color h-80 w-full`}>
         {file === null ? (
           <label
