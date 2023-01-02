@@ -49,7 +49,7 @@ export default function CreateTopic({
       <m.div
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0, opacity: 0 }}
+        exit={{ scale: 0, opacity: 0, rotate: 40 }}
         transition={{ ease: "easeIn", duration: 0.2, opacity: 0 }}
         className="absolute inset-0 bg-second-color bg-opacity-80 z-20 backdrop-blur-md"
       >
@@ -64,14 +64,14 @@ export default function CreateTopic({
           <Input
             valueObj={inputsData}
             name={"english"}
-            checkErrorCallback={() => false}
+            checkErrorCallback={topicError}
             onChange={handleInputChange}
             placeholder={"Name in English"}
           />
           <Input
             valueObj={inputsData}
             name={"hebrew"}
-            checkErrorCallback={() => false}
+            checkErrorCallback={topicError}
             onChange={handleInputChange}
             placeholder={"Name in Hebrew"}
           />

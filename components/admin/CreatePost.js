@@ -16,7 +16,7 @@ import CreateTopic from "./CreateTopic";
 export default function CreatePost() {
   const { t } = useTranslation("admin");
   const router = useRouter();
-
+  const locale = router.locale;
   const [file, setFile] = useState(null);
   const StatusEnum = {
     start: "The upload process didn't start yet",
@@ -78,7 +78,14 @@ export default function CreatePost() {
   return (
     <motion.div
       layout
-      className={`overflow-visible relative min-h-[100vh] md:min-h-[unset] bg-second-color text-option-text-color w-full flex flex-col p-[min(20px,3%)] gap-3 text-center`}
+      className={`
+      bg-second-color text-option-text-color 
+      md:p-5 md:border-[20px] border-main-color overflow-auto fixed md:right-[var(--aside-width)] md:left-0 md:bottom-0 top-0 z-50
+      right-0 p-0 border-0 left-0 bottom-[var(--header-height)]
+           
+      ${locale === "en" ? "!right-0 md:left-[var(--aside-width)] left-0" : ""}
+      
+        flex flex-col p-[min(20px,3%)] gap-3 text-center`}
     >
       <div>
         <Balancer>
