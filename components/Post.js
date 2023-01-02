@@ -221,15 +221,15 @@ export default function Post({ animateProp, post, isPostPage }) {
           
           ${shouldAnimate ? "opacity-0" : ""} ${
             isFullyOpened
-              ? `md:p-5 md:border-[20px] border-main-color overflow-auto fixed md:right-[var(--aside-width)] md:left-0 md:bottom-0 top-0 z-50 ${
+              ? `md:p-5 md:border-[20px] border-main-color overflow-auto fixed right-0 left-0 md:bottom-0 top-0 z-50 ${
                   isPostPage ? "" : "bg-opacity-50 backdrop-blur-lg"
                 }
-                  right-0 p-0 border-0 left-0 bottom-[var(--header-height)]`
+                  p-0 border-0 bottom-[var(--header-height)]`
               : "mb-5 overflow-hidden"
           } ${
             locale === "en" && isFullyOpened
-              ? "!right-0 md:left-[var(--aside-width)] left-0"
-              : ""
+              ? "md:left-[var(--aside-width)]"
+              : "md:right-[var(--aside-width)]"
           }`}
           ref={postRef} // converted from https://reactjs.org/docs/refs-and-the-dom.html#callback-refs to simple ref
         >

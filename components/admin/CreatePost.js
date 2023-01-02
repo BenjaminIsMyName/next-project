@@ -79,13 +79,18 @@ export default function CreatePost() {
     <motion.div
       layout
       className={`
+      flex flex-col p-[min(20px,3%)] gap-3 text-center
       bg-second-color text-option-text-color 
-      md:p-5 md:border-[20px] border-main-color overflow-auto fixed md:right-[var(--aside-width)] md:left-0 md:bottom-0 top-0 z-50
-      right-0 p-0 border-0 left-0 bottom-[var(--header-height)]
+      md:p-5 md:border-[20px] border-main-color overflow-auto fixed md:bottom-0 top-0 z-50
+      border-0 bottom-[var(--header-height)] right-0 left-0
            
-      ${locale === "en" ? "!right-0 md:left-[var(--aside-width)] left-0" : ""}
+      ${
+        locale === "en"
+          ? "md:left-[var(--aside-width)]"
+          : "md:right-[var(--aside-width)]"
+      }
       
-        flex flex-col p-[min(20px,3%)] gap-3 text-center`}
+        `}
     >
       <div>
         <Balancer>
