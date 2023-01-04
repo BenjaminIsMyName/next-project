@@ -48,14 +48,15 @@ export default function Post({ animateProp, post, isPostPage }) {
     StatusEnumForTitle.initial
   );
   useEffect(() => {
-    if (isFullyOpened) {
+    if (isFullyOpened && !isPostPage) {
+      // if a post was opened in the feed, it'll be opened in a scrollable fixed div. The body shouldn't be scrollable.
       document.body.classList.add("no-scroll-in-any-screen-due-to-opened-post");
     } else {
       document.body.classList.remove(
         "no-scroll-in-any-screen-due-to-opened-post"
       );
     }
-  }, [isFullyOpened]);
+  }, [isFullyOpened, isPostPage]);
 
   const observer = useRef();
   const postRef = useRef();
@@ -194,16 +195,16 @@ export default function Post({ animateProp, post, isPostPage }) {
   return (
     <FocusTrap
       focusTrapOptions={{
+        // -------- if we want any click outside to close the post:
         clickOutsideDeactivates: true,
         escapeDeactivates: true, // default
         onDeactivate: () => {
           push(route, undefined, { scroll: false });
         },
-        ///// a little bug with those options (instead of the above). Opening modal (to log in) and clicking ESC will allow the user to move to other posts with TAB
+        // -------- if we want to allow clicks outside, but no tabs (NOTE: tiny bugs with this option, check well before changing):
         // allowOutsideClick: true,
-        // clickOutsideDeactivates: false,
       }}
-      active={isFullyOpened && !isPostPage}
+      active={isFullyOpened && !isPostPage} // we need FocusTrap only when the post is opened in the feed
     >
       <div>
         {/* placeholder... when the post is showing on full screen, put something there in the meantime. same height as the post, same margin  */}
@@ -221,15 +222,18 @@ export default function Post({ animateProp, post, isPostPage }) {
           
           ${shouldAnimate ? "opacity-0" : ""} ${
             isFullyOpened
-              ? `md:p-5 md:border-[20px] border-main-color overflow-auto fixed right-0 left-0 md:bottom-0 top-0 z-50 ${
-                  isPostPage ? "" : "bg-opacity-50 backdrop-blur-lg"
+              ? `md:p-5 md:border-[20px] border-main-color  ${
+                  // nested conditions
+                  isPostPage
+                    ? ""
+                    : `bg-opacity-50 backdrop-blur-lg top-0 right-0 left-0 bottom-0 fixed z-50 h-full overflow-auto ${
+                        locale === "en" // all of this is needed only when the post is fixed on the feed
+                          ? "md:left-[var(--aside-width)]"
+                          : "md:right-[var(--aside-width)]"
+                      }`
                 }
-                  p-0 border-0 bottom-[var(--header-height)]`
+                  p-0 border-0`
               : "mb-5 overflow-hidden"
-          } ${
-            locale === "en" && isFullyOpened
-              ? "md:left-[var(--aside-width)]"
-              : "md:right-[var(--aside-width)]"
           }`}
           ref={postRef} // converted from https://reactjs.org/docs/refs-and-the-dom.html#callback-refs to simple ref
         >

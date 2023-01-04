@@ -46,12 +46,16 @@ export default function CreateTopic({
 
   return (
     <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
+      {/* don't allow tabs outside of here, but allow clicking on the menu  */}
       <m.div
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0, opacity: 0, rotate: 40 }}
         transition={{ ease: "easeIn", duration: 0.2, opacity: 0 }}
-        className="absolute inset-0 bg-second-color bg-opacity-80 z-20 backdrop-blur-md"
+        // same div as of the one that is in the "SearchTopic"
+        className="absolute top-0 left-0 right-0 min-h-full 
+        bg-second-color bg-opacity-80 z-20 backdrop-blur-md border-b-[20px] border-main-color
+        pb-[var(--header-height)] md:pb-0" // add some padding on phone, and keep the border-b-[20px] because why not...
       >
         <div
           className={`fixed top-4 ${

@@ -9,7 +9,7 @@ import Input from "../Input";
 import { titleError } from "../../util/validate";
 import SelectedTopic from "./SelectedTopic";
 import Topics from "./Topics";
-import TopicsModal from "./TopicsModal";
+import SearchTopic from "./SearchTopic";
 import { AnimatePresence, motion } from "framer-motion";
 import CreateTopic from "./CreateTopic";
 
@@ -81,15 +81,8 @@ export default function CreatePost() {
       className={`
       flex flex-col p-[min(20px,3%)] gap-3 text-center
       bg-second-color text-option-text-color 
-      md:p-5 md:border-[20px] border-main-color overflow-auto fixed md:bottom-0 top-0 z-50
-      border-0 bottom-[var(--header-height)] right-0 left-0
-           
-      ${
-        locale === "en"
-          ? "md:left-[var(--aside-width)]"
-          : "md:right-[var(--aside-width)]"
-      }
-      
+      md:p-5 md:border-[20px] border-main-color 
+      border-0 relative
         `}
     >
       <div>
@@ -120,7 +113,7 @@ export default function CreatePost() {
 
       <AnimatePresence>
         {modalOpen === ModalEnum.search && (
-          <TopicsModal
+          <SearchTopic
             closeCallback={() => setModalOpen(ModalEnum.none)}
             setSelectedTopics={setSelectedTopics}
             selectedTopics={selectedTopics}

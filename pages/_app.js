@@ -94,15 +94,16 @@ function MyApp({ Component, pageProps }) {
           <Aside />
           <AnimatePresence mode={"wait"}>
             <motion.div
+              // we add padding to the bottom only on small screens (md:p-0) to not overlap the menu's header.
               className={`bg-main-color transition-[width] duration-1000 ease-in
-                        min-h-screen overflow-hidden isolate
-                        w-full p-[0_0_var(--header-height)_0]
-                        md:w-[calc(100%-var(--aside-width))] md:p-[8%]
-            ${locale === "en" ? "float-right" : "float-left"}`}
+                        min-h-screen isolate 
+                        w-full p-[0_0_var(--header-height)_0] md:p-0 
+                        md:w-[calc(100%-var(--aside-width))] 
+            ${locale === "en" ? "float-right" : "float-left"}`} // this is the div that contains the actual content of the page, next to the menu.
               key={router.route}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial={{ opacity: 0, y: -400 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 400 }}
               transition={{ duration: 0.4, ease: "easeInOut" }}
             >
               <Component {...pageProps} />

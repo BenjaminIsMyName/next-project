@@ -40,7 +40,7 @@ export default function Feed({ type }) {
   }, [hasMore, loading]);
 
   return (
-    <>
+    <div className="md:p-[8%]">
       {posts.map((post, index) => (
         <Post
           key={post._id}
@@ -65,6 +65,6 @@ export default function Feed({ type }) {
       {error !== null && (
         <Error tryAgainCallback={tryAgainCallback} error={error} />
       )}
-    </>
+    </div>
   );
 }
