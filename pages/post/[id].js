@@ -10,14 +10,22 @@ import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 import { useRef } from "react";
 import { useEffect } from "react";
+
 export default function PostPage({ post }) {
   const postToDisplay = JSON.parse(post);
   const { t } = useTranslation(["common"]);
   const THE_TITLE = `${postToDisplay.title} - ${t("app-name")}`;
 
+  /*
+    How to update the UI when user logs in/out? We want to call the function getServerSideProps again...
+    We need to re-check if the post was liked by the new user etc...
+    So, as a half-solution, I refresh the page when the user changes.
+    See commit: 70f07f788d8096ff14d7a12fc238917996c8ddfa
+  */
   const { user } = useContext(UserContext);
   const renderCount = useRef(0);
   useEffect(() => {
+    // don't run on initial page load, only when user.id changes!
     const rendersOnMount = process.env.NODE_ENV === "production" ? 1 : 2; // with strict mode it's 2 times
     renderCount.current++;
     if (renderCount.current <= rendersOnMount) {
@@ -26,6 +34,12 @@ export default function PostPage({ post }) {
     // router.replace(router.asPath);
     window.location.reload();
   }, [user?.id]);
+
+  useEffect(() => {
+    // needed: if post was opened from feed (after scrolling in feed) and the
+    // user refreshed the page - start from top.
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
