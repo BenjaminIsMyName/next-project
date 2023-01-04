@@ -96,7 +96,7 @@ function MyApp({ Component, pageProps }) {
             <motion.div
               // we add padding to the bottom only on small screens (md:p-0) to not overlap the menu's header.
               className={`bg-main-color transition-[width] duration-1000 ease-in
-                        min-h-screen isolate 
+                        min-h-screen isolate overflow-x-hidden 
                         w-full p-[0_0_var(--header-height)_0] md:p-0 
                         md:w-[calc(100%-var(--aside-width))] 
             ${locale === "en" ? "float-right" : "float-left"}`} // this is the div that contains the actual content of the page, next to the menu.

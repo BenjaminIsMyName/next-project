@@ -281,6 +281,7 @@ export default function Post({ animateProp, post, isPostPage }) {
                 as={localPost ? `/post/${localPost?._id}` : "/"}
               >
                 <a
+                  aria-label="Open post" // TODO: use i18n for every aria-label
                   className={`w-[30px] h-[30px] p-2 transition-[padding] hover:p-1 duration-300 bg-opacity-0 border-0 [&_svg]:fill-option-text-color ${
                     localPost?._id ? "" : "animate-skeleton"
                   }`}
@@ -356,6 +357,7 @@ export default function Post({ animateProp, post, isPostPage }) {
               }`}
             >
               <button
+                aria-label={"Like"}
                 className={`bg-opacity-0 border-0`}
                 type="button"
                 onClick={handleLike}
@@ -366,6 +368,7 @@ export default function Post({ animateProp, post, isPostPage }) {
             </div>
             <div className="[&_svg]:fill-option-text-color">
               <button
+                aria-label={"Comment"}
                 className={`bg-opacity-0 border-0`}
                 type="button"
                 onClick={null}

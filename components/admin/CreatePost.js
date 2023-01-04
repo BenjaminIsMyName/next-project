@@ -101,9 +101,8 @@ export default function CreatePost() {
         type={"text"}
         placeholder={t("title-placeholder") + "..."}
         onChange={e => setTitle(e.target.value)}
-        className={
-          "bg-main-color shadow-inner shadow-shadows-color p-2 rounded-3xl text-center"
-        }
+        className={`bg-main-color shadow-inner shadow-shadows-color p-2 
+        rounded-3xl text-center`}
       />
       <Topics
         addTopicCallback={() => setModalOpen(ModalEnum.search)}
