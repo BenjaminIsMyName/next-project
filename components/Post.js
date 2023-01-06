@@ -226,7 +226,7 @@ export default function Post({ animateProp, post, isPostPage }) {
                   // nested conditions
                   isPostPage
                     ? ""
-                    : `bg-opacity-50 backdrop-blur-lg top-0 right-0 left-0 bottom-0 fixed z-50 h-full overflow-auto ${
+                    : `bg-opacity-50 backdrop-blur-lg top-0 right-0 left-0 bottom-0 fixed pb-[var(--header-height)] z-50 h-full overflow-auto ${
                         locale === "en" // all of this is needed only when the post is fixed on the feed
                           ? "md:left-[var(--aside-width)]"
                           : "md:right-[var(--aside-width)]"

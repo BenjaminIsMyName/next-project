@@ -92,7 +92,7 @@ function MyApp({ Component, pageProps }) {
             <OverlayToContinue onSuccess={() => setAskForPassword(false)} />
           )}
           <Aside />
-          <AnimatePresence mode={"wait"}>
+          <AnimatePresence mode={"wait"} initial={false}>
             <motion.div
               // we add padding to the bottom only on small screens (md:p-0) to not overlap the menu's header.
               className={`bg-main-color transition-[width] duration-1000 ease-in
