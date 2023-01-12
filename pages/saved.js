@@ -13,9 +13,9 @@ export default function Saved() {
   const [posts, setPosts] = useState([]);
 
   const StatusEnum = {
-    loading: "jgduih",
-    error: "SDgsrhg",
-    done: "djsgisg",
+    loading: "Getting the saved posts",
+    error: "couldn't get the saved posts",
+    done: "Something went wrong...",
   };
 
   const [status, setStatus] = useState(StatusEnum.loading);
@@ -30,8 +30,9 @@ export default function Saved() {
         setStatus(StatusEnum.error);
       }
     }
+    window.scrollTo(0, 0); // as we do in all feeds... (search for this line..) because otherwise - going from feed A to feed B will not jump to start
     get();
-  }, []);
+  }, [StatusEnum.done, StatusEnum.error]); // same as [] because they never change
 
   return (
     <>
