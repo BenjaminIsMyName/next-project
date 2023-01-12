@@ -1,6 +1,5 @@
 import Head from "next/head";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import connectToDatabase from "../../util/mongodb";
 import { ObjectId } from "mongodb";
 import Post from "../../components/Post";
 import { useTranslation } from "next-i18next";
@@ -10,6 +9,7 @@ import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 import { useRef } from "react";
 import { useEffect } from "react";
+import { isLoggedInFunc } from "../../util/authHelpers";
 
 export default function PostPage({ post }) {
   const postToDisplay = JSON.parse(post);
@@ -60,8 +60,8 @@ export default function PostPage({ post }) {
 export async function getServerSideProps(ctx) {
   const { req, res } = ctx;
   let posts;
+  const { isLoggedIn, user, db } = await isLoggedInFunc(req, res);
   try {
-    let { db } = await connectToDatabase();
     posts = await db
       .collection("posts")
       .find({ _id: new ObjectId(ctx.params.id) })
@@ -80,7 +80,6 @@ export async function getServerSideProps(ctx) {
   let post = posts[0];
   let userCookie = getCookie("user", { req, res });
   if (userCookie) userCookie = JSON.parse(userCookie);
-  console.log(userCookie);
 
   post = {
     _id: post._id,
@@ -92,12 +91,10 @@ export async function getServerSideProps(ctx) {
     numberOfComments: post.comments.length,
     numberOfLikes: post.likes.length,
     topics: post.topics,
-    didLike: userCookie
-      ? post.likes.some(userId => userId.equals(userCookie.id))
+    didLike: isLoggedIn
+      ? post.likes.some(userId => userId.equals(user._id))
       : false,
-    // isSaved: userCookie
-    //   ? userCookie.saved.some(pId => pId.equals(post._id))
-    //   : false,
+    isSaved: isLoggedIn ? user.saved.some(pId => pId.equals(post._id)) : false,
   };
 
   return {

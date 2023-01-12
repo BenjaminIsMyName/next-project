@@ -22,7 +22,6 @@ export default function PostOptions({
   useEffect(() => {
     setIsAdmin(user?.isAdmin || false);
   }, [user]);
-  console.log(post);
 
   return (
     <div className="py-2 px-4 md:px-0">
