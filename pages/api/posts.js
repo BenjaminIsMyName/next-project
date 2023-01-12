@@ -77,10 +77,9 @@ export default async function handler(req, res) {
       numberOfLikes: p.likes.length,
       topics: p.topics,
       didLike: isLoggedIn
-        ? p.likes.find(userId => userId.equals(user._id))
-          ? true
-          : false
+        ? p.likes.some(userId => userId.equals(user._id))
         : false,
+      isSaved: isLoggedIn ? user.saved.some(pId => pId.equals(p._id)) : false,
     };
   });
   res.status(200).send({ posts: customize, hasMore: posts.length > AMOUNT });

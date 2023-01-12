@@ -192,6 +192,12 @@ export default function Post({ animateProp, post, isPostPage }) {
     return <div></div>;
   }
 
+  async function savePost() {
+    await axios.put("/api/post/savePost", {
+      postId: localPost._id,
+    });
+  }
+
   return (
     <FocusTrap
       focusTrapOptions={{
@@ -383,6 +389,7 @@ export default function Post({ animateProp, post, isPostPage }) {
               post={localPost}
               editClick={() => setIsEditing(true)}
               deleteClick={handleDelete}
+              savePost={savePost}
             />
           )}
           {isFullyOpened && (

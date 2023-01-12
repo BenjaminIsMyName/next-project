@@ -66,6 +66,7 @@ export default async function handler(req, res) {
   try {
     var { insertedId } = await db.collection("users").insertOne({
       name,
+      saved: [],
       email,
       password: hashAndSalt,
       tokens: [

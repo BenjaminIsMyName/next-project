@@ -80,6 +80,7 @@ export async function getServerSideProps(ctx) {
   let post = posts[0];
   let userCookie = getCookie("user", { req, res });
   if (userCookie) userCookie = JSON.parse(userCookie);
+  console.log(userCookie);
 
   post = {
     _id: post._id,
@@ -92,10 +93,11 @@ export async function getServerSideProps(ctx) {
     numberOfLikes: post.likes.length,
     topics: post.topics,
     didLike: userCookie
-      ? post.likes.find(userId => userId.equals(userCookie.id))
-        ? true
-        : false
+      ? post.likes.some(userId => userId.equals(userCookie.id))
       : false,
+    // isSaved: userCookie
+    //   ? userCookie.saved.some(pId => pId.equals(post._id))
+    //   : false,
   };
 
   return {

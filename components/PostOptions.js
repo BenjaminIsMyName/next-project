@@ -4,7 +4,12 @@ import { useContext, useEffect, useState } from "react";
 import { AlertContext } from "../context/AlertContext";
 import { UserContext } from "../context/UserContext";
 
-export default function PostOptions({ post, editClick, deleteClick }) {
+export default function PostOptions({
+  post,
+  editClick,
+  deleteClick,
+  savePost,
+}) {
   const { add } = useContext(AlertContext);
   const { user } = useContext(UserContext);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -17,6 +22,7 @@ export default function PostOptions({ post, editClick, deleteClick }) {
   useEffect(() => {
     setIsAdmin(user?.isAdmin || false);
   }, [user]);
+  console.log(post);
 
   return (
     <div className="py-2 px-4 md:px-0">
@@ -26,9 +32,9 @@ export default function PostOptions({ post, editClick, deleteClick }) {
           <TextForPost text={"Share"} />
         </ButtonForPost>
 
-        <ButtonForPost>
+        <ButtonForPost onClick={savePost}>
           <CopyIcon />
-          <TextForPost text={"Save"} />
+          <TextForPost text={post.isSaved ? "Remove" : "Save"} />
         </ButtonForPost>
 
         {isAdmin && (
