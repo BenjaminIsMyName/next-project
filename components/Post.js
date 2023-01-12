@@ -193,9 +193,16 @@ export default function Post({ animateProp, post, isPostPage }) {
   }
 
   async function savePost() {
-    await axios.put("/api/post/savePost", {
-      postId: localPost._id,
-    });
+    add({ title: `Updating database...`, color: "success" });
+    try {
+      await axios.put("/api/post/savePost", {
+        postId: localPost._id,
+      });
+      setLocalPost(prev => ({ ...prev, isSaved: !prev.isSaved }));
+    } catch (error) {
+      console.log(error);
+      add({ title: `Failed to update database, try again later!` });
+    }
   }
 
   return (
