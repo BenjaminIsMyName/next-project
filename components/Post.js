@@ -22,7 +22,12 @@ import { useTranslation } from "next-i18next";
 import Input from "./Input";
 import { titleError } from "../util/validate";
 
-export default function Post({ animateProp, post, isPostPage }) {
+export default function Post({
+  animateProp,
+  post,
+  isPostPage,
+  unsavePostCallback,
+}) {
   const { t } = useTranslation(["common", "admin"]);
   const { locale, query, push, route } = useRouter();
   const [localPost, setLocalPost] = useState(post || null); // any change to this post - will just update this state. not the state of all the posts...
@@ -56,6 +61,10 @@ export default function Post({ animateProp, post, isPostPage }) {
         "no-scroll-in-any-screen-due-to-opened-post"
       );
     }
+    return () =>
+      document.body.classList.remove(
+        "no-scroll-in-any-screen-due-to-opened-post"
+      );
   }, [isFullyOpened, isPostPage]);
 
   const observer = useRef();
@@ -199,6 +208,7 @@ export default function Post({ animateProp, post, isPostPage }) {
         postId: localPost._id,
       });
       setLocalPost(prev => ({ ...prev, isSaved: !prev.isSaved }));
+      if (unsavePostCallback) unsavePostCallback(localPost);
     } catch (error) {
       console.log(error);
       add({ title: `Failed to update database, try again later!` });

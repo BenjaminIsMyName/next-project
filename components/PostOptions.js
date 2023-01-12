@@ -33,7 +33,7 @@ export default function PostOptions({
 
         <ButtonForPost onClick={savePost}>
           <CopyIcon />
-          <TextForPost text={post.isSaved ? "Remove" : "Save"} />
+          <TextForPost text={post.isSaved ? "Unsave" : "Save"} />
         </ButtonForPost>
 
         {isAdmin && (
