@@ -76,107 +76,111 @@ export default function CreatePost() {
     document.querySelector("#uploadInput").value = "";
   }
   return (
-    <motion.div
-      layout
-      className={`
+    // must use another div to change the overflow-x, because it effects the overflow-y too.
+    // see: https://stackoverflow.com/questions/6421966/css-overflow-x-visible-and-overflow-y-hidden-causing-scrollbar-issue
+    <div className="overflow-x-hidden">
+      <motion.div
+        layout
+        className={`
       flex flex-col p-[min(20px,3%)] gap-3 text-center
       bg-second-color text-option-text-color 
       md:p-5 md:border-[20px] border-main-color 
       border-0 relative
         `}
-    >
-      <div>
-        <Balancer>
-          <span className="block text-4xl px-2 mt-4 text-center">
-            {t("create-post-title")}
-          </span>
-        </Balancer>
-      </div>
-      <Input
-        translationFile="admin"
-        name={"title"}
-        checkErrorCallback={titleError}
-        valueObj={{ title }}
-        removeDefaultStyle={true}
-        type={"text"}
-        placeholder={t("title-placeholder") + "..."}
-        onChange={e => setTitle(e.target.value)}
-        className={`bg-main-color shadow-inner shadow-shadows-color p-2 
-        rounded-3xl text-center`}
-      />
-      <Topics
-        addTopicCallback={() => setModalOpen(ModalEnum.search)}
-        setSelectedTopics={setSelectedTopics}
-        selectedTopics={selectedTopics}
-      />
-
-      <AnimatePresence>
-        {modalOpen === ModalEnum.search && (
-          <SearchTopic
-            closeCallback={() => setModalOpen(ModalEnum.none)}
-            setSelectedTopics={setSelectedTopics}
-            selectedTopics={selectedTopics}
-            createCallback={() => setModalOpen(ModalEnum.create)}
-          />
-        )}
-
-        {modalOpen === ModalEnum.create && (
-          <CreateTopic
-            closeCallback={() => setModalOpen(ModalEnum.search)}
-            setSelectedTopics={setSelectedTopics}
-            selectedTopics={selectedTopics}
-          />
-        )}
-      </AnimatePresence>
-
-      <div className={`bg-main-color h-80 w-full`}>
-        {file === null ? (
-          <label
-            tabIndex="0"
-            htmlFor="uploadInput"
-            className={`p-3 text-3xl bg-third-color bg-opacity-40 w-full h-full cursor-pointer flex items-center justify-center`}
-          >
-            <Balancer>
-              <span>{t("select")}</span>
-            </Balancer>
-          </label>
-        ) : (
-          <div
-            className={`flex gap-3 flex-col p-[min(20px,5%)] w-full h-full justify-center`}
-          >
-            <span className="text-xl">{t("this-was-selected")}:</span>
-            <p>{file.name}</p>
-            <button
-              type="button"
-              className={`bg-error-color cursor-pointer p-3`}
-              onClick={removeSelectedFile}
-            >
-              {t("delete-file").toUpperCase()}
-            </button>
-          </div>
-        )}
-        <input
-          className={`hidden`}
-          id="uploadInput"
-          type={"file"}
-          onChange={handleFileSelect}
-          accept="video/*"
-        />
-      </div>
-      <button
-        disabled={file === null || titleError(title)}
-        onClick={uploadFile}
-        className={
-          "bg-main-color p-3 text-third-color disabled:opacity-60 disabled:cursor-not-allowed"
-        }
       >
-        {t("create-btn")}
-      </button>
+        <div>
+          <Balancer>
+            <span className="block text-4xl px-2 mt-4 text-center">
+              {t("create-post-title")}
+            </span>
+          </Balancer>
+        </div>
+        <Input
+          translationFile="admin"
+          name={"title"}
+          checkErrorCallback={titleError}
+          valueObj={{ title }}
+          removeDefaultStyle={true}
+          type={"text"}
+          placeholder={t("title-placeholder") + "..."}
+          onChange={e => setTitle(e.target.value)}
+          className={`bg-main-color shadow-inner shadow-shadows-color p-2 
+        rounded-3xl text-center`}
+        />
+        <Topics
+          addTopicCallback={() => setModalOpen(ModalEnum.search)}
+          setSelectedTopics={setSelectedTopics}
+          selectedTopics={selectedTopics}
+        />
 
-      {status === StatusEnum.loading && <Loading />}
-      {status === StatusEnum.error && (
-        <Error tryAgainCallback={uploadFile} error={t("error")} />
-      )}
-    </motion.div>
+        <AnimatePresence>
+          {modalOpen === ModalEnum.search && (
+            <SearchTopic
+              closeCallback={() => setModalOpen(ModalEnum.none)}
+              setSelectedTopics={setSelectedTopics}
+              selectedTopics={selectedTopics}
+              createCallback={() => setModalOpen(ModalEnum.create)}
+            />
+          )}
+
+          {modalOpen === ModalEnum.create && (
+            <CreateTopic
+              closeCallback={() => setModalOpen(ModalEnum.search)}
+              setSelectedTopics={setSelectedTopics}
+              selectedTopics={selectedTopics}
+            />
+          )}
+        </AnimatePresence>
+
+        <div className={`bg-main-color h-80 w-full`}>
+          {file === null ? (
+            <label
+              tabIndex="0"
+              htmlFor="uploadInput"
+              className={`p-3 text-3xl bg-third-color bg-opacity-40 w-full h-full cursor-pointer flex items-center justify-center`}
+            >
+              <Balancer>
+                <span>{t("select")}</span>
+              </Balancer>
+            </label>
+          ) : (
+            <div
+              className={`flex gap-3 flex-col p-[min(20px,5%)] w-full h-full justify-center`}
+            >
+              <span className="text-xl">{t("this-was-selected")}:</span>
+              <p>{file.name}</p>
+              <button
+                type="button"
+                className={`bg-error-color cursor-pointer p-3`}
+                onClick={removeSelectedFile}
+              >
+                {t("delete-file").toUpperCase()}
+              </button>
+            </div>
+          )}
+          <input
+            className={`hidden`}
+            id="uploadInput"
+            type={"file"}
+            onChange={handleFileSelect}
+            accept="video/*"
+          />
+        </div>
+        <button
+          disabled={file === null || titleError(title)}
+          onClick={uploadFile}
+          className={
+            "bg-main-color p-3 text-third-color disabled:opacity-60 disabled:cursor-not-allowed"
+          }
+        >
+          {t("create-btn")}
+        </button>
+
+        {status === StatusEnum.loading && <Loading />}
+        {status === StatusEnum.error && (
+          <Error tryAgainCallback={uploadFile} error={t("error")} />
+        )}
+      </motion.div>
+    </div>
   );
 }
