@@ -22,10 +22,10 @@ export default function Saved() {
           <SavedPosts />
         ) : (
           <>
-            <div className="m-auto w-1/6 flex fill-error-color mt-36 justify-center animate-bounce">
+            <div className="m-auto w-1/6 flex fill-error-color mt-[min(144px,20vh)] justify-center animate-bounce">
               <SavedIcon />
             </div>
-            <span className="block bg-error-color text-center mt-9 mx-10 text-main-color font-bold text-xl">
+            <span className="block bg-error-color text-center my-9 mx-10 text-main-color font-bold text-xl">
               LOG IN TO SEE YOUR SAVED POSTS
             </span>
           </>
