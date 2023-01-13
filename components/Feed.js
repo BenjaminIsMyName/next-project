@@ -40,7 +40,7 @@ export default function Feed({ type }) {
   }, [hasMore, loading]);
 
   return (
-    <div className="md:p-[8%]">
+    <div className="feed">
       {posts.map((post, index) => (
         <Post
           key={post._id}

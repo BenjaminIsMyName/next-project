@@ -8,6 +8,12 @@
   }
 }
 
+@layer components {
+  .feed {
+    @apply md:p-[8%] overflow-hidden;
+  }
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

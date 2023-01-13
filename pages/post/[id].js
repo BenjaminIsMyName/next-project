@@ -51,8 +51,9 @@ export default function PostPage({ post }) {
         and: https://github.com/vercel/next.js/discussions/13301 */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <Post post={postToDisplay} isPostPage={true} />
+      <div className="overflow-hidden">
+        <Post post={postToDisplay} isPostPage={true} />
+      </div>
     </>
   );
 }
