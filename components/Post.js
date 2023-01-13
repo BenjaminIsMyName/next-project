@@ -21,6 +21,7 @@ import Balancer from "react-wrap-balancer";
 import { useTranslation } from "next-i18next";
 import Input from "./Input";
 import { titleError } from "../util/validate";
+import useLoaded from "../hooks/useLoaded";
 
 export default function Post({
   animateProp,
@@ -129,13 +130,9 @@ export default function Post({
   // so only after we are on the client, we'll display the date with the client's timezone.
   // see: https://github.com/vercel/next.js/discussions/35773#discussioncomment-2510947
   // and: https://stackoverflow.com/questions/50883916/how-to-format-time-in-react-ssr-rendered-page-using-client-time-zone
-  const [isClient, setIsClient] = useState(false);
+  const loaded = useLoaded();
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  let formattedDate = localPost && isClient ? getFormattedDate() : "";
+  let formattedDate = localPost && loaded ? getFormattedDate() : "";
 
   function getFormattedDate() {
     if (isFullyOpened) {

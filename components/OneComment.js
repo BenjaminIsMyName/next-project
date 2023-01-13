@@ -2,6 +2,7 @@ import { format, formatDistance } from "date-fns";
 import { he } from "date-fns/locale";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import useLoaded from "../hooks/useLoaded";
 import LikeIcon from "./icons/LikeIcon";
 
 export default function OneComment({
@@ -16,13 +17,9 @@ export default function OneComment({
 }) {
   const { locale } = useRouter();
 
-  const [isClient, setIsClient] = useState(false);
+  const loaded = useLoaded();
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  let formattedDate = isClient ? getFormattedDate() : "";
+  let formattedDate = loaded ? getFormattedDate() : "";
 
   function getFormattedDate() {
     return formatDistance(new Date(date), new Date(), {
