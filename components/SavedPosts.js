@@ -45,6 +45,9 @@ export default function SavedPosts() {
           }}
         />
       ))}
+      {posts.length === 0 && status === StatusEnum.done && (
+        <div className="text-center text-third-color">Nothing here yet...</div>
+      )}
     </>
   );
 }
