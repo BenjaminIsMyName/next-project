@@ -69,12 +69,13 @@ module.exports = {
       },
     },
     colors: {
-      "main-color": withOpacity("--main-color"),
-      "second-color": withOpacity("--second-color"),
-      "third-color": withOpacity("--third-color"),
-      "shadows-color": withOpacity("--shadows-color"),
-      "option-text-color": withOpacity("--option-text-color"),
-      "error-color": withOpacity("--error-color"),
+      // see: https://tailwindcss.com/blog/tailwindcss-v3-1#easier-css-variable-color-configuration
+      "main-color": "rgb(var(--main-color), <alpha-value>)",
+      "second-color": "rgb(var(--second-color), <alpha-value>)",
+      "third-color": "rgb(var(--third-color), <alpha-value>)",
+      "shadows-color": "rgb(var(--shadows-color), <alpha-value>)",
+      "option-text-color": "rgb(var(--option-text-color), <alpha-value>)",
+      "error-color": "rgb(var(--error-color), <alpha-value>)",
     },
     fontFamily: {
       "main-font-family": "var(--main-font-family)",
@@ -85,8 +86,3 @@ module.exports = {
 
   plugins: [],
 };
-
-function withOpacity(variableName) {
-  return ({ opacityValue }) =>
-    `rgba(var(${variableName}), ${opacityValue || 1})`;
-}
