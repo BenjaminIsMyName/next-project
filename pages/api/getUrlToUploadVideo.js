@@ -48,11 +48,12 @@ export default async function handler(req, res) {
     const fileParams = {
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: key,
-      Expires: 600,
+      Expires: 600, // in seconds
       ContentType: type,
       ACL: "public-read",
     };
     // Generating a signed URL which we'll use to upload a file
+    // "putObject" is the type of the request, see: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
     const url = await s3instance.getSignedUrlPromise("putObject", fileParams);
     res.status(200).json({ url, objectS3key: key });
   } catch (error) {
