@@ -4,6 +4,7 @@ import connectToDatabase from "./mongodb";
 export async function isLoggedInFunc(req, res) {
   // step 1: get email from the 'user' cookie
   let email = null;
+  const { db } = await connectToDatabase();
   try {
     const user = JSON.parse(getCookie("user", { req, res }));
     email = user.email;
@@ -13,6 +14,7 @@ export async function isLoggedInFunc(req, res) {
       error: `couldn't get email from cookie`,
       code: 401,
       isAdmin: false,
+      db,
     };
   }
 
@@ -27,12 +29,12 @@ export async function isLoggedInFunc(req, res) {
       error: `couldn't get token from cookie`,
       code: 401,
       isAdmin: false,
+      db,
     };
   }
 
   // step 3: fetch db and check if the user has this token
   try {
-    var { db } = await connectToDatabase();
     let users = await db.collection("users").find({ email }).toArray();
 
     if (users.length === 0) {
@@ -41,6 +43,7 @@ export async function isLoggedInFunc(req, res) {
         error: `user with this email doesn't exist`,
         code: 401,
         isAdmin: false,
+        db,
       };
     }
 
@@ -52,6 +55,7 @@ export async function isLoggedInFunc(req, res) {
         error: "no information about this error due to Information security",
         code: 500,
         isAdmin: false,
+        db,
       };
     }
 
@@ -64,6 +68,7 @@ export async function isLoggedInFunc(req, res) {
         error: `token is not valid`,
         code: 401,
         isAdmin: false,
+        db,
       };
     }
 
@@ -73,6 +78,7 @@ export async function isLoggedInFunc(req, res) {
         error: `token is no longer valid`,
         code: 401,
         isAdmin: false,
+        db,
       };
     }
 
@@ -101,6 +107,7 @@ export async function isLoggedInFunc(req, res) {
       error: `failed to connect to DB: ${err}`,
       code: 503,
       isAdmin: false,
+      db,
     };
   }
 }

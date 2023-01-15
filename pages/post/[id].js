@@ -60,15 +60,13 @@ export default function PostPage({ post }) {
 
 export async function getServerSideProps(ctx) {
   const { req, res } = ctx;
-  let posts;
+  let post = null;
   const { isLoggedIn, user, db } = await isLoggedInFunc(req, res);
   try {
-    posts = await db
+    post = await db
       .collection("posts")
-      .find({ _id: new ObjectId(ctx.params.id) })
-      .toArray();
-    if (posts.length === 0)
-      throw new Error("Couldn't find a post with this _id");
+      .findOne({ _id: new ObjectId(ctx.params.id) });
+    if (!post) throw new Error("Couldn't find a post with this _id");
   } catch (error) {
     return {
       redirect: {
@@ -77,10 +75,6 @@ export async function getServerSideProps(ctx) {
       },
     };
   }
-
-  let post = posts[0];
-  let userCookie = getCookie("user", { req, res });
-  if (userCookie) userCookie = JSON.parse(userCookie);
 
   post = {
     _id: post._id,
