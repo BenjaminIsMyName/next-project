@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Error from "../Error";
 import axios from "axios";
 import Loading from "../Loading";
@@ -12,6 +12,7 @@ import Topics from "./Topics";
 import SearchTopic from "./SearchTopic";
 import { AnimatePresence, motion } from "framer-motion";
 import CreateTopic from "./CreateTopic";
+import { AlertContext } from "../../context/AlertContext";
 
 export default function CreatePost() {
   const { t } = useTranslation("admin");
@@ -26,6 +27,7 @@ export default function CreatePost() {
   };
   const [status, setStatus] = useState(StatusEnum.start);
   const [title, setTitle] = useState("");
+  const { add } = useContext(AlertContext);
 
   const ModalEnum = {
     none: "No modal is opened",
@@ -37,6 +39,15 @@ export default function CreatePost() {
   const [selectedTopics, setSelectedTopics] = useState([]);
 
   function handleFileSelect(e) {
+    var fileSize = (e.target.files[0].size / 1024 / 1024).toFixed(3); // MB
+    if (fileSize > 300) {
+      add({
+        title: `File cannot be more than 300mb, this file is ${fileSize}mb`,
+      });
+      removeSelectedFile();
+      return;
+    }
+
     setFile(e.target.files[0]);
   }
 
@@ -163,7 +174,7 @@ export default function CreatePost() {
             id="uploadInput"
             type={"file"}
             onChange={handleFileSelect}
-            accept="video/*"
+            accept="video/mp4" // allow only mp4 for now, MP4 is supported by all popular browsers
           />
         </div>
         <button

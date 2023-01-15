@@ -211,6 +211,7 @@ export default function Post({
       add({ title: `Failed to update database, try again later!` });
     }
   }
+  const ext = localPost?.url.substring(localPost?.url.lastIndexOf(".") + 1);
 
   return (
     <FocusTrap
@@ -355,7 +356,7 @@ export default function Post({
               controls
               onCanPlay={() => setCanPlay(true)}
             >
-              <source src={localPost?.url} type="video/mp4" />
+              <source src={localPost?.url} type={`video/${ext}`} />
             </video>
           ) : (
             <div className={`h-80 animate-skeleton`}></div>
