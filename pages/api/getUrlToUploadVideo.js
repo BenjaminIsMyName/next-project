@@ -14,14 +14,6 @@ const s3instance = new S3({
   signatureVersion: "v4",
 });
 
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: "800mb", // TODO: how much?
-    },
-  },
-};
-
 // this function (api endpoint) provide a signed URL to
 // upload the file to the S3 bucket from the client side
 export default async function handler(req, res) {
