@@ -55,17 +55,33 @@ export default function CreatePost() {
     setStatus(StatusEnum.loading);
     try {
       let { data } = await axios.get("/api/getUrlToUploadVideo", {
-        params: { name: file.name, type: file.type },
+        params: { name: file.name, type: file.type, size: file.size },
       });
 
-      const url = data.url;
+      const stuff = {
+        ...data.info.fields,
+        "Content-Type": file.type,
+        file,
+      };
+
+      const formData = new FormData();
+      for (const name in stuff) {
+        formData.append(name, stuff[name]);
+      }
+
+      const url = data.info.url;
       const objectS3key = data.objectS3key;
 
-      await axios.put(url, file, {
-        headers: {
-          "Content-type": file.type,
-          "Access-Control-Allow-Origin": "*",
-        },
+      // await axios.post(url, formData, {
+      //   headers: {
+      //     "Content-type": file.type,
+      //     "Access-Control-Allow-Origin": "*",
+      //   },
+      // });
+
+      await fetch(url, {
+        method: "POST",
+        body: formData,
       });
 
       removeSelectedFile();
