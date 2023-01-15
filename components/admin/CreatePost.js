@@ -72,17 +72,7 @@ export default function CreatePost() {
       const url = data.info.url;
       const objectS3key = data.objectS3key;
 
-      // await axios.post(url, formData, {
-      //   headers: {
-      //     "Content-type": file.type,
-      //     "Access-Control-Allow-Origin": "*",
-      //   },
-      // });
-
-      await fetch(url, {
-        method: "POST",
-        body: formData,
-      });
+      axios.post(url, formData);
 
       removeSelectedFile();
       const res = await axios.post("/api/savePostToDb", {
