@@ -54,6 +54,7 @@ export default function CreatePost() {
   async function uploadFile() {
     setStatus(StatusEnum.loading);
     try {
+      // get one-time-url to upload the file directly from the client side
       let { data } = await axios.get("/api/getUrlToUploadVideo", {
         params: { name: file.name, type: file.type, size: file.size },
       });
@@ -72,13 +73,16 @@ export default function CreatePost() {
       const url = data.info.url;
       const objectS3key = data.objectS3key;
 
-      axios.post(url, formData);
+      await axios.post(url, formData); // upload the file to S3
 
       removeSelectedFile();
+
+      // create the post
       const res = await axios.post("/api/savePostToDb", {
         title,
         objectS3key,
       });
+
       router.push(`/post/${res.data}`);
     } catch (error) {
       console.log(`error is`, error);
