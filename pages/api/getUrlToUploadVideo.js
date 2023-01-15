@@ -25,8 +25,8 @@ export default async function handler(req, res) {
   }
 
   // Retrieving name and type from the body of request
-  const { name, type, size } = req.query;
-  console.log(type); // we don't need "type", it must be mp4 anyway...
+  const { name, size } = req.query;
+
   const sizeInInt = Number(size); // bytes
   const sizeInMb = sizeInInt / 1024 / 1024; // mb
 
@@ -50,19 +50,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Setting parameters - ACL will allow us to see a file
-    // const fileParams = {
-    //   Bucket: process.env.AWS_BUCKET_NAME,
-    //   Key: key,
-    //   Expires: 600, // in seconds
-    //   ContentType: type,
-    //   ACL: "public-read",
-    // };
-    // Generating a signed URL which we'll use to upload a file
-    // "putObject" is the type of the request, see: https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
-    // const url = await s3instance.getSignedUrlPromise("putObject", fileParams);
-    console.log(`here`);
-
     const fileParams = {
       Bucket: process.env.AWS_BUCKET_NAME,
       Conditions: [
@@ -76,6 +63,7 @@ export default async function handler(req, res) {
         key: key, // must be unique, to prevent overriding of other files
       },
     };
+    // using createPresignedPost and not getSignedUrlPromise because that way we can limit the size of the file.
     const info = s3instance.createPresignedPost(fileParams);
     res.status(200).json({ info, objectS3key: key });
   } catch (error) {
