@@ -1,12 +1,13 @@
 import axios from "axios";
 import { motion as m } from "framer-motion";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import GoBackButton from "../GoBackButton";
 import TrashIcon from "../icons/TrashIcon";
 import Loading from "../Loading";
 import EditIcon from "../icons/EditIcon";
 import FocusTrap from "focus-trap-react";
+import { AlertContext } from "../../context/AlertContext";
 
 export default function SearchTopic({
   closeCallback,
@@ -86,8 +87,10 @@ export default function SearchTopic({
                     prev.filter(obj => t._id !== obj._id)
                   );
                 else setSelectedTopics(prev => [...prev, t]);
-                console.log(selectedTopics);
               }}
+              handleDeleteCallback={id =>
+                setSelectedTopics(prev => prev.filter(obj => id !== obj._id))
+              }
             />
           ))}
         </div>
@@ -96,7 +99,44 @@ export default function SearchTopic({
   );
 }
 
-function TopicToPick({ text, id, isSelected, toggle }) {
+function TopicToPick({ text, id, isSelected, toggle, handleDeleteCallback }) {
+  const StatusEnum = {
+    init: "Initial state",
+    deleting: "Trying to delete topic from DB",
+    deleted: "Topic is deleted",
+  };
+
+  const [deleteStatus, setDeleteStatus] = useState(StatusEnum.init);
+  const { add } = useContext(AlertContext);
+
+  async function handleDelete() {
+    setDeleteStatus(StatusEnum.deleting);
+    try {
+      await axios.delete("/api/topics/deleteTopic", {
+        data: { topicId: id },
+      });
+      setDeleteStatus(StatusEnum.deleted);
+      handleDeleteCallback(id); // delete the topic from the selected topics
+    } catch (error) {
+      setDeleteStatus(StatusEnum.init);
+      add({ title: "Failed to delete" });
+    }
+  }
+
+  if (deleteStatus === StatusEnum.deleted)
+    return (
+      <div className="bg-error-color p-4 flex justify-between text-option-text-color">
+        <span className="block m-auto text-center">DELETED</span>
+      </div>
+    );
+
+  if (deleteStatus === StatusEnum.deleting)
+    return (
+      <div className="bg-error-color p-4 flex justify-between text-option-text-color bg-opacity-30">
+        <span className="block m-auto text-center">Deleting....</span>
+      </div>
+    );
+
   return (
     <div className="bg-main-color p-4 flex justify-between">
       <div className="flex gap-3 w-[calc(100%-56px)]">
@@ -118,7 +158,7 @@ function TopicToPick({ text, id, isSelected, toggle }) {
         <button className="w-5 h-5 fill-third-color">
           <EditIcon />
         </button>
-        <button className="fill-error-color w-5 h-5">
+        <button className="fill-error-color w-5 h-5" onClick={handleDelete}>
           <TrashIcon />
         </button>
       </div>

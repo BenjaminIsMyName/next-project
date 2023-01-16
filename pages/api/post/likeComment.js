@@ -61,6 +61,7 @@ export default async function handler(req, res) {
     res
       .status(503)
       .json({ error: `failed to add/remove like of comment in DB: ${err}` });
+    return;
   }
   res.status(204).end();
 }

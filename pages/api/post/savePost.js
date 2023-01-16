@@ -58,6 +58,7 @@ export default async function handler(req, res) {
   } catch (err) {
     console.log(`error ${err}`);
     res.status(503).json({ error: `failed to save post: ${err}` });
+    return;
   }
   res.status(201).end();
 }

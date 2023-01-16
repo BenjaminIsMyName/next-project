@@ -58,6 +58,7 @@ export default async function handler(req, res) {
   } catch (err) {
     console.log(`error ${err}`);
     res.status(503).json({ error: `failed to add/remove like in DB: ${err}` });
+    return;
   }
   res.status(204).end();
 }
