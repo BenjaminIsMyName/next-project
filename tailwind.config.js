@@ -22,6 +22,7 @@ module.exports = {
       // => @media (min-width: 1536px) { ... }
     },
     extend: {
+      // the "extend" is to preserve the default values but also *add* extra stuff.
       animation: {
         up: "up 1s ease-in-out forwards",
         skeleton: "skeleton 1s linear infinite alternate",
@@ -68,6 +69,10 @@ module.exports = {
         },
       },
     },
+    // TODO: change the default shadows to use our colors.
+    // boxShadow: {
+    //   'sm': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+    // },
     colors: {
       // see: https://tailwindcss.com/blog/tailwindcss-v3-1#easier-css-variable-color-configuration
       "main-color": "rgb(var(--main-color), <alpha-value>)",

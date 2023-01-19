@@ -11,8 +11,10 @@ export default async function handler(req, res) {
   }
 
   // validate params ------------------------
-  let { title, objectS3key } = req.body;
+  let { title, objectS3key, topics } = req.body;
+  // topics are array of strings... for the _id of the topic...
 
+  // TOOD: more checks
   if (titleError(title) || !objectS3key) {
     res.status(406).json({
       error: titleError(title) || "objectS3key is missing",
@@ -41,7 +43,7 @@ export default async function handler(req, res) {
       uploaderId: new ObjectId(user._id),
       comments: [],
       likes: [],
-      topics: [],
+      topics: topics.map(t => new ObjectId(t._id)),
     });
   } catch (err) {
     console.log("error", err);

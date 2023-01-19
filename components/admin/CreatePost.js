@@ -81,6 +81,7 @@ export default function CreatePost() {
       const res = await axios.post("/api/savePostToDb", {
         title,
         objectS3key,
+        topics: selectedTopics.map(s => s._id),
       });
 
       router.push(`/post/${res.data}`);
