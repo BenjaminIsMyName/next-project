@@ -261,13 +261,27 @@ export default function Post({
           <header className="grid grid-cols-[calc(100%-40px)_auto] justify-center items-center py-5 px-2 gap-2">
             {/* container for the date & title: */}
             <div className={`flex flex-col gap-1 px-2`}>
-              {/* the problem is somewhere here, inside the span for the date: */}
               <span
                 className={`text-sm ${
                   localPost ? "" : "animate-skeleton w-20 h-6"
                 }`}
               >
                 {formattedDate}
+                {/* show topics: */}
+                {isFullyOpened && (
+                  <div className={`inline ml-2 opacity-60`}>
+                    {localPost?.topics.map((t, i) => (
+                      <span key={t._id}>
+                        {i > 0 && i < localPost.topics.length ? (
+                          <span className="px-1">•</span>
+                        ) : (
+                          ""
+                        )}{" "}
+                        {locale === "en" ? t.english : t.hebrew}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </span>
               {/* <Balancer> */}
               {/* bug with the Balancer here: Warning: Prop `dangerouslySetInnerHTML` did not match. Server: "self.__wrap_balancer... */}

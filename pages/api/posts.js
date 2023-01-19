@@ -25,7 +25,19 @@ export default async function handler(req, res) {
     const { db } = await connectToDatabase();
     var posts = await db
       .collection("posts")
-      .find({ _id: { $nin: EXIST.map(o => ObjectId(o)) } })
+      .aggregate([
+        {
+          $match: { _id: { $nin: EXIST.map(o => ObjectId(o)) } },
+        },
+        {
+          $lookup: {
+            from: "topics",
+            localField: "topics",
+            foreignField: "_id",
+            as: "actualTopics",
+          },
+        },
+      ])
       .toArray(); // TODO: try to sort and limit everything right here, instead of fetching all and doing sort & limit on the server
   } catch (err) {
     console.log(err);
@@ -75,13 +87,14 @@ export default async function handler(req, res) {
       uploaderId: p.uploaderId,
       numberOfComments: p.comments.length,
       numberOfLikes: p.likes.length,
-      topics: p.topics,
+      topics: p.actualTopics,
       didLike: isLoggedIn
         ? p.likes.some(userId => userId.equals(user._id))
         : false,
       isSaved: isLoggedIn ? user.saved.some(pId => pId.equals(p._id)) : false,
     };
   });
+
   res.status(200).send({ posts: customize, hasMore: posts.length > AMOUNT });
 }
 

@@ -40,10 +40,10 @@ export default async function handler(req, res) {
       type: "video",
       title,
       postCreationDate: new Date(),
-      uploaderId: new ObjectId(user._id),
+      uploaderId: ObjectId(user._id),
       comments: [],
       likes: [],
-      topics: topics.map(t => new ObjectId(t._id)),
+      topics: topics.map(id => ObjectId(id)),
     });
   } catch (err) {
     console.log("error", err);
