@@ -258,7 +258,7 @@ export default function Post({
           }`}
           ref={postRef} // converted from https://reactjs.org/docs/refs-and-the-dom.html#callback-refs to simple ref
         >
-          <header className="grid grid-cols-[calc(100%-40px)_auto] justify-center items-center py-5 px-2 gap-2">
+          <header className="grid grid-cols-[calc(100%-40px)_auto] items-center py-5 px-2 gap-2">
             {/* container for the date & title: */}
             <div className={`flex flex-col gap-1 px-2`}>
               <span
@@ -266,10 +266,14 @@ export default function Post({
                   localPost ? "" : "animate-skeleton w-20 h-6"
                 }`}
               >
-                {formattedDate}
-                {/* show topics: */}
+                <span>{formattedDate}</span>
+
+                {/* show topics here when post is open: */}
                 {isFullyOpened && (
-                  <div className={`inline ml-2 opacity-60`}>
+                  <div
+                    className={`inline opacity-60 
+                    ${locale === "en" ? "ml-3" : "mr-3"}`}
+                  >
                     {localPost?.topics.map((t, i) => (
                       <span key={t._id}>
                         {i > 0 && i < localPost.topics.length ? (
