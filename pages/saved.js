@@ -9,7 +9,7 @@ import useLoaded from "../hooks/useLoaded";
 
 export default function Saved() {
   const { t } = useTranslation(["common", "menu"]);
-  const THE_TITLE = `${t("popular", { ns: "menu" })} - ${t("app-name")}`;
+  const THE_TITLE = `${t("saved", { ns: "menu" })} - ${t("app-name")}`;
   const { user } = useContext(UserContext);
   const loaded = useLoaded();
 

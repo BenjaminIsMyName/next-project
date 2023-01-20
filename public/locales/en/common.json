@@ -11,5 +11,6 @@
   },
   "cancel": "Cancel",
   "error-getting-comments": "Oh, sorry, something went wrong and we couldn't display the comments. Are you sure you have an internet connection?",
-  "try-again": "Try Again"
+  "try-again": "Try Again",
+  "topic": "Topic"
 }

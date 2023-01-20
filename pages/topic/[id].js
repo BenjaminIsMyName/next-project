@@ -12,10 +12,11 @@ import connectToDatabase from "../../util/mongodb";
 export default function TopicPage() {
   const router = useRouter();
   const { t } = useTranslation(["common"]);
-
+  const THE_TITLE = `${t("topic")} - ${t("app-name")}`;
   return (
     <>
       <Head>
+        <title>{THE_TITLE}</title>
         <meta name="description" content="content" />
         {/* adding "/" before favicon solves a bug, see: 
         https://www.reddit.com/r/nextjs/comments/pnmj9n/comment/hctyraz/?utm_source=share&utm_medium=web2x&context=3
@@ -33,7 +34,6 @@ export async function getStaticPaths() {
   const topics = await db.collection("topics").find({}).toArray();
 
   let paths = topics.map(t => ({ params: { id: t._id.toString() } }));
-  console.log(`pathssssssssssssssssss`, paths);
 
   return {
     paths: paths,

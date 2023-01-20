@@ -46,9 +46,6 @@ export default function PostPage({ post }) {
       <Head>
         <title>{THE_TITLE}</title>
         <meta name="description" content="content" />
-        {/* adding "/" before favicon solves a bug, see: 
-        https://www.reddit.com/r/nextjs/comments/pnmj9n/comment/hctyraz/?utm_source=share&utm_medium=web2x&context=3
-        and: https://github.com/vercel/next.js/discussions/13301 */}
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="overflow-hidden">

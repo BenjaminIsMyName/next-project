@@ -12,10 +12,9 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 export default function Topics({ topics }) {
   const { t } = useTranslation(["common", "menu"]);
-  const THE_TITLE = `${t("popular", { ns: "menu" })} - ${t("app-name")}`;
+  const THE_TITLE = `${t("topics", { ns: "menu" })} - ${t("app-name")}`;
   const { locale } = useRouter();
   const parsedTopics = JSON.parse(topics);
-
   return (
     <>
       <Head>
