@@ -11,7 +11,14 @@ export default async function handler(req, res) {
     return;
   }
 
-  let { exist, amount, type } = req.query;
+  let { exist, amount, type, topicId } = req.query;
+
+  if (type === "topic" && !topicId) {
+    res.status(405).json({
+      error: `you must provide topicId`,
+    });
+    return;
+  }
 
   const AMOUNT = parseInt(amount);
   const EXIST = JSON.parse(exist);
@@ -23,22 +30,38 @@ export default async function handler(req, res) {
   // Fetch posts:
   try {
     const { db } = await connectToDatabase();
-    var posts = await db
-      .collection("posts")
-      .aggregate([
+
+    let pipeline = [
+      {
+        $match: { _id: { $nin: EXIST.map(o => ObjectId(o)) } },
+      },
+    ];
+
+    if (type === "topic") {
+      pipeline = [
         {
-          $match: { _id: { $nin: EXIST.map(o => ObjectId(o)) } },
-        },
-        {
-          $lookup: {
-            from: "topics",
-            localField: "topics",
-            foreignField: "_id",
-            as: "actualTopics",
+          $match: {
+            $and: [
+              { _id: { $nin: EXIST.map(o => ObjectId(o)) } },
+              {
+                topics: { $in: [ObjectId(topicId)] },
+              },
+            ],
           },
         },
-      ])
-      .toArray(); // TODO: try to sort and limit everything right here, instead of fetching all and doing sort & limit on the server
+      ];
+    }
+
+    pipeline.push({
+      $lookup: {
+        from: "topics",
+        localField: "topics",
+        foreignField: "_id",
+        as: "actualTopics",
+      },
+    });
+
+    var posts = await db.collection("posts").aggregate(pipeline).toArray(); // TODO: try to sort and limit everything right here, instead of fetching all and doing sort & limit on the server
   } catch (err) {
     console.log(err);
     res.status(503).json({ error: `failed to get posts from DB: ${err}` });

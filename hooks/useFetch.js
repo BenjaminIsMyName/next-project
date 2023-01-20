@@ -47,6 +47,7 @@ export default function useFetch(query, forceRender) {
             exist: existRef.current, // see: https://stackoverflow.com/a/63261270/19460851
             amount: process.env.NEXT_PUBLIC_HOW_MANY_TO_FETCH,
             type: JSON.parse(query).type,
+            topicId: JSON.parse(query).topicId,
           },
           cancelToken: source.token,
         });

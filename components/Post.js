@@ -220,7 +220,10 @@ export default function Post({
         clickOutsideDeactivates: true,
         escapeDeactivates: true, // default
         onDeactivate: () => {
-          push(route, undefined, { scroll: false });
+          let new_route = route;
+          if (route.includes("[id]"))
+            new_route = route.replace("[id]", query.id);
+          push(new_route, undefined, { scroll: false });
         },
         // -------- if we want to allow clicks outside, but no tabs (NOTE: tiny bugs with this option, check well before changing):
         // allowOutsideClick: true,
@@ -316,7 +319,10 @@ export default function Post({
               <Link
                 scroll={false}
                 // shallow={true}
-                href={localPost ? `${route}?post=${localPost._id}` : "/"}
+                href={{
+                  pathname: `${route}`,
+                  query: { post: localPost?._id, id: query.id }, // "id" is for the topicId, when viewing a topic
+                }}
                 as={localPost ? `/post/${localPost?._id}` : "/"}
               >
                 <a
