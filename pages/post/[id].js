@@ -65,7 +65,20 @@ export async function getServerSideProps(ctx) {
   try {
     post = await db
       .collection("posts")
-      .findOne({ _id: new ObjectId(ctx.params.id) });
+      .aggregate([
+        {
+          $match: { _id: ObjectId(ctx.params.id) },
+        },
+        {
+          $lookup: {
+            from: "topics",
+            localField: "topics",
+            foreignField: "_id",
+            as: "actualTopics",
+          },
+        },
+      ])
+      .next(); // same as "toArray() and (after that, after awaiting the data!) [0]"
     if (!post) throw new Error("Couldn't find a post with this _id");
   } catch (error) {
     return {
@@ -85,7 +98,7 @@ export async function getServerSideProps(ctx) {
     uploaderId: post.uploaderId,
     numberOfComments: post.comments.length,
     numberOfLikes: post.likes.length,
-    topics: post.topics,
+    topics: post.actualTopics,
     didLike: isLoggedIn
       ? post.likes.some(userId => userId.equals(user._id))
       : false,
