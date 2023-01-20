@@ -43,7 +43,7 @@ export default function Topics({ topics }) {
 // revalidation is enabled and a new request comes in
 export async function getStaticProps(ctx) {
   // get topics from DB
-  let topics;
+  let topics = null;
   try {
     const { db } = await connectToDatabase();
     topics = await db.collection("topics").find({}).toArray();
