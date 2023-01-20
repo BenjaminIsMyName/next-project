@@ -7,6 +7,7 @@ import { UserContext } from "../../context/UserContext";
 import { useRef } from "react";
 import { useEffect } from "react";
 import Feed from "../../components/Feed";
+import connectToDatabase from "../../util/mongodb";
 
 export default function TopicPage() {
   const router = useRouter();
@@ -26,7 +27,21 @@ export default function TopicPage() {
   );
 }
 
-export async function getServerSideProps(ctx) {
+export async function getStaticPaths() {
+  const { db } = await connectToDatabase();
+
+  const topics = await db.collection("topics").find({}).toArray();
+
+  let paths = topics.map(t => ({ params: { id: t._id.toString() } }));
+  console.log(`pathssssssssssssssssss`, paths);
+
+  return {
+    paths: paths,
+    fallback: true,
+  };
+}
+
+export async function getStaticProps(ctx) {
   return {
     props: {
       ...(await serverSideTranslations(ctx.locale, [
