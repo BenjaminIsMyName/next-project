@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://redilet.com
+
+# Sitemaps
+Sitemap: https://redilet.com/sitemap.xml
