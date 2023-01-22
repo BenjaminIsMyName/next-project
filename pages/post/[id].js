@@ -45,8 +45,13 @@ export default function PostPage({ post }) {
     <>
       <Head>
         <title>{THE_TITLE}</title>
-        <meta name="description" content="content" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta
+          name="description"
+          content={t("descriptions.post", {
+            postTitle: postToDisplay.title,
+          })}
+        />
+        {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>
       <div className="overflow-hidden">
         <Post post={postToDisplay} isPostPage={true} />

@@ -25,7 +25,7 @@ export default function Admin() {
       <>
         <Head>
           <title>{THE_TITLE}</title>
-          <meta name="description" content="content" />
+          <meta name="description" content={t("descriptions.admin")} />
         </Head>
 
         <Error error={"You're not allowed to view this page"} />
