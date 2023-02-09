@@ -31,13 +31,12 @@ export default function PostOptions({
           <TextForPost text={"Share"} />
         </ButtonForPost>
 
-        <ButtonForPost onClick={savePost}>
-          <CopyIcon />
-          <TextForPost text={post.isSaved ? "Unsave" : "Save"} />
-        </ButtonForPost>
-
         {isAdmin && (
           <>
+            <ButtonForPost onClick={savePost}>
+              <CopyIcon />
+              <TextForPost text={post.isSaved ? "Unsave" : "Save"} />
+            </ButtonForPost>
             <ButtonForPost onClick={editClick}>
               <CopyIcon />
               <TextForPost text={"Edit"} />

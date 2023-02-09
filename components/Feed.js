@@ -66,6 +66,12 @@ export default function Feed({ type, topicId }) {
       {error !== null && (
         <Error tryAgainCallback={tryAgainCallback} error={error} />
       )}
+
+      {!hasMore && !loading && posts.length === 0 && (
+        <span className="block text-center text-option-text-color text-2xl animate-go-in">
+          Nothing to see here
+        </span>
+      )}
     </div>
   );
 }
