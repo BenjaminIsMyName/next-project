@@ -30,7 +30,13 @@ export default async function handler(req, res) {
 
   try {
     await db.collection("topics").findOneAndDelete({ _id: ObjectId(topicId) });
-    // TODO: remove this topic from every post that contains this topic?
+    // remove this topic from every post that contains this topic:
+    await db
+      .collection("posts")
+      .updateMany(
+        { topics: ObjectId(topicId) },
+        { $pull: { topics: ObjectId(topicId) } }
+      );
   } catch (err) {
     console.log(`error ${err}`);
     res.status(503).json({ error: `failed to delete topic from DB: ${err}` });
