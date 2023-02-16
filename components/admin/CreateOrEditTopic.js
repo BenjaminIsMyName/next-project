@@ -12,16 +12,17 @@ import useFormData from "../../hooks/useFormData";
 import { topicError } from "../../util/validate";
 import { useTranslation } from "next-i18next";
 
-export default function CreateTopic({
+export default function CreateOrEditTopic({
   closeCallback,
   selectedTopics,
   setSelectedTopics,
+  topicToEdit, // if we are in "edit" mode
 }) {
   const { locale } = useRouter();
   const { t } = useTranslation(["common"]);
   const inputsDefault = {
-    hebrew: "",
-    english: "",
+    hebrew: topicToEdit?.hebrew || "",
+    english: topicToEdit?.english || "",
   };
 
   const { inputsData, handleInputChange } = useFormData(inputsDefault);
@@ -37,9 +38,22 @@ export default function CreateTopic({
   async function submitNewTopic() {
     setStatus(StatusEnum.loading);
     try {
-      await axios.post("/api/topics/create", inputsData);
+      if (topicToEdit) {
+        await axios.patch("/api/topics/edit", {
+          id: topicToEdit._id,
+          ...inputsData,
+        });
+        setSelectedTopics(prev =>
+          prev.map(t =>
+            t._id == topicToEdit._id ? { _id: t._id, ...inputsData } : t
+          )
+        );
+      } else {
+        await axios.post("/api/topics/create", inputsData);
+      }
       closeCallback();
     } catch (error) {
+      console.log(`error in submitNewTopic`, error);
       setStatus(StatusEnum.error);
     }
   }

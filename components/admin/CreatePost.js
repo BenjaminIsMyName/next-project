@@ -11,7 +11,7 @@ import SelectedTopic from "./SelectedTopic";
 import Topics from "./Topics";
 import SearchTopic from "./SearchTopic";
 import { AnimatePresence, motion } from "framer-motion";
-import CreateTopic from "./CreateTopic";
+import CreateOrEditTopic from "./CreateOrEditTopic";
 import { AlertContext } from "../../context/AlertContext";
 
 export default function CreatePost() {
@@ -33,9 +33,11 @@ export default function CreatePost() {
     none: "No modal is opened",
     search: "List of the topics",
     create: "Create a new topic",
+    edit: "Edit existing topic",
   };
 
   const [modalOpen, setModalOpen] = useState(ModalEnum.none);
+  const [topicEditing, setTopicEditing] = useState(null);
   const [selectedTopics, setSelectedTopics] = useState([]);
 
   function handleFileSelect(e) {
@@ -142,14 +144,27 @@ export default function CreatePost() {
               setSelectedTopics={setSelectedTopics}
               selectedTopics={selectedTopics}
               createCallback={() => setModalOpen(ModalEnum.create)}
+              editCallback={topicObj => {
+                setTopicEditing(topicObj);
+                setModalOpen(ModalEnum.edit);
+              }}
             />
           )}
 
           {modalOpen === ModalEnum.create && (
-            <CreateTopic
+            <CreateOrEditTopic
               closeCallback={() => setModalOpen(ModalEnum.search)}
               setSelectedTopics={setSelectedTopics}
               selectedTopics={selectedTopics}
+            />
+          )}
+
+          {modalOpen === ModalEnum.edit && (
+            <CreateOrEditTopic
+              closeCallback={() => setModalOpen(ModalEnum.search)}
+              setSelectedTopics={setSelectedTopics}
+              selectedTopics={selectedTopics}
+              topicToEdit={topicEditing}
             />
           )}
         </AnimatePresence>
