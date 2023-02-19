@@ -108,10 +108,21 @@ export default function Post({
       add({ title: `You must be logged in to like` });
       return;
     }
+    // optimistic UI, show the changes before making the API request:
+    setLocalPost(prev => ({
+      ...prev,
+      didLike: !prev.didLike,
+      numberOfLikes: prev.didLike
+        ? prev.numberOfLikes - 1
+        : prev.numberOfLikes + 1,
+    }));
     try {
       await axios.post("/api/like", {
         post: localPost._id,
       });
+    } catch (error) {
+      console.log(`error`, error);
+      // if failed, cancel the UI changes that were made
       setLocalPost(prev => ({
         ...prev,
         didLike: !prev.didLike,
@@ -119,8 +130,6 @@ export default function Post({
           ? prev.numberOfLikes - 1
           : prev.numberOfLikes + 1,
       }));
-    } catch (error) {
-      console.log(`error`, error);
       add({ title: `Error, can't like right now` });
     }
   }
