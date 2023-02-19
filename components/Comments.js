@@ -51,6 +51,18 @@ export default function Comments({
       add({ title: `You must be logged in to like` });
       return;
     }
+    // optimistic UI, show the changes before making the API request:
+    const updatedArray = comments.map(c => {
+      if (c.id === commentId) {
+        return {
+          ...c,
+          didLike: !c.didLike,
+          numberOfLikes: c.didLike ? c.numberOfLikes - 1 : c.numberOfLikes + 1,
+        };
+      }
+      return c;
+    });
+    setComments(updatedArray);
 
     // using postId and commentId to make the fetch request...
 
@@ -59,6 +71,9 @@ export default function Comments({
         postId,
         commentId,
       });
+    } catch (error) {
+      console.log(`error`, error);
+      // if failed, cancel the UI changes that were made
       const updatedArray = comments.map(c => {
         if (c.id === commentId) {
           return {
@@ -72,8 +87,6 @@ export default function Comments({
         return c;
       });
       setComments(updatedArray);
-    } catch (error) {
-      console.log(`error`, error);
       add({ title: `Error, can't like right now` });
     }
   }
