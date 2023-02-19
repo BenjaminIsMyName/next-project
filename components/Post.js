@@ -22,6 +22,7 @@ import { useTranslation } from "next-i18next";
 import Input from "./Input";
 import { titleError } from "../util/validate";
 import useLoaded from "../hooks/useLoaded";
+import { SoundContext } from "../context/SoundContext";
 
 export default function Post({
   animateProp,
@@ -33,6 +34,8 @@ export default function Post({
   const { locale, query, push, route } = useRouter();
   const [localPost, setLocalPost] = useState(post || null); // any change to this post - will just update this state. not the state of all the posts...
   const [canPlay, setCanPlay] = useState(false); // we don't need to use this state atm, just to force render
+  const { sounds } = useContext(SoundContext);
+
   const isFullyOpened = isPostPage
     ? true
     : localPost
@@ -107,6 +110,10 @@ export default function Post({
     if (user === null) {
       add({ title: `You must be logged in to like` });
       return;
+    }
+    if (!localPost.didLike) {
+      // play sound when liking (not when removing a like)
+      sounds.current.like.play();
     }
     // optimistic UI, show the changes before making the API request:
     setLocalPost(prev => ({
