@@ -2,9 +2,8 @@ import { useRef, useEffect } from "react";
 
 export default function useSound() {
   const isSound = useRef(true); // if the user choose in settings not to hear sounds
-
   const audios = useRef({
-    // you can add more sounds here
+    // you can add more sounds here (don't forget to add the audio url in the useEffect at the bottom)
     like: null,
     // click: null,
   });
@@ -17,15 +16,11 @@ export default function useSound() {
         isSound.current && audios.current[key] && audios.current[key].play();
       },
       pause: () => {
-        audios.current[key] &&
-          audios.current[key] &&
-          audios.current[key].pause();
+        audios.current[key] && audios.current[key].pause();
       },
       reset: () => {
         // if we paused the sound in the middle and want to start from the beginning
-        audios.current[key] &&
-          audios.current[key] &&
-          (audios.current[key].currentTime = 0);
+        audios.current[key] && (audios.current[key].currentTime = 0);
       },
     };
   }
