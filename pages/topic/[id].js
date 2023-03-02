@@ -53,9 +53,18 @@ export async function getStaticPaths() {
 export async function getStaticProps(ctx) {
   const { params } = ctx;
   const id = params.id;
-  const { db } = await connectToDatabase();
-  const topic = await db.collection("topics").findOne({ _id: ObjectId(id) });
 
+  try {
+    var { db } = await connectToDatabase();
+    var topic = await db.collection("topics").findOne({ _id: ObjectId(id) });
+  } catch (error) {
+    return {
+      redirect: {
+        destination: "/404",
+        statusCode: 308,
+      },
+    };
+  }
   return {
     props: {
       ...(await serverSideTranslations(ctx.locale, [
