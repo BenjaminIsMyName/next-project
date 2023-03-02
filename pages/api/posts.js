@@ -87,6 +87,7 @@ export default async function handler(req, res) {
       });
       break;
     case "popular":
+      posts.reverse(); // for when the posts have the same number of likes, show the newest post first
       posts.sort((a, b) => {
         if (a.likes.length < b.likes.length) return 1;
         else if (a.likes.length > b.likes.length) return -1;
