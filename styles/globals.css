@@ -105,6 +105,11 @@ body {
   display: none;
 }
 
+/* prevents the google login button from flickering, see: https://stackoverflow.com/a/71649505 */
+#googleContainer > div > div:first-child {
+  display: none;
+}
+
 /* when selecting text etc: */
 /* ::-moz-selection {
   background: rgb(var(--main-color));

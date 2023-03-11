@@ -5,6 +5,8 @@ import axios from "axios";
 import Button from "../../Button";
 import Modal from "../../Modal";
 import Balancer from "react-wrap-balancer";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function EmailForm({
   handleInputChange,
@@ -14,6 +16,19 @@ export default function EmailForm({
   errorsText,
 }) {
   const { t } = useTranslation("menu");
+  const { locale } = useRouter();
+  useEffect(() => {
+    google.accounts.id.renderButton(
+      document.getElementById("googleContainer"),
+      {
+        theme: "outline",
+        size: "small",
+        text: "continue_with",
+        locale: locale === "en" ? "en_US" : "he_IL",
+        theme: "filled_black",
+      } // customization attributes
+    );
+  }, [locale]);
 
   async function handleEmailSubmit(e) {
     e.preventDefault();
@@ -33,6 +48,7 @@ export default function EmailForm({
   }
   return (
     <Modal>
+      <div id="googleContainer" className="mb-2 h-[44px] overflow-hidden"></div>
       <form className="form">
         <Balancer>
           <h2 className={`text-[23px] font-another-font-family`}>
