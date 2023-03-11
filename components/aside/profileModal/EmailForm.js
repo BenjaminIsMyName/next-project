@@ -48,7 +48,10 @@ export default function EmailForm({
   }
   return (
     <Modal>
-      <div id="googleContainer" className="mb-2 h-[44px] overflow-hidden"></div>
+      <div
+        id="googleContainer"
+        className="mb-2 h-[44px] overflow-hidden animate-show opacity-0"
+      ></div>
       <form className="form">
         <Balancer>
           <h2 className={`text-[23px] font-another-font-family`}>

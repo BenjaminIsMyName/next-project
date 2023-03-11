@@ -30,6 +30,7 @@ module.exports = {
           "fade-up 1s ease-in-out forwards" /* if you change the timing, change the setTimeout in <Post/> too */,
         "go-in":
           "go-in 0.9s cubic-bezier(.38,1.89,0,1.07) forwards" /* consider: 0.4s cubic-bezier(.15,1.25,.51,1.62) */,
+        show: "show 0.8s 0.4s ease forwards",
       },
       keyframes: {
         up: {
@@ -65,6 +66,14 @@ module.exports = {
           },
           "100%": {
             transform: "scale(1) rotate(0deg)",
+          },
+        },
+        show: {
+          "0%": {
+            opacity: "0",
+          },
+          "100%": {
+            opacity: "1",
           },
         },
       },
