@@ -5,8 +5,10 @@ import axios from "axios";
 import Button from "../../Button";
 import Modal from "../../Modal";
 import Balancer from "react-wrap-balancer";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
+import { GoogleContext } from "../../../context/GoogleContext";
+import { getCookie } from "cookies-next";
 
 export default function EmailForm({
   handleInputChange,
@@ -14,9 +16,11 @@ export default function EmailForm({
   setStatus,
   setErrorText,
   errorsText,
+  setUser,
 }) {
   const { t } = useTranslation("menu");
   const { locale } = useRouter();
+
   useEffect(() => {
     google.accounts.id.renderButton(
       document.getElementById("googleContainer"),
@@ -39,6 +43,13 @@ export default function EmailForm({
           email: inputsData.email,
         },
       });
+
+      if (data.withGoogle) {
+        setErrorText(errorsText.tryWithGoogle);
+        setStatus(1);
+        return;
+      }
+
       if (data.exists) setStatus(2);
       else setStatus(3);
     } catch (err) {
@@ -46,6 +57,30 @@ export default function EmailForm({
       setStatus(1);
     }
   }
+
+  // Tell the function in the useGoogle hook to call the handleGoogleLoginHere function.
+  const { callCallback } = useContext(GoogleContext);
+  callCallback(handleGoogleLoginHere);
+  async function handleGoogleLoginHere(response) {
+    setStatus(4);
+    try {
+      await axios.post("/api/signup", {
+        googleToken: response,
+      });
+      const userCookie = getCookie("user");
+      setUser(JSON.parse(userCookie));
+    } catch (err) {
+      console.log("error in EmailForm.js component", err);
+      if (err.response.status === 409) {
+        setErrorText(errorsText.tryWithPassword);
+      } else {
+        setErrorText(errorsText.general);
+      }
+
+      setStatus(1);
+    }
+  }
+
   return (
     <Modal>
       <div

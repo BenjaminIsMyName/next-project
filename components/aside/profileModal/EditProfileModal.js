@@ -3,6 +3,8 @@ import Modal from "../../Modal";
 import { emailError, passwordError, nameError } from "../../../util/validate";
 import Button from "../../Button";
 import { useTranslation } from "next-i18next";
+import { useContext } from "react";
+import { UserContext } from "../../../context/UserContext";
 
 export default function EditProfileModal({
   inputsData,
@@ -12,28 +14,34 @@ export default function EditProfileModal({
   handleEdit,
 }) {
   const { t } = useTranslation("menu");
+  const { user } = useContext(UserContext);
+
   return (
     <Modal>
       <form className={`form`}>
         <h2 className={`text-[23px] font-another-font-family`}>
           {t("titles.edit")}
         </h2>
-        <Input
-          checkErrorCallback={emailError}
-          valueObj={inputsData}
-          onChange={handleInputChange}
-          type="email"
-          name="email"
-          placeholder={t("inputs.email")}
-        />
-        <Input
-          checkErrorCallback={passwordError}
-          valueObj={inputsData}
-          onChange={handleInputChange}
-          type="password"
-          name="password"
-          placeholder={t("inputs.password")}
-        />
+        {user.withGoogle || (
+          <>
+            <Input
+              checkErrorCallback={emailError}
+              valueObj={inputsData}
+              onChange={handleInputChange}
+              type="email"
+              name="email"
+              placeholder={t("inputs.email")}
+            />
+            <Input
+              checkErrorCallback={passwordError}
+              valueObj={inputsData}
+              onChange={handleInputChange}
+              type="password"
+              name="password"
+              placeholder={t("inputs.password")}
+            />
+          </>
+        )}
 
         <Input
           checkErrorCallback={nameError}
@@ -45,9 +53,11 @@ export default function EditProfileModal({
         />
         <Button
           disabled={
-            emailError(inputsData.email) ||
-            passwordError(inputsData.password) ||
-            nameError(inputsData.name)
+            user.withGoogle
+              ? nameError(inputsData.name)
+              : emailError(inputsData.email) ||
+                passwordError(inputsData.password) ||
+                nameError(inputsData.name)
           }
           onClick={e => {
             e.preventDefault();

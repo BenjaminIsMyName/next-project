@@ -32,6 +32,8 @@ export default function ProfileModal({ closeModals }) {
 
   const errorsText = {
     general: t("error-text.general"),
+    tryWithGoogle: `דוא"ל זה משוייך לחשבון שנרשם באמצעות גוגל, חזור אחורה וכנס עם חשבון הגוגל שלך`,
+    tryWithPassword: `דוא"ל זה משוייך לחשבון שרשום באמצעות סיסמה. נסה להיכנס עם הסיסמה שלך...`,
   };
 
   const [errorText, setErrorText] = useState(errorsText.general);
@@ -70,6 +72,7 @@ export default function ProfileModal({ closeModals }) {
         setErrorText={setErrorText}
         inputsData={inputsData}
         handleInputChange={handleInputChange}
+        setUser={setUser}
       />
     );
   if (status === 1) return <ErrorInMenu goBack={goBack} text={errorText} />;

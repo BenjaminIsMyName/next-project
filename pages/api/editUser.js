@@ -14,40 +14,50 @@ export default async function handler(req, res) {
   // validate params ------------------------
   let { name, email, password } = req.body;
 
-  if (!name || !email || !password) {
-    res.status(406).json({ error: `did not provide all query params` });
-    return;
-  }
-
-  name = name.trim();
-  email = email.trim().toLowerCase();
-
-  if (passwordError(password) || emailError(email) || nameError(name)) {
-    res.status(406).json({
-      error: passwordError(password) || emailError(email) || nameError(name),
-    });
-    return;
-  }
-
   const { isLoggedIn, error, code, db, user } = await isLoggedInFunc(req, res);
   if (!isLoggedIn) {
     res.status(code).json({ error });
     return;
   }
 
+  if (user.withGoogle ? !name : !name || !email || !password) {
+    res.status(406).json({ error: `did not provide all query params` });
+    return;
+  }
+
+  name = name.trim();
+  if (!user.withGoogle) {
+    email = email.trim().toLowerCase();
+  }
+
+  if (
+    user.withGoogle
+      ? nameError(name)
+      : passwordError(password) || emailError(email) || nameError(name)
+  ) {
+    res.status(406).json({
+      error: nameError(name) || passwordError(password) || emailError(email),
+    });
+    return;
+  }
+
   // create hash and salt ------------------------
-  const saltRounds = 10;
-  const hashAndSalt = await bcrypt.hash(password, saltRounds);
+  if (!user.withGoogle) {
+    const saltRounds = 10;
+    var hashAndSalt = await bcrypt.hash(password, saltRounds);
+  }
 
   try {
     await db.collection("users").updateOne(
       { email: user.email },
       {
-        $set: {
-          name,
-          email,
-          password: hashAndSalt,
-        },
+        $set: user.withGoogle
+          ? { name }
+          : {
+              name,
+              email,
+              password: hashAndSalt,
+            },
       }
     );
   } catch (err) {
@@ -59,7 +69,7 @@ export default async function handler(req, res) {
     "user",
     {
       name,
-      email,
+      email: user.withGoogle ? user.email : email,
       isAdmin: user.isAdmin ? true : false,
     },
     {

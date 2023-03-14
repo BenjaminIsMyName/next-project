@@ -33,7 +33,7 @@ export default async function handler(req, res) {
   }
 
   if (user.length === 1) {
-    res.status(200).json({ exists: true });
+    res.status(200).json({ exists: true, withGoogle: user[0].withGoogle });
   } else if (user.length === 0) {
     res.status(200).json({ exists: false });
   } else {

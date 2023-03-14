@@ -16,6 +16,7 @@ import { AlertContext } from "../context/AlertContext";
 import { SoundContext } from "../context/SoundContext";
 import useSound from "../hooks/useSound";
 import useGoogle from "../hooks/useGoogle";
+import { GoogleContext } from "../context/GoogleContext";
 
 function MyApp({ Component, pageProps }) {
   // next-i18next has a bug - if using translations on top level layout (_app.js), warning appears:
@@ -88,50 +89,52 @@ function MyApp({ Component, pageProps }) {
   const [add, remove, alerts] = useToast();
 
   const [sounds] = useSound();
-  useGoogle();
+  const callCallback = useGoogle();
 
   return (
-    <AlertContext.Provider value={{ add, remove }}>
-      <SoundContext.Provider value={{ sounds }}>
-        <Alerts alerts={alerts} remove={remove} />
-        <ThemeContext.Provider value={{ setTheme }}>
-          <UserContext.Provider value={{ user, setUser }}>
-            {/* load script for "Sign In With Google", 
+    <GoogleContext.Provider value={{ callCallback }}>
+      <AlertContext.Provider value={{ add, remove }}>
+        <SoundContext.Provider value={{ sounds }}>
+          <Alerts alerts={alerts} remove={remove} />
+          <ThemeContext.Provider value={{ setTheme }}>
+            <UserContext.Provider value={{ user, setUser }}>
+              {/* load script for "Sign In With Google", 
             see https://nextjs.org/docs/basic-features/script
             and see: https://developers.google.com/identity/gsi/web/guides/client-library */}
-            <script
-              src="https://accounts.google.com/gsi/client"
-              async
-              defer
-            ></script>
+              <script
+                src="https://accounts.google.com/gsi/client"
+                async
+                defer
+              ></script>
 
-            {askForPassword && (
-              <OverlayToContinue onSuccess={() => setAskForPassword(false)} />
-            )}
-            <Aside />
-            <AnimatePresence mode={"wait"} initial={false}>
-              <motion.div
-                // we add padding to the bottom only on small screens (md:p-0) to not overlap the menu's header.
-                className={`bg-main-color transition-[width] duration-1000 ease-in
+              {askForPassword && (
+                <OverlayToContinue onSuccess={() => setAskForPassword(false)} />
+              )}
+              <Aside />
+              <AnimatePresence mode={"wait"} initial={false}>
+                <motion.div
+                  // we add padding to the bottom only on small screens (md:p-0) to not overlap the menu's header.
+                  className={`bg-main-color transition-[width] duration-1000 ease-in
                         min-h-screen isolate 
                         w-full p-[0_0_var(--header-height)_0] md:p-0 
                         md:w-[calc(100%-var(--aside-width))] 
             ${locale === "en" ? "float-right" : "float-left"}`} // this is the div that contains the actual content of the page, next to the menu.
-                key={router.route}
-                initial={{ opacity: 0, y: -400 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 400 }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-              >
-                <Component {...pageProps} />
-              </motion.div>
-            </AnimatePresence>
+                  key={router.route}
+                  initial={{ opacity: 0, y: -400 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 400 }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                >
+                  <Component {...pageProps} />
+                </motion.div>
+              </AnimatePresence>
 
-            <Analytics />
-          </UserContext.Provider>
-        </ThemeContext.Provider>
-      </SoundContext.Provider>
-    </AlertContext.Provider>
+              <Analytics />
+            </UserContext.Provider>
+          </ThemeContext.Provider>
+        </SoundContext.Provider>
+      </AlertContext.Provider>
+    </GoogleContext.Provider>
   );
 }
 
