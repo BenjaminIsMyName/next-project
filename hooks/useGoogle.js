@@ -26,10 +26,15 @@ export default function useGoogle() {
   useEffect(() => {
     /* "Warning: The google.accounts.id.initialize method should be called only once,
     even if you use both One Tap and button in the same web page." */
-    window.google?.accounts?.id?.initialize({
-      client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-      callback: handleGoogleLogin,
-    });
+    try {
+      window.google.accounts.id.initialize({
+        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+        callback: handleGoogleLogin,
+      });
+    } catch (error) {
+      console.log(`error in useGoogle hook`, error);
+    }
+
     // google.accounts.id.prompt(); // also display the One Tap dialog
   }, []);
 

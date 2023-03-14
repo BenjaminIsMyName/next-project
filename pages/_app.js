@@ -98,15 +98,6 @@ function MyApp({ Component, pageProps }) {
           <Alerts alerts={alerts} remove={remove} />
           <ThemeContext.Provider value={{ setTheme }}>
             <UserContext.Provider value={{ user, setUser }}>
-              {/* load script for "Sign In With Google", 
-            see https://nextjs.org/docs/basic-features/script
-            and see: https://developers.google.com/identity/gsi/web/guides/client-library */}
-              <script
-                src="https://accounts.google.com/gsi/client"
-                async
-                defer
-              ></script>
-
               {askForPassword && (
                 <OverlayToContinue onSuccess={() => setAskForPassword(false)} />
               )}

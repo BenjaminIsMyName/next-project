@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
 
 export default function Document() {
   return (
@@ -11,6 +12,13 @@ export default function Document() {
         <link
           href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&display=swap"
           rel="stylesheet"
+        />
+        {/* load script for "Sign In With Google", 
+            see https://nextjs.org/docs/basic-features/script
+            and see: https://developers.google.com/identity/gsi/web/guides/client-library */}
+        <Script
+          src="https://accounts.google.com/gsi/client"
+          strategy="beforeInteractive"
         />
       </Head>
       {/* When sending the document to the client, send it with RTL.
