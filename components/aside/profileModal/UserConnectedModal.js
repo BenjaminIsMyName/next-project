@@ -7,7 +7,6 @@ import { UserContext } from "../../../context/UserContext";
 import useFormData from "../../../hooks/useFormData";
 import CountdownModal from "../../CountdownModal";
 import EditIcon from "../../icons/EditIcon";
-import Loading from "../../Loading";
 import LoadingModal from "../../LoadingModal";
 import Modal from "../../Modal";
 import EditProfileModal from "./EditProfileModal";
@@ -16,6 +15,7 @@ import axios from "axios";
 import ErrorInMenu from "./ErrorInModal";
 import { getCookie } from "cookies-next";
 import Balancer from "react-wrap-balancer";
+
 export default function UserConnectedModal({ logOut, closeModals }) {
   const { t } = useTranslation("menu");
   const router = useRouter();

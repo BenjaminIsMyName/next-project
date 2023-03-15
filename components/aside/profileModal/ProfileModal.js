@@ -1,10 +1,7 @@
-import Modal from "../../Modal";
 import { useState, useContext } from "react";
-import Loading from "../../Loading";
 import Signup from "./SignupForm";
 import Login from "./LoginForm";
 import EmailForm from "./EmailForm";
-import { useRouter } from "next/router";
 import { UserContext } from "../../../context/UserContext";
 import useLogout from "../../../hooks/useLogout";
 import { useTranslation } from "next-i18next";
@@ -32,8 +29,8 @@ export default function ProfileModal({ closeModals }) {
 
   const errorsText = {
     general: t("error-text.general"),
-    tryWithGoogle: `דוא"ל זה משוייך לחשבון שנרשם באמצעות גוגל, חזור אחורה וכנס עם חשבון הגוגל שלך`,
-    tryWithPassword: `דוא"ל זה משוייך לחשבון שרשום באמצעות סיסמה. נסה להיכנס עם הסיסמה שלך...`,
+    tryWithGoogle: t("error-text.try-with-google"),
+    tryWithPassword: t("error-text.try-with-password"),
   };
 
   const [errorText, setErrorText] = useState(errorsText.general);
@@ -47,7 +44,7 @@ export default function ProfileModal({ closeModals }) {
 
   async function logOut() {
     setStatus(4);
-    const id = add({ title: "Logging out..." });
+    const id = add({ title: t("alerts.logging-out") });
     await logoutFunc();
     setUser(null);
     setInputsData(inputsDataDefault);
