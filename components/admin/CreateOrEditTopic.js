@@ -82,6 +82,7 @@ export default function CreateOrEditTopic({
             checkErrorCallback={topicError}
             onChange={handleInputChange}
             placeholder={t("placeholders.name-in-english", { ns: "admin" })}
+            translationFile="admin"
           />
           <Input
             valueObj={inputsData}
@@ -89,6 +90,7 @@ export default function CreateOrEditTopic({
             checkErrorCallback={topicError}
             onChange={handleInputChange}
             placeholder={t("placeholders.name-in-hebrew", { ns: "admin" })}
+            translationFile="admin"
           />
         </div>
         <div>

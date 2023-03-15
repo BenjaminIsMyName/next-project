@@ -12,7 +12,9 @@
     "title-validation-too-long": "Title can't be more than 99 characters",
     "url-validation-required": "URL is required",
     "url-validation-too-short": "URL is too short, must be at least 5 characters",
-    "url-validation-too-long": "URL is too long, must be up to 999 characters"
+    "url-validation-too-long": "URL is too long, must be up to 999 characters",
+    "topic-validation-required": "Name of topic is required",
+    "topic-validation-too-long": "Name of topic can't be more than 40 characters"
   },
   "placeholders": {
     "name-in-hebrew": "Name in Hebrew",

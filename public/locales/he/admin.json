@@ -12,7 +12,9 @@
     "title-validation-too-long": "הכותרת לא יכולה להיות יותר מ-99 תווים",
     "url-validation-required": "הכתובת חסרה",
     "url-validation-too-short": "הכתובת קצרה מדי, היא חייבת להיות לפחות 5 תווים",
-    "url-validation-too-long": "הכתובת ארוכה מדי, היא אינה יכולה להיות יותר מ-999 תווים"
+    "url-validation-too-long": "הכתובת ארוכה מדי, היא אינה יכולה להיות יותר מ-999 תווים",
+    "topic-validation-required": "חייב לכתוב שם לנושא",
+    "topic-validation-too-long": "שם הנושא ארוך מדי, הוא אינו יכול להיות יותר מ-40 תווים"
   },
   "placeholders": {
     "name-in-hebrew": "שם בעברית",
