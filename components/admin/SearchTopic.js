@@ -1,13 +1,22 @@
 import axios from "axios";
 import { motion as m } from "framer-motion";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import GoBackButton from "../GoBackButton";
 import TrashIcon from "../icons/TrashIcon";
 import Loading from "../Loading";
 import EditIcon from "../icons/EditIcon";
 import FocusTrap from "focus-trap-react";
 import { AlertContext } from "../../context/AlertContext";
+import { useTranslation } from "next-i18next";
+import Error from "../Error";
 
 export default function SearchTopic({
   closeCallback,
@@ -19,16 +28,35 @@ export default function SearchTopic({
   const { locale } = useRouter();
   const [topics, setTopics] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [error, setError] = useState("");
+  const StatusEnum = useMemo(
+    () => ({
+      init: "Initial state",
+      fetching: "Trying to fetch topics from DB",
+      fetched: "Topics are fetched",
+      error: "Error while fetching topics",
+    }),
+    []
+  );
 
-  useEffect(() => {
-    async function fetchAll() {
-      // TODO: try catch etc...
+  const [status, setStatus] = useState(StatusEnum.init);
+  const { t } = useTranslation(["common", "admin"]);
+  const fetchAll = useCallback(async () => {
+    setStatus(StatusEnum.fetching);
+    try {
       const { data } = await axios.get("/api/topics/getAll");
       setTopics(data.topics);
+      setStatus(StatusEnum.fetched);
+    } catch (error) {
+      console.log(`error in SearchTopic.js:`, error);
+      setStatus(StatusEnum.error);
+      setError(error.message);
     }
+  }, [StatusEnum.error, StatusEnum.fetched, StatusEnum.fetching]); // same as [] because no dependency is going to change
 
+  useEffect(() => {
     fetchAll();
-  }, []);
+  }, [fetchAll]); // same as [] because fetchAll is never going to change
 
   const searchRef = useRef();
   useEffect(() => searchRef.current && searchRef.current.focus(), []);
@@ -72,9 +100,16 @@ export default function SearchTopic({
         />
 
         <div className="flex flex-col gap-4 p-7">
-          {topics.length ? "" : <Loading />}
+          {status === StatusEnum.fetching && <Loading />}
+          {/* if search gave 0 results: */}
           {topics.length > 0 && filteredTopics.length === 0 && (
             <NoResults createCallback={createCallback} />
+          )}
+          {/* if error */}
+          {status === StatusEnum.error && (
+            <div>
+              <Error tryAgainCallback={fetchAll} error={error} />
+            </div>
           )}
           {filteredTopics.map(t => (
             <TopicToPick
