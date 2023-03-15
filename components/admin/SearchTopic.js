@@ -94,7 +94,7 @@ export default function SearchTopic({
           className={`block mt-28 mb-5 mx-auto bg-main-color bg-opacity-80
         shadow-inner rounded-3xl p-2 text-center backdrop-blur-3xl outline-third-color 
         transition-all duration-700 w-[200px] max-w-[85%] focus:w-[300px] focus:rounded-xl focus:outline-none `}
-          placeholder={"Search a topic..."}
+          placeholder={t("placeholders.search-topic", { ns: "admin" }) + "..."}
           onChange={e => setSearchTerm(e.target.value)}
           value={searchTerm}
         />
@@ -152,7 +152,7 @@ function TopicToPick({
 
   const [deleteStatus, setDeleteStatus] = useState(StatusEnum.init);
   const { add } = useContext(AlertContext);
-
+  const { t } = useTranslation(["common", "admin"]);
   async function handleDelete() {
     setDeleteStatus(StatusEnum.deleting);
     try {
@@ -163,21 +163,25 @@ function TopicToPick({
       handleDeleteCallback(id); // delete the topic from the selected topics
     } catch (error) {
       setDeleteStatus(StatusEnum.init);
-      add({ title: "Failed to delete" });
+      add({ title: t("alerts.failed-to-delete", { ns: "admin" }) });
     }
   }
 
   if (deleteStatus === StatusEnum.deleted)
     return (
       <div className="bg-error-color p-4 flex justify-between text-option-text-color">
-        <span className="block m-auto text-center">DELETED</span>
+        <span className="block m-auto text-center">
+          {t("deleted", { ns: "common" }).toUpperCase() + "!"}
+        </span>
       </div>
     );
 
   if (deleteStatus === StatusEnum.deleting)
     return (
       <div className="bg-error-color p-4 flex justify-between text-option-text-color bg-opacity-30">
-        <span className="block m-auto text-center">Deleting....</span>
+        <span className="block m-auto text-center">
+          {t("deleting", { ns: "common" }) + "..."}
+        </span>
       </div>
     );
 
@@ -214,14 +218,17 @@ function TopicToPick({
 }
 
 function NoResults({ createCallback }) {
+  const { t } = useTranslation(["admin", "common"]);
   return (
     <div className="flex flex-col gap-2 items-center">
-      <div className="text-error-color">No Results</div>
+      <div className="text-error-color">
+        {t("no-results", { ns: "common" })}
+      </div>
       <button
         className="bg-main-color p-3 rounded-lg text-third-color"
         onClick={createCallback}
       >
-        CREATE NEW TOPIC
+        {t("create-topic", { ns: "admin" }).toUpperCase()}
       </button>
     </div>
   );

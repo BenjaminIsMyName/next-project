@@ -6,14 +6,12 @@ import Feed from "../../components/Feed";
 import connectToDatabase from "../../util/mongodb";
 import { ObjectId } from "mongodb";
 
-// TODO: error in dev mode, props are not passed, router.query.id is undefined....
-// To see this error, run `npm run dev` and refresh any topic page.
-
 export default function TopicPage({ topic }) {
   let parsedTopic = null;
   try {
     parsedTopic = JSON.parse(topic);
   } catch (error) {
+    //  to handle error in dev mode, props are not passed, router.query.id is undefined....
     parsedTopic = { hewbrew: "שגיאה", english: "Error" }; // for when props are not passed.. unclear why it happens...
   }
   const router = useRouter();

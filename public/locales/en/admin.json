@@ -13,5 +13,16 @@
     "url-validation-required": "URL is required",
     "url-validation-too-short": "URL is too short, must be at least 5 characters",
     "url-validation-too-long": "URL is too long, must be up to 999 characters"
-  }
+  },
+  "placeholders": {
+    "name-in-hebrew": "Name in Hebrew",
+    "name-in-english": "Name in English",
+    "search-topic": "Search a topic"
+  },
+  "alerts": {
+    "file-too-big": "File cannot be more than 300mb, this file is {{fileSize}}mb",
+    "failed-to-delete": "Failed to delete, try again later"
+  },
+  "create-topic": "Create a new topic",
+  "add-topic": "Add a topic"
 }

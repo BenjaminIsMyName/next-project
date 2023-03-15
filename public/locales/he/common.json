@@ -21,5 +21,8 @@
     "topic": "גלה מה חדש לגבי {{topicTitle}}",
     "post": "צפה בפוסט על {{postTitle}}",
     "admin": "דף זה הוא עבור מנהלי מערכת בלבד"
-  }
+  },
+  "deleting": "מוחק",
+  "deleted": "נמחק",
+  "no-results": "אין תוצאות"
 }

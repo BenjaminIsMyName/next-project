@@ -1,11 +1,8 @@
 import axios from "axios";
 import { motion as m } from "framer-motion";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import GoBackButton from "../GoBackButton";
-import TrashIcon from "../icons/TrashIcon";
-import Loading from "../Loading";
-import EditIcon from "../icons/EditIcon";
 import FocusTrap from "focus-trap-react";
 import Input from "../Input";
 import useFormData from "../../hooks/useFormData";
@@ -19,7 +16,7 @@ export default function CreateOrEditTopic({
   topicToEdit, // if we are in "edit" mode
 }) {
   const { locale } = useRouter();
-  const { t } = useTranslation(["common"]);
+  const { t } = useTranslation(["common", "admin"]);
   const inputsDefault = {
     hebrew: topicToEdit?.hebrew || "",
     english: topicToEdit?.english || "",
@@ -84,14 +81,14 @@ export default function CreateOrEditTopic({
             name={"english"}
             checkErrorCallback={topicError}
             onChange={handleInputChange}
-            placeholder={"Name in English"}
+            placeholder={t("placeholders.name-in-english", { ns: "admin" })}
           />
           <Input
             valueObj={inputsData}
             name={"hebrew"}
             checkErrorCallback={topicError}
             onChange={handleInputChange}
-            placeholder={"Name in Hebrew"}
+            placeholder={t("placeholders.name-in-hebrew", { ns: "admin" })}
           />
         </div>
         <div>

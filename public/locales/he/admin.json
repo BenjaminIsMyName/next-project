@@ -13,5 +13,16 @@
     "url-validation-required": "הכתובת חסרה",
     "url-validation-too-short": "הכתובת קצרה מדי, היא חייבת להיות לפחות 5 תווים",
     "url-validation-too-long": "הכתובת ארוכה מדי, היא אינה יכולה להיות יותר מ-999 תווים"
-  }
+  },
+  "placeholders": {
+    "name-in-hebrew": "שם בעברית",
+    "name-in-english": "שם באנגלית",
+    "search-topic": "חפש נושא"
+  },
+  "alerts": {
+    "file-too-big": "קובץ לא יכול להיות גדול מ-300 מגה בייט, קובץ זה הוא {{fileSize}} מגה בייט",
+    "failed-to-delete": "לא הצלחנו למחוק, נסה שוב מאוחר יותר"
+  },
+  "create-topic": "צור נושא חדש",
+  "add-topic": "הוסף נושא"
 }

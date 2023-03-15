@@ -21,5 +21,8 @@
     "topic": "Find out what's new about {{topicTitle}}",
     "post": "View post on {{postTitle}}",
     "admin": "This page is for admin users only"
-  }
+  },
+  "deleting": "Deleting",
+  "deleted": "Deleted",
+  "no-results": "No results"
 }

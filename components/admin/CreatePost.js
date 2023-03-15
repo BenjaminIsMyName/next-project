@@ -7,7 +7,6 @@ import Balancer from "react-wrap-balancer";
 import { useRouter } from "next/router";
 import Input from "../Input";
 import { titleError } from "../../util/validate";
-import SelectedTopic from "./SelectedTopic";
 import Topics from "./Topics";
 import SearchTopic from "./SearchTopic";
 import { AnimatePresence, motion } from "framer-motion";
@@ -15,7 +14,7 @@ import CreateOrEditTopic from "./CreateOrEditTopic";
 import { AlertContext } from "../../context/AlertContext";
 
 export default function CreatePost() {
-  const { t } = useTranslation("admin");
+  const { t } = useTranslation(["admin"]);
   const router = useRouter();
   const locale = router.locale;
   const [file, setFile] = useState(null);
@@ -44,7 +43,7 @@ export default function CreatePost() {
     var fileSize = (e.target.files[0].size / 1024 / 1024).toFixed(3); // MB
     if (fileSize > 300) {
       add({
-        title: `File cannot be more than 300mb, this file is ${fileSize}mb`,
+        title: t("alerts.file-too-big", { fileSize: fileSize, ns: "admin" }),
       });
       removeSelectedFile();
       return;
