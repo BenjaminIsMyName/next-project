@@ -11,6 +11,7 @@ import ForYouIcon from "../icons/ForYouIcon";
 import PopularIcon from "../icons/PopularIcon";
 import TopicsIcon from "../icons/TopicsIcon.js";
 import SavedIcon from "../icons/SavedIcon.js";
+import PolicyIcon from "../icons/PolicyIcon.js";
 
 export default function Aside() {
   const { t } = useTranslation("menu");
@@ -136,6 +137,13 @@ export default function Aside() {
             text={t("saved")}
             link="/saved"
             icon={() => SavedIcon}
+          />
+          <Option
+            onClick={() => setIsOpen(false)}
+            text={t("privacy-policy")}
+            link={process.env.NEXT_PUBLIC_SITE_URL + "/policy.md"}
+            icon={() => PolicyIcon}
+            newTab={true}
           />
         </aside>
       </div>

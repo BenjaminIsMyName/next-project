@@ -3,7 +3,7 @@ import ForYouIcon from "../icons/ForYouIcon.js";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function Option({ text, link, onClick, icon }) {
+export default function Option({ text, link, onClick, icon, newTab }) {
   const IconComponent = icon();
 
   const router = useRouter();
@@ -11,6 +11,7 @@ export default function Option({ text, link, onClick, icon }) {
   return (
     <Link href={link} scroll={false}>
       <a
+        target={newTab ? "_blank" : "_self"}
         onClick={onClick}
         className={`${styles.option} ${
           locale === "en" ? styles.optionLtr : ""
