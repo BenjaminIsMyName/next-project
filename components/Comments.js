@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from "react";
+import { forwardRef, useCallback, useContext, useEffect } from "react";
 import { useState } from "react";
 import AddComment from "./AddComment";
 import axios from "axios";
@@ -9,12 +9,10 @@ import { UserContext } from "../context/UserContext";
 import Loading from "./Loading";
 import Error from "./Error";
 import { useTranslation } from "next-i18next";
-export default function Comments({
-  postId,
-  increaseCommentsCount,
-  setNumberOfComment,
-  numberOfComments,
-}) {
+function CommentsComponent(
+  { postId, increaseCommentsCount, setNumberOfComment, numberOfComments },
+  ref
+) {
   const [comments, setComments] = useState([]);
   const { t } = useTranslation("common");
   const StatusEnum = {
@@ -140,7 +138,7 @@ export default function Comments({
           error={t("error-getting-comments")}
         />
       )}
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3" ref={ref}>
         {comments.map((i, key) => (
           <OneComment
             key={key}
@@ -159,3 +157,7 @@ export default function Comments({
     </div>
   );
 }
+
+const Comments = forwardRef(CommentsComponent);
+
+export default Comments;

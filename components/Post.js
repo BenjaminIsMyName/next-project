@@ -23,6 +23,7 @@ import Input from "./Input";
 import { titleError } from "../util/validate";
 import useLoaded from "../hooks/useLoaded";
 import { SoundContext } from "../context/SoundContext";
+import scrollParentToChild from "../util/scrollParentToChild";
 
 export default function Post({
   animateProp,
@@ -34,6 +35,7 @@ export default function Post({
   const { locale, query, push, route } = useRouter();
   const [localPost, setLocalPost] = useState(post || null); // any change to this post - will just update this state. not the state of all the posts...
   const [canPlay, setCanPlay] = useState(false); // we don't need to use this state atm, just to force render
+  const commentsButtonRef = useRef();
   const { sounds } = useContext(SoundContext);
 
   const isFullyOpened = isPostPage
@@ -56,6 +58,14 @@ export default function Post({
   const [titleEditingStatus, setTitleEditingStatus] = useState(
     StatusEnumForTitle.initial
   );
+
+  useEffect(() => {
+    if (query.scrollToComments && commentsButtonRef.current) {
+      setTimeout(() => {
+        scrollParentToChild(postRef.current, commentsButtonRef.current, 400);
+      }, 400);
+    }
+  }, [query.scrollToComments]);
   useEffect(() => {
     if (isFullyOpened && !isPostPage) {
       // if a post was opened in the feed, it'll be opened in a scrollable fixed div. The body shouldn't be scrollable.
@@ -236,6 +246,8 @@ export default function Post({
         clickOutsideDeactivates: true,
         escapeDeactivates: true, // default
         onDeactivate: () => {
+          // TODO: do we need this? maybe we can just use the default behavior of the FocusTrap.
+          // I don't think it does anything... I checked on a topic page etc etc... it doesn't do anything.
           let new_route = route;
           if (route.includes("[id]"))
             new_route = route.replace("[id]", query.id);
@@ -428,14 +440,29 @@ export default function Post({
               <span>{localPost?.numberOfLikes}</span>
             </div>
             <div className="[&_svg]:fill-option-text-color">
-              <button
-                aria-label={"Comment"}
-                className={`bg-opacity-0 border-0`}
-                type="button"
-                onClick={null}
+              <Link
+                scroll={false}
+                // shallow={true}
+                href={{
+                  pathname: `${route}`,
+                  query: {
+                    post: localPost?._id,
+                    id: query.id,
+                    scrollToComments: true,
+                  }, // "id" is for the topicId, when viewing a topic
+                }}
+                as={localPost ? `/post/${localPost?._id}` : "/"}
               >
-                <CommentIcon />
-              </button>
+                <a className="flex justify-center">
+                  <button
+                    aria-label={"Comment"}
+                    className={`bg-opacity-0 border-0`}
+                    type="button"
+                  >
+                    <CommentIcon />
+                  </button>
+                </a>
+              </Link>
               <span>{localPost?.numberOfComments}</span>
             </div>
           </div>
@@ -449,6 +476,7 @@ export default function Post({
           )}
           {isFullyOpened && (
             <Comments
+              ref={commentsButtonRef}
               increaseCommentsCount={increaseCommentsCount}
               setNumberOfComment={setNumberOfComment}
               numberOfComments={localPost.numberOfComments}
