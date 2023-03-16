@@ -1,5 +1,6 @@
 import { format, formatDistance } from "date-fns";
 import { he } from "date-fns/locale";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useLoaded from "../hooks/useLoaded";
@@ -14,11 +15,12 @@ export default function OneComment({
   numberOfLikes,
   likeCallback,
   id,
+  deletedAccount,
 }) {
   const { locale } = useRouter();
 
   const loaded = useLoaded();
-
+  const { t } = useTranslation("common");
   let formattedDate = loaded ? getFormattedDate() : "";
 
   function getFormattedDate() {
@@ -31,7 +33,15 @@ export default function OneComment({
   return (
     <div className="p-2 border-b-2 border-main-color">
       <div className="flex gap-1 flex-row items-end text-xs">
-        <span>{name}</span>
+        <span
+          className={`${
+            deletedAccount
+              ? "line-through decoration-error-color/50 decoration-2"
+              : ""
+          }`}
+        >
+          {deletedAccount ? t("deleted-account", { ns: "common" }) : name}
+        </span>
         <span className="text-option-text-color text-opacity-70">
           {formattedDate}
         </span>

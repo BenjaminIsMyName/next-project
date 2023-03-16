@@ -152,6 +152,7 @@ export default function Comments({
             numberOfLikes={i.numberOfLikes}
             likeCallback={handleLikeOfComment}
             id={i.id}
+            deletedAccount={i.deletedAccount}
           />
         ))}
       </div>

@@ -45,7 +45,8 @@ export default async function handler(req, res) {
         : false;
       withNames.push({
         ...post.comments[i],
-        name: userAuthor.name,
+        name: userAuthor?.name,
+        deletedAccount: userAuthor === null,
         didLike,
         numberOfLikes: post.comments[i].liked.length,
         liked: undefined, // remove the array, no need for it on the client side
