@@ -1,8 +1,7 @@
-import { useRef, useContext, useEffect } from "react";
+import { useRef, useContext, useEffect, useCallback } from "react";
 import Link from "next/link";
 import OpenFullIcon from "./icons/OpenFullIcon";
 import LikeIcon from "./icons/LikeIcon";
-import CommentIcon from "./icons/CommentIcon";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import { useState } from "react";
@@ -12,18 +11,15 @@ import { formatDistance, format } from "date-fns";
 import { he } from "date-fns/locale";
 import FocusTrap from "focus-trap-react";
 import { AlertContext } from "../context/AlertContext";
-import CopyIcon from "./icons/CopyIcon";
-import ButtonForPost from "./ButtonForPost";
 import PostOptions from "./PostOptions";
-import AddComment from "./AddComment";
 import Comments from "./Comments";
-import Balancer from "react-wrap-balancer";
 import { useTranslation } from "next-i18next";
 import Input from "./Input";
 import { titleError } from "../util/validate";
 import useLoaded from "../hooks/useLoaded";
 import { SoundContext } from "../context/SoundContext";
 import scrollParentToChild from "../util/scrollParentToChild";
+import GoToComments from "./GoToComments";
 
 export default function Post({
   animateProp,
@@ -37,6 +33,17 @@ export default function Post({
   const [canPlay, setCanPlay] = useState(false); // we don't need to use this state atm, just to force render
   const commentsButtonRef = useRef();
   const { sounds } = useContext(SoundContext);
+  const observer = useRef();
+  const postRef = useRef();
+
+  // those ref and useEffect are needed, in order to know the original height of the post when it's already opened.
+  // without them, a bug will happen: when liking a post, the "placeholder" div will update its height and take more space
+  const postHeightNotOpenedYetRef = useRef();
+  useEffect(() => {
+    if (isFullyOpened) return;
+    if (!postRef.current) return;
+    postHeightNotOpenedYetRef.current = postRef.current.offsetHeight;
+  });
 
   const isFullyOpened = isPostPage
     ? true
@@ -59,13 +66,22 @@ export default function Post({
     StatusEnumForTitle.initial
   );
 
-  useEffect(() => {
-    if (query.scrollToComments && commentsButtonRef.current) {
+  const handleScrollToComments = useCallback(() => {
+    // console.log(`commentsButtonRef.current:`, commentsButtonRef.current); // wtfffff? why this console.log is throwing an error??
+    if (commentsButtonRef.current) {
       setTimeout(() => {
-        scrollParentToChild(postRef.current, commentsButtonRef.current, 400);
-      }, 400);
+        scrollParentToChild(
+          isPostPage ? document.querySelector("body") : postRef.current, // it's not the body? figure out which element should scroll
+          commentsButtonRef.current
+        );
+      }, 100);
     }
-  }, [query.scrollToComments]);
+  }, [isPostPage]);
+
+  useEffect(() => {
+    if (query.scrollToComments) handleScrollToComments();
+  }, [handleScrollToComments, query.scrollToComments]);
+
   useEffect(() => {
     if (isFullyOpened && !isPostPage) {
       // if a post was opened in the feed, it'll be opened in a scrollable fixed div. The body shouldn't be scrollable.
@@ -80,18 +96,6 @@ export default function Post({
         "no-scroll-in-any-screen-due-to-opened-post"
       );
   }, [isFullyOpened, isPostPage]);
-
-  const observer = useRef();
-  const postRef = useRef();
-
-  // those ref and useEffect are needed, in order to know the original height of the post when it's already opened.
-  // without them, a bug will happen: when liking a post, the "placeholder" div will update its height and take more space
-  const postHeightNotOpenedYetRef = useRef();
-  useEffect(() => {
-    if (isFullyOpened) return;
-    if (!postRef.current) return;
-    postHeightNotOpenedYetRef.current = postRef.current.offsetHeight;
-  });
 
   // for the IntersectionObserver, to apply animation when scrolling:
   useEffect(() => {
@@ -440,29 +444,13 @@ export default function Post({
               <span>{localPost?.numberOfLikes}</span>
             </div>
             <div className="[&_svg]:fill-option-text-color">
-              <Link
-                scroll={false}
-                // shallow={true}
-                href={{
-                  pathname: `${route}`,
-                  query: {
-                    post: localPost?._id,
-                    id: query.id,
-                    scrollToComments: true,
-                  }, // "id" is for the topicId, when viewing a topic
-                }}
-                as={localPost ? `/post/${localPost?._id}` : "/"}
-              >
-                <a className="flex justify-center">
-                  <button
-                    aria-label={"Comment"}
-                    className={`bg-opacity-0 border-0`}
-                    type="button"
-                  >
-                    <CommentIcon />
-                  </button>
-                </a>
-              </Link>
+              <GoToComments
+                handleScrollToComments={handleScrollToComments}
+                isFullyOpened={isFullyOpened}
+                localPost={localPost}
+                query={query}
+                route={route}
+              />
               <span>{localPost?.numberOfComments}</span>
             </div>
           </div>

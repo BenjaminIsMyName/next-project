@@ -22,13 +22,13 @@ export default function scrollParentToChild(parent, child, extra = 0) {
     const scrollTop = childRect.top - parentRect.top;
     const scrollBot = childRect.bottom - parentRect.bottom;
     if (Math.abs(scrollTop) < Math.abs(scrollBot)) {
-      // we're near the top of the list
+      // we're near the top
       parent.scrollTo({
         top: parent.scrollTop + scrollTop + extra,
         behavior: "smooth",
       });
     } else {
-      // we're near the bottom of the list
+      // we're near the bottom
       parent.scrollTo({
         top: parent.scrollTop + scrollBot + extra,
         behavior: "smooth",
