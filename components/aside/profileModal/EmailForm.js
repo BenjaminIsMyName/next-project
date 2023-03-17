@@ -17,6 +17,7 @@ export default function EmailForm({
   setErrorText,
   errorsText,
   setUser,
+  defaultState,
 }) {
   const { t } = useTranslation("menu");
   const { locale } = useRouter();
@@ -69,6 +70,7 @@ export default function EmailForm({
       });
       const userCookie = getCookie("user");
       setUser(JSON.parse(userCookie));
+      defaultState();
     } catch (err) {
       console.log("error in EmailForm.js component", err);
       if (err.response.status === 409) {

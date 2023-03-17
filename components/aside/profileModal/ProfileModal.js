@@ -70,6 +70,7 @@ export default function ProfileModal({ closeModals }) {
         inputsData={inputsData}
         handleInputChange={handleInputChange}
         setUser={setUser}
+        defaultState={defaultState}
       />
     );
   if (status === 1) return <ErrorInMenu goBack={goBack} text={errorText} />;

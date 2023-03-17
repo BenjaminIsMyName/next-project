@@ -55,6 +55,7 @@ export default function UserConnectedModal({ logOut, closeModals }) {
       try {
         await axios.delete("/api/deleteUser");
         setUser(null);
+        // the status is set to default by the defaultState function when signing in / signing up
       } catch (err) {
         setStatus(StatusEnum.error);
       }
