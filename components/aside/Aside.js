@@ -67,6 +67,7 @@ export default function Aside() {
       focusTrapOptions={{
         escapeDeactivates: true, // default
         onDeactivate: () => {
+          // onDeactivate is necessary, and if you think everything is working fine without it, try restarting the development server and try again
           setModalOpen(-1);
           setIsOpen(false);
           document.body.classList.remove("no-scroll"); // this is needed because if it doesn't exist, there will be a bug: open menu on mobile, make it wider, and go back to mobile. You cannot scroll, but menu is closed... because of line above "setIsOpen(false)"

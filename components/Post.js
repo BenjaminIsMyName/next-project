@@ -251,8 +251,7 @@ export default function Post({
         clickOutsideDeactivates: true,
         escapeDeactivates: true, // default
         onDeactivate: () => {
-          // TODO: do we need this? maybe we can just use the default behavior of the FocusTrap.
-          // I don't think it does anything... I checked on a topic page etc etc... it doesn't do anything.
+          // onDeactivate is necessary, and if you think everything is working fine without it, try restarting the development server and try again
           let new_route = route;
           if (route.includes("[id]"))
             new_route = route.replace("[id]", query.id);
