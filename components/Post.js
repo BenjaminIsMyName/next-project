@@ -71,7 +71,7 @@ export default function Post({
     if (commentsButtonRef.current) {
       setTimeout(() => {
         scrollParentToChild(
-          isPostPage ? document.querySelector("body") : postRef.current, // it's not the body? figure out which element should scroll
+          isPostPage ? document.querySelector("body") : postRef.current, // TODO: it's not the body? figure out which element should scroll
           commentsButtonRef.current
         );
       }, 100);
