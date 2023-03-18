@@ -5,18 +5,22 @@ import { useRouter } from "next/router";
 import Feed from "../../components/Feed";
 import connectToDatabase from "../../util/mongodb";
 import { ObjectId } from "mongodb";
+import Loading from "../../components/Loading";
 
 export default function TopicPage({ topic }) {
-  let parsedTopic = null;
-  try {
-    parsedTopic = JSON.parse(topic);
-  } catch (error) {
-    //  to handle error in dev mode, props are not passed, router.query.id is undefined....
-    parsedTopic = { hewbrew: "שגיאה", english: "Error" }; // for when props are not passed.. unclear why it happens...
-  }
   const router = useRouter();
-  const { locale } = router;
   const { t } = useTranslation(["common"]);
+
+  if (router.isFallback) {
+    // If the page is not yet generated, this will be displayed
+    // initially until getStaticProps() finishes running
+    return <Loading />;
+  }
+
+  let parsedTopic = JSON.parse(topic);
+
+  const { locale } = router;
+
   const THE_TITLE = `${t("topic")} - ${
     locale === "en" ? parsedTopic.english : parsedTopic.hebrew
   } - ${t("app-name")}`;
@@ -70,6 +74,7 @@ export async function getStaticProps(ctx) {
       },
     };
   }
+
   return {
     props: {
       ...(await serverSideTranslations(ctx.locale, [
@@ -79,5 +84,6 @@ export async function getStaticProps(ctx) {
       ])),
       topic: JSON.stringify(topic),
     },
+    revalidate: 60, // In seconds, why - to show up-to-date name of topic (if got edited)
   };
 }
