@@ -50,7 +50,6 @@ export default function ProfileModal({ closeModals }) {
     setInputsData(inputsDataDefault);
     setStatus(0);
     remove(id);
-    // TODO: for some reason, sometimes the modal doesn't go back to initial state after logout and is stuck at loading
   }
 
   // this function is used to go back from login/signup to the email form
