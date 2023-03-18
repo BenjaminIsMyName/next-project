@@ -39,7 +39,7 @@ export default async function handler(req, res) {
 
     name = name.trim();
     email = email.trim().toLowerCase();
-    // TODO: should probably trim the password too (also in passwordError!!!)
+    // We don't want to trim the password, because it might contain spaces. The user will see the spaces as dots, so we don't want to trim them.
 
     if (passwordError(password) || emailError(email) || nameError(name)) {
       res.status(406).json({
