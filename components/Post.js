@@ -18,7 +18,6 @@ import Input from "./Input";
 import { titleError } from "../util/validate";
 import useLoaded from "../hooks/useLoaded";
 import { SoundContext } from "../context/SoundContext";
-import scrollParentToChild from "../util/scrollParentToChild";
 import GoToComments from "./GoToComments";
 
 export default function Post({
@@ -67,14 +66,16 @@ export default function Post({
   );
 
   const handleScrollToComments = useCallback(() => {
-    // console.log(`commentsButtonRef.current:`, commentsButtonRef.current); // wtfffff? why this console.log is throwing an error??
-    if (commentsButtonRef.current) {
-      setTimeout(() => {
-        scrollParentToChild(
-          isPostPage ? document.querySelector("body") : postRef.current, // TODO: it's not the body? figure out which element should scroll
-          commentsButtonRef.current
-        );
-      }, 100);
+    if (isPostPage) {
+      window.scrollTo({
+        top: commentsButtonRef.current.offsetTop,
+        behavior: "smooth",
+      });
+    } else if (commentsButtonRef.current) {
+      postRef.current.scrollTo({
+        top: commentsButtonRef.current.offsetTop - postRef.current.offsetTop,
+        behavior: "smooth",
+      });
     }
   }, [isPostPage]);
 
