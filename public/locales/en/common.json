@@ -25,5 +25,7 @@
   "deleting": "Deleting",
   "deleted": "Deleted",
   "no-results": "No results",
-  "deleted-account": "Deleted account"
+  "deleted-account": "Deleted account",
+  "page-not-found": "Page Not Found",
+  "server-side-error": "Server-side error occurred"
 }

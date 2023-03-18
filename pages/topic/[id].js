@@ -55,7 +55,14 @@ export async function getStaticProps(ctx) {
   try {
     var { db } = await connectToDatabase();
     var topic = await db.collection("topics").findOne({ _id: ObjectId(id) });
+    if (!topic) {
+      // null if not found
+      return {
+        notFound: true, // see: https://nextjs.org/docs/api-reference/data-fetching/get-static-props#notfound
+      };
+    }
   } catch (error) {
+    // using a different method to redirect to 404 page, because... why not?
     return {
       redirect: {
         destination: "/404",

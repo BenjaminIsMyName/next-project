@@ -3,15 +3,14 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 import ErrorText from "../components/ErrorText";
 
-export default function Custom500() {
+export default function Custom404() {
   const { t } = useTranslation(["common"]);
   return (
     <>
       <Head>
-        <title>{t("server-side-error")}</title>
+        <title>{t("page-not-found")}</title>
       </Head>
-
-      <ErrorText code="500" text={t("server-side-error")} />
+      <ErrorText code="404" text={t("page-not-found")} />
     </>
   );
 }

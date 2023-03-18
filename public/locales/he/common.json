@@ -25,5 +25,7 @@
   "deleting": "מוחק",
   "deleted": "נמחק",
   "no-results": "אין תוצאות",
-  "deleted-account": "חשבון מחוק"
+  "deleted-account": "חשבון מחוק",
+  "page-not-found": "הדף לא נמצא",
+  "server-side-error": "שגיאת צד-שרת התרחשה"
 }
