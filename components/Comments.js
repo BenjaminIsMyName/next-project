@@ -129,16 +129,16 @@ function CommentsComponent(
   }
 
   return (
-    <div>
+    <div ref={ref}>
       <AddComment postId={postId} addCommentLocally={addCommentLocally} />
-      {status === StatusEnum.loading && <Loading />}
-      {status === StatusEnum.error && (
-        <Error
-          tryAgainCallback={fetchComments}
-          error={t("error-getting-comments")}
-        />
-      )}
-      <div className="flex flex-col gap-3" ref={ref}>
+      <div className="flex flex-col gap-3 min-h-screen">
+        {status === StatusEnum.loading && <Loading />}
+        {status === StatusEnum.error && (
+          <Error
+            tryAgainCallback={fetchComments}
+            error={t("error-getting-comments")}
+          />
+        )}
         {comments.map((i, key) => (
           <OneComment
             key={key}
