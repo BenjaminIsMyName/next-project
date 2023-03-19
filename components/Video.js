@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 
 export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
+  const { locale } = useRouter();
   const [isPlaying, setIsPlaying] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [playedSeconds, setPlayedSeconds] = useState(0);
@@ -78,7 +79,10 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
             onClick={e => {
               // get position of the click in the progress bar
               const rect = progressBarRef.current.getBoundingClientRect();
-              const x = e.clientX - rect.left;
+              const x =
+                locale === "en"
+                  ? e.clientX - rect.left
+                  : rect.right - e.clientX;
               // calculate the percentage of the click
               const percentage = x / rect.width;
               // calculate the time of the video
@@ -103,7 +107,13 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
               className={`absolute inset-0 bg-second-color/50 rounded-lg`}
             >
               {/* thumb indicator (round little thing in the progress bar) */}
-              <div className="rounded-full h-4 w-4 bg-third-color absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 scale-0 group-hover:scale-x-100 group-hover:scale-y-75 transition-transform"></div>
+              <div
+                className={`rounded-full h-4 w-4 bg-third-color absolute ${
+                  locale === "en"
+                    ? "right-0 translate-x-1/2"
+                    : "left-0 -translate-x-1/2"
+                } top-1/2 -translate-y-1/2 scale-0 group-hover:scale-x-100 group-hover:scale-y-75 transition-transform`}
+              ></div>
             </div>
           </div>
         </div>
