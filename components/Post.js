@@ -19,6 +19,8 @@ import { titleError } from "../util/validate";
 import useLoaded from "../hooks/useLoaded";
 import { SoundContext } from "../context/SoundContext";
 import GoToComments from "./GoToComments";
+import ReactPlayer from "react-player";
+import Video from "./Video";
 
 export default function Post({
   animateProp,
@@ -406,14 +408,15 @@ export default function Post({
             </div>
           )}
           {localPost?.url ? (
-            <video
-              preload="metadata"
-              className={`block w-full max-h-[70vh]`}
-              controls
-              onCanPlay={() => setCanPlay(true)}
-            >
-              <source src={localPost?.url} type={`video/${ext}`} />
-            </video>
+            // <ReactPlayer
+            //   width="unset"
+            //   height="unset"
+            //   className={`[&_video]:block [&_video]:max-h-[70vh]`}
+            //   controls
+            //   onCanPlay={() => setCanPlay(true)}
+            //   url={localPost?.url}
+            // />
+            <Video videoUrl={localPost.url} setCanPlay={setCanPlay} />
           ) : (
             <div className={`h-80 animate-skeleton`}></div>
           )}
