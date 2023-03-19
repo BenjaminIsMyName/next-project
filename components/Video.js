@@ -85,6 +85,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
         </div>
       )}
       <ReactPlayer
+        onEnded={() => setIsPlaying(false)}
         onProgress={handleProgress}
         playing={isPlaying}
         width="unset"
