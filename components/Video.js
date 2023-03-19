@@ -9,6 +9,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
   const [isHovering, setIsHovering] = useState(false);
   const [playedSeconds, setPlayedSeconds] = useState(0);
   const playerRef = useRef(null);
+  const progressBarRef = useRef(null);
   const [duration, setDuration] = useState(0);
   function formatTime(time) {
     const minutes = Math.floor(time / 60);
@@ -73,14 +74,15 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
           </div>
           {/* container for the bottom part */}
           <div
+            ref={progressBarRef}
             onClick={e => {
               // get position of the click in the progress bar
-              const rect = e.target.getBoundingClientRect();
+              const rect = progressBarRef.current.getBoundingClientRect();
               const x = e.clientX - rect.left;
               // calculate the percentage of the click
               const percentage = x / rect.width;
               // calculate the time of the video
-              const time = percentage * duration;
+              const time = Math.floor(percentage * duration); // Math.floor() is needed because seekTo() doesn't accept decimals (weird behavior when passing 0.someNumber)
               // set the time of the video
               // setPlayedSeconds(time);
               // jump to the time
@@ -98,12 +100,10 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
                         Math.floor(100 * (playedSeconds / duration))
                       ) + "%",
               }}
-              className={`pointer-events-none	absolute inset-0 bg-second-color/50 rounded-lg`}
+              className={`absolute inset-0 bg-second-color/50 rounded-lg`}
             >
-              {/* pointer-events-none is important when trying to figure out where the user clicked in the progress bar.
-              We don't want to get the position in the elements on the progress bar... so we make them "transparent" when it comes to clicks */}
               {/* thumb indicator (round little thing in the progress bar) */}
-              <div className="pointer-events-none	rounded-full h-4 w-4 bg-third-color absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 scale-0 group-hover:scale-x-100 group-hover:scale-y-75 transition-transform"></div>
+              <div className="rounded-full h-4 w-4 bg-third-color absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 scale-0 group-hover:scale-x-100 group-hover:scale-y-75 transition-transform"></div>
             </div>
           </div>
         </div>
