@@ -68,5 +68,6 @@ export async function getStaticProps(ctx) {
     // - When a request comes in
     // - At most once every 10 seconds
     revalidate: 60, // In seconds
+    // TODO: change to on-demand-revalidation https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#on-demand-revalidation
   };
 }

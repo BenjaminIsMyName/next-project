@@ -66,12 +66,9 @@ export async function getStaticProps(ctx) {
       };
     }
   } catch (error) {
-    // using a different method to redirect to 404 page, because... why not?
+    // will reach here if id is not valid ObjectId
     return {
-      redirect: {
-        destination: "/404",
-        statusCode: 308,
-      },
+      notFound: true, // see: https://nextjs.org/docs/api-reference/data-fetching/get-static-props#notfound
     };
   }
 
@@ -85,5 +82,6 @@ export async function getStaticProps(ctx) {
       topic: JSON.stringify(topic),
     },
     revalidate: 60, // In seconds, why - to show up-to-date name of topic (if got edited)
+    // TODO: change to on-demand-revalidation https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#on-demand-revalidation
   };
 }
