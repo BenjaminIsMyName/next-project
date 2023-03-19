@@ -86,7 +86,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
               // jump to the time
               playerRef.current.seekTo(time);
             }}
-            className="group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-main-color/20 relative hover:scale-y-150 transition-all"
+            className="cursor-pointer group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-main-color/20 relative hover:scale-y-150 transition-all"
           >
             <div
               style={{
@@ -98,10 +98,12 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
                         Math.floor(100 * (playedSeconds / duration))
                       ) + "%",
               }}
-              className={`absolute inset-0 bg-second-color/50 rounded-lg`}
+              className={`pointer-events-none	absolute inset-0 bg-second-color/50 rounded-lg`}
             >
+              {/* pointer-events-none is important when trying to figure out where the user clicked in the progress bar.
+              We don't want to get the position in the elements on the progress bar... so we make them "transparent" when it comes to clicks */}
               {/* thumb indicator (round little thing in the progress bar) */}
-              <div className="rounded-full h-4 w-4 bg-third-color absolute right-0 top-1/2 -translate-y-1/2 scale-0 group-hover:scale-x-100 group-hover:scale-y-75 transition-transform"></div>
+              <div className="pointer-events-none	rounded-full h-4 w-4 bg-third-color absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 scale-0 group-hover:scale-x-100 group-hover:scale-y-75 transition-transform"></div>
             </div>
           </div>
         </div>
