@@ -8,6 +8,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [playedSeconds, setPlayedSeconds] = useState(0);
+  const playerRef = useRef(null);
   const [duration, setDuration] = useState(0);
   function formatTime(time) {
     const minutes = Math.floor(time / 60);
@@ -71,7 +72,22 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
             </div>
           </div>
           {/* container for the bottom part */}
-          <div className="group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-main-color/20 relative hover:scale-y-150 transition-all">
+          <div
+            onClick={e => {
+              // get position of the click in the progress bar
+              const rect = e.target.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              // calculate the percentage of the click
+              const percentage = x / rect.width;
+              // calculate the time of the video
+              const time = percentage * duration;
+              // set the time of the video
+              // setPlayedSeconds(time);
+              // jump to the time
+              playerRef.current.seekTo(time);
+            }}
+            className="group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-main-color/20 relative hover:scale-y-150 transition-all"
+          >
             <div
               style={{
                 width:
@@ -91,6 +107,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
         </div>
       )}
       <ReactPlayer
+        ref={playerRef}
         onEnded={() => setIsPlaying(false)}
         onProgress={handleProgress}
         playing={isPlaying}
