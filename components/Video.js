@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import LikeIcon from "./icons/LikeIcon";
 import { motion } from "framer-motion";
+import { useRouter } from "next/router";
 
 export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -70,6 +71,17 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
             </div>
           </div>
           {/* container for the bottom part */}
+          <div className="w-full backdrop-blur-xl rounded-lg overflow-hidden h-2 mt-2 bg-main-color/20 relative hover:scale-y-150 transition-all">
+            <div
+              style={{
+                width:
+                  playedSeconds === 0
+                    ? 0
+                    : Math.floor(100 * (playedSeconds / duration)) + "%",
+              }}
+              className={`absolute inset-0 bg-third-color`}
+            ></div>
+          </div>
         </div>
       )}
       <ReactPlayer
