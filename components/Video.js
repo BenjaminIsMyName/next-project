@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import LikeIcon from "./icons/LikeIcon";
-import { motion } from "framer-motion";
+import { motion as m } from "framer-motion";
 import { useRouter } from "next/router";
 
 export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
@@ -23,6 +23,9 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
     setPlayedSeconds(state.playedSeconds);
   };
 
+  let currentWidthOfProgressBar = 100 * (playedSeconds / duration); // calculate the percentage of the video that has been played
+  currentWidthOfProgressBar = Math.max(1, currentWidthOfProgressBar); // make sure it's at least 1%
+  currentWidthOfProgressBar = Math.round(currentWidthOfProgressBar * 100) / 100; // round to 2 decimal places
   return (
     <div
       className="relative overflow-hidden"
@@ -94,17 +97,12 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
             }}
             className="cursor-pointer group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-main-color/20 relative hover:scale-y-150 transition-all"
           >
-            <div
+            <m.div
+              layout
               style={{
-                width:
-                  Math.floor(playedSeconds) === 0
-                    ? "1%"
-                    : Math.max(
-                        1,
-                        Math.floor(100 * (playedSeconds / duration))
-                      ) + "%",
+                width: currentWidthOfProgressBar + "%",
               }}
-              className={`absolute inset-0 bg-second-color/50 rounded-lg`}
+              className={`absolute inset-0 bg-gradient-to-tl from-main-color to-third-color rounded-lg`}
             >
               {/* thumb indicator (round little thing in the progress bar) */}
               <div
@@ -114,7 +112,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
                     : "left-0 -translate-x-1/2"
                 } top-1/2 -translate-y-1/2 scale-0 group-hover:scale-x-100 group-hover:scale-y-75 transition-transform`}
               ></div>
-            </div>
+            </m.div>
           </div>
         </div>
       )}
