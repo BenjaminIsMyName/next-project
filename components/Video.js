@@ -91,7 +91,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
               // calculate the time of the video
               const time = Math.floor(percentage * duration); // Math.floor() is needed because seekTo() doesn't accept decimals (weird behavior when passing 0.someNumber)
               // set the time of the video
-              // setPlayedSeconds(time);
+              setPlayedSeconds(time); // much faster than waiting for seekTo() to finish
               // jump to the time
               playerRef.current.seekTo(time);
             }}
