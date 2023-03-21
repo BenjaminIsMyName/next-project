@@ -7,9 +7,7 @@ import { getCookie } from "cookies-next";
 import { ThemeContext } from "../context/ThemeContext";
 import { Analytics } from "@vercel/analytics/react";
 import { AnimatePresence, motion } from "framer-motion";
-import OverlayToContinue from "../components/OverlayToContinue";
 import Aside from "../components/aside/Aside";
-import { useIdleTimer } from "react-idle-timer";
 import useToast from "../hooks/useToast";
 import Alerts from "../components/Alerts";
 import { AlertContext } from "../context/AlertContext";
@@ -44,41 +42,20 @@ function MyApp({ Component, pageProps }) {
   // when returning to the app after X minutes - user should be logged out completely.
   // API must check if token expired. token should expire when we log out user.
 
-  //  but this app doesn't need to be super-secure. "log out on idle" shouldn't be a feature.
+  // but this app doesn't need to be super-secure. "log out on idle" shouldn't be a feature.
   // I keep this feature for now because I already built it. But it should be removed.
+  // UPDATE: I removed it, because it was annoying + I don't want to add "Continue with Google" to the overlay rn.
   // ----------------------------------- auth -----------------------------------
 
   // check if user is logged in (just for UI purposes, using client-side cookie)
   let cookie = getCookie("user") ? JSON.parse(getCookie("user")) : null;
 
   const [user, setUser] = useState(cookie);
-  const [askForPassword, setAskForPassword] = useState(false);
 
   function setTheme(themeName) {
     document.body.dataset.theme = themeName;
     localStorage.setItem("theme", themeName);
   }
-
-  function onIdle() {
-    setAskForPassword(true);
-  }
-
-  const { start, pause } = useIdleTimer({
-    onIdle,
-    timeout: 1000 * 60 * process.env.NEXT_PUBLIC_LOGOUT_IN_MINUTES,
-    crossTab: true, // TODO: change this?
-    startManually: true,
-  });
-
-  useEffect(() => {
-    if (!user) {
-      setAskForPassword(false);
-      pause();
-      return;
-    }
-
-    start();
-  }, [user, start, pause]);
 
   useEffect(() => {
     // if user logout, remove theme
@@ -98,9 +75,6 @@ function MyApp({ Component, pageProps }) {
           <Alerts alerts={alerts} remove={remove} />
           <ThemeContext.Provider value={{ setTheme }}>
             <UserContext.Provider value={{ user, setUser }}>
-              {askForPassword && (
-                <OverlayToContinue onSuccess={() => setAskForPassword(false)} />
-              )}
               <Aside />
               <AnimatePresence mode={"wait"} initial={false}>
                 <motion.div
