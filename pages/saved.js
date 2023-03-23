@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import SavedPosts from "../components/SavedPosts";
 import SavedIcon from "../components/icons/SavedIcon";
@@ -28,7 +28,9 @@ export default function Saved() {
               <SavedIcon />
             </div>
             <span className="block bg-error-color text-center my-9 mx-10 text-main-color font-bold text-xl">
-              LOG IN TO SEE YOUR SAVED POSTS
+              {t("error-text.log-in-to-see-saved-posts", {
+                ns: "common",
+              }).toUpperCase()}
             </span>
           </>
         )}

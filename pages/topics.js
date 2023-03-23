@@ -1,15 +1,11 @@
 import Head from "next/head";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../context/UserContext";
-import SavedPosts from "../components/SavedPosts";
-import SavedIcon from "../components/icons/SavedIcon";
-import useLoaded from "../hooks/useLoaded";
 import connectToDatabase from "../util/mongodb";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import Link from "next/link";
+
 export default function Topics({ topics }) {
   const { t } = useTranslation(["common", "menu"]);
   const THE_TITLE = `${t("topics", { ns: "menu" })} - ${t("app-name")}`;

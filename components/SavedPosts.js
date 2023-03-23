@@ -1,10 +1,12 @@
 import axios from "axios";
+import { useTranslation } from "next-i18next";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import Post from "./Post";
 
 export default function SavedPosts() {
   const [posts, setPosts] = useState([]);
+  const { t } = useTranslation(["common"]);
 
   const StatusEnum = {
     loading: "Getting the saved posts",
@@ -46,7 +48,9 @@ export default function SavedPosts() {
         />
       ))}
       {posts.length === 0 && status === StatusEnum.done && (
-        <div className="text-center text-third-color">Nothing here yet...</div>
+        <div className="text-center text-third-color py-20">
+          {t("error-text.nothing-to-see-here", { ns: "common" })}
+        </div>
       )}
     </>
   );

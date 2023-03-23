@@ -9,7 +9,9 @@
     "comment-validation-required": "התגובה לא יכולה להיות ריקה",
     "comment-validation-too-long": "התגובה לא יכולה להיות מעל 99 תווים",
     "something-went-wrong": "משהו השתבש, נסה שוב מאוחר יותר",
-    "nothing-to-see-here": "וְהַבּוֹר רֵק אֵין בּוֹ מָיִם 😧🐍"
+    "nothing-to-see-here": "וְהַבּוֹר רֵק אֵין בּוֹ מָיִם 😧🐍",
+    "not-allowed": "אינך מורשה לצפות בדף זה",
+    "log-in-to-see-saved-posts": "התחבר כדי לראות את הפוסטים ששמרת"
   },
   "cancel": "בטל",
   "error-getting-comments": "אוי, מצטערים, משהו השתבש בדרך ולא הצלחנו להציג את התגובות של הפוסט. אתה בטוח שיש לך חיבור לאינטרנט?",

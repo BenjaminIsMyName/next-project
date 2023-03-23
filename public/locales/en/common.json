@@ -9,7 +9,9 @@
     "comment-validation-required": "Comment can't be empty",
     "comment-validation-too-long": "Comment can be up to 99 characters",
     "something-went-wrong": "Something went wrong, please try again later",
-    "nothing-to-see-here": "Nothing to see here"
+    "nothing-to-see-here": "Nothing to see here",
+    "not-allowed": "You're not allowed to view this page",
+    "log-in-to-see-saved-posts": "Log in to see your saved posts"
   },
   "cancel": "Cancel",
   "error-getting-comments": "Oh, sorry, something went wrong and we couldn't display the comments. Are you sure you have an internet connection?",

@@ -3,8 +3,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { ObjectId } from "mongodb";
 import Post from "../../components/Post";
 import { useTranslation } from "next-i18next";
-import { getCookie } from "cookies-next";
-import { useRouter } from "next/router";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 import { useRef } from "react";

@@ -1,5 +1,4 @@
 import Head from "next/head";
-// import styles from './Admin.module.css'
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { useContext, useEffect, useState } from "react";
@@ -28,7 +27,7 @@ export default function Admin() {
           <meta name="description" content={t("descriptions.admin")} />
         </Head>
 
-        <Error error={"You're not allowed to view this page"} />
+        <Error error={t("error-text.not-allowed", { ns: "common" })} />
       </>
     );
   return (

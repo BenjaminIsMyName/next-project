@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import ReactPlayer from "react-player";
-import LikeIcon from "./icons/LikeIcon";
 import { AnimatePresence, motion as m } from "framer-motion";
 import { useRouter } from "next/router";
 

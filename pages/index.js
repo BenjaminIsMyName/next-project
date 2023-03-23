@@ -1,8 +1,8 @@
 import Head from "next/head";
-import Image from "next/image";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import Feed from "../components/Feed";
+
 export default function Home() {
   const { t } = useTranslation(["common", "menu"]);
   const THE_TITLE = `${t("for-you", { ns: "menu" })} - ${t("app-name")}`;
