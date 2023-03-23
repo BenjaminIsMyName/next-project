@@ -31,7 +31,9 @@
   "server-side-error": "Server-side error occurred",
   "alerts": {
     "log-in-to-comment": "You need to log in to comment",
-    "comment-saved": "Comment saved"
+    "comment-saved": "Comment saved",
+    "log-in-to-like": "You need to log in to like",
+    "error-liking-comment": "Error, can't like right now"
   },
   "placeholders": {
     "write-comment": "Write a comment"

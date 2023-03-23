@@ -9,6 +9,7 @@ import { UserContext } from "../context/UserContext";
 import Loading from "./Loading";
 import Error from "./Error";
 import { useTranslation } from "next-i18next";
+
 function CommentsComponent(
   { postId, increaseCommentsCount, setNumberOfComment, numberOfComments },
   ref
@@ -46,16 +47,26 @@ function CommentsComponent(
   const { user } = useContext(UserContext);
   async function handleLikeOfComment(commentId) {
     if (user === null) {
-      add({ title: `You must be logged in to like` });
+      add({ title: t("alerts.log-in-to-like") });
       return;
     }
+    // the variables below are used to cancel the UI changes if the API request fails.
+    // We don't want to simply set the state to the previous value because setState is async.
+    // The bug is that if the user is offline, the UI will show the changes even though the API request failed.
+    // The solution is to use the variables below to cancel the UI changes if the API request fails.
+    let shouldShowLike = true;
+    let numberOfLikes = 0;
     // optimistic UI, show the changes before making the API request:
     const updatedArray = comments.map(c => {
       if (c.id === commentId) {
+        shouldShowLike = !c.didLike;
+        numberOfLikes = shouldShowLike
+          ? c.numberOfLikes + 1
+          : c.numberOfLikes - 1;
         return {
           ...c,
-          didLike: !c.didLike,
-          numberOfLikes: c.didLike ? c.numberOfLikes - 1 : c.numberOfLikes + 1,
+          didLike: shouldShowLike,
+          numberOfLikes: numberOfLikes,
         };
       }
       return c;
@@ -70,22 +81,22 @@ function CommentsComponent(
         commentId,
       });
     } catch (error) {
+      shouldShowLike = !shouldShowLike;
+      numberOfLikes = shouldShowLike ? numberOfLikes + 1 : numberOfLikes - 1;
       console.log(`error`, error);
       // if failed, cancel the UI changes that were made
       const updatedArray = comments.map(c => {
         if (c.id === commentId) {
           return {
             ...c,
-            didLike: !c.didLike,
-            numberOfLikes: c.didLike
-              ? c.numberOfLikes - 1
-              : c.numberOfLikes + 1,
+            didLike: shouldShowLike,
+            numberOfLikes: numberOfLikes,
           };
         }
         return c;
       });
       setComments(updatedArray);
-      add({ title: `Error, can't like right now` });
+      add({ title: t("alerts.error-liking-comment") });
     }
   }
 

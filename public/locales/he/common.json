@@ -31,7 +31,9 @@
   "server-side-error": "שגיאת צד-שרת התרחשה",
   "alerts": {
     "log-in-to-comment": "התחבר כדי להגיב",
-    "comment-saved": "התגובה נשמרה"
+    "comment-saved": "התגובה נשמרה",
+    "log-in-to-like": "התחבר כדי לעשות לייק",
+    "error-liking-comment": "שגיאה, לא ניתן לעשות לייק כרגע"
   },
   "placeholders": {
     "write-comment": "כתוב תגובה"
