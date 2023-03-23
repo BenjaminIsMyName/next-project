@@ -361,7 +361,7 @@ export default function Post({
                 as={localPost ? `/post/${localPost?._id}` : "/"}
               >
                 <a
-                  aria-label="Open post" // TODO: use i18n for every aria-label
+                  aria-label={t("aria-labels.open-post", { ns: "common" })}
                   className={`w-[30px] h-[30px] p-2 transition-[padding] hover:p-1 duration-300 bg-opacity-0 border-0 [&_svg]:fill-option-text-color ${
                     localPost?._id ? "" : "animate-skeleton"
                   }`}

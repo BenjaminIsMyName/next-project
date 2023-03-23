@@ -48,10 +48,13 @@
   "aria-labels": {
     "send-comment": "שלח תגובה",
     "comment": "הגב",
-    "like": "לייק"
+    "like": "לייק",
+    "open-post": "פתח פוסט"
   },
   "share": "שתף",
   "unsave": "בטל שמירה",
   "edit": "ערוך",
-  "delete": "מחק"
+  "delete": "מחק",
+  "play": "נגן",
+  "pause": "השהה"
 }

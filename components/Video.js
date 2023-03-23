@@ -2,8 +2,10 @@ import { useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { AnimatePresence, motion as m } from "framer-motion";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
+  const { t } = useTranslation("common");
   const { locale } = useRouter();
   const [isPlaying, setIsPlaying] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -61,6 +63,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
                 <button
                   onClick={() => setIsPlaying(prev => !prev)}
                   className="backdrop-blur-xl p-2 rounded-lg"
+                  title={isPlaying ? t("pause") : t("play")}
                 >
                   {isPlaying ? (
                     <svg className="w-6 h-6">

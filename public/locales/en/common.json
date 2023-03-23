@@ -48,10 +48,13 @@
   "aria-labels": {
     "send-comment": "Send comment",
     "comment": "Comment",
-    "like": "Like"
+    "like": "Like",
+    "open-post": "Open post"
   },
   "share": "Share",
   "unsave": "Unsave",
   "edit": "Edit",
-  "delete": "Delete"
+  "delete": "Delete",
+  "play": "Play",
+  "pause": "Pause"
 }
