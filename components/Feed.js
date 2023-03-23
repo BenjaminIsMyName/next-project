@@ -1,12 +1,14 @@
 import useFetch from "../hooks/useFetch.js";
-import { useState, useRef, useCallback, useContext } from "react";
+import { useState, useRef, useContext } from "react";
 import Post from "./Post.js";
 import Loading from "./Loading.js";
 import Error from "./Error";
 import { UserContext } from "../context/UserContext.js";
 import { useEffect } from "react";
+import { useTranslation } from "next-i18next";
 
 export default function Feed({ type, topicId }) {
+  const { t } = useTranslation(["common"]);
   const [forceRender, setForceRender] = useState(0);
   function tryAgainCallback() {
     setForceRender(prev => prev + 1);
@@ -68,8 +70,8 @@ export default function Feed({ type, topicId }) {
       )}
 
       {!hasMore && !loading && posts.length === 0 && (
-        <span className="block text-center text-option-text-color text-2xl animate-go-in">
-          Nothing to see here
+        <span className="block text-center text-option-text-color text-2xl animate-go-in py-60">
+          {t("error-text.nothing-to-see-here", { ns: "common" })}
         </span>
       )}
     </div>

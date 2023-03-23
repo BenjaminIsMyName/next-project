@@ -8,7 +8,8 @@
   "error-text": {
     "comment-validation-required": "Comment can't be empty",
     "comment-validation-too-long": "Comment can be up to 99 characters",
-    "something-went-wrong": "Something went wrong, please try again later"
+    "something-went-wrong": "Something went wrong, please try again later",
+    "nothing-to-see-here": "Nothing to see here"
   },
   "cancel": "Cancel",
   "error-getting-comments": "Oh, sorry, something went wrong and we couldn't display the comments. Are you sure you have an internet connection?",
@@ -33,12 +34,22 @@
     "log-in-to-comment": "You need to log in to comment",
     "comment-saved": "Comment saved",
     "log-in-to-like": "You need to log in to like",
-    "error-liking-comment": "Error, can't like right now"
+    "error-liking-comment": "Error, can't like right now",
+    "error-liking-post": "Error, can't like right now",
+    "updating-database": "Updating database",
+    "failed-to-update-database": "Failed to update database, try again later!",
+    "copied": "Copied"
   },
   "placeholders": {
     "write-comment": "Write a comment"
   },
   "aria-labels": {
-    "send-comment": "Send comment"
-  }
+    "send-comment": "Send comment",
+    "comment": "Comment",
+    "like": "Like"
+  },
+  "share": "Share",
+  "unsave": "Unsave",
+  "edit": "Edit",
+  "delete": "Delete"
 }

@@ -14,7 +14,8 @@
     "url-validation-too-short": "הכתובת קצרה מדי, היא חייבת להיות לפחות 5 תווים",
     "url-validation-too-long": "הכתובת ארוכה מדי, היא אינה יכולה להיות יותר מ-999 תווים",
     "topic-validation-required": "חייב לכתוב שם לנושא",
-    "topic-validation-too-long": "שם הנושא ארוך מדי, הוא אינו יכול להיות יותר מ-40 תווים"
+    "topic-validation-too-long": "שם הנושא ארוך מדי, הוא אינו יכול להיות יותר מ-40 תווים",
+    "failed-to-delete": "לא הצלחנו למחוק, נסה שוב מאוחר יותר"
   },
   "placeholders": {
     "name-in-hebrew": "שם בעברית",
@@ -26,5 +27,7 @@
     "failed-to-delete": "לא הצלחנו למחוק, נסה שוב מאוחר יותר"
   },
   "create-topic": "צור נושא חדש",
-  "add-topic": "הוסף נושא"
+  "add-topic": "הוסף נושא",
+  "deleting": "מוחק",
+  "deleted": "נמחק"
 }

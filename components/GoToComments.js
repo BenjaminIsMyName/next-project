@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import CommentIcon from "./icons/CommentIcon";
 
@@ -8,13 +9,14 @@ export default function GoToComments({
   route,
   query,
 }) {
+  const { t } = useTranslation(["common"]);
   if (isFullyOpened) {
     return (
       <button
         onClick={() => {
           handleScrollToComments();
         }}
-        aria-label={"Comment"}
+        aria-label={t("aria-labels.comment", { ns: "common" })}
         className={`bg-opacity-0 border-0`}
         type="button"
       >
@@ -39,7 +41,7 @@ export default function GoToComments({
     >
       <a className="flex justify-center">
         <button
-          aria-label={"Comment"}
+          aria-label={t("aria-labels.comment", { ns: "common" })}
           className={`bg-opacity-0 border-0`}
           type="button"
         >

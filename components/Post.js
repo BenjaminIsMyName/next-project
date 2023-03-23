@@ -19,7 +19,6 @@ import { titleError } from "../util/validate";
 import useLoaded from "../hooks/useLoaded";
 import { SoundContext } from "../context/SoundContext";
 import GoToComments from "./GoToComments";
-import ReactPlayer from "react-player";
 import Video from "./Video";
 
 export default function Post({
@@ -125,7 +124,7 @@ export default function Post({
   const { add } = useContext(AlertContext);
   async function handleLike() {
     if (user === null) {
-      add({ title: `You must be logged in to like` });
+      add({ title: t("alerts.log-in-to-like", { ns: "common" }) });
       return;
     }
     if (!localPost.didLike) {
@@ -154,7 +153,7 @@ export default function Post({
           ? prev.numberOfLikes - 1
           : prev.numberOfLikes + 1,
       }));
-      add({ title: `Error, can't like right now` });
+      add({ title: t("alerts.error-liking-post", { ns: "common" }) });
     }
   }
 
@@ -214,16 +213,16 @@ export default function Post({
   }
 
   async function handleDelete() {
-    add({ title: `Deleting...` });
+    add({ title: t("deleting", { ns: "admin" }) + "..." });
     try {
       await axios.delete("/api/post/deletePost", {
         data: { postId: localPost._id },
       });
       setIsDeleted(true);
-      add({ title: `Deleted!`, color: "success" });
+      add({ title: t("deleted", { ns: "admin" }), color: "success" });
     } catch (error) {
       console.log(error);
-      add({ title: `Failed to delete, try again later!` });
+      add({ title: t("error-text.failed-to-delete", { ns: "admin" }) });
     }
   }
 
@@ -232,7 +231,10 @@ export default function Post({
   }
 
   async function savePost() {
-    add({ title: `Updating database...`, color: "success" });
+    add({
+      title: t("alerts.updating-database", { ns: "common" }),
+      color: "success",
+    });
     try {
       await axios.put("/api/post/savePost", {
         postId: localPost._id,
@@ -241,10 +243,9 @@ export default function Post({
       if (unsavePostCallback) unsavePostCallback(localPost);
     } catch (error) {
       console.log(error);
-      add({ title: `Failed to update database, try again later!` });
+      add({ title: t("alerts.failed-to-update-database", { ns: "common" }) });
     }
   }
-  const ext = localPost?.url.substring(localPost?.url.lastIndexOf(".") + 1);
 
   return (
     <FocusTrap
@@ -430,7 +431,7 @@ export default function Post({
               }`}
             >
               <button
-                aria-label={"Like"}
+                aria-label={t("aria-labels.like", { ns: "common" })}
                 className={`bg-opacity-0 border-0`}
                 type="button"
                 onClick={handleLike}

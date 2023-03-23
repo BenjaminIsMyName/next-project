@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useCallback } from "react";
 import { useEffect, useRef } from "react";
 import Button from "./Button";
 import Modal from "./Modal";
 import { useTranslation } from "next-i18next";
+
 export default function CountdownModal({
   title,
   nextCallback,

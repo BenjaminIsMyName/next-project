@@ -1,14 +1,12 @@
-import { format, formatDistance } from "date-fns";
+import { formatDistance } from "date-fns";
 import { he } from "date-fns/locale";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import useLoaded from "../hooks/useLoaded";
 import LikeIcon from "./icons/LikeIcon";
 
 export default function OneComment({
   text,
-  user,
   date,
   didLike,
   name,

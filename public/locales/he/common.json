@@ -8,7 +8,8 @@
   "error-text": {
     "comment-validation-required": "התגובה לא יכולה להיות ריקה",
     "comment-validation-too-long": "התגובה לא יכולה להיות מעל 99 תווים",
-    "something-went-wrong": "משהו השתבש, נסה שוב מאוחר יותר"
+    "something-went-wrong": "משהו השתבש, נסה שוב מאוחר יותר",
+    "nothing-to-see-here": "וְהַבּוֹר רֵק אֵין בּוֹ מָיִם 😧🐍"
   },
   "cancel": "בטל",
   "error-getting-comments": "אוי, מצטערים, משהו השתבש בדרך ולא הצלחנו להציג את התגובות של הפוסט. אתה בטוח שיש לך חיבור לאינטרנט?",
@@ -33,12 +34,22 @@
     "log-in-to-comment": "התחבר כדי להגיב",
     "comment-saved": "התגובה נשמרה",
     "log-in-to-like": "התחבר כדי לעשות לייק",
-    "error-liking-comment": "שגיאה, לא ניתן לעשות לייק כרגע"
+    "error-liking-comment": "שגיאה, לא ניתן לעשות לייק כרגע",
+    "error-liking-post": "שגיאה, לא ניתן לעשות לייק כרגע",
+    "updating-database": "מעדכן מסד נתונים",
+    "failed-to-update-database": "שגיאה, לא ניתן לעדכן מסד נתונים",
+    "copied": "הועתק"
   },
   "placeholders": {
     "write-comment": "כתוב תגובה"
   },
   "aria-labels": {
-    "send-comment": "שלח תגובה"
-  }
+    "send-comment": "שלח תגובה",
+    "comment": "הגב",
+    "like": "לייק"
+  },
+  "share": "שתף",
+  "unsave": "בטל שמירה",
+  "edit": "ערוך",
+  "delete": "מחק"
 }

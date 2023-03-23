@@ -100,19 +100,6 @@ function CommentsComponent(
     }
   }
 
-  // async function fetchComments() {
-  //   setStatus(StatusEnum.loading);
-  //   try {
-  //     let { data } = await axios.get("/api/post/comments", {
-  //       params: { postId },
-  //     });
-  //     setComments(data);
-  //     setStatus(StatusEnum.done);
-  //   } catch (error) {
-  //     setStatus(StatusEnum.error);
-  //   }
-  // }
-
   const fetchComments = useCallback(async () => {
     setStatus(StatusEnum.loading);
     try {
