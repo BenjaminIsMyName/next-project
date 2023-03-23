@@ -4,6 +4,10 @@ import { useContext, useEffect, useState } from "react";
 import { AlertContext } from "../context/AlertContext";
 import { UserContext } from "../context/UserContext";
 import { useTranslation } from "next-i18next";
+import UnsaveIcon from "./icons/UnsaveIcon";
+import SaveIcon from "./icons/SaveIcon";
+import EditIcon from "./icons/EditIcon";
+import DeleteIcon from "./icons/DeleteIcon";
 
 export default function PostOptions({
   post,
@@ -34,19 +38,19 @@ export default function PostOptions({
         </ButtonForPost>
 
         <ButtonForPost onClick={savePost}>
-          <CopyIcon />
+          {post.isSaved ? <UnsaveIcon /> : <SaveIcon />}
           <TextForPost text={post.isSaved ? t("unsave") : t("save")} />
         </ButtonForPost>
 
         {isAdmin && (
           <>
             <ButtonForPost onClick={editClick}>
-              <CopyIcon />
+              <EditIcon />
               <TextForPost text={t("edit")} />
             </ButtonForPost>
 
             <ButtonForPost onClick={deleteClick}>
-              <CopyIcon />
+              <DeleteIcon />
               <TextForPost text={t("delete")} />
             </ButtonForPost>
           </>
