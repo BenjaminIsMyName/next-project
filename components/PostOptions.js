@@ -37,10 +37,12 @@ export default function PostOptions({
           <TextForPost text={t("share")} />
         </ButtonForPost>
 
-        <ButtonForPost onClick={savePost}>
-          {post.isSaved ? <UnsaveIcon /> : <SaveIcon />}
-          <TextForPost text={post.isSaved ? t("unsave") : t("save")} />
-        </ButtonForPost>
+        {user && (
+          <ButtonForPost onClick={savePost}>
+            {post.isSaved ? <UnsaveIcon /> : <SaveIcon />}
+            <TextForPost text={post.isSaved ? t("unsave") : t("save")} />
+          </ButtonForPost>
+        )}
 
         {isAdmin && (
           <>
