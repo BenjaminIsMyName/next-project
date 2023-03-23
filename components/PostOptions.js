@@ -8,6 +8,7 @@ import UnsaveIcon from "./icons/UnsaveIcon";
 import SaveIcon from "./icons/SaveIcon";
 import EditIcon from "./icons/EditIcon";
 import DeleteIcon from "./icons/DeleteIcon";
+import useLoaded from "../hooks/useLoaded";
 
 export default function PostOptions({
   post,
@@ -19,6 +20,8 @@ export default function PostOptions({
   const { user } = useContext(UserContext);
   const [isAdmin, setIsAdmin] = useState(false);
   const { t } = useTranslation(["common"]);
+  const loaded = useLoaded();
+
   function handleShare() {
     navigator.clipboard.writeText(`${window.location.href}`);
     add({ title: t("alerts.copied", { ns: "common" }), color: "success" });
@@ -37,7 +40,7 @@ export default function PostOptions({
           <TextForPost text={t("share")} />
         </ButtonForPost>
 
-        {user && (
+        {user && loaded && (
           <ButtonForPost onClick={savePost}>
             {post.isSaved ? <UnsaveIcon /> : <SaveIcon />}
             <TextForPost text={post.isSaved ? t("unsave") : t("save")} />

@@ -409,6 +409,7 @@ export default function Post({
             </div>
           )}
           {/* show the video player only on client, see: https://github.com/cookpete/react-player/issues/1428 */}
+          {/* TODO: it causes an awful animation when loading the pages */}
           {localPost?.url && loaded ? (
             <Video videoUrl={localPost.url} setCanPlay={setCanPlay} />
           ) : (
