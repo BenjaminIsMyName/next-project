@@ -21,7 +21,7 @@ export default function AddComment({ postId, addCommentLocally }) {
 
   async function putComment() {
     if (user === null) {
-      add({ title: `You must be logged in to comment` });
+      add({ title: t("alerts.log-in-to-comment") });
       return;
     }
 
@@ -34,7 +34,7 @@ export default function AddComment({ postId, addCommentLocally }) {
       const { date, id } = data;
       setStatus(StatusEnum.done);
       setComment("");
-      add({ title: "Comment added!", color: "success" });
+      add({ title: t("alerts.comment-saved"), color: "success" });
       addCommentLocally(comment, date, id);
     } catch (error) {
       console.log(error);
@@ -48,9 +48,10 @@ export default function AddComment({ postId, addCommentLocally }) {
         value={comment}
         onChange={e => setComment(e.target.value)}
         className="block resize-none w-full h-20 bg-main-color shadow-inner shadow-shadows-color p-3"
-        placeholder="Write a comment..."
+        placeholder={t("placeholders.write-comment") + "..."}
       ></textarea>
       <button
+        aria-label={t("aria-labels.send-comment")}
         onClick={putComment}
         disabled={commentError(comment) || status === StatusEnum.loading}
         type="button"

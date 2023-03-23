@@ -27,5 +27,15 @@
   "no-results": "No results",
   "deleted-account": "Deleted account",
   "page-not-found": "Page Not Found",
-  "server-side-error": "Server-side error occurred"
+  "server-side-error": "Server-side error occurred",
+  "alerts": {
+    "log-in-to-comment": "You need to log in to comment",
+    "comment-saved": "Comment saved"
+  },
+  "placeholders": {
+    "write-comment": "Write a comment"
+  },
+  "aria-labels": {
+    "send-comment": "Send comment"
+  }
 }

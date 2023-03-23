@@ -1,13 +1,12 @@
 import styles from "./Options.module.css";
-import ForYouIcon from "../icons/ForYouIcon.js";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 export default function Option({ text, link, onClick, icon, newTab }) {
   const IconComponent = icon();
-
   const router = useRouter();
   const locale = router.locale;
+
   return (
     <Link href={link} scroll={false}>
       <a

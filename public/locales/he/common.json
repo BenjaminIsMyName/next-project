@@ -27,5 +27,15 @@
   "no-results": "אין תוצאות",
   "deleted-account": "חשבון מחוק",
   "page-not-found": "הדף לא נמצא",
-  "server-side-error": "שגיאת צד-שרת התרחשה"
+  "server-side-error": "שגיאת צד-שרת התרחשה",
+  "alerts": {
+    "log-in-to-comment": "התחבר כדי להגיב",
+    "comment-saved": "התגובה נשמרה"
+  },
+  "placeholders": {
+    "write-comment": "כתוב תגובה"
+  },
+  "aria-labels": {
+    "send-comment": "שלח תגובה"
+  }
 }

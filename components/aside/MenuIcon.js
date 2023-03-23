@@ -1,6 +1,7 @@
 import styles from "./MenuIcon.module.css";
 import ButtonSvgContainer from "./ButtonSvgContainer";
 import { useTranslation } from "next-i18next";
+
 export default function MenuIcon({ menuOnClickHandler, isOpen }) {
   const { t } = useTranslation("menu");
   return (
