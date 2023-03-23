@@ -407,15 +407,8 @@ export default function Post({
               </button>
             </div>
           )}
-          {localPost?.url ? (
-            // <ReactPlayer
-            //   width="unset"
-            //   height="unset"
-            //   className={`[&_video]:block [&_video]:max-h-[70vh]`}
-            //   controls
-            //   onCanPlay={() => setCanPlay(true)}
-            //   url={localPost?.url}
-            // />
+          {/* show the video player only on client, see: https://github.com/cookpete/react-player/issues/1428 */}
+          {localPost?.url && loaded ? (
             <Video videoUrl={localPost.url} setCanPlay={setCanPlay} />
           ) : (
             <div className={`h-80 animate-skeleton`}></div>

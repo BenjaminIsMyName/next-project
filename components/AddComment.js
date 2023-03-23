@@ -67,7 +67,9 @@ export default function AddComment({ postId, addCommentLocally }) {
       </button>
 
       <span className="text-error-color block mt-1 h-6 text-sm">
-        {status === StatusEnum.error ? "Something went wrong, try again" : ""}
+        {status === StatusEnum.error
+          ? t("error-text.something-went-wrong")
+          : ""}
       </span>
     </div>
   );
