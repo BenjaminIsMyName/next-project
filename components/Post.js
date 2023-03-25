@@ -30,7 +30,7 @@ export default function Post({
   const { t } = useTranslation(["common", "admin"]);
   const { locale, query, push, route } = useRouter();
   const [localPost, setLocalPost] = useState(post || null); // any change to this post - will just update this state. not the state of all the posts...
-  const [canPlay, setCanPlay] = useState(false); // we don't need to use this state atm, just to force render
+  const [canPlay, setCanPlay] = useState(false); // this is here (and not in the Video.js) in order to force render of this entire component, to update the height of the post in ref (postHeightNotOpenedYetRef)
   const commentsButtonRef = useRef();
   const { sounds } = useContext(SoundContext);
   const observer = useRef();
@@ -408,13 +408,12 @@ export default function Post({
               </button>
             </div>
           )}
-          {/* show the video player only on client, see: https://github.com/cookpete/react-player/issues/1428 */}
-          {/* TODO: it causes an awful animation when loading the pages */}
-          {localPost?.url && loaded ? (
-            <Video videoUrl={localPost.url} setCanPlay={setCanPlay} />
-          ) : (
-            <div className={`h-80 animate-skeleton`}></div>
-          )}
+
+          <Video
+            videoUrl={localPost?.url}
+            setCanPlay={setCanPlay}
+            canPlay={canPlay}
+          />
 
           <div
             className={`flex justify-evenly content-center py-4 px-2 [&>div]:flex [&>div]:gap-2

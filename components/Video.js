@@ -4,7 +4,7 @@ import { AnimatePresence, motion as m } from "framer-motion";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
-export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
+export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -13,6 +13,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
   const playerRef = useRef(null);
   const progressBarRef = useRef(null);
   const [duration, setDuration] = useState(0);
+
   function formatTime(time) {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
@@ -27,12 +28,20 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
   let currentWidthOfProgressBar = 100 * (playedSeconds / duration); // calculate the percentage of the video that has been played
   currentWidthOfProgressBar = Math.max(1, currentWidthOfProgressBar); // make sure it's at least 1%
   currentWidthOfProgressBar = Math.round(currentWidthOfProgressBar * 100) / 100; // round to 2 decimal places
+
   return (
     <div
-      className="relative overflow-hidden"
+      className={`relative overflow-hidden ${
+        !canPlay || !videoUrl ? "h-80" : ""
+      }`}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
+      {(!canPlay || !videoUrl) && (
+        <div className="absolute inset-0 z-30 bg-second-color">
+          <div className={`animate-skeleton absolute inset-0`}></div>
+        </div>
+      )}
       <div
         className="absolute inset-0 z-10 cursor-pointer"
         onClick={() => setIsPlaying(prev => !prev)}
@@ -133,20 +142,22 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay }) {
           </m.div>
         )}
       </AnimatePresence>
-      <ReactPlayer
-        ref={playerRef}
-        onEnded={() => setIsPlaying(false)}
-        onProgress={handleProgress}
-        playing={isPlaying}
-        width="unset"
-        height="unset"
-        onDuration={d => setDuration(d)}
-        className={`[&_video]:block [&_video]:max-h-[70vh]`}
-        onCanPlay={() => {
-          setCanPlay(true);
-        }}
-        url={videoUrl}
-      />
+      {videoUrl && (
+        <ReactPlayer
+          ref={playerRef}
+          onEnded={() => setIsPlaying(false)}
+          onProgress={handleProgress}
+          playing={isPlaying}
+          width="unset"
+          height="unset"
+          onDuration={d => setDuration(d)}
+          className={`[&_video]:block [&_video]:max-h-[70vh]`}
+          onCanPlay={() => {
+            setCanPlay(true);
+          }}
+          url={videoUrl}
+        />
+      )}
     </div>
   );
 }

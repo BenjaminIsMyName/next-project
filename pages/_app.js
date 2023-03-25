@@ -16,6 +16,11 @@ import useSound from "../hooks/useSound";
 import useGoogle from "../hooks/useGoogle";
 import { GoogleContext } from "../context/GoogleContext";
 
+// TODO: BUGS:
+
+// 1. videos that are longer than 9 minutes, don't show correctly the time background (it's too short).
+// Happens only when video takes some time to load.
+
 function MyApp({ Component, pageProps }) {
   // next-i18next has a bug - if using translations on top level layout (_app.js), warning appears:
   // the warning: react-i18next:: You will need to pass in an i18next instance by using initReactI18next
