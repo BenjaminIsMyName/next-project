@@ -3,8 +3,10 @@ import ReactPlayer from "react-player";
 import { AnimatePresence, motion as m } from "framer-motion";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
+import useLoaded from "../hooks/useLoaded";
 
 export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
+  const loaded = useLoaded();
   const { t } = useTranslation("common");
   const { locale } = useRouter();
   const [isPlaying, setIsPlaying] = useState(false);
@@ -142,7 +144,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
           </m.div>
         )}
       </AnimatePresence>
-      {videoUrl && (
+      {videoUrl && loaded && (
         <ReactPlayer
           ref={playerRef}
           onEnded={() => setIsPlaying(false)}

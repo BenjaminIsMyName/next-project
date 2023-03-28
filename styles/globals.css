@@ -56,7 +56,7 @@ body[data-theme="lightgreen"] {
 }
 
 body[data-theme="darkblue"] {
-  --main-color: 20, 20, 50;
+  --main-color: 15, 15, 45;
   --second-color: var(--darkblue-second-color);
   --third-color: var(--darkblue-third-color);
   --shadows-color: 0, 0, 0;

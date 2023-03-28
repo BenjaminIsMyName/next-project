@@ -55,6 +55,7 @@ export default function OneComment({
           }`}
         >
           <button
+            aria-label={t("aria-labels.like", { ns: "common" })}
             className={`bg-opacity-0 border-0`}
             type="button"
             onClick={() => likeCallback(id)}
