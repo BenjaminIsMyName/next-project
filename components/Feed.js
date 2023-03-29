@@ -6,6 +6,7 @@ import Error from "./Error";
 import { UserContext } from "../context/UserContext.js";
 import { useEffect } from "react";
 import { useTranslation } from "next-i18next";
+import NothingError from "./NothingError.js";
 
 export default function Feed({ type, topicId }) {
   const { t } = useTranslation(["common"]);
@@ -69,11 +70,7 @@ export default function Feed({ type, topicId }) {
         <Error tryAgainCallback={tryAgainCallback} error={error} />
       )}
 
-      {!hasMore && !loading && posts.length === 0 && (
-        <span className="block text-center text-option-text-color text-2xl animate-go-in py-60">
-          {t("error-text.nothing-to-see-here", { ns: "common" })}
-        </span>
-      )}
+      {!hasMore && !loading && posts.length === 0 && <NothingError />}
     </div>
   );
 }

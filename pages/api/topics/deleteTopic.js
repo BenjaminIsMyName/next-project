@@ -29,6 +29,7 @@ export default async function handler(req, res) {
   }
 
   try {
+    // TODO: try to make one fetch instead of two, or at least use Promise.all
     await db.collection("topics").findOneAndDelete({ _id: ObjectId(topicId) });
     // remove this topic from every post that contains this topic:
     await db

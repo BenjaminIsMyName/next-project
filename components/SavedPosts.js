@@ -2,6 +2,7 @@ import axios from "axios";
 import { useTranslation } from "next-i18next";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import NothingError from "./NothingError";
 import Post from "./Post";
 
 export default function SavedPosts() {
@@ -47,11 +48,7 @@ export default function SavedPosts() {
           }}
         />
       ))}
-      {posts.length === 0 && status === StatusEnum.done && (
-        <div className="text-center text-third-color py-20">
-          {t("error-text.nothing-to-see-here", { ns: "common" })}
-        </div>
-      )}
+      {posts.length === 0 && status === StatusEnum.done && <NothingError />}
     </>
   );
 }
