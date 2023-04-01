@@ -62,7 +62,7 @@ export default function CreatePost() {
 
       const stuff = {
         ...data.info.fields,
-        "Content-Type": file.type,
+        // "Content-Type": file.type, // needed if we want to limit the file type (e.g. only mp4)
         file,
       };
 
@@ -199,7 +199,8 @@ export default function CreatePost() {
             id="uploadInput"
             type={"file"}
             onChange={handleFileSelect}
-            accept="video/mp4" // allow only mp4 for now, MP4 is supported by all popular browsers
+            accept="video/*" // if we want to allow all video types
+            // accept="video/mp4" // if we want to allow only MP4... MP4 is supported by all popular browsers
           />
         </div>
         <button

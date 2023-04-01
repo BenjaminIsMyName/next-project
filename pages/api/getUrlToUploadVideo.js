@@ -38,10 +38,11 @@ export default async function handler(req, res) {
     return;
   }
 
-  if (ext !== "mp4") {
-    res.status(415).json({ error: "File must be mp4" });
-    return;
-  }
+  // add this check if you want to limit the type of file (e.g. only mp4):
+  // if (ext !== "mp4") {
+  // res.status(415).json({ error: "File must be mp4" });
+  // return;
+  // }
 
   const { isLoggedIn, isAdmin, error, code } = await isLoggedInFunc(req, res);
   if (!isLoggedIn || !isAdmin) {
@@ -56,7 +57,7 @@ export default async function handler(req, res) {
         // in this array you can add many conditions that must be met when uploading a file.
         // see: https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/modules/_aws_sdk_s3_presigned_post.html
         ["content-length-range", sizeInInt - 100, sizeInInt + 100],
-        ["starts-with", "$Content-Type", "video/mp4"],
+        // ["starts-with", "$Content-Type", "video/mp4"], // add this line if you want to limit the type of file (e.g. only mp4)
       ],
       Expires: 60 * 10, // in seconds
       Fields: {
