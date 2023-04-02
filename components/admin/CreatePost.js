@@ -75,8 +75,6 @@ export default function CreatePost() {
 
       await axios.post(url, formData); // upload the file to S3
 
-      removeSelectedFile();
-
       // create the post
       const res = await axios.post("/api/savePostToDb", {
         title,
@@ -219,7 +217,18 @@ export default function CreatePost() {
         </div>
         {status === StatusEnum.loading && <Loading />}
         {status === StatusEnum.error && (
-          <Error tryAgainCallback={uploadFile} error={t("error")} />
+          <Error
+            tryAgainCallback={() => {
+              if (file !== null && !titleError(title)) {
+                uploadFile();
+              } else {
+                add({
+                  title: t("alerts.cannot-try-again", { ns: "admin" }),
+                });
+              }
+            }}
+            error={t("error")}
+          />
         )}
       </motion.div>
     </div>

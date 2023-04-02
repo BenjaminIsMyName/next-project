@@ -82,10 +82,7 @@ export async function getServerSideProps(ctx) {
     if (!post) throw new Error("Couldn't find a post with this _id");
   } catch (error) {
     return {
-      redirect: {
-        destination: "/404",
-        statusCode: 308,
-      },
+      notFound: true, // see: https://nextjs.org/docs/api-reference/data-fetching/get-static-props#notfound
     };
   }
 

@@ -24,7 +24,8 @@
   },
   "alerts": {
     "file-too-big": "File cannot be more than 300mb, this file is {{fileSize}}mb",
-    "failed-to-delete": "Failed to delete, try again later"
+    "failed-to-delete": "Failed to delete, try again later",
+    "cannot-try-again": "You can't try again if you don't have a file and a title"
   },
   "create-topic": "Create a new topic",
   "add-topic": "Add a topic",
