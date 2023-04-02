@@ -22,7 +22,6 @@ export default function CreatePost() {
     start: "The upload process didn't start yet",
     loading: "Trying to access the backend and save the post",
     error: "Something went wrong while posting",
-    done: "Post is already in DB and in S3",
   };
   const [status, setStatus] = useState(StatusEnum.start);
   const [title, setTitle] = useState("");
@@ -111,108 +110,113 @@ export default function CreatePost() {
       border-0 relative
         `}
       >
-        <div>
-          <Balancer>
-            <span className="block text-4xl px-2 mt-4 text-center">
-              {t("create-post-title")}
-            </span>
-          </Balancer>
-        </div>
-        <Input
-          translationFile="admin"
-          name={"title"}
-          checkErrorCallback={titleError}
-          valueObj={{ title }}
-          removeDefaultStyle={true}
-          type={"text"}
-          placeholder={t("title-placeholder") + "..."}
-          onChange={e => setTitle(e.target.value)}
-          className={`bg-main-color shadow-inner shadow-shadows-color p-2 
-        rounded-3xl text-center`}
-        />
-        <Topics
-          addTopicCallback={() => setModalOpen(ModalEnum.search)}
-          setSelectedTopics={setSelectedTopics}
-          selectedTopics={selectedTopics}
-        />
-
-        <AnimatePresence>
-          {modalOpen === ModalEnum.search && (
-            <SearchTopic
-              closeCallback={() => setModalOpen(ModalEnum.none)}
-              setSelectedTopics={setSelectedTopics}
-              selectedTopics={selectedTopics}
-              createCallback={() => setModalOpen(ModalEnum.create)}
-              editCallback={topicObj => {
-                setTopicEditing(topicObj);
-                setModalOpen(ModalEnum.edit);
-              }}
-            />
-          )}
-
-          {modalOpen === ModalEnum.create && (
-            <CreateOrEditTopic
-              closeCallback={() => setModalOpen(ModalEnum.search)}
-              setSelectedTopics={setSelectedTopics}
-              selectedTopics={selectedTopics}
-            />
-          )}
-
-          {modalOpen === ModalEnum.edit && (
-            <CreateOrEditTopic
-              closeCallback={() => setModalOpen(ModalEnum.search)}
-              setSelectedTopics={setSelectedTopics}
-              selectedTopics={selectedTopics}
-              topicToEdit={topicEditing}
-            />
-          )}
-        </AnimatePresence>
-
-        <div className={`bg-main-color h-80 w-full`}>
-          {file === null ? (
-            <label
-              tabIndex="0"
-              htmlFor="uploadInput"
-              className={`p-3 text-3xl bg-third-color bg-opacity-40 w-full h-full cursor-pointer flex items-center justify-center`}
-            >
-              <Balancer>
-                <span>{t("select")}</span>
-              </Balancer>
-            </label>
-          ) : (
-            <div
-              className={`flex gap-3 flex-col p-[min(20px,5%)] w-full h-full justify-center`}
-            >
-              <span className="text-xl">{t("this-was-selected")}:</span>
-              <p>{file.name}</p>
-              <button
-                type="button"
-                className={`bg-error-color cursor-pointer p-3`}
-                onClick={removeSelectedFile}
-              >
-                {t("delete-file").toUpperCase()}
-              </button>
-            </div>
-          )}
-          <input
-            className={`hidden`}
-            id="uploadInput"
-            type={"file"}
-            onChange={handleFileSelect}
-            accept="video/*" // if we want to allow all video types
-            // accept="video/mp4" // if we want to allow only MP4... MP4 is supported by all popular browsers
-          />
-        </div>
-        <button
-          disabled={file === null || titleError(title)}
-          onClick={uploadFile}
-          className={
-            "bg-main-color p-3 text-third-color disabled:opacity-60 disabled:cursor-not-allowed"
-          }
+        <div
+          className={`flex flex-col gap-3 ${
+            status === StatusEnum.loading ? "hidden" : "block"
+          }`}
         >
-          {t("create-btn")}
-        </button>
+          <div>
+            <Balancer>
+              <span className="block text-4xl px-2 mt-4 text-center">
+                {t("create-post-title")}
+              </span>
+            </Balancer>
+          </div>
+          <Input
+            translationFile="admin"
+            name={"title"}
+            checkErrorCallback={titleError}
+            valueObj={{ title }}
+            removeDefaultStyle={true}
+            type={"text"}
+            placeholder={t("title-placeholder") + "..."}
+            onChange={e => setTitle(e.target.value)}
+            className={`bg-main-color shadow-inner shadow-shadows-color p-2 
+        rounded-3xl text-center`}
+          />
+          <Topics
+            addTopicCallback={() => setModalOpen(ModalEnum.search)}
+            setSelectedTopics={setSelectedTopics}
+            selectedTopics={selectedTopics}
+          />
 
+          <AnimatePresence>
+            {modalOpen === ModalEnum.search && (
+              <SearchTopic
+                closeCallback={() => setModalOpen(ModalEnum.none)}
+                setSelectedTopics={setSelectedTopics}
+                selectedTopics={selectedTopics}
+                createCallback={() => setModalOpen(ModalEnum.create)}
+                editCallback={topicObj => {
+                  setTopicEditing(topicObj);
+                  setModalOpen(ModalEnum.edit);
+                }}
+              />
+            )}
+
+            {modalOpen === ModalEnum.create && (
+              <CreateOrEditTopic
+                closeCallback={() => setModalOpen(ModalEnum.search)}
+                setSelectedTopics={setSelectedTopics}
+                selectedTopics={selectedTopics}
+              />
+            )}
+
+            {modalOpen === ModalEnum.edit && (
+              <CreateOrEditTopic
+                closeCallback={() => setModalOpen(ModalEnum.search)}
+                setSelectedTopics={setSelectedTopics}
+                selectedTopics={selectedTopics}
+                topicToEdit={topicEditing}
+              />
+            )}
+          </AnimatePresence>
+
+          <div className={`bg-main-color h-80 w-full`}>
+            {file === null ? (
+              <label
+                tabIndex="0"
+                htmlFor="uploadInput"
+                className={`p-3 text-3xl bg-third-color bg-opacity-40 w-full h-full cursor-pointer flex items-center justify-center`}
+              >
+                <Balancer>
+                  <span>{t("select")}</span>
+                </Balancer>
+              </label>
+            ) : (
+              <div
+                className={`flex gap-3 flex-col p-[min(20px,5%)] w-full h-full justify-center`}
+              >
+                <span className="text-xl">{t("this-was-selected")}:</span>
+                <p>{file.name}</p>
+                <button
+                  type="button"
+                  className={`bg-error-color cursor-pointer p-3`}
+                  onClick={removeSelectedFile}
+                >
+                  {t("delete-file").toUpperCase()}
+                </button>
+              </div>
+            )}
+            <input
+              className={`hidden`}
+              id="uploadInput"
+              type={"file"}
+              onChange={handleFileSelect}
+              accept="video/*" // if we want to allow all video types
+              // accept="video/mp4" // if we want to allow only MP4... MP4 is supported by all popular browsers
+            />
+          </div>
+          <button
+            disabled={file === null || titleError(title)}
+            onClick={uploadFile}
+            className={
+              "bg-main-color p-3 text-third-color disabled:opacity-60 disabled:cursor-not-allowed"
+            }
+          >
+            {t("create-btn")}
+          </button>
+        </div>
         {status === StatusEnum.loading && <Loading />}
         {status === StatusEnum.error && (
           <Error tryAgainCallback={uploadFile} error={t("error")} />
