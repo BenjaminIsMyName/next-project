@@ -122,16 +122,37 @@ export default function Post({
 
   const { user } = useContext(UserContext);
   const { add } = useContext(AlertContext);
+
   async function handleLike() {
     if (user === null) {
       add({ title: t("alerts.log-in-to-like", { ns: "common" }) });
       return;
     }
+
+    let shouldShowLike = false;
+
     if (!localPost.didLike) {
       // play sound when liking (not when removing a like)
       sounds.current.like.play();
+      shouldShowLike = true;
     }
     // optimistic UI, show the changes before making the API request:
+    changeLikeLocally();
+
+    try {
+      await axios.post("/api/like", {
+        post: localPost._id,
+        like: shouldShowLike, // adding or removing the like
+      });
+    } catch (error) {
+      console.log(`error`, error);
+      // if failed, cancel the UI changes that were made
+      changeLikeLocally();
+      add({ title: t("alerts.error-liking-post", { ns: "common" }) });
+    }
+  }
+
+  function changeLikeLocally() {
     setLocalPost(prev => ({
       ...prev,
       didLike: !prev.didLike,
@@ -139,22 +160,6 @@ export default function Post({
         ? prev.numberOfLikes - 1
         : prev.numberOfLikes + 1,
     }));
-    try {
-      await axios.post("/api/like", {
-        post: localPost._id,
-      });
-    } catch (error) {
-      console.log(`error`, error);
-      // if failed, cancel the UI changes that were made
-      setLocalPost(prev => ({
-        ...prev,
-        didLike: !prev.didLike,
-        numberOfLikes: prev.didLike
-          ? prev.numberOfLikes - 1
-          : prev.numberOfLikes + 1,
-      }));
-      add({ title: t("alerts.error-liking-post", { ns: "common" }) });
-    }
   }
 
   // display the date only after we are on the client,

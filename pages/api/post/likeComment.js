@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   }
 
   // validate params ------------------------
-  let { commentId, postId } = req.body;
+  let { commentId, postId, like } = req.body;
 
   if (!commentId || !postId) {
     res.status(406).json({ error: `did not provide all query params` });
@@ -24,33 +24,27 @@ export default async function handler(req, res) {
   }
 
   try {
-    let postFromDb = await db
-      .collection("posts")
-      .find({ _id: ObjectId(postId) })
-      .toArray();
-    postFromDb = postFromDb[0];
-
-    if (!postFromDb) throw new Error("Post doesn't exist");
-
-    const comment = postFromDb.comments.find(c => c.id === commentId);
-    const likeInComment = comment.liked.find(userId => userId.equals(user._id));
-
-    if (likeInComment) {
-      // remove the like
+    if (like) {
+      // add like
       await db.collection("posts").updateOne(
         { _id: ObjectId(postId), "comments.id": commentId },
         {
-          $pull: {
+          // $addToSet will only add the id if it doesn't already exist.
+          // This is to prevent the same user from liking the same comment twice by sending two api requests quickly.
+          // when sending quickly, the second call will start before the first call finishes, so the like will be added twice.
+          // because the "likeInComment" variable will be false for both calls.
+          // this problem is known as Race Condition.
+          $addToSet: {
             "comments.$.liked": ObjectId(user._id),
           },
         }
       );
     } else {
-      // add like
+      // remove the like
       await db.collection("posts").updateOne(
         { _id: ObjectId(postId), "comments.id": commentId },
         {
-          $push: {
+          $pull: {
             "comments.$.liked": ObjectId(user._id),
           },
         }

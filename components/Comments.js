@@ -45,33 +45,20 @@ function CommentsComponent(
 
   const { add } = useContext(AlertContext);
   const { user } = useContext(UserContext);
+
   async function handleLikeOfComment(commentId) {
     if (user === null) {
       add({ title: t("alerts.log-in-to-like") });
       return;
     }
-    // the variables below are used to cancel the UI changes if the API request fails.
-    // We don't want to simply set the state to the previous value because setState is async.
-    // The bug is that if the user is offline, the UI will show the changes even though the API request failed.
-    // The solution is to use the variables below to cancel the UI changes if the API request fails.
-    let shouldShowLike = true;
-    let numberOfLikes = 0;
-    // optimistic UI, show the changes before making the API request:
-    const updatedArray = comments.map(c => {
-      if (c.id === commentId) {
-        shouldShowLike = !c.didLike;
-        numberOfLikes = shouldShowLike
-          ? c.numberOfLikes + 1
-          : c.numberOfLikes - 1;
-        return {
-          ...c,
-          didLike: shouldShowLike,
-          numberOfLikes: numberOfLikes,
-        };
-      }
-      return c;
-    });
-    setComments(updatedArray);
+
+    let shouldShowLike = false;
+
+    if (!comments.find(c => c.id === commentId).didLike) {
+      shouldShowLike = true;
+    }
+
+    changeLikeLocally(commentId);
 
     // using postId and commentId to make the fetch request...
 
@@ -79,25 +66,30 @@ function CommentsComponent(
       await axios.post("/api/post/likeComment", {
         postId,
         commentId,
+        like: shouldShowLike, // adding or removing the like
       });
     } catch (error) {
-      shouldShowLike = !shouldShowLike;
-      numberOfLikes = shouldShowLike ? numberOfLikes + 1 : numberOfLikes - 1;
       console.log(`error`, error);
-      // if failed, cancel the UI changes that were made
-      const updatedArray = comments.map(c => {
+      changeLikeLocally(commentId);
+      add({ title: t("alerts.error-liking-comment") });
+    }
+  }
+
+  function changeLikeLocally(commentId) {
+    setComments(prev => {
+      return prev.map(c => {
         if (c.id === commentId) {
           return {
             ...c,
-            didLike: shouldShowLike,
-            numberOfLikes: numberOfLikes,
+            didLike: !c.didLike,
+            numberOfLikes: c.didLike
+              ? c.numberOfLikes - 1
+              : c.numberOfLikes + 1,
           };
         }
         return c;
       });
-      setComments(updatedArray);
-      add({ title: t("alerts.error-liking-comment") });
-    }
+    });
   }
 
   const fetchComments = useCallback(async () => {
