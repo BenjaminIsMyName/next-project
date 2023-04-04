@@ -74,8 +74,10 @@ export default function Aside() {
         },
       }}
     >
-      <div>
+      <div id="containerOfAsideAndOverlay">
+        {/* A focus-trap cannot use a Fragment as its child container, that's why this div exist */}
         <div
+          id="overlay"
           onClick={handleOverlayClick}
           className={`opacity-0 transition-[opacity] duration-500 ${
             modalOpen !== -1
@@ -90,7 +92,6 @@ export default function Aside() {
         )}
         {modalOpen === 1 && <Modal>Notifications menu</Modal>}
         {modalOpen === 2 && <Modal>Search menu</Modal>}
-
         <aside
           ref={asideRef}
           className={`select-none bg-second-color h-[var(--header-height)] bottom-0

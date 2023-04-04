@@ -51,9 +51,10 @@ export default function PostPage({ post }) {
         />
         {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>
-      <div className="overflow-hidden">
-        <Post post={postToDisplay} isPostPage={true} />
-      </div>
+      {/* why did I add this div in commit fdd54361ac29cbe36d68faedf8c0190ce254fa7c ???? seems to work fine without it now... */}
+      {/* <div className="overflow-hidden"> */}
+      <Post post={postToDisplay} isPostPage={true} />
+      {/* </div> */}
     </>
   );
 }

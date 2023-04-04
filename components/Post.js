@@ -232,7 +232,7 @@ export default function Post({
   }
 
   if (isDeleted) {
-    return <div></div>;
+    return <div className="deletedPost"></div>;
   }
 
   async function savePost() {
@@ -270,7 +270,7 @@ export default function Post({
       }}
       active={isFullyOpened && !isPostPage} // we need FocusTrap only when the post is opened in the feed
     >
-      <div>
+      <div className="containerOfPostAndPlaceholderDiv">
         {/* placeholder... when the post is showing on full screen, put something there in the meantime. same height as the post, same margin  */}
         {isFullyOpened && !isPostPage && (
           <div

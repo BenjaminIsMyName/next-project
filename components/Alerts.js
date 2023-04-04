@@ -7,6 +7,7 @@ export default function Alerts({ alerts, remove }) {
 
   return (
     <div
+      id="alerts"
       className={`fixed bottom-[calc(12px+var(--header-height))] md:bottom-3 flex items-end flex-col gap-3
       ${locale === "en" ? "right-3" : "left-3"}
     z-10`}

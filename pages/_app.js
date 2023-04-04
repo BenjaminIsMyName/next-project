@@ -83,6 +83,7 @@ function MyApp({ Component, pageProps }) {
               <Aside />
               <AnimatePresence mode={"wait"} initial={false}>
                 <motion.div
+                  id="content"
                   // we add padding to the bottom only on small screens (md:p-0) to not overlap the menu's header.
                   className={`bg-main-color transition-[width] duration-1000 ease-in
                         min-h-screen isolate 
