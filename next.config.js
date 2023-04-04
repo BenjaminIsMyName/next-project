@@ -9,6 +9,8 @@ const nextConfig = {
 
 const withPWA = require("next-pwa")({
   dest: "public",
+  disable: process.env.NODE_ENV === "development",
+  dynamicStartUrl: true, // default
 });
 
-module.exports = withPWA({ ...nextConfig });
+module.exports = withPWA(nextConfig);
