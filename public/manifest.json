@@ -3,6 +3,9 @@
   "short_name": "Redilet",
   "display": "standalone",
   "start_url": "/",
+  "background_color": "#232323",
+  "theme_color": "#232323",
+  "description": "Watch the latest news from Redilet",
   "icons": [
     {
       "src": "/android-icon-36x36.png",
