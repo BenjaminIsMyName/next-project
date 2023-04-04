@@ -93,6 +93,9 @@ export default async function handler(req, res) {
         else if (a.likes.length > b.likes.length) return -1;
         else return 0;
       });
+      break;
+    case "topic":
+      posts.reverse(); // to show the newest posts first
     default:
       break;
   }
