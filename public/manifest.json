@@ -1,5 +1,8 @@
 {
-  "name": "App",
+  "name": "Redilet News",
+  "short_name": "Redilet",
+  "display": "standalone",
+  "start_url": "/",
   "icons": [
     {
       "src": "/android-icon-36x36.png",
