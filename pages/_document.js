@@ -4,6 +4,40 @@ import Script from "next/script";
 export default function Document() {
   return (
     <Html dir="rtl">
+      {/* ----- code for PWA from https://www.npmjs.com/package/next-pwa ----- */}
+      <meta name="application-name" content="Redilet" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+      <meta name="apple-mobile-web-app-title" content="Redilet" />
+      <meta name="description" content="Watch the latest news from Redilet" />
+      <meta name="format-detection" content="telephone=no" />
+      <meta name="mobile-web-app-capable" content="yes" />
+      <meta name="msapplication-config" content="/browserconfig.xml" />
+      <meta name="msapplication-TileColor" content="#232323" />
+      <meta name="msapplication-tap-highlight" content="no" />
+      <meta name="theme-color" content="#232323" />
+      <link rel="mask-icon" href="/favicon.ico" color="#232323" />
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:url" content="https://redilet.com" />
+      <meta name="twitter:title" content="Redilet" />
+      <meta
+        name="twitter:description"
+        content="Watch the latest news from Redilet"
+      />
+      <meta
+        name="twitter:image"
+        content="https://redilet.com/android-icon-192x192.png"
+      />
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content="Redilet" />
+      <meta
+        property="og:description"
+        content="Watch the latest news from Redilet"
+      />
+      <meta property="og:site_name" content="Redilet" />
+      <meta property="og:url" content="https://redilet.com" />
+      {/* ----- code for PWA from https://www.npmjs.com/package/next-pwa ----- */}
+
       {/* ----- All the code & files favicon-generator.org generated ----- */}
       <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />
       <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
