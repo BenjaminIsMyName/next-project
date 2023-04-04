@@ -459,7 +459,20 @@ export default function Post({
           {isFullyOpened && (
             <PostOptions
               post={localPost}
-              editClick={() => setIsEditing(true)}
+              editClick={() => {
+                setIsEditing(true);
+                if (isPostPage) {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  });
+                } else {
+                  postRef.current.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  });
+                }
+              }}
               deleteClick={handleDelete}
               savePost={savePost}
             />
