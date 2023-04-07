@@ -146,6 +146,11 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
       </AnimatePresence>
       {videoUrl && loaded && (
         <ReactPlayer
+          // config={{
+          //   attributes: {
+          //     preload: "metadata",
+          //   },
+          // }}
           ref={playerRef}
           onEnded={() => setIsPlaying(false)}
           onProgress={handleProgress}
