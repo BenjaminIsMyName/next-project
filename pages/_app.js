@@ -15,6 +15,7 @@ import { SoundContext } from "../context/SoundContext";
 import useSound from "../hooks/useSound";
 import useGoogle from "../hooks/useGoogle";
 import { GoogleContext } from "../context/GoogleContext";
+import usePWA from "../hooks/usePWA";
 
 // TODO: BUGS:
 
@@ -72,6 +73,8 @@ function MyApp({ Component, pageProps }) {
 
   const [sounds] = useSound();
   const callCallback = useGoogle();
+
+  usePWA(user);
 
   return (
     <GoogleContext.Provider value={{ callCallback }}>

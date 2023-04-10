@@ -1,8 +1,8 @@
-const runtimeCaching = require("./cache");
-
 /** @type {import('next').NextConfig} */
 
+const runtimeCaching = require("./cache");
 const { i18n } = require("./next-i18next.config");
+
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
