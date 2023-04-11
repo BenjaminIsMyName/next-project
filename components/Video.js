@@ -1,9 +1,17 @@
-import { useRef, useState } from "react";
-import ReactPlayer from "react-player";
+import { useEffect, useRef, useState } from "react";
+// import ReactPlayer from "react-player"; // not used anymore
 import { AnimatePresence, motion as m } from "framer-motion";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import useLoaded from "../hooks/useLoaded";
+
+/*
+
+  This component is used to play videos in posts.
+  It's a custom video player.
+  I used ReactPlayer before, but it didn't contribute much to the project, so I decided to build it completely from scratch.
+
+  */
 
 export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
   const loaded = useLoaded();
@@ -23,13 +31,34 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   }
 
-  const handleProgress = state => {
-    setPlayedSeconds(state.playedSeconds);
+  // for ReactPlayer (not used anymore)
+  // const handleProgress = state => {
+  //   setPlayedSeconds(state.playedSeconds);
+  // };
+
+  const handleTimeUpdate = e => {
+    setPlayedSeconds(e.target.currentTime);
   };
 
   let currentWidthOfProgressBar = 100 * (playedSeconds / duration); // calculate the percentage of the video that has been played
   currentWidthOfProgressBar = Math.max(1, currentWidthOfProgressBar); // make sure it's at least 1%
   currentWidthOfProgressBar = Math.round(currentWidthOfProgressBar * 100) / 100; // round to 2 decimal places
+
+  useEffect(() => {
+    if (playerRef.current) {
+      if (isPlaying) {
+        playerRef.current.play();
+      } else {
+        playerRef.current.pause();
+      }
+    }
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (playerRef.current) {
+      setDuration(playerRef.current.duration);
+    }
+  }, [canPlay]);
 
   return (
     <div
@@ -120,9 +149,10 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                 // set the time of the video
                 setPlayedSeconds(time); // much faster than waiting for seekTo() to finish
                 // jump to the time
-                playerRef.current.seekTo(time);
+                // playerRef.current.seekTo(time); // for ReactPlayer (not used anymore)
+                playerRef.current.currentTime = time;
               }}
-              className="cursor-pointer group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-main-color/20 relative hover:scale-y-150 transition-all"
+              className="overflow-hidden cursor-pointer group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-main-color/20 relative hover:scale-y-150 transition-all"
             >
               <m.div
                 layout
@@ -145,25 +175,35 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
         )}
       </AnimatePresence>
       {videoUrl && loaded && (
-        <ReactPlayer
-          // config={{
-          //   attributes: {
-          //     preload: "metadata",
-          //   },
-          // }}
+        // <ReactPlayer
+        //   // config={{
+        //   //   attributes: {
+        //   //     preload: "metadata",
+        //   //   },
+        //   // }}
+        //   ref={playerRef}
+        //   onEnded={() => setIsPlaying(false)}
+        //   onProgress={handleProgress}
+        //   playing={isPlaying}
+        //   width="unset"
+        //   height="unset"
+        //   onDuration={d => setDuration(d)}
+        //   className={`[&_video]:block [&_video]:max-h-[70vh]`}
+        //   onCanPlay={() => {
+        //     setCanPlay(true);
+        //   }}
+        //   url={videoUrl}
+        // />
+        <video
           ref={playerRef}
-          onEnded={() => setIsPlaying(false)}
-          onProgress={handleProgress}
-          playing={isPlaying}
-          width="unset"
-          height="unset"
-          onDuration={d => setDuration(d)}
-          className={`[&_video]:block [&_video]:max-h-[70vh]`}
+          src={videoUrl}
+          className="block max-h-[70vh]"
           onCanPlay={() => {
             setCanPlay(true);
           }}
-          url={videoUrl}
-        />
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={() => setIsPlaying(false)}
+        ></video>
       )}
     </div>
   );
