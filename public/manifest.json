@@ -2,6 +2,7 @@
   "name": "Redilet News",
   "short_name": "Redilet",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "start_url": "/",
   "background_color": "#232323",
   "theme_color": "#232323",
