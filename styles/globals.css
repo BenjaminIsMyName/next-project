@@ -219,3 +219,8 @@ body {
     transform: translateX(4px);
   }
 }
+
+/* disable the default controls on full screen as well */
+video::-webkit-media-controls {
+  display: none !important;
+}

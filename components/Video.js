@@ -23,6 +23,8 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
   const playerRef = useRef(null);
   const progressBarRef = useRef(null);
   const [duration, setDuration] = useState(0);
+  const containerRef = useRef(null); // to show the entire custom video player in full screen (see: https://stackoverflow.com/a/52879736)
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   function formatTime(time) {
     const minutes = Math.floor(time / 60);
@@ -60,11 +62,24 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
     }
   }, [canPlay]);
 
+  useEffect(() => {
+    function handleEvent() {
+      setIsFullScreen(document.fullscreenElement ? true : false);
+    }
+    // if leaving full screen by pressing ESC, we need to update the state
+    document.addEventListener("fullscreenchange", handleEvent);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleEvent);
+    };
+  }, []);
+
   return (
     <div
+      ref={containerRef}
       className={`relative overflow-hidden ${
         !canPlay || !videoUrl ? "h-80" : ""
-      }`}
+      } ${isFullScreen ? "flex" : ""}`} // if full screen, make it a flex container to center the video
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
@@ -95,10 +110,10 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
           >
             {/* play/pause button, volume, times (numbers and scrollbar), full screen, pip  */}
 
-            <div>
-              {/* container for all the top part */}
+            {/* container for all the top part: */}
+            <div className="flex justify-between">
+              {/* container for the left part: */}
               <div className="flex gap-4">
-                {/* container for the left part */}
                 {/* play icon: */}
                 <button
                   onClick={() => setIsPlaying(prev => !prev)}
@@ -130,6 +145,39 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                     {formatTime(duration)}
                   </span>
                 </div>
+              </div>
+              {/* container for the right part: */}
+              <div>
+                <button
+                  className="backdrop-blur-xl p-2 rounded-lg"
+                  onClick={() => {
+                    // all we need to do is exit/enter full screen, the state will be updated automatically by the event listener in useEffect
+                    if (isFullScreen) {
+                      document.exitFullscreen();
+                      return;
+                    }
+
+                    containerRef.current.requestFullscreen();
+                    // playerRef.current.requestPictureInPicture();
+                  }}
+                >
+                  {isFullScreen ? (
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="w-6 h-6 fill-second-color"
+                    >
+                      <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"></path>
+                    </svg>
+                  ) : (
+                    <svg
+                      className="w-6 h-6 fill-second-color"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path>
+                    </svg>
+                  )}
+                </button>
               </div>
             </div>
             {/* container for the bottom part */}
@@ -194,10 +242,13 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
         //   }}
         //   url={videoUrl}
         // />
+
         <video
           ref={playerRef}
           src={videoUrl}
-          className="block max-h-[70vh]"
+          className={`block mx-auto ${
+            isFullScreen ? "max-h-[100vh]" : "max-h-[70vh]"
+          }`}
           onCanPlay={() => {
             setCanPlay(true);
           }}
