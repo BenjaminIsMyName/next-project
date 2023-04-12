@@ -182,6 +182,15 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
             </div>
             {/* container for the bottom part */}
             <div
+              tabIndex={0}
+              onKeyDown={e => {
+                // TODO: rtl support
+                if (e.key === "ArrowRight") {
+                  playerRef.current.currentTime = playedSeconds + 5; // add 5 seconds
+                } else if (e.key === "ArrowLeft") {
+                  playerRef.current.currentTime = playedSeconds - 5; // subtract 5 seconds
+                }
+              }}
               ref={progressBarRef}
               onClick={e => {
                 // get position of the click in the progress bar
@@ -195,7 +204,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                 // calculate the time of the video
                 const time = Math.floor(percentage * duration); // Math.floor() is needed because seekTo() doesn't accept decimals (weird behavior when passing 0.someNumber)
                 // set the time of the video
-                setPlayedSeconds(time); // much faster than waiting for seekTo() to finish
+                setPlayedSeconds(time); // much faster than waiting for "seekTo()" or "currentTime" to take effect
                 // jump to the time
                 // playerRef.current.seekTo(time); // for ReactPlayer (not used anymore)
                 playerRef.current.currentTime = time;
