@@ -39,7 +39,7 @@ export default function GoToComments({
       }}
       as={localPost ? `/post/${localPost?._id}` : "/"}
     >
-      <a className="flex justify-center">
+      <a className="flex justify-center" tabIndex={-1}>
         <button
           aria-label={t("aria-labels.comment", { ns: "common" })}
           className={`bg-opacity-0 border-0`}
