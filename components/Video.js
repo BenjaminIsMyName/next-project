@@ -21,10 +21,10 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
   const [isHovering, setIsHovering] = useState(false);
   const [playedSeconds, setPlayedSeconds] = useState(0);
   const playerRef = useRef(null);
-  const progressBarRef = useRef(null);
   const [duration, setDuration] = useState(0);
   const containerRef = useRef(null); // to show the entire custom video player in full screen (see: https://stackoverflow.com/a/52879736)
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [focusOnProgressBar, setFocusOnProgressBar] = useState(false);
 
   function formatTime(time) {
     const minutes = Math.floor(time / 60);
@@ -180,43 +180,20 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                 </button>
               </div>
             </div>
-            {/* container for the bottom part */}
+            {/* container for the progress bar */}
             <div
-              tabIndex={0}
-              onKeyDown={e => {
-                // TODO: rtl support
-                if (e.key === "ArrowRight") {
-                  playerRef.current.currentTime = playedSeconds + 5; // add 5 seconds
-                } else if (e.key === "ArrowLeft") {
-                  playerRef.current.currentTime = playedSeconds - 5; // subtract 5 seconds
-                }
-              }}
-              ref={progressBarRef}
-              onClick={e => {
-                // get position of the click in the progress bar
-                const rect = progressBarRef.current.getBoundingClientRect();
-                const x =
-                  locale === "en"
-                    ? e.clientX - rect.left
-                    : rect.right - e.clientX;
-                // calculate the percentage of the click
-                const percentage = x / rect.width;
-                // calculate the time of the video
-                const time = Math.floor(percentage * duration); // Math.floor() is needed because seekTo() doesn't accept decimals (weird behavior when passing 0.someNumber)
-                // set the time of the video
-                setPlayedSeconds(time); // much faster than waiting for "seekTo()" or "currentTime" to take effect
-                // jump to the time
-                // playerRef.current.seekTo(time); // for ReactPlayer (not used anymore)
-                playerRef.current.currentTime = time;
-              }}
-              className="overflow-hidden cursor-pointer group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-main-color/20 relative hover:scale-y-150 transition-all"
+              className={`group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-main-color/20 relative hover:scale-y-150 transition-all ${
+                focusOnProgressBar
+                  ? "outline-dashed outline-1 outline-main-color"
+                  : ""
+              }`}
             >
-              <m.div
-                layout
+              {/* the element that shows how much we progressed in the progress bar: */}
+              <div
                 style={{
                   width: currentWidthOfProgressBar + "%",
                 }}
-                className={`absolute inset-0 bg-gradient-to-tl from-main-color to-third-color rounded-lg`}
+                className={`bg-gradient-to-tl from-main-color to-third-color rounded-lg h-full relative transition-all`}
               >
                 {/* thumb indicator (round little thing in the progress bar) */}
                 <div
@@ -226,7 +203,25 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                       : "left-0 -translate-x-1/2"
                   } top-1/2 -translate-y-1/2 scale-0 group-hover:scale-x-100 group-hover:scale-y-75 transition-transform`}
                 ></div>
-              </m.div>
+              </div>
+              {/* the progress bar is actually <input type="range"> under the hood, invisible but on top (and that's why clickable and interactive): */}
+              <input
+                onFocus={() => {
+                  setFocusOnProgressBar(true);
+                }}
+                onBlur={() => {
+                  setFocusOnProgressBar(false);
+                }}
+                type="range"
+                min={0}
+                max={duration}
+                value={playedSeconds}
+                onChange={e => {
+                  setPlayedSeconds(e.target.value);
+                  playerRef.current.currentTime = e.target.value;
+                }}
+                className="absolute inset-0 opacity-0 w-full h-full cursor-pointer" // w-full for firefox. inset-0 doesn't make the input type="range" take the whole width in firefox
+              />
             </div>
           </m.div>
         )}
@@ -255,7 +250,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
         <video
           ref={playerRef}
           src={videoUrl}
-          className={`block mx-auto ${
+          className={`block mx-auto cursor-pointer ${
             isFullScreen ? "max-h-[100vh]" : "max-h-[70vh]"
           }`}
           onCanPlay={() => {
