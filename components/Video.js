@@ -25,6 +25,8 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
   const containerRef = useRef(null); // to show the entire custom video player in full screen (see: https://stackoverflow.com/a/52879736)
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [focusOnProgressBar, setFocusOnProgressBar] = useState(false);
+  const [isDraggingProgressBar, setIsDraggingProgressBar] = useState(false);
+  const isStillClickedRef = useRef(false);
 
   function formatTime(time) {
     const minutes = Math.floor(time / 60);
@@ -182,7 +184,30 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
               </div>
             </div>
             {/* container for the progress bar */}
+
+            {/*
+              We don't want transition for drags on the progress bar, only for clicks. Because when clicked - show nice transition for the new time, but when dragged - let the user drag the progress bar smoothly without any transition
+              So we want to tell the difference between a click on the progress bar and a drag on the progress bar
+              steps: 
+              1. when the user clicks on the progress bar, set isStillClicked to true, and set a setTimeOut to check later if the user is still dragging or not. 
+                    if the user is still dragging after 100ms, set isDraggingProgressBar to true...
+              2. when the user releases the mouse, set isStillClicked to false and set isDraggingProgressBar to false (for cases where the user started dragging)
+              */}
+
             <div
+              onMouseDown={() => {
+                isStillClickedRef.current = true;
+                // don't set the state immediately, wait and see if the user is dragging or it's just a click
+                setTimeout(() => {
+                  if (isStillClickedRef.current) {
+                    setIsDraggingProgressBar(true);
+                  }
+                }, 100);
+              }}
+              onMouseUp={() => {
+                isStillClickedRef.current = false;
+                setIsDraggingProgressBar(false);
+              }}
               className={`group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-main-color/20 relative hover:scale-y-150 transition-all ${
                 focusOnProgressBar
                   ? "outline-dashed outline-1 outline-main-color"
@@ -194,10 +219,15 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                 style={{
                   width: currentWidthOfProgressBar + "%",
                 }}
-                className={`bg-gradient-to-tl from-main-color to-third-color rounded-lg h-full relative transition-none`}
+                className={`bg-gradient-to-tl from-main-color to-third-color rounded-lg h-full relative ${
+                  isDraggingProgressBar ? "transition-none" : "transition-all"
+                }`}
               >
                 {/* thumb indicator (round little thing in the progress bar) */}
                 <div
+                  onClick={() => {
+                    console.log("clicked on thumb");
+                  }}
                   className={`rounded-full h-4 w-4 bg-third-color absolute ${
                     locale === "en"
                       ? "right-0 translate-x-1/2"
