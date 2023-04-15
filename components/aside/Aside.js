@@ -1,5 +1,5 @@
 import FocusTrap from "focus-trap-react";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Modal from "../Modal.js";
 import Header from "./Header.js";
 import Option from "./Option.js";

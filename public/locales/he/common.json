@@ -56,5 +56,8 @@
   "edit": "ערוך",
   "delete": "מחק",
   "play": "נגן",
-  "pause": "השהה"
+  "pause": "השהה",
+  "fullscreen": "מסך מלא",
+  "exit-fullscreen": "צא ממסך מלא",
+  "progress-bar": "סרגל התקדמות"
 }

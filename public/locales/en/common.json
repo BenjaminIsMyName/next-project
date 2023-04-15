@@ -56,5 +56,8 @@
   "edit": "Edit",
   "delete": "Delete",
   "play": "Play",
-  "pause": "Pause"
+  "pause": "Pause",
+  "fullscreen": "Fullscreen",
+  "exit-fullscreen": "Exit fullscreen",
+  "progress-bar": "Progress bar"
 }

@@ -149,6 +149,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
               {/* container for the right part: */}
               <div>
                 <button
+                  title={isFullScreen ? t("exit-fullscreen") : t("fullscreen")}
                   className="backdrop-blur-xl p-2 rounded-lg"
                   onClick={() => {
                     // all we need to do is exit/enter full screen, the state will be updated automatically by the event listener in useEffect
@@ -193,7 +194,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                 style={{
                   width: currentWidthOfProgressBar + "%",
                 }}
-                className={`bg-gradient-to-tl from-main-color to-third-color rounded-lg h-full relative transition-all`}
+                className={`bg-gradient-to-tl from-main-color to-third-color rounded-lg h-full relative transition-none`}
               >
                 {/* thumb indicator (round little thing in the progress bar) */}
                 <div
@@ -206,6 +207,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
               </div>
               {/* the progress bar is actually <input type="range"> under the hood, invisible but on top (and that's why clickable and interactive): */}
               <input
+                aria-label={t("progress-bar")}
                 onFocus={() => {
                   setFocusOnProgressBar(true);
                 }}
