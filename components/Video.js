@@ -198,7 +198,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
               */}
 
             <div
-              onMouseDown={() => {
+              onPointerDown={() => {
                 isStillClickedRef.current = true;
                 // don't set the state immediately, wait and see if the user is dragging or it's just a click
                 setTimeout(() => {
@@ -207,7 +207,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                   }
                 }, 100);
               }}
-              onMouseUp={() => {
+              onPointerUp={() => {
                 isStillClickedRef.current = false;
                 setIsDraggingProgressBar(false);
               }}
