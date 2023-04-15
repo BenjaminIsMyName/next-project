@@ -108,7 +108,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
               opacity: 0,
               transition: { duration: 1, ease: "easeIn", delay: 1 },
             }}
-            className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-option-text-color/70 via-option-text-color/50 to-main-color/0 z-20 p-4 pt-3"
+            className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-main-color/50 via-main-color/20 to-main-color/0 z-20 p-4 pt-3"
           >
             {/* play/pause button, volume, times (numbers and scrollbar), full screen, pip  */}
 
@@ -127,23 +127,26 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                       <path d="M0 0h24v24H0z" fill="none" />
                       <path
                         d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"
-                        className="fill-second-color"
+                        className="fill-option-text-color"
                       />
                     </svg>
                   ) : (
                     <svg className="w-6 h-6">
                       <path d="M0 0h24v24H0z" fill="none" />
-                      <path d="M8 5v14l11-7z" className="fill-second-color" />
+                      <path
+                        d="M8 5v14l11-7z"
+                        className="fill-option-text-color"
+                      />
                     </svg>
                   )}
                 </button>
                 {/* time */}
                 <div className="flex items-center gap-2 backdrop-blur-xl p-2 rounded-lg">
-                  <span className="text-second-color text-opacity-70">
+                  <span className="text-option-text-color">
                     {formatTime(playedSeconds)}
                   </span>
-                  <span className="text-second-color text-opacity-70">/</span>
-                  <span className="text-second-color text-opacity-100">
+                  <span className="text-option-text-color/70">/</span>
+                  <span className="text-option-text-color">
                     {formatTime(duration)}
                   </span>
                 </div>
@@ -167,13 +170,13 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                   {isFullScreen ? (
                     <svg
                       viewBox="0 0 24 24"
-                      className="w-6 h-6 fill-second-color"
+                      className="w-6 h-6 fill-option-text-color"
                     >
                       <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"></path>
                     </svg>
                   ) : (
                     <svg
-                      className="w-6 h-6 fill-second-color"
+                      className="w-6 h-6 fill-option-text-color"
                       focusable="false"
                       viewBox="0 0 24 24"
                     >
@@ -208,7 +211,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                 isStillClickedRef.current = false;
                 setIsDraggingProgressBar(false);
               }}
-              className={`group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-main-color/20 relative hover:scale-y-150 transition-all ${
+              className={`group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-option-text-color/30 relative hover:scale-y-150 transition-all ${
                 focusOnProgressBar
                   ? "outline-dashed outline-1 outline-main-color"
                   : ""
@@ -282,8 +285,8 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
         <video
           ref={playerRef}
           src={videoUrl}
-          className={`block mx-auto cursor-pointer ${
-            isFullScreen ? "max-h-[100vh]" : "max-h-[70vh]"
+          className={`block mx-auto cursor-pointer w-full ${
+            isFullScreen ? "max-h-[100vh]" : "max-h-[80vh]"
           }`}
           onCanPlay={() => {
             setCanPlay(true);
