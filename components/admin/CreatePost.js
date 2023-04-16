@@ -16,7 +16,14 @@ import { AlertContext } from "../../context/AlertContext";
 export default function CreatePost() {
   const { t } = useTranslation(["admin"]);
   const router = useRouter();
-  const locale = router.locale;
+
+  const ContentTypeEnum = {
+    video: "video, default",
+    image: "image",
+    text: "text",
+  };
+
+  const [contentType, setContentType] = useState(ContentTypeEnum.video);
   const [file, setFile] = useState(null);
   const StatusEnum = {
     start: "The upload process didn't start yet",
@@ -170,6 +177,32 @@ export default function CreatePost() {
             )}
           </AnimatePresence>
 
+          <div className="flex justify-around items-stretch rounded-lg overflow-hidden">
+            <button
+              className={`w-full p-2 ${
+                contentType === ContentTypeEnum.video
+                  ? `bg-third-color/40`
+                  : `bg-main-color opacity-30`
+              }`}
+              onClick={() => {
+                setContentType(ContentTypeEnum.video);
+              }}
+            >
+              Video
+            </button>
+            <button
+              className={`w-full p-2 ${
+                contentType === ContentTypeEnum.text
+                  ? `bg-third-color/40`
+                  : `bg-main-color opacity-30`
+              }`}
+              onClick={() => {
+                setContentType(ContentTypeEnum.text);
+              }}
+            >
+              Text
+            </button>
+          </div>
           <div className={`bg-main-color h-80 w-full`}>
             {file === null ? (
               <label
