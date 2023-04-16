@@ -12,6 +12,8 @@ export default function CreateOrEditTopic({
   closeCallback,
   setSelectedTopics,
   topicToEdit, // if we are in "edit" mode
+  shouldAnimateIn,
+  shouldAnimateOut,
 }) {
   const { locale } = useRouter();
   const { t } = useTranslation(["common", "admin"]);
@@ -54,7 +56,10 @@ export default function CreateOrEditTopic({
   }
 
   return (
-    <Container>
+    <Container
+      shouldAnimateIn={shouldAnimateIn}
+      shouldAnimateOut={shouldAnimateOut}
+    >
       <div
         className={`fixed top-4 ${
           locale === "en" ? "left-4" : "right-4"

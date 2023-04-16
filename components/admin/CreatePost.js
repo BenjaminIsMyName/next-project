@@ -14,9 +14,13 @@ import CreateOrEditTopic from "./CreateOrEditTopic";
 import { AlertContext } from "../../context/AlertContext";
 
 export default function CreatePost() {
+  // The following 2 states are used to animate the container of SearchTopic and CreateOrEditTopic.
+  // We want to animate SearchTopic when it's opened from CreatePost, but not when it's opened from CreateOrEditTopic (by going back)
+  // We want to animate the exit of SearchTopic when it's closed entirely, but not when it's just closed to open CreateOrEditTopic
+  const [shouldAnimateIn, setShouldAnimateIn] = useState(true);
+  const [shouldAnimateOut, setShouldAnimateOut] = useState(true);
   const { t } = useTranslation(["admin"]);
   const router = useRouter();
-  const locale = router.locale;
   const [file, setFile] = useState(null);
   const StatusEnum = {
     start: "The upload process didn't start yet",
@@ -100,11 +104,23 @@ export default function CreatePost() {
       <AnimatePresence>
         {modalOpen === ModalEnum.search && (
           <SearchTopic
-            closeCallback={() => setModalOpen(ModalEnum.none)}
+            shouldAnimateIn={shouldAnimateIn}
+            shouldAnimateOut={shouldAnimateOut}
+            closeCallback={() => {
+              setShouldAnimateOut(true);
+              setShouldAnimateIn(true);
+              setModalOpen(ModalEnum.none);
+            }}
             setSelectedTopics={setSelectedTopics}
             selectedTopics={selectedTopics}
-            createCallback={() => setModalOpen(ModalEnum.create)}
+            createCallback={() => {
+              setShouldAnimateOut(false);
+              setShouldAnimateIn(false);
+              setModalOpen(ModalEnum.create);
+            }}
             editCallback={topicObj => {
+              setShouldAnimateOut(false);
+              setShouldAnimateIn(false);
               setTopicEditing(topicObj);
               setModalOpen(ModalEnum.edit);
             }}
@@ -113,14 +129,26 @@ export default function CreatePost() {
 
         {modalOpen === ModalEnum.create && (
           <CreateOrEditTopic
-            closeCallback={() => setModalOpen(ModalEnum.search)}
+            shouldAnimateIn={shouldAnimateIn}
+            shouldAnimateOut={shouldAnimateOut}
+            closeCallback={() => {
+              setShouldAnimateOut(true);
+              setShouldAnimateIn(false);
+              setModalOpen(ModalEnum.search);
+            }}
             setSelectedTopics={setSelectedTopics}
           />
         )}
 
         {modalOpen === ModalEnum.edit && (
           <CreateOrEditTopic
-            closeCallback={() => setModalOpen(ModalEnum.search)}
+            shouldAnimateIn={shouldAnimateIn}
+            shouldAnimateOut={shouldAnimateOut}
+            closeCallback={() => {
+              setShouldAnimateOut(true);
+              setShouldAnimateIn(false);
+              setModalOpen(ModalEnum.search);
+            }}
             setSelectedTopics={setSelectedTopics}
             topicToEdit={topicEditing}
           />

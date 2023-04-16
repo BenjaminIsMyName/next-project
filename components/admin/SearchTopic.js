@@ -25,6 +25,8 @@ export default function SearchTopic({
   setSelectedTopics,
   createCallback,
   editCallback,
+  shouldAnimateIn,
+  shouldAnimateOut,
 }) {
   const { locale } = useRouter();
   const [topics, setTopics] = useState([]);
@@ -69,7 +71,10 @@ export default function SearchTopic({
   );
 
   return (
-    <Container>
+    <Container
+      shouldAnimateIn={shouldAnimateIn}
+      shouldAnimateOut={shouldAnimateOut}
+    >
       {/* don't allow tabs outside of here, but allow clicking on the menu  */}
       <div
         className={`fixed top-4 ${
