@@ -12,6 +12,7 @@ import SearchTopic from "./SearchTopic";
 import { AnimatePresence, motion } from "framer-motion";
 import CreateOrEditTopic from "./CreateOrEditTopic";
 import { AlertContext } from "../../context/AlertContext";
+import useElementSize from "../../hooks/useElementSize";
 
 export default function CreatePost() {
   // The following 2 states are used to animate the container of SearchTopic and CreateOrEditTopic.
@@ -19,6 +20,8 @@ export default function CreatePost() {
   // We want to animate the exit of SearchTopic when it's closed entirely, but not when it's just closed to open CreateOrEditTopic
   const [shouldAnimateIn, setShouldAnimateIn] = useState(true);
   const [shouldAnimateOut, setShouldAnimateOut] = useState(true);
+  const [setRef, { height }] = useElementSize();
+
   const { t } = useTranslation(["admin"]);
   const router = useRouter();
   const [file, setFile] = useState(null);
@@ -104,6 +107,7 @@ export default function CreatePost() {
       <AnimatePresence>
         {modalOpen === ModalEnum.search && (
           <SearchTopic
+            height={height}
             shouldAnimateIn={shouldAnimateIn}
             shouldAnimateOut={shouldAnimateOut}
             closeCallback={() => {
@@ -129,6 +133,7 @@ export default function CreatePost() {
 
         {modalOpen === ModalEnum.create && (
           <CreateOrEditTopic
+            height={height}
             shouldAnimateIn={shouldAnimateIn}
             shouldAnimateOut={shouldAnimateOut}
             closeCallback={() => {
@@ -142,6 +147,7 @@ export default function CreatePost() {
 
         {modalOpen === ModalEnum.edit && (
           <CreateOrEditTopic
+            height={height}
             shouldAnimateIn={shouldAnimateIn}
             shouldAnimateOut={shouldAnimateOut}
             closeCallback={() => {
@@ -155,6 +161,7 @@ export default function CreatePost() {
         )}
       </AnimatePresence>
       <motion.div
+        ref={setRef}
         layout
         className={`
       flex flex-col p-[min(20px,3%)] gap-3 text-center

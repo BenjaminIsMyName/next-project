@@ -14,6 +14,7 @@ export default function CreateOrEditTopic({
   topicToEdit, // if we are in "edit" mode
   shouldAnimateIn,
   shouldAnimateOut,
+  height,
 }) {
   const { locale } = useRouter();
   const { t } = useTranslation(["common", "admin"]);
@@ -57,6 +58,7 @@ export default function CreateOrEditTopic({
 
   return (
     <Container
+      height={height}
       shouldAnimateIn={shouldAnimateIn}
       shouldAnimateOut={shouldAnimateOut}
     >

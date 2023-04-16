@@ -27,6 +27,7 @@ export default function SearchTopic({
   editCallback,
   shouldAnimateIn,
   shouldAnimateOut,
+  height,
 }) {
   const { locale } = useRouter();
   const [topics, setTopics] = useState([]);
@@ -72,6 +73,7 @@ export default function SearchTopic({
 
   return (
     <Container
+      height={height}
       shouldAnimateIn={shouldAnimateIn}
       shouldAnimateOut={shouldAnimateOut}
     >
@@ -96,7 +98,12 @@ export default function SearchTopic({
       />
 
       <div className="flex flex-col gap-4 p-7">
-        {status === StatusEnum.fetching && <Loading />}
+        {status === StatusEnum.fetching && (
+          <div className="h-96">
+            {/* while loading, make the height large so when opening the Search component, the transition will be smooth, and won't resize during the animation */}
+            <Loading />
+          </div>
+        )}
         {/* if search gave 0 results: */}
         {topics.length > 0 && filteredTopics.length === 0 && (
           <NoResults createCallback={createCallback} />
