@@ -96,9 +96,36 @@ export default function CreatePost() {
     document.querySelector("#uploadInput").value = "";
   }
   return (
-    // must use another div to change the overflow-x, because it effects the overflow-y too.
-    // see: https://stackoverflow.com/questions/6421966/css-overflow-x-visible-and-overflow-y-hidden-causing-scrollbar-issue
-    <div className="overflow-x-hidden">
+    <>
+      <AnimatePresence>
+        {modalOpen === ModalEnum.search && (
+          <SearchTopic
+            closeCallback={() => setModalOpen(ModalEnum.none)}
+            setSelectedTopics={setSelectedTopics}
+            selectedTopics={selectedTopics}
+            createCallback={() => setModalOpen(ModalEnum.create)}
+            editCallback={topicObj => {
+              setTopicEditing(topicObj);
+              setModalOpen(ModalEnum.edit);
+            }}
+          />
+        )}
+
+        {modalOpen === ModalEnum.create && (
+          <CreateOrEditTopic
+            closeCallback={() => setModalOpen(ModalEnum.search)}
+            setSelectedTopics={setSelectedTopics}
+          />
+        )}
+
+        {modalOpen === ModalEnum.edit && (
+          <CreateOrEditTopic
+            closeCallback={() => setModalOpen(ModalEnum.search)}
+            setSelectedTopics={setSelectedTopics}
+            topicToEdit={topicEditing}
+          />
+        )}
+      </AnimatePresence>
       <motion.div
         layout
         className={`
@@ -137,38 +164,6 @@ export default function CreatePost() {
             setSelectedTopics={setSelectedTopics}
             selectedTopics={selectedTopics}
           />
-
-          <AnimatePresence>
-            {modalOpen === ModalEnum.search && (
-              <SearchTopic
-                closeCallback={() => setModalOpen(ModalEnum.none)}
-                setSelectedTopics={setSelectedTopics}
-                selectedTopics={selectedTopics}
-                createCallback={() => setModalOpen(ModalEnum.create)}
-                editCallback={topicObj => {
-                  setTopicEditing(topicObj);
-                  setModalOpen(ModalEnum.edit);
-                }}
-              />
-            )}
-
-            {modalOpen === ModalEnum.create && (
-              <CreateOrEditTopic
-                closeCallback={() => setModalOpen(ModalEnum.search)}
-                setSelectedTopics={setSelectedTopics}
-                selectedTopics={selectedTopics}
-              />
-            )}
-
-            {modalOpen === ModalEnum.edit && (
-              <CreateOrEditTopic
-                closeCallback={() => setModalOpen(ModalEnum.search)}
-                setSelectedTopics={setSelectedTopics}
-                selectedTopics={selectedTopics}
-                topicToEdit={topicEditing}
-              />
-            )}
-          </AnimatePresence>
 
           <div className={`bg-main-color h-80 w-full`}>
             {file === null ? (
@@ -231,6 +226,6 @@ export default function CreatePost() {
           />
         )}
       </motion.div>
-    </div>
+    </>
   );
 }

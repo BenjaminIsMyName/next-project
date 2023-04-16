@@ -17,6 +17,7 @@ import FocusTrap from "focus-trap-react";
 import { AlertContext } from "../../context/AlertContext";
 import { useTranslation } from "next-i18next";
 import Error from "../Error";
+import Container from "./Container";
 
 export default function SearchTopic({
   closeCallback,
@@ -68,71 +69,60 @@ export default function SearchTopic({
   );
 
   return (
-    <FocusTrap focusTrapOptions={{ allowOutsideClick: true }}>
+    <Container>
       {/* don't allow tabs outside of here, but allow clicking on the menu  */}
-      <m.div
-        initial={{ scale: 0, rotate: 40, opacity: 0 }}
-        animate={{ scale: 1, rotate: 0, opacity: 1 }}
-        exit={{ scale: 0, rotate: 40, opacity: 0 }}
-        transition={{ ease: "easeIn", duration: 0.2, opacity: 0 }}
-        // same div as of the one that is in the "CreateOrEditTopic"
-        className="absolute top-0 left-0 right-0 min-h-full 
-        bg-second-color bg-opacity-80 z-20 backdrop-blur-md border-b-[20px] border-main-color
-        pb-[var(--header-height)] md:pb-0" // add some padding on phone, and keep the border-b-[20px] because why not...
+      <div
+        className={`fixed top-4 ${
+          locale === "en" ? "left-4" : "right-4"
+        } bg-main-color bg-opacity-40 backdrop-blur-3xl p-2 flex rounded-full z-10`}
       >
-        <div
-          className={`fixed top-4 ${
-            locale === "en" ? "left-4" : "right-4"
-          } bg-main-color bg-opacity-40 backdrop-blur-3xl p-2 flex rounded-full z-10`}
-        >
-          <GoBackButton callback={closeCallback} />
-        </div>
+        <GoBackButton callback={closeCallback} />
+      </div>
 
-        <input
-          ref={searchRef}
-          type={"search"}
-          className={`block mt-28 mb-5 mx-auto bg-main-color bg-opacity-80
+      <input
+        ref={searchRef}
+        type={"search"}
+        className={`block mt-28 mb-5 mx-auto bg-main-color bg-opacity-80
         shadow-inner rounded-3xl p-2 text-center backdrop-blur-3xl outline-third-color 
         transition-all duration-700 w-[200px] max-w-[85%] focus:w-[300px] focus:rounded-xl focus:outline-none `}
-          placeholder={t("placeholders.search-topic", { ns: "admin" }) + "..."}
-          onChange={e => setSearchTerm(e.target.value)}
-          value={searchTerm}
-        />
+        placeholder={t("placeholders.search-topic", { ns: "admin" }) + "..."}
+        onChange={e => setSearchTerm(e.target.value)}
+        value={searchTerm}
+      />
 
-        <div className="flex flex-col gap-4 p-7">
-          {status === StatusEnum.fetching && <Loading />}
-          {/* if search gave 0 results: */}
-          {topics.length > 0 && filteredTopics.length === 0 && (
-            <NoResults createCallback={createCallback} />
-          )}
-          {/* if error */}
-          {status === StatusEnum.error && (
-            <div>
-              <Error tryAgainCallback={fetchAll} error={error} />
-            </div>
-          )}
-          {filteredTopics.map(t => (
-            <TopicToPick
-              editCallback={() => editCallback(t)}
-              key={t._id}
-              id={t._id}
-              text={locale === "en" ? t.english : t.hebrew}
-              isSelected={selectedTopics.some(obj => obj._id === t._id)}
-              toggle={() => {
-                if (selectedTopics.some(obj => t._id === obj._id))
-                  setSelectedTopics(prev =>
-                    prev.filter(obj => t._id !== obj._id)
-                  );
-                else setSelectedTopics(prev => [...prev, t]);
-              }}
-              handleDeleteCallback={id =>
-                setSelectedTopics(prev => prev.filter(obj => id !== obj._id))
-              }
-            />
-          ))}
-        </div>
-      </m.div>
-    </FocusTrap>
+      <div className="flex flex-col gap-4 p-7">
+        {status === StatusEnum.fetching && <Loading />}
+        {/* if search gave 0 results: */}
+        {topics.length > 0 && filteredTopics.length === 0 && (
+          <NoResults createCallback={createCallback} />
+        )}
+        {/* if error */}
+        {status === StatusEnum.error && (
+          <div>
+            <Error tryAgainCallback={fetchAll} error={error} />
+          </div>
+        )}
+        {filteredTopics.map(t => (
+          <TopicToPick
+            editCallback={() => editCallback(t)}
+            key={t._id}
+            id={t._id}
+            text={locale === "en" ? t.english : t.hebrew}
+            isSelected={selectedTopics.some(obj => obj._id === t._id)}
+            toggle={() => {
+              if (selectedTopics.some(obj => t._id === obj._id))
+                setSelectedTopics(prev =>
+                  prev.filter(obj => t._id !== obj._id)
+                );
+              else setSelectedTopics(prev => [...prev, t]);
+            }}
+            handleDeleteCallback={id =>
+              setSelectedTopics(prev => prev.filter(obj => id !== obj._id))
+            }
+          />
+        ))}
+      </div>
+    </Container>
   );
 }
 
@@ -186,7 +176,7 @@ function TopicToPick({
     );
 
   return (
-    <div className="bg-main-color p-4 flex justify-between">
+    <div className="bg-main-color p-4 flex justify-between shadow-xl shadow-shadows-color/20 rounded-3xl">
       <div className="flex gap-3 w-[calc(100%-56px)]">
         <input
           type={"checkbox"}
