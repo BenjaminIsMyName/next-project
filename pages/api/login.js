@@ -82,7 +82,13 @@ export default async function handler(req, res) {
     return;
   }
 
-  setCookie("token", token, { req, res, httpOnly: true });
+  setCookie("token", token, {
+    req,
+    res,
+    httpOnly: true, // Cookie is accessible only via HTTP(S), not by client-side JavaScript
+    sameSite: "strict", // Cookie is sent only in a first-party context
+    secure: true, // Cookie is sent only over HTTPS, not over unencrypted HTTP
+  });
   setCookie(
     "user",
     {

@@ -59,6 +59,17 @@ export default function PostPage({ post }) {
   );
 }
 
+/*
+ This page is using SSR (Server Side Rendering).
+ This is because the likes count constantly changes, and we want to show the latest count.
+ Also, other stuff might change: post might get deleted, get edited, etc... 
+ But the main reason is: We need to check if the user is logged in, and if so, if he liked the post.
+ It is possible to do this with getStaticProps, here is an alternative solution:
+    - Use revalidate or on-demand regeneration to show up-to-date data (likes count, etc...)
+    - On the client, check if the user is logged in, and if so - make a request to the server to check if the user liked the post.
+    - Only then, show the like button as liked or not.
+*/
+
 export async function getServerSideProps(ctx) {
   const { req, res } = ctx;
   let post = null;
