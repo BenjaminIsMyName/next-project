@@ -176,7 +176,10 @@ function TopicToPick({
     );
 
   return (
-    <div className="bg-main-color p-4 flex justify-between shadow-xl shadow-shadows-color/20 rounded-3xl">
+    <div
+      className="bg-main-color p-4 flex justify-between shadow-xl shadow-shadows-color/20 rounded-3xl
+      transition-all hover:border-third-color/50 border-4 border-third-color/0 duration-500"
+    >
       <div className="flex gap-3 w-[calc(100%-56px)]">
         <input
           type={"checkbox"}

@@ -168,6 +168,11 @@ export default function CreatePost() {
           <div className={`bg-main-color h-80 w-full`}>
             {file === null ? (
               <label
+                onKeyDown={e => {
+                  if (e.key === "Enter") {
+                    document.querySelector("#uploadInput").click();
+                  }
+                }}
                 tabIndex="0"
                 htmlFor="uploadInput"
                 className={`p-3 text-3xl bg-third-color bg-opacity-40 w-full h-full cursor-pointer flex items-center justify-center`}
