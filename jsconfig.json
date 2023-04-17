@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    // see: https://nextjs.org/docs/advanced-features/module-path-aliases
+    "baseUrl": "./",
+    "paths": {
+      "@l/*": ["lexical/*"],
+      "@u/*": ["util/*"],
+      "@p/*": ["pages/*"],
+      "@h/*": ["hooks/*"],
+      "@components/*": ["components/*"],
+      "@context/*": ["context/*"]
+    }
+  }
+}

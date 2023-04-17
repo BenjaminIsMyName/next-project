@@ -13,6 +13,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import CreateOrEditTopic from "./CreateOrEditTopic";
 import { AlertContext } from "../../context/AlertContext";
 import ButtonGroup from "./ButtonGroup";
+import TextEditor from "@components/TextEditor";
 
 export default function CreatePost() {
   const { t } = useTranslation(["admin"]);
@@ -186,41 +187,45 @@ export default function CreatePost() {
           </AnimatePresence>
 
           <ButtonGroup buttons={buttons} />
-          <div className={`bg-main-color h-80 w-full`}>
-            {file === null ? (
-              <label
-                tabIndex="0"
-                htmlFor="uploadInput"
-                className={`p-3 text-3xl bg-third-color bg-opacity-40 w-full h-full cursor-pointer flex items-center justify-center`}
-              >
-                <Balancer>
-                  <span>{t("select")}</span>
-                </Balancer>
-              </label>
-            ) : (
-              <div
-                className={`flex gap-3 flex-col p-[min(20px,5%)] w-full h-full justify-center`}
-              >
-                <span className="text-xl">{t("this-was-selected")}:</span>
-                <p>{file.name}</p>
-                <button
-                  type="button"
-                  className={`bg-error-color cursor-pointer p-3`}
-                  onClick={removeSelectedFile}
+          {contentType === ContentTypeEnum.text ? (
+            <TextEditor />
+          ) : (
+            <div className={`bg-main-color h-80 w-full`}>
+              {file === null ? (
+                <label
+                  tabIndex="0"
+                  htmlFor="uploadInput"
+                  className={`p-3 text-3xl bg-third-color bg-opacity-40 w-full h-full cursor-pointer flex items-center justify-center`}
                 >
-                  {t("delete-file").toUpperCase()}
-                </button>
-              </div>
-            )}
-            <input
-              className={`hidden`}
-              id="uploadInput"
-              type={"file"}
-              onChange={handleFileSelect}
-              accept="video/*" // if we want to allow all video types
-              // accept="video/mp4" // if we want to allow only MP4... MP4 is supported by all popular browsers
-            />
-          </div>
+                  <Balancer>
+                    <span>{t("select")}</span>
+                  </Balancer>
+                </label>
+              ) : (
+                <div
+                  className={`flex gap-3 flex-col p-[min(20px,5%)] w-full h-full justify-center`}
+                >
+                  <span className="text-xl">{t("this-was-selected")}:</span>
+                  <p>{file.name}</p>
+                  <button
+                    type="button"
+                    className={`bg-error-color cursor-pointer p-3`}
+                    onClick={removeSelectedFile}
+                  >
+                    {t("delete-file").toUpperCase()}
+                  </button>
+                </div>
+              )}
+              <input
+                className={`hidden`}
+                id="uploadInput"
+                type={"file"}
+                onChange={handleFileSelect}
+                accept="video/*" // if we want to allow all video types
+                // accept="video/mp4" // if we want to allow only MP4... MP4 is supported by all popular browsers
+              />
+            </div>
+          )}
           <button
             disabled={file === null || titleError(title)}
             onClick={uploadFile}
