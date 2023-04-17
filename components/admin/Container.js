@@ -16,11 +16,11 @@ export default function Container({
         style={{
           minHeight: height + "px",
         }}
-        initial={shouldAnimateIn ? { scale: 0, rotate: 0, opacity: 0 } : {}}
+        initial={shouldAnimateIn ? { scale: 0, rotate: 0, opacity: 1 } : {}}
         animate={{ scale: 1, rotate: 0, opacity: 1 }}
         exit={shouldAnimateOut ? { scale: 0, rotate: 0, opacity: 0 } : {}}
         // cubic-bezier(.17,.67,.14,.9) - fast at the beginning, slow at the end
-        transition={{ ease: [0.17, 0.67, 0.14, 0.9], duration: 1 }}
+        transition={{ ease: [0.17, 0.67, 0.14, 0.9], duration: 0.5 }}
         className={`absolute top-0 left-0 right-0 text-option-text-color 
         bg-second-color/80 z-20 backdrop-blur-md border-b-[20px] border-main-color
         pb-[var(--header-height)] md:pb-0 p-[min(20px,3%)] md:p-5 md:border-[20px] border-0 

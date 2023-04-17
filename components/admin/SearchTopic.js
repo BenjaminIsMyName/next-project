@@ -11,9 +11,7 @@ import {
 } from "react";
 import GoBackButton from "../GoBackButton";
 import TrashIcon from "../icons/TrashIcon";
-import Loading from "../Loading";
 import EditIcon from "../icons/EditIcon";
-import FocusTrap from "focus-trap-react";
 import { AlertContext } from "../../context/AlertContext";
 import { useTranslation } from "next-i18next";
 import Error from "../Error";
@@ -35,7 +33,6 @@ export default function SearchTopic({
   const [error, setError] = useState("");
   const StatusEnum = useMemo(
     () => ({
-      init: "Initial state",
       fetching: "Trying to fetch topics from DB",
       fetched: "Topics are fetched",
       error: "Error while fetching topics",
@@ -43,7 +40,7 @@ export default function SearchTopic({
     []
   );
 
-  const [status, setStatus] = useState(StatusEnum.init);
+  const [status, setStatus] = useState(StatusEnum.fetching);
   const { t } = useTranslation(["common", "admin"]);
   const fetchAll = useCallback(async () => {
     setStatus(StatusEnum.fetching);
@@ -97,13 +94,16 @@ export default function SearchTopic({
         value={searchTerm}
       />
 
-      <div className="flex flex-col gap-4 p-7">
+      <m.div layout className="flex flex-col gap-4 p-7">
         {status === StatusEnum.fetching && (
-          <div className="h-96">
-            {/* while loading, make the height large so when opening the Search component, the transition will be smooth, and won't resize during the animation */}
-            <Loading />
+          <div className="flex flex-col gap-4">
+            {/* instead of using the <Loading /> component: */}
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
+              <TopicSkeleton key={i} />
+            ))}
           </div>
         )}
+
         {/* if search gave 0 results: */}
         {topics.length > 0 && filteredTopics.length === 0 && (
           <NoResults createCallback={createCallback} />
@@ -114,26 +114,40 @@ export default function SearchTopic({
             <Error tryAgainCallback={fetchAll} error={error} />
           </div>
         )}
-        {filteredTopics.map(t => (
-          <TopicToPick
-            editCallback={() => editCallback(t)}
-            key={t._id}
-            id={t._id}
-            text={locale === "en" ? t.english : t.hebrew}
-            isSelected={selectedTopics.some(obj => obj._id === t._id)}
-            toggle={() => {
-              if (selectedTopics.some(obj => t._id === obj._id))
-                setSelectedTopics(prev =>
-                  prev.filter(obj => t._id !== obj._id)
-                );
-              else setSelectedTopics(prev => [...prev, t]);
+        {filteredTopics.length > 0 && (
+          <m.div
+            className="flex flex-col gap-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 0.2,
             }}
-            handleDeleteCallback={id =>
-              setSelectedTopics(prev => prev.filter(obj => id !== obj._id))
-            }
-          />
-        ))}
-      </div>
+          >
+            {filteredTopics.map(t => (
+              <m.div layout key={t._id}>
+                <TopicToPick
+                  editCallback={() => editCallback(t)}
+                  id={t._id}
+                  text={locale === "en" ? t.english : t.hebrew}
+                  isSelected={selectedTopics.some(obj => obj._id === t._id)}
+                  toggle={() => {
+                    if (selectedTopics.some(obj => t._id === obj._id))
+                      setSelectedTopics(prev =>
+                        prev.filter(obj => t._id !== obj._id)
+                      );
+                    else setSelectedTopics(prev => [...prev, t]);
+                  }}
+                  handleDeleteCallback={id =>
+                    setSelectedTopics(prev =>
+                      prev.filter(obj => id !== obj._id)
+                    )
+                  }
+                />
+              </m.div>
+            ))}
+          </m.div>
+        )}
+      </m.div>
     </Container>
   );
 }
@@ -155,6 +169,7 @@ function TopicToPick({
   const [deleteStatus, setDeleteStatus] = useState(StatusEnum.init);
   const { add } = useContext(AlertContext);
   const { t } = useTranslation(["common", "admin"]);
+
   async function handleDelete() {
     setDeleteStatus(StatusEnum.deleting);
     try {
@@ -188,10 +203,7 @@ function TopicToPick({
     );
 
   return (
-    <div
-      className="bg-main-color p-4 flex justify-between shadow-xl shadow-shadows-color/20 rounded-3xl
-      transition-all hover:border-third-color/50 border-4 border-third-color/0 duration-500"
-    >
+    <div className="bg-main-color p-4 flex justify-between shadow-xl shadow-shadows-color/20 rounded-3xl">
       <div className="flex gap-3 w-[calc(100%-56px)]">
         <input
           type={"checkbox"}
@@ -216,6 +228,29 @@ function TopicToPick({
         </button>
         <button className="fill-error-color w-5 h-5" onClick={handleDelete}>
           <TrashIcon />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function TopicSkeleton() {
+  return (
+    <div className="bg-main-color p-4 flex justify-between shadow-xl shadow-shadows-color/20 rounded-3xl">
+      <div className="flex gap-3 w-[calc(100%-56px)]">
+        <input
+          type={"checkbox"}
+          className={"accent-third-color w-4 animate-skeleton"}
+          disabled={true}
+        />
+        <label className="w-10 animate-skeleton"></label>
+      </div>
+      <div className="flex gap-4 items-center w-[56px]">
+        <button className="w-5 h-5 fill-third-color animate-skeleton">
+          {/* <EditIcon /> */}
+        </button>
+        <button className="fill-error-color w-5 h-5 animate-skeleton">
+          {/* <TrashIcon /> */}
         </button>
       </div>
     </div>
