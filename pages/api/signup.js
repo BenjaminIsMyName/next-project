@@ -150,7 +150,7 @@ export default async function handler(req, res) {
         },
       ],
       userCreationDate: new Date(),
-      withGoogle: googleToken ? true : undefined,
+      ...(googleToken ? { withGoogle: true } : {}), // if user is logging in with google, add this property - otherwise, don't
     });
   } catch (err) {
     console.log(`error ${err}`);
