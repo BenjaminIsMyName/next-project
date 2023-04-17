@@ -3,6 +3,14 @@ import { MongoClient } from "mongodb";
 const MONGODB_URI = process.env.MONGODB_URI;
 const MONGODB_DB = process.env.DB_NAME;
 
+/*
+
+NOTE: if using MongoDB Atlas, make sure to add 0.0.0.0/0 to the Network Access IP Whitelist.
+      This will allow any IP to connect to your database.
+      It is needed because Vercel uses dynamic IPs. see: https://vercel.com/guides/how-to-allowlist-deployment-ip-address
+
+*/
+
 // check the MongoDB URI
 if (!MONGODB_URI) {
   throw new Error("Define the MONGODB_URI environmental variable");
