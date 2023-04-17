@@ -12,10 +12,18 @@ import SearchTopic from "./SearchTopic";
 import { AnimatePresence, motion } from "framer-motion";
 import CreateOrEditTopic from "./CreateOrEditTopic";
 import { AlertContext } from "../../context/AlertContext";
+import useElementSize from "../../hooks/useElementSize";
 import ButtonGroup from "./ButtonGroup";
 import TextEditor from "@components/TextEditor";
 
 export default function CreatePost() {
+  // The following 2 states are used to animate the container of SearchTopic and CreateOrEditTopic.
+  // We want to animate SearchTopic when it's opened from CreatePost, but not when it's opened from CreateOrEditTopic (by going back)
+  // We want to animate the exit of SearchTopic when it's closed entirely, but not when it's just closed to open CreateOrEditTopic
+  const [shouldAnimateIn, setShouldAnimateIn] = useState(true);
+  const [shouldAnimateOut, setShouldAnimateOut] = useState(true);
+  const [setRef, { height }] = useElementSize();
+
   const { t } = useTranslation(["admin"]);
   const router = useRouter();
 
@@ -112,10 +120,65 @@ export default function CreatePost() {
     document.querySelector("#uploadInput").value = "";
   }
   return (
-    // must use another div to change the overflow-x, because it effects the overflow-y too.
-    // see: https://stackoverflow.com/questions/6421966/css-overflow-x-visible-and-overflow-y-hidden-causing-scrollbar-issue
-    <div className="overflow-x-hidden">
+    <>
+      <AnimatePresence>
+        {modalOpen === ModalEnum.search && (
+          <SearchTopic
+            height={height}
+            shouldAnimateIn={shouldAnimateIn}
+            shouldAnimateOut={shouldAnimateOut}
+            closeCallback={() => {
+              setShouldAnimateOut(true);
+              setShouldAnimateIn(true);
+              setModalOpen(ModalEnum.none);
+            }}
+            setSelectedTopics={setSelectedTopics}
+            selectedTopics={selectedTopics}
+            createCallback={() => {
+              setShouldAnimateOut(false);
+              setShouldAnimateIn(false);
+              setModalOpen(ModalEnum.create);
+            }}
+            editCallback={topicObj => {
+              setShouldAnimateOut(false);
+              setShouldAnimateIn(false);
+              setTopicEditing(topicObj);
+              setModalOpen(ModalEnum.edit);
+            }}
+          />
+        )}
+
+        {modalOpen === ModalEnum.create && (
+          <CreateOrEditTopic
+            height={height}
+            shouldAnimateIn={shouldAnimateIn}
+            shouldAnimateOut={shouldAnimateOut}
+            closeCallback={() => {
+              setShouldAnimateOut(true);
+              setShouldAnimateIn(false);
+              setModalOpen(ModalEnum.search);
+            }}
+            setSelectedTopics={setSelectedTopics}
+          />
+        )}
+
+        {modalOpen === ModalEnum.edit && (
+          <CreateOrEditTopic
+            height={height}
+            shouldAnimateIn={shouldAnimateIn}
+            shouldAnimateOut={shouldAnimateOut}
+            closeCallback={() => {
+              setShouldAnimateOut(true);
+              setShouldAnimateIn(false);
+              setModalOpen(ModalEnum.search);
+            }}
+            setSelectedTopics={setSelectedTopics}
+            topicToEdit={topicEditing}
+          />
+        )}
+      </AnimatePresence>
       <motion.div
+        ref={setRef}
         layout
         className={`
       flex flex-col p-[min(20px,3%)] gap-3 text-center
@@ -154,38 +217,6 @@ export default function CreatePost() {
             selectedTopics={selectedTopics}
           />
 
-          <AnimatePresence>
-            {modalOpen === ModalEnum.search && (
-              <SearchTopic
-                closeCallback={() => setModalOpen(ModalEnum.none)}
-                setSelectedTopics={setSelectedTopics}
-                selectedTopics={selectedTopics}
-                createCallback={() => setModalOpen(ModalEnum.create)}
-                editCallback={topicObj => {
-                  setTopicEditing(topicObj);
-                  setModalOpen(ModalEnum.edit);
-                }}
-              />
-            )}
-
-            {modalOpen === ModalEnum.create && (
-              <CreateOrEditTopic
-                closeCallback={() => setModalOpen(ModalEnum.search)}
-                setSelectedTopics={setSelectedTopics}
-                selectedTopics={selectedTopics}
-              />
-            )}
-
-            {modalOpen === ModalEnum.edit && (
-              <CreateOrEditTopic
-                closeCallback={() => setModalOpen(ModalEnum.search)}
-                setSelectedTopics={setSelectedTopics}
-                selectedTopics={selectedTopics}
-                topicToEdit={topicEditing}
-              />
-            )}
-          </AnimatePresence>
-
           <ButtonGroup buttons={buttons} />
           {contentType === ContentTypeEnum.text ? (
             <TextEditor />
@@ -193,6 +224,11 @@ export default function CreatePost() {
             <div className={`bg-main-color h-80 w-full`}>
               {file === null ? (
                 <label
+                  onKeyDown={e => {
+                    if (e.key === "Enter") {
+                      document.querySelector("#uploadInput").click();
+                    }
+                  }}
                   tabIndex="0"
                   htmlFor="uploadInput"
                   className={`p-3 text-3xl bg-third-color bg-opacity-40 w-full h-full cursor-pointer flex items-center justify-center`}
@@ -252,6 +288,6 @@ export default function CreatePost() {
           />
         )}
       </motion.div>
-    </div>
+    </>
   );
 }

@@ -94,13 +94,13 @@ export default function Aside() {
         {modalOpen === 2 && <Modal>Search menu</Modal>}
         <aside
           ref={asideRef}
-          className={`select-none bg-second-color h-[var(--header-height)] bottom-0
+          className={`select-none bg-second-color bottom-0
                       fixed z-[1] scroll-smooth transition-all w-full 
                       md:h-screen md:w-[300px] 
           ${
             isOpen
               ? "duration-500 bottom-0 overflow-auto h-64 max-h-screen"
-              : ""
+              : "h-[var(--header-height)]"
           } 
           ${
             locale === "en"

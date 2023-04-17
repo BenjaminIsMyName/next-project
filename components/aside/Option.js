@@ -1,6 +1,7 @@
 import styles from "./Options.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { motion } from "framer-motion";
 
 export default function Option({ text, link, onClick, icon, newTab }) {
   const IconComponent = icon();
@@ -17,8 +18,16 @@ export default function Option({ text, link, onClick, icon, newTab }) {
         } ${router.route === link ? "[&_svg]:animate-go-in" : ""} `}
         id={router.route === link ? styles.selected : ""}
       >
-        <IconComponent />
-        <span>{text}</span>
+        <div className="z-20 flex gap-5 relative items-center">
+          <IconComponent />
+          <span>{text}</span>
+        </div>
+        {router.route === link && (
+          <motion.div
+            layoutId="selected"
+            className="absolute inset-0 bg-main-color z-10 rounded-e-full"
+          ></motion.div>
+        )}
       </a>
     </Link>
   );
