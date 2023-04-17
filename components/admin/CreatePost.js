@@ -12,6 +12,7 @@ import SearchTopic from "./SearchTopic";
 import { AnimatePresence, motion } from "framer-motion";
 import CreateOrEditTopic from "./CreateOrEditTopic";
 import { AlertContext } from "../../context/AlertContext";
+import ButtonGroup from "./ButtonGroup";
 
 export default function CreatePost() {
   const { t } = useTranslation(["admin"]);
@@ -19,11 +20,18 @@ export default function CreatePost() {
 
   const ContentTypeEnum = {
     video: "video, default",
-    image: "image",
     text: "text",
   };
 
   const [contentType, setContentType] = useState(ContentTypeEnum.video);
+
+  const buttons = Object.keys(ContentTypeEnum).map(key => ({
+    set: () => setContentType(ContentTypeEnum[key]),
+    text: t(`content-type.${key}`, { ns: "admin" }), // TODO - add to i18n
+    isSelected: contentType === ContentTypeEnum[key],
+    key,
+  }));
+
   const [file, setFile] = useState(null);
   const StatusEnum = {
     start: "The upload process didn't start yet",
@@ -177,32 +185,7 @@ export default function CreatePost() {
             )}
           </AnimatePresence>
 
-          <div className="flex justify-around items-stretch rounded-lg overflow-hidden">
-            <button
-              className={`w-full p-2 ${
-                contentType === ContentTypeEnum.video
-                  ? `bg-third-color/40`
-                  : `bg-main-color opacity-30`
-              }`}
-              onClick={() => {
-                setContentType(ContentTypeEnum.video);
-              }}
-            >
-              Video
-            </button>
-            <button
-              className={`w-full p-2 ${
-                contentType === ContentTypeEnum.text
-                  ? `bg-third-color/40`
-                  : `bg-main-color opacity-30`
-              }`}
-              onClick={() => {
-                setContentType(ContentTypeEnum.text);
-              }}
-            >
-              Text
-            </button>
-          </div>
+          <ButtonGroup buttons={buttons} />
           <div className={`bg-main-color h-80 w-full`}>
             {file === null ? (
               <label

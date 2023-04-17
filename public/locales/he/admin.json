@@ -30,5 +30,9 @@
   "create-topic": "צור נושא חדש",
   "add-topic": "הוסף נושא",
   "deleting": "מוחק",
-  "deleted": "נמחק"
+  "deleted": "נמחק",
+  "content-type": {
+    "video": "סרטון",
+    "text": "טקסט"
+  }
 }
