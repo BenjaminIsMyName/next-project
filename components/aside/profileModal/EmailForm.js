@@ -59,29 +59,37 @@ export default function EmailForm({
     }
   }
 
-  // Tell the function in the useGoogle hook to call the handleGoogleLoginHere function.
-  const { callCallback } = useContext(GoogleContext);
-  callCallback(handleGoogleLoginHere);
-  async function handleGoogleLoginHere(response) {
-    setStatus(4);
-    try {
-      await axios.post("/api/signup", {
-        googleToken: response,
-      });
-      const userCookie = getCookie("user");
-      setUser(JSON.parse(userCookie));
-      defaultState();
-    } catch (err) {
-      console.log("error in EmailForm.js component", err);
-      if (err.response.status === 409) {
+  const { googleStatus, googleError, GoogleStatusEnum } =
+    useContext(GoogleContext);
+
+  useEffect(() => {
+    if (googleStatus === GoogleStatusEnum.loading) {
+      setStatus(4);
+    }
+    if (googleStatus === GoogleStatusEnum.error) {
+      setStatus(1);
+      if (googleError.statusCode === 409) {
         setErrorText(errorsText.tryWithPassword);
       } else {
         setErrorText(errorsText.general);
       }
-
-      setStatus(1);
     }
-  }
+
+    if (googleStatus === GoogleStatusEnum.success) {
+      defaultState();
+    }
+  }, [
+    GoogleStatusEnum.error,
+    GoogleStatusEnum.loading,
+    GoogleStatusEnum.success,
+    defaultState,
+    errorsText.general,
+    errorsText.tryWithPassword,
+    googleError.statusCode,
+    googleStatus,
+    setErrorText,
+    setStatus,
+  ]); // same as [googleError.statusCode, googleStatus] because none of the other values change
 
   return (
     <Modal>

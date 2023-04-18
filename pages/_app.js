@@ -72,12 +72,17 @@ function MyApp({ Component, pageProps }) {
   const [add, remove, alerts] = useToast();
 
   const [sounds] = useSound();
-  const callCallback = useGoogle();
+  const [googleStatus, googleError, GoogleStatusEnum] = useGoogle(
+    user,
+    setUser
+  );
 
   usePWA(user);
 
   return (
-    <GoogleContext.Provider value={{ callCallback }}>
+    <GoogleContext.Provider
+      value={{ googleStatus, googleError, GoogleStatusEnum }}
+    >
       <AlertContext.Provider value={{ add, remove }}>
         <SoundContext.Provider value={{ sounds }}>
           <Alerts alerts={alerts} remove={remove} />
