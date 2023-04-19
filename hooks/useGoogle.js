@@ -1,6 +1,5 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getCookie } from "cookies-next";
-import { UserContext } from "../context/UserContext";
 import { useCallback } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -23,6 +22,7 @@ export default function useGoogle(user, setUser) {
 
   const handleGoogleLogin = useCallback(
     response => {
+      console.log(`response`, response);
       async function func(res) {
         setStatus(GoogleStatusEnum.loading);
         try {
@@ -68,7 +68,9 @@ export default function useGoogle(user, setUser) {
     }
     if (user) return;
     try {
-      window.google.accounts.id.prompt(); // also display the One Tap dialog
+      setTimeout(() => {
+        window.google.accounts.id.prompt(); // also display the One Tap dialog
+      }, 2000);
     } catch (error) {
       console.log(`error 2 in useGoogle hook`, error);
     }

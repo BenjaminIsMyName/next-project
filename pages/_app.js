@@ -16,11 +16,7 @@ import useSound from "../hooks/useSound";
 import useGoogle from "../hooks/useGoogle";
 import { GoogleContext } from "../context/GoogleContext";
 import usePWA from "../hooks/usePWA";
-
-// TODO: BUGS:
-
-// 1. videos that are longer than 9 minutes, don't show correctly the time background (it's too short).
-// Happens only when video takes some time to load.
+// import GooglePrompt from "../components/GooglePrompt";
 
 function MyApp({ Component, pageProps }) {
   // next-i18next has a bug - if using translations on top level layout (_app.js), warning appears:
@@ -88,6 +84,7 @@ function MyApp({ Component, pageProps }) {
           <Alerts alerts={alerts} remove={remove} />
           <ThemeContext.Provider value={{ setTheme }}>
             <UserContext.Provider value={{ user, setUser }}>
+              {/* <GooglePrompt /> */}
               <Aside />
               <AnimatePresence mode={"wait"} initial={false}>
                 <motion.div
