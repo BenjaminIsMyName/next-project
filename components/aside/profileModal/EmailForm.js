@@ -59,38 +59,6 @@ export default function EmailForm({
     }
   }
 
-  const { googleStatus, googleError, GoogleStatusEnum } =
-    useContext(GoogleContext);
-
-  useEffect(() => {
-    if (googleStatus === GoogleStatusEnum.loading) {
-      setStatus(4);
-    }
-    if (googleStatus === GoogleStatusEnum.error) {
-      setStatus(1);
-      if (googleError.statusCode === 409) {
-        setErrorText(errorsText.tryWithPassword);
-      } else {
-        setErrorText(errorsText.general);
-      }
-    }
-
-    if (googleStatus === GoogleStatusEnum.success) {
-      defaultState();
-    }
-  }, [
-    GoogleStatusEnum.error,
-    GoogleStatusEnum.loading,
-    GoogleStatusEnum.success,
-    defaultState,
-    errorsText.general,
-    errorsText.tryWithPassword,
-    googleError.statusCode,
-    googleStatus,
-    setErrorText,
-    setStatus,
-  ]); // same as [googleError.statusCode, googleStatus] because none of the other values change
-
   return (
     <Modal>
       <div

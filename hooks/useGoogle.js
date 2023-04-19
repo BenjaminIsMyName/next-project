@@ -11,18 +11,28 @@ const GoogleStatusEnum = {
   success: "logged in with google successfully now (Didn't refresh page yet)",
 };
 
+const LoginMethodsEnum = {
+  button: "Google Sign In Button. Google calls it 'btn' in the response",
+  prompt: "prompt, aka One Tap Dialog. Google calls it 'user' in the response",
+};
+
 export default function useGoogle(user, setUser) {
-  const router = useRouter();
-  const { locale } = router;
   const [status, setStatus] = useState(GoogleStatusEnum.init);
   const [error, setError] = useState({
     text: "",
     statusCode: 0,
   });
 
+  const [loginMethod, setLoginMethod] = useState(LoginMethodsEnum.button); // default doesn't matter imo
+
   const handleGoogleLogin = useCallback(
     response => {
       console.log(`response`, response);
+      if (response.select_by === "btn") {
+        setLoginMethod(LoginMethodsEnum.button);
+      } else if (response.select_by === "user") {
+        setLoginMethod(LoginMethodsEnum.prompt);
+      }
       async function func(res) {
         setStatus(GoogleStatusEnum.loading);
         try {
@@ -31,7 +41,7 @@ export default function useGoogle(user, setUser) {
           });
           const userCookie = getCookie("user");
           setUser(JSON.parse(userCookie));
-          setStatus(GoogleStatusEnum.init);
+          setStatus(GoogleStatusEnum.success);
         } catch (err) {
           console.log(`error 3 in useGoogle hook`, err);
           setStatus(GoogleStatusEnum.error);
@@ -59,21 +69,11 @@ export default function useGoogle(user, setUser) {
       console.log(`error 1 in useGoogle hook`, error);
     }
   }, [handleGoogleLogin]); // same as [] because handleGoogleLogin is wrapped in useCallback and doesn't change
-  const renderCount = useRef(0);
-  useEffect(() => {
-    //  run only on initial page load, don't show the prompt again when user is logging out!
-    renderCount.current++;
-    if (renderCount.current > 1) {
-      return;
-    }
-    if (user) return;
-    try {
-      setTimeout(() => {
-        window.google.accounts.id.prompt(); // also display the One Tap dialog
-      }, 2000);
-    } catch (error) {
-      console.log(`error 2 in useGoogle hook`, error);
-    }
-  }, [locale, user]);
-  return [status, error, GoogleStatusEnum]; // allow other places (Such as EmailForm.js) in the app to access those stuff
+
+  return [status, error, GoogleStatusEnum, loginMethod, LoginMethodsEnum]; // allow other places (Such as EmailForm.js) in the app to access those stuff
 }
+
+// TODO:
+
+// in EmailForm, only if loginMethod is prompt - show the errors, loading etc...
+// in useGooglePrompt, only if loginMethod is prompt - show the errors, loading etc... in add()

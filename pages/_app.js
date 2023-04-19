@@ -1,6 +1,6 @@
 import "../styles/globals.css";
-import { appWithTranslation } from "next-i18next";
-import { useEffect, useState } from "react";
+import { appWithTranslation, useTranslation } from "next-i18next";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { UserContext } from "../context/UserContext";
 import { getCookie } from "cookies-next";
@@ -16,6 +16,8 @@ import useSound from "../hooks/useSound";
 import useGoogle from "../hooks/useGoogle";
 import { GoogleContext } from "../context/GoogleContext";
 import usePWA from "../hooks/usePWA";
+import useGooglePrompt from "../hooks/useGooglePrompt";
+
 // import GooglePrompt from "../components/GooglePrompt";
 
 function MyApp({ Component, pageProps }) {
@@ -68,16 +70,44 @@ function MyApp({ Component, pageProps }) {
   const [add, remove, alerts] = useToast();
 
   const [sounds] = useSound();
-  const [googleStatus, googleError, GoogleStatusEnum] = useGoogle(
+  const [
+    googleStatus,
+    googleError,
+    GoogleStatusEnum,
+    googleLoginMethod,
+    GoogleLoginMethodsEnum,
+  ] = useGoogle(user, setUser);
+
+  const { t } = useTranslation("menu");
+  const errorsText = {
+    general: t("error-text.general"),
+    tryWithGoogle: t("error-text.try-with-google"),
+    tryWithPassword: t("error-text.try-with-password"),
+  };
+
+  useGooglePrompt({
+    googleStatus,
+    googleError,
+    GoogleStatusEnum,
     user,
-    setUser
-  );
+    errorsText,
+    googleLoginMethod,
+    GoogleLoginMethodsEnum,
+    add,
+  });
 
   usePWA(user);
 
   return (
     <GoogleContext.Provider
-      value={{ googleStatus, googleError, GoogleStatusEnum }}
+      value={{
+        googleStatus,
+        googleError,
+        GoogleStatusEnum,
+        googleLoginMethod,
+        GoogleLoginMethodsEnum,
+        errorsText,
+      }}
     >
       <AlertContext.Provider value={{ add, remove }}>
         <SoundContext.Provider value={{ sounds }}>
@@ -86,6 +116,7 @@ function MyApp({ Component, pageProps }) {
             <UserContext.Provider value={{ user, setUser }}>
               {/* <GooglePrompt /> */}
               <Aside />
+              {/* <TestTimer /> */}
               <AnimatePresence mode={"wait"} initial={false}>
                 <motion.div
                   id="content"
