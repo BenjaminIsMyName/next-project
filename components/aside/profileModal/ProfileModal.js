@@ -29,6 +29,7 @@ export default function ProfileModal({ closeModals }) {
   const { inputsData, setInputsData, handleInputChange } =
     useFormData(inputsDataDefault);
   const [status, setStatus] = useState(0); // 0 - default, waiting for email, 1 - error, 2 - user does exist, 3 - user doesn't exist, 4 - loading. the 'status' state is used if the redux 'user' state doesn't.
+  // TODO: change the numbers to enum, like in many other places across the project. Much more readable and maintainable.
 
   const { errorsText } = useContext(GoogleContext);
 
@@ -108,8 +109,6 @@ export default function ProfileModal({ closeModals }) {
         setErrorText={setErrorText}
         inputsData={inputsData}
         handleInputChange={handleInputChange}
-        setUser={setUser}
-        defaultState={defaultState}
       />
     );
   if (status === 1) return <ErrorInMenu goBack={goBack} text={errorText} />;

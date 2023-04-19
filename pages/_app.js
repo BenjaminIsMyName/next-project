@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import { appWithTranslation, useTranslation } from "next-i18next";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { UserContext } from "../context/UserContext";
 import { getCookie } from "cookies-next";
@@ -17,8 +17,6 @@ import useGoogle from "../hooks/useGoogle";
 import { GoogleContext } from "../context/GoogleContext";
 import usePWA from "../hooks/usePWA";
 import useGooglePrompt from "../hooks/useGooglePrompt";
-
-// import GooglePrompt from "../components/GooglePrompt";
 
 function MyApp({ Component, pageProps }) {
   // next-i18next has a bug - if using translations on top level layout (_app.js), warning appears:
@@ -76,7 +74,7 @@ function MyApp({ Component, pageProps }) {
     GoogleStatusEnum,
     googleLoginMethod,
     GoogleLoginMethodsEnum,
-  ] = useGoogle(user, setUser);
+  ] = useGoogle({ setUser });
 
   const { t } = useTranslation("menu");
   const errorsText = {
@@ -114,9 +112,7 @@ function MyApp({ Component, pageProps }) {
           <Alerts alerts={alerts} remove={remove} />
           <ThemeContext.Provider value={{ setTheme }}>
             <UserContext.Provider value={{ user, setUser }}>
-              {/* <GooglePrompt /> */}
               <Aside />
-              {/* <TestTimer /> */}
               <AnimatePresence mode={"wait"} initial={false}>
                 <motion.div
                   id="content"
@@ -135,7 +131,6 @@ function MyApp({ Component, pageProps }) {
                   <Component {...pageProps} />
                 </motion.div>
               </AnimatePresence>
-
               <Analytics />
             </UserContext.Provider>
           </ThemeContext.Provider>

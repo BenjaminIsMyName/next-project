@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getCookie } from "cookies-next";
 import { useCallback } from "react";
 import axios from "axios";
-import { useRouter } from "next/router";
 
 const GoogleStatusEnum = {
   init: "default, maybe the user is connected and refreshed the page... or maybe not",
@@ -16,7 +15,9 @@ const LoginMethodsEnum = {
   prompt: "prompt, aka One Tap Dialog. Google calls it 'user' in the response",
 };
 
-export default function useGoogle(user, setUser) {
+export default function useGoogle({ setUser }) {
+  // TODO: useReducer might be better here, to avoid different states being set at the same time,
+  // causing bugs in useEffects such as the one in useGooglePrompt.js
   const [status, setStatus] = useState(GoogleStatusEnum.init);
   const [error, setError] = useState({
     text: "",
@@ -70,10 +71,5 @@ export default function useGoogle(user, setUser) {
     }
   }, [handleGoogleLogin]); // same as [] because handleGoogleLogin is wrapped in useCallback and doesn't change
 
-  return [status, error, GoogleStatusEnum, loginMethod, LoginMethodsEnum]; // allow other places (Such as EmailForm.js) in the app to access those stuff
+  return [status, error, GoogleStatusEnum, loginMethod, LoginMethodsEnum]; // allow other places (Such as ProfileModal.js) in the app to access those stuff
 }
-
-// TODO:
-
-// in EmailForm, only if loginMethod is prompt - show the errors, loading etc...
-// in useGooglePrompt, only if loginMethod is prompt - show the errors, loading etc... in add()

@@ -5,10 +5,8 @@ import axios from "axios";
 import Button from "../../Button";
 import Modal from "../../Modal";
 import Balancer from "react-wrap-balancer";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { GoogleContext } from "../../../context/GoogleContext";
-import { getCookie } from "cookies-next";
 
 export default function EmailForm({
   handleInputChange,
@@ -16,8 +14,6 @@ export default function EmailForm({
   setStatus,
   setErrorText,
   errorsText,
-  setUser,
-  defaultState,
 }) {
   const { t } = useTranslation("menu");
   const { locale } = useRouter();
