@@ -5,20 +5,12 @@ export default function ButtonSvgContainer({
   children,
   isOpen,
   onClick,
-  applyPropagation,
 }) {
-  function handleClick(e) {
-    if (!applyPropagation) {
-      // this check is for the <MenuIcon/>.... We don't want to stopPropagation if it's the menu button...
-      e.stopPropagation();
-    }
-    onClick();
-  }
   return (
     <button
       type="button"
       aria-label={ariaLabel}
-      onClick={handleClick}
+      onClick={onClick}
       className={`${isOpen ? styles.open : ""} ${styles.icon}`}
     >
       {children}
