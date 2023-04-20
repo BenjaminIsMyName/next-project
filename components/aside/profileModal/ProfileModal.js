@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useCallback } from "react";
+import { useState, useContext, useEffect, useCallback, useRef } from "react";
 import Signup from "./SignupForm";
 import Login from "./LoginForm";
 import EmailForm from "./EmailForm";
@@ -66,13 +66,23 @@ export default function ProfileModal({ closeModals }) {
     GoogleLoginMethodsEnum,
   } = useContext(GoogleContext);
 
+  // to show error only when state changes, and not on mount
+  const renderCount = useRef(0);
   useEffect(() => {
     // if (googleLoginMethod !== GoogleLoginMethodsEnum.button) {
     //   return;
     // }
+
+    // don't show error on initial modal mount, only when it's already opened and something goes wrong!
+    const rendersOnMount = process.env.NODE_ENV === "production" ? 1 : 2; // with strict mode it's 2 times
+    renderCount.current++;
+
     if (googleStatus === GoogleStatusEnum.loading) {
       setStatus(4);
-    } else if (googleStatus === GoogleStatusEnum.error) {
+    } else if (
+      googleStatus === GoogleStatusEnum.error &&
+      renderCount.current > rendersOnMount // see above comment(s), this is to prevent showing error on initial modal mount
+    ) {
       setStatus(1);
       if (googleError.statusCode === 409) {
         setErrorText(errorsText.tryWithPassword);
