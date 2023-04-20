@@ -17,17 +17,20 @@ export default function useGooglePrompt({
   const { locale } = router;
   const renderCount = useRef(0);
   const { t } = useTranslation(["menu", "common"]);
+  const userRef = useRef(); // to make sure the user is up-to-date when the timeout runs
+  userRef.current = user;
   useEffect(() => {
     //  run only on initial page load, don't show the prompt again when user is logging out!
     renderCount.current++;
     if (renderCount.current > 1) {
       return;
     }
-    if (user) return;
+    if (userRef.current) return; // it doesn't matter here if we use user or userRef.current. they are the same here. the useEffect will run again when user changes...
     try {
       setTimeout(() => {
+        if (userRef.current) return; // we can't use user here because it's not up-to-date when the timeout runs, but userRef.current is because it's a ref (a pointer to the value)
         window.google.accounts.id.prompt(); // display the One Tap dialog
-      }, 2000);
+      }, 7000);
     } catch (error) {
       console.log(`error 2 in useGoogle hook`, error);
     }
