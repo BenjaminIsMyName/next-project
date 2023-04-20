@@ -30,6 +30,7 @@ export default function useGooglePrompt({
       setTimeout(() => {
         if (userRef.current) return; // we can't use user here because it's not up-to-date when the timeout runs, but userRef.current is because it's a ref (a pointer to the value)
         window.google.accounts.id.prompt(); // display the One Tap dialog
+        // Note: if prompt doesn't show up after clicking X on it, go to cookies and remove ONLY the g_state cookie. See: https://developers.google.com/identity/gsi/web/guides/features
       }, 7000);
     } catch (error) {
       console.log(`error 2 in useGoogle hook`, error);
