@@ -83,6 +83,8 @@ function MyApp({ Component, pageProps }) {
     tryWithPassword: t("error-text.try-with-password"),
   };
 
+  const [modalOpen, setModalOpen] = useState(-1); // is a little menu open? (none: -1, ProfileModal: 0)
+
   useGooglePrompt({
     googleStatus,
     googleError,
@@ -92,6 +94,7 @@ function MyApp({ Component, pageProps }) {
     googleLoginMethod,
     GoogleLoginMethodsEnum,
     add,
+    modalOpen,
   });
 
   usePWA(user);
@@ -112,7 +115,7 @@ function MyApp({ Component, pageProps }) {
           <Alerts alerts={alerts} remove={remove} />
           <ThemeContext.Provider value={{ setTheme }}>
             <UserContext.Provider value={{ user, setUser }}>
-              <Aside />
+              <Aside modalOpen={modalOpen} setModalOpen={setModalOpen} />
               <AnimatePresence mode={"wait"} initial={false}>
                 <motion.div
                   id="content"

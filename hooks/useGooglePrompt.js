@@ -12,13 +12,19 @@ export default function useGooglePrompt({
   googleLoginMethod,
   GoogleLoginMethodsEnum,
   add,
+  modalOpen,
 }) {
   const router = useRouter();
   const { locale } = router;
   const renderCount = useRef(0);
   const { t } = useTranslation(["menu", "common"]);
+
   const userRef = useRef(); // to make sure the user is up-to-date when the timeout runs
   userRef.current = user;
+
+  const modalOpenRef = useRef(); // to make sure the modalOpen is up-to-date when the timeout runs
+  modalOpenRef.current = modalOpen;
+
   useEffect(() => {
     //  run only on initial page load, don't show the prompt again when user is logging out!
     renderCount.current++;
@@ -29,6 +35,7 @@ export default function useGooglePrompt({
     try {
       setTimeout(() => {
         if (userRef.current) return; // we can't use user here because it's not up-to-date when the timeout runs, but userRef.current is because it's a ref (a pointer to the value)
+        if (modalOpenRef.current === 0) return; // if profile menu is open, don't show the prompt
         window.google.accounts.id.prompt(); // display the One Tap dialog
         // Note: if prompt doesn't show up after clicking X on it, go to cookies and remove ONLY the g_state cookie. See: https://developers.google.com/identity/gsi/web/guides/features
       }, 7000);

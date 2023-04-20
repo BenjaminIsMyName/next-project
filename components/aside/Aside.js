@@ -13,12 +13,11 @@ import TopicsIcon from "../icons/TopicsIcon.js";
 import SavedIcon from "../icons/SavedIcon.js";
 import PolicyIcon from "../icons/PolicyIcon.js";
 
-export default function Aside() {
+export default function Aside({ modalOpen, setModalOpen }) {
   const { t } = useTranslation("menu");
   const { locale } = useRouter();
   const asideRef = useRef(); // used on the <aside> tag, to scroll back up when opening and closing the menu.
   const [isOpen, setIsOpen] = useState(false); // is the <aside> open, on mobile
-  const [modalOpen, setModalOpen] = useState(-1); // is a little menu open? (none: -1, profile menu: 0)
 
   const clickToToggleMenu = useCallback(() => {
     setIsOpen(prev => !prev);
@@ -102,8 +101,9 @@ export default function Aside() {
         {modalOpen === 0 && (
           <ProfileModal closeModals={() => setModalOpen(-1)} />
         )}
-        {modalOpen === 1 && <Modal>Notifications menu</Modal>}
-        {modalOpen === 2 && <Modal>Search menu</Modal>}
+        {/* Currently not being used: */}
+        {/* {modalOpen === 1 && <Modal>Notifications menu</Modal>}
+        {modalOpen === 2 && <Modal>Search menu</Modal>} */}
         <aside
           ref={asideRef}
           className={`select-none bg-second-color bottom-0
