@@ -4,6 +4,7 @@ import { AnimatePresence, motion as m } from "framer-motion";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import useLoaded from "../hooks/useLoaded";
+import { useIdleTimer } from "react-idle-timer";
 
 /*
 
@@ -76,12 +77,51 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
     };
   }, []);
 
+  const [isIdle, setIsIdle] = useState(false); // if the user is idle *while hovering on a video that is being played*, we want to hide the cursor and controls
+  const [shouldHideCursor, setShouldHideCursor] = useState(false); // a few seconds *after* idle
+  const setTimeoutRef = useRef();
+
+  useEffect(() => {
+    if (isIdle) {
+      setTimeoutRef.current = setTimeout(() => {
+        setShouldHideCursor(true);
+      }, 1500);
+    } else {
+      setShouldHideCursor(false); // not idle anymore, so show the cursor and controls
+    }
+    return () => {
+      if (setTimeoutRef.current) clearTimeout(setTimeoutRef.current);
+    };
+  }, [isIdle]);
+
+  const timer = useIdleTimer({
+    element: containerRef.current,
+    onIdle: () => setIsIdle(true),
+    onActive: () => setIsIdle(false),
+    startManually: true,
+    startOnMount: false,
+    timeout: 3000,
+  });
+
+  const timerRef = useRef();
+  timerRef.current = timer;
+  useEffect(() => {
+    if (isPlaying && isHovering) {
+      timerRef.current.start();
+    } else {
+      timerRef.current.pause();
+      setIsIdle(false);
+    }
+  }, [isPlaying, isHovering]);
+
   return (
     <div
       ref={containerRef}
       className={`relative overflow-hidden ${
         !canPlay || !videoUrl ? "h-80" : ""
-      } ${isFullScreen ? "flex" : ""}`} // if full screen, make it a flex container to center the video
+      } ${isFullScreen ? "flex" : ""} ${
+        shouldHideCursor ? "cursor-none [&_*]:cursor-none" : ""
+      }`} // if full screen, make it a flex container to center the video
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
@@ -95,7 +135,8 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
         onClick={() => setIsPlaying(prev => !prev)}
       ></div>
       <AnimatePresence>
-        {(isHovering || !isPlaying) && (
+        {/* if hovering and active, or video is paused - show control elements */}
+        {((isHovering && !isIdle) || !isPlaying) && (
           <m.div
             initial={{ opacity: 0, scaleY: 0, y: 100 }}
             animate={{
