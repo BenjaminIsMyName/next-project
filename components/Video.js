@@ -21,9 +21,9 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [playedSeconds, setPlayedSeconds] = useState(0);
-  const playerRef = useRef(null);
+  const playerRef = useRef();
   const [duration, setDuration] = useState(0);
-  const containerRef = useRef(null); // to show the entire custom video player in full screen (see: https://stackoverflow.com/a/52879736)
+  const containerRef = useRef(); // to show the entire custom video player in full screen (see: https://stackoverflow.com/a/52879736)
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [focusOnProgressBar, setFocusOnProgressBar] = useState(false);
   const [isDraggingProgressBar, setIsDraggingProgressBar] = useState(false);
