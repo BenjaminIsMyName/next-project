@@ -252,7 +252,10 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                 isStillClickedRef.current = false;
                 setIsDraggingProgressBar(false);
               }}
-              className={`group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-option-text-color/30 relative hover:scale-y-150 transition-all ${
+              className={`group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-option-text-color/30 relative hover:scale-y-150 ${
+                // for mobile, if dragging - sometimes hover effect doesn't apply
+                isDraggingProgressBar ? "scale-y-150" : ""
+              } transition-all ${
                 focusOnProgressBar
                   ? "outline-dashed outline-1 outline-main-color"
                   : ""
@@ -276,7 +279,10 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                     locale === "en"
                       ? "right-0 translate-x-1/2"
                       : "left-0 -translate-x-1/2"
-                  } top-1/2 -translate-y-1/2 scale-0 group-hover:scale-x-100 group-hover:scale-y-75 transition-transform`}
+                  } top-1/2 -translate-y-1/2 scale-0 group-hover:scale-x-100 group-hover:scale-y-75 ${
+                    // for mobile, if dragging - sometimes hover effect doesn't apply
+                    isDraggingProgressBar ? "scale-x-100 scale-y-75" : ""
+                  } transition-transform`}
                 ></div>
               </div>
               {/* the progress bar is actually <input type="range"> under the hood, invisible but on top (and that's why clickable and interactive): */}
