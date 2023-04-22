@@ -111,7 +111,7 @@ export default function Aside({ modalOpen, setModalOpen }) {
                       md:h-screen md:w-[300px] 
           ${
             isOpen
-              ? "duration-500 bottom-0 overflow-auto h-64 max-h-screen"
+              ? "duration-500 bottom-0 overflow-auto h-[270px] max-h-screen"
               : "h-[var(--header-height)]"
           } 
           ${
