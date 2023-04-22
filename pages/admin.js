@@ -19,6 +19,14 @@ export default function Admin() {
     else setAllowed(false);
   }, [user]);
 
+  useEffect(() => {
+    /* 
+    scroll to the top of the page when the user changes (also needed when visiting from another page, 
+    because we have scroll="false" in the Link component, to prevent scrolling to the top of the page before animation ends)
+    */
+    window.scrollTo(0, 0);
+  }, [user?.id]);
+
   if (!allowed)
     return (
       <>

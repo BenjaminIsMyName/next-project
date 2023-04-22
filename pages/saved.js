@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import SavedPosts from "../components/SavedPosts";
 import SavedIcon from "../components/icons/SavedIcon";
@@ -12,6 +12,14 @@ export default function Saved() {
   const THE_TITLE = `${t("saved", { ns: "menu" })} - ${t("app-name")}`;
   const { user } = useContext(UserContext);
   const loaded = useLoaded();
+
+  useEffect(() => {
+    /* 
+    scroll to the top of the page when the user changes (also needed when visiting from another page, 
+    because we have scroll="false" in the Link component, to prevent scrolling to the top of the page before animation ends)
+    */
+    window.scrollTo(0, 0);
+  }, [user?.id]);
 
   return (
     <>
