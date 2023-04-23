@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useRef } from "react";
 import { useCallback } from "react";
 import { useState } from "react";
@@ -14,7 +13,10 @@ export default function useToast() {
       obj.id = id;
       return [...prev, obj];
     });
-    setTimeout(() => remove(id), 3000);
+    // count the words in the toast and set time accordingly:
+    const words = obj.title.split(" ").length;
+    const time = Math.max(words * 1000, 3000); // at least 3 seconds, otherwise it's too fast and might look like a bug
+    setTimeout(() => remove(id), time);
     return id;
   }
 
