@@ -59,11 +59,11 @@ export default function useGooglePrompt({
     } else if (googleStatus === GoogleStatusEnum.error) {
       if (googleError.statusCode === 409) {
         add({
-          title: errorsText.tryWithPassword,
+          title: t(errorsText.tryWithPassword, { ns: "menu" }),
         });
       } else {
         add({
-          title: errorsText.general,
+          title: t(errorsText.general, { ns: "menu" }),
         });
       }
     } else if (googleStatus === GoogleStatusEnum.success) {

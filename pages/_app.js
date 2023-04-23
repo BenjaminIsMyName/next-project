@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-import { appWithTranslation, useTranslation } from "next-i18next";
+import { appWithTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { UserContext } from "../context/UserContext";
@@ -76,11 +76,10 @@ function MyApp({ Component, pageProps }) {
     GoogleLoginMethodsEnum,
   ] = useGoogle({ setUser });
 
-  const { t } = useTranslation("menu");
   const errorsText = {
-    general: t("error-text.general"),
-    tryWithGoogle: t("error-text.try-with-google"),
-    tryWithPassword: t("error-text.try-with-password"),
+    general: "error-text.general",
+    tryWithGoogle: "error-text.try-with-google",
+    tryWithPassword: "error-text.try-with-password",
   };
 
   const [modalOpen, setModalOpen] = useState(-1); // is a little menu open? (none: -1, ProfileModal: 0)
