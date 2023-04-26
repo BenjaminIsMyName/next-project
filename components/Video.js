@@ -4,6 +4,7 @@ import { AnimatePresence, motion as m } from "framer-motion";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import useLoaded from "../hooks/useLoaded";
+import { useIdleTimer } from "react-idle-timer";
 
 /*
 
@@ -20,9 +21,9 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [playedSeconds, setPlayedSeconds] = useState(0);
-  const playerRef = useRef(null);
+  const playerRef = useRef();
   const [duration, setDuration] = useState(0);
-  const containerRef = useRef(null); // to show the entire custom video player in full screen (see: https://stackoverflow.com/a/52879736)
+  const containerRef = useRef(); // to show the entire custom video player in full screen (see: https://stackoverflow.com/a/52879736)
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [focusOnProgressBar, setFocusOnProgressBar] = useState(false);
   const [isDraggingProgressBar, setIsDraggingProgressBar] = useState(false);
@@ -76,12 +77,51 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
     };
   }, []);
 
+  const [isIdle, setIsIdle] = useState(false); // if the user is idle *while hovering on a video that is being played*, we want to hide the cursor and controls
+  const [shouldHideCursor, setShouldHideCursor] = useState(false); // a few seconds *after* idle
+  const setTimeoutRef = useRef();
+
+  useEffect(() => {
+    if (isIdle) {
+      setTimeoutRef.current = setTimeout(() => {
+        setShouldHideCursor(true);
+      }, 1500);
+    } else {
+      setShouldHideCursor(false); // not idle anymore, so show the cursor and controls
+    }
+    return () => {
+      if (setTimeoutRef.current) clearTimeout(setTimeoutRef.current);
+    };
+  }, [isIdle]);
+
+  const timer = useIdleTimer({
+    element: containerRef.current,
+    onIdle: () => setIsIdle(true),
+    onActive: () => setIsIdle(false),
+    startManually: true,
+    startOnMount: false,
+    timeout: 3000,
+  });
+
+  const timerRef = useRef();
+  timerRef.current = timer;
+  useEffect(() => {
+    if (isPlaying && isHovering) {
+      timerRef.current.start();
+    } else {
+      timerRef.current.pause();
+      setIsIdle(false);
+    }
+  }, [isPlaying, isHovering]);
+
   return (
     <div
       ref={containerRef}
       className={`relative overflow-hidden ${
         !canPlay || !videoUrl ? "h-80" : ""
-      } ${isFullScreen ? "flex" : ""}`} // if full screen, make it a flex container to center the video
+      } ${isFullScreen ? "flex" : ""} ${
+        shouldHideCursor ? "cursor-none [&_*]:cursor-none" : ""
+      }`} // if full screen, make it a flex container to center the video
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
@@ -95,7 +135,8 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
         onClick={() => setIsPlaying(prev => !prev)}
       ></div>
       <AnimatePresence>
-        {(isHovering || !isPlaying) && (
+        {/* if hovering and active, or video is paused - show control elements */}
+        {((isHovering && !isIdle) || !isPlaying) && (
           <m.div
             initial={{ opacity: 0, scaleY: 0, y: 100 }}
             animate={{
@@ -211,7 +252,10 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                 isStillClickedRef.current = false;
                 setIsDraggingProgressBar(false);
               }}
-              className={`group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-option-text-color/30 relative hover:scale-y-150 transition-all ${
+              className={`group w-full backdrop-blur-xl rounded-lg h-2 mt-2 bg-option-text-color/30 relative hover:scale-y-150 ${
+                // for mobile, if dragging - sometimes hover effect doesn't apply
+                isDraggingProgressBar ? "scale-y-150" : ""
+              } transition-all ${
                 focusOnProgressBar
                   ? "outline-dashed outline-1 outline-main-color"
                   : ""
@@ -235,7 +279,10 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                     locale === "en"
                       ? "right-0 translate-x-1/2"
                       : "left-0 -translate-x-1/2"
-                  } top-1/2 -translate-y-1/2 scale-0 group-hover:scale-x-100 group-hover:scale-y-75 transition-transform`}
+                  } top-1/2 -translate-y-1/2 scale-0 group-hover:scale-x-100 group-hover:scale-y-75 ${
+                    // for mobile, if dragging - sometimes hover effect doesn't apply
+                    isDraggingProgressBar ? "scale-x-100 scale-y-75" : ""
+                  } transition-transform`}
                 ></div>
               </div>
               {/* the progress bar is actually <input type="range"> under the hood, invisible but on top (and that's why clickable and interactive): */}

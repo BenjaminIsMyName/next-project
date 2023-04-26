@@ -28,8 +28,9 @@ export default function Header({
           </a>
         </Link>
       </div>
-
-      <div className={styles.left}>
+      {/* every element that has the attribute data-should-not-close-little-or-big-menu - 
+      a click on it (or it children) won't trigger the "I clicked outside" (in the Overlay/Aside) so I should close the stuff that are opened... */}
+      <div className={styles.left} data-should-not-close-little-or-big-menu>
         <ButtonSvgContainer
           ariaLabel={t("account")}
           isOpen={modalOpen === 0}

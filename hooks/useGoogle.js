@@ -1,27 +1,61 @@
-import jwt_decode from "jwt-decode";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
+import { getCookie } from "cookies-next";
+import { useCallback } from "react";
+import axios from "axios";
 
-export default function useGoogle() {
-  const callbackRef = useRef(null); // remember which function to call when handleGoogleLogin is called
-  function handleGoogleLogin(response) {
-    // console.log(`All info from google`, response);
-    // console.log(`Client ID (Global in app): ${response.clientId}`);
-    // console.log(`Encoded JWT ID token:`, response.credential);
-    // let userObject = jwt_decode(response.credential);
-    // console.log(`userObject`, userObject);
-    // console.log("ID: " + userObject.sub);
-    // console.log("Full Name: " + userObject.name);
-    // console.log("Given Name: " + userObject.given_name);
-    // console.log("Family Name: " + userObject.family_name);
-    // console.log("Image URL: " + userObject.picture);
-    // console.log("Email: " + userObject.email);
-    callbackRef.current.callback(JSON.stringify(response));
-  }
+const GoogleStatusEnum = {
+  init: "default, maybe the user is connected and refreshed the page... or maybe not",
+  loading: "waiting for the fetch to finish",
+  error: "error",
+  success: "logged in with google successfully now (Didn't refresh page yet)",
+};
 
-  function callCallback(callback) {
-    // set the callbackRef
-    callbackRef.current = { callback };
-  }
+const LoginMethodsEnum = {
+  button: "Google Sign In Button. Google calls it 'btn' in the response",
+  prompt: "prompt, aka One Tap Dialog. Google calls it 'user' in the response",
+};
+
+export default function useGoogle({ setUser }) {
+  // TODO: useReducer might be better here, to avoid different states being set at the same time,
+  // causing bugs in useEffects such as the one in useGooglePrompt.js
+  const [status, setStatus] = useState(GoogleStatusEnum.init);
+  const [error, setError] = useState({
+    text: "",
+    statusCode: 0,
+  });
+
+  const [loginMethod, setLoginMethod] = useState(LoginMethodsEnum.button); // default doesn't matter imo
+
+  const handleGoogleLogin = useCallback(
+    response => {
+      console.log(`response`, response);
+      if (response.select_by === "btn") {
+        setLoginMethod(LoginMethodsEnum.button);
+      } else if (response.select_by === "user") {
+        setLoginMethod(LoginMethodsEnum.prompt);
+      }
+      async function func(res) {
+        setStatus(GoogleStatusEnum.loading);
+        try {
+          await axios.post("/api/signup", {
+            googleToken: JSON.stringify(res),
+          });
+          const userCookie = getCookie("user");
+          setUser(JSON.parse(userCookie));
+          setStatus(GoogleStatusEnum.success);
+        } catch (err) {
+          console.log(`error 3 in useGoogle hook`, err);
+          setStatus(GoogleStatusEnum.error);
+          setError({
+            text: err.response?.data.message || err,
+            statusCode: err.response?.status,
+          });
+        }
+      }
+      func(response);
+    },
+    [setUser] // same as [] because setUser is a function that doesn't change
+  );
 
   useEffect(() => {
     /* "Warning: The google.accounts.id.initialize method should be called only once,
@@ -30,13 +64,12 @@ export default function useGoogle() {
       window.google.accounts.id.initialize({
         client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
         callback: handleGoogleLogin,
+        context: "use",
       });
     } catch (error) {
-      console.log(`error in useGoogle hook`, error);
+      console.log(`error 1 in useGoogle hook`, error);
     }
+  }, [handleGoogleLogin]); // same as [] because handleGoogleLogin is wrapped in useCallback and doesn't change
 
-    // google.accounts.id.prompt(); // also display the One Tap dialog
-  }, []);
-
-  return callCallback;
+  return [status, error, GoogleStatusEnum, loginMethod, LoginMethodsEnum]; // allow other places (Such as ProfileModal.js) in the app to access those stuff
 }

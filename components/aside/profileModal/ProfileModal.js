@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect, useCallback, useRef } from "react";
 import Signup from "./SignupForm";
 import Login from "./LoginForm";
 import EmailForm from "./EmailForm";
@@ -10,6 +10,13 @@ import UserConnectedModal from "./UserConnectedModal";
 import useFormData from "../../../hooks/useFormData";
 import LoadingModal from "../../LoadingModal";
 import { AlertContext } from "../../../context/AlertContext";
+import { GoogleContext } from "../../../context/GoogleContext";
+
+const inputsDataDefault = {
+  email: "",
+  password: "",
+  name: "",
+};
 
 export default function ProfileModal({ closeModals }) {
   // all this component does is checking what to show in the profile modal,
@@ -18,27 +25,20 @@ export default function ProfileModal({ closeModals }) {
   const { t } = useTranslation("menu");
   const { user, setUser } = useContext(UserContext);
   const { add, remove } = useContext(AlertContext);
-  const inputsDataDefault = {
-    email: "",
-    password: "",
-    name: "",
-  };
+
   const { inputsData, setInputsData, handleInputChange } =
     useFormData(inputsDataDefault);
-  const [status, setStatus] = useState(0); // 0 - default, waiting for email, 1 - error, 2 - user does exist, 3 - user doesn't exist, 4 - loading. the 'status' state is used if the redux 'user' state doesn't.
+  const [status, setStatus] = useState(0); // 0 - default, waiting for email, 1 - error, 2 - user does exist, 3 - user doesn't exist, 4 - loading.
+  // TODO: change the numbers to enum, like in many other places across the project. Much more readable and maintainable.
 
-  const errorsText = {
-    general: t("error-text.general"),
-    tryWithGoogle: t("error-text.try-with-google"),
-    tryWithPassword: t("error-text.try-with-password"),
-  };
+  const { errorsText } = useContext(GoogleContext);
 
   const [errorText, setErrorText] = useState(errorsText.general);
 
-  function defaultState() {
+  const defaultState = useCallback(() => {
     setInputsData(inputsDataDefault);
     setStatus(0);
-  }
+  }, [setInputsData, setStatus]); // same as [] because none of the values change
 
   const logoutFunc = useLogout();
 
@@ -58,6 +58,56 @@ export default function ProfileModal({ closeModals }) {
     setInputsData(prev => ({ ...inputsDataDefault, email: prev.email })); // clear all data except email
   }
 
+  const {
+    googleStatus,
+    googleError,
+    GoogleStatusEnum,
+    googleLoginMethod,
+    GoogleLoginMethodsEnum,
+  } = useContext(GoogleContext);
+
+  // to show error only when state changes, and not on mount
+  const renderCount = useRef(0);
+  useEffect(() => {
+    // if (googleLoginMethod !== GoogleLoginMethodsEnum.button) {
+    //   return;
+    // }
+
+    // don't show error on initial modal mount, only when it's already opened and something goes wrong!
+    const rendersOnMount = process.env.NODE_ENV === "production" ? 1 : 2; // with strict mode it's 2 times
+    renderCount.current++;
+
+    if (googleStatus === GoogleStatusEnum.loading) {
+      setStatus(4);
+    } else if (
+      googleStatus === GoogleStatusEnum.error &&
+      renderCount.current > rendersOnMount // see above comment(s), this is to prevent showing error on initial modal mount
+    ) {
+      setStatus(1);
+      if (googleError.statusCode === 409) {
+        setErrorText(errorsText.tryWithPassword);
+      } else {
+        setErrorText(errorsText.general);
+      }
+    } else if (googleStatus === GoogleStatusEnum.success) {
+      setInputsData(inputsDataDefault);
+    }
+  }, [
+    GoogleLoginMethodsEnum.button,
+    GoogleStatusEnum.error,
+    GoogleStatusEnum.loading,
+    GoogleStatusEnum.success,
+    defaultState,
+    errorsText.general,
+    errorsText.tryWithPassword,
+    googleError.statusCode,
+    googleLoginMethod,
+    googleStatus,
+    setErrorText,
+    setInputsData,
+    setStatus,
+  ]); // same as [googleError.statusCode, googleStatus, googleLoginMethod] because none of the other values change
+
   if (user)
     return <UserConnectedModal logOut={logOut} closeModals={closeModals} />;
   if (status === 4) return <LoadingModal />;
@@ -69,8 +119,6 @@ export default function ProfileModal({ closeModals }) {
         setErrorText={setErrorText}
         inputsData={inputsData}
         handleInputChange={handleInputChange}
-        setUser={setUser}
-        defaultState={defaultState}
       />
     );
   if (status === 1) return <ErrorInMenu goBack={goBack} text={errorText} />;

@@ -47,6 +47,21 @@ export default async function handler(req, res) {
     var hashAndSalt = await bcrypt.hash(password, saltRounds);
   }
 
+  // check if email is already in use ------------------------
+  if (!user.withGoogle && user.email !== email) {
+    try {
+      const userInDB = await db.collection("users").findOne({ email });
+      if (userInDB) {
+        res.status(409).json({ error: `email already in use` });
+        return;
+      }
+    } catch (err) {
+      console.log(`error ${err}`);
+      res.status(503).json({ error: `failed to find user in DB: ${err}` });
+      return;
+    }
+  }
+
   try {
     await db.collection("users").updateOne(
       { email: user.email },

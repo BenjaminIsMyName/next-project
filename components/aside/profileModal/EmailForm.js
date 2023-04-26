@@ -5,10 +5,8 @@ import axios from "axios";
 import Button from "../../Button";
 import Modal from "../../Modal";
 import Balancer from "react-wrap-balancer";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { GoogleContext } from "../../../context/GoogleContext";
-import { getCookie } from "cookies-next";
 
 export default function EmailForm({
   handleInputChange,
@@ -16,8 +14,6 @@ export default function EmailForm({
   setStatus,
   setErrorText,
   errorsText,
-  setUser,
-  defaultState,
 }) {
   const { t } = useTranslation("menu");
   const { locale } = useRouter();
@@ -55,30 +51,6 @@ export default function EmailForm({
       else setStatus(3);
     } catch (err) {
       setErrorText(errorsText.general);
-      setStatus(1);
-    }
-  }
-
-  // Tell the function in the useGoogle hook to call the handleGoogleLoginHere function.
-  const { callCallback } = useContext(GoogleContext);
-  callCallback(handleGoogleLoginHere);
-  async function handleGoogleLoginHere(response) {
-    setStatus(4);
-    try {
-      await axios.post("/api/signup", {
-        googleToken: response,
-      });
-      const userCookie = getCookie("user");
-      setUser(JSON.parse(userCookie));
-      defaultState();
-    } catch (err) {
-      console.log("error in EmailForm.js component", err);
-      if (err.response.status === 409) {
-        setErrorText(errorsText.tryWithPassword);
-      } else {
-        setErrorText(errorsText.general);
-      }
-
       setStatus(1);
     }
   }

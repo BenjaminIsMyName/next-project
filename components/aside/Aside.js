@@ -13,12 +13,11 @@ import TopicsIcon from "../icons/TopicsIcon.js";
 import SavedIcon from "../icons/SavedIcon.js";
 import PolicyIcon from "../icons/PolicyIcon.js";
 
-export default function Aside() {
+export default function Aside({ modalOpen, setModalOpen }) {
   const { t } = useTranslation("menu");
   const { locale } = useRouter();
   const asideRef = useRef(); // used on the <aside> tag, to scroll back up when opening and closing the menu.
   const [isOpen, setIsOpen] = useState(false); // is the <aside> open, on mobile
-  const [modalOpen, setModalOpen] = useState(-1); // is a little menu open? (none: -1, profile menu: 0)
 
   const clickToToggleMenu = useCallback(() => {
     setIsOpen(prev => !prev);
@@ -41,15 +40,27 @@ export default function Aside() {
     return () => document.body.classList.remove("no-scroll");
   }, []);
 
-  function handleOverlayClick() {
+  function handleOverlayClick(e) {
+    if (!shouldClose(e)) return;
     if (modalOpen !== -1 && isOpen) {
+      // if a little menu is open, and the big menu is open, close both
       clickToToggleMenu();
       setModalOpen(-1);
     } else if (isOpen) {
+      // if the big menu is open, close it
       clickToToggleMenu();
     } else {
+      // if a little menu is open, close it
       setModalOpen(-1);
     }
+  }
+
+  function shouldClose(e) {
+    // if you click on an element that has (or its parent/grandparent has) the attribute "data-should-not-close-little-or-big-menu", it won't close the menu
+    const found = e.target.closest(
+      "[data-should-not-close-little-or-big-menu]"
+    );
+    return found ? false : true;
   }
 
   // this is needed to close the big menu when you open a little menu (why? for very small screens)
@@ -90,8 +101,9 @@ export default function Aside() {
         {modalOpen === 0 && (
           <ProfileModal closeModals={() => setModalOpen(-1)} />
         )}
-        {modalOpen === 1 && <Modal>Notifications menu</Modal>}
-        {modalOpen === 2 && <Modal>Search menu</Modal>}
+        {/* Currently not being used: */}
+        {/* {modalOpen === 1 && <Modal>Notifications menu</Modal>}
+        {modalOpen === 2 && <Modal>Search menu</Modal>} */}
         <aside
           ref={asideRef}
           className={`select-none bg-second-color bottom-0
@@ -99,7 +111,7 @@ export default function Aside() {
                       md:h-screen md:w-[300px] 
           ${
             isOpen
-              ? "duration-500 bottom-0 overflow-auto h-64 max-h-screen"
+              ? "duration-500 bottom-0 overflow-auto h-[270px] max-h-screen"
               : "h-[var(--header-height)]"
           } 
           ${
@@ -107,7 +119,10 @@ export default function Aside() {
               ? "shadow-[3px_0_5px_2px_rgba(var(--shadows-color),_0.5)]"
               : "shadow-[-3px_0_5px_2px_rgba(var(--shadows-color),_0.5)]"
           }`}
-          onClick={() => setModalOpen(-1)}
+          onClick={e => {
+            if (!shouldClose(e)) return;
+            setModalOpen(-1);
+          }}
         >
           <Header
             modalOpen={modalOpen}

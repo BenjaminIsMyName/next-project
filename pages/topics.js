@@ -5,12 +5,22 @@ import connectToDatabase from "../util/mongodb";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function Topics({ topics }) {
   const { t } = useTranslation(["common", "menu"]);
   const THE_TITLE = `${t("topics", { ns: "menu" })} - ${t("app-name")}`;
   const { locale } = useRouter();
   const parsedTopics = JSON.parse(topics);
+
+  useEffect(() => {
+    /* 
+    scroll to the top of the page when visiting from another page, 
+    because we have scroll="false" in the Link component, to prevent scrolling to the top of the page before animation ends.
+    */
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <Head>

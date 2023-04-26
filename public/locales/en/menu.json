@@ -15,7 +15,8 @@
     "email-validation-too-long": "Email can't be more than 99 characters",
     "name-validation": "Name must be between 2-30 characters",
     "try-with-google": "This email is associated with a Google account. Try to go back and log in with Google",
-    "try-with-password": "This email is associated with an account that signed-up using a password. Try to go back and log in with your password"
+    "try-with-password": "This email is associated with an account that signed-up using a password. Try to go back and log in with your password",
+    "email-taken": "This email is already associated with a different account, are you sure it's yours...?"
   },
   "titles": {
     "login-or-signup": "Log-in or Sign-up",

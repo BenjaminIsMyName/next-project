@@ -16,11 +16,7 @@ import useSound from "../hooks/useSound";
 import useGoogle from "../hooks/useGoogle";
 import { GoogleContext } from "../context/GoogleContext";
 import usePWA from "../hooks/usePWA";
-
-// TODO: BUGS:
-
-// 1. videos that are longer than 9 minutes, don't show correctly the time background (it's too short).
-// Happens only when video takes some time to load.
+import useGooglePrompt from "../hooks/useGooglePrompt";
 
 function MyApp({ Component, pageProps }) {
   // next-i18next has a bug - if using translations on top level layout (_app.js), warning appears:
@@ -72,18 +68,53 @@ function MyApp({ Component, pageProps }) {
   const [add, remove, alerts] = useToast();
 
   const [sounds] = useSound();
-  const callCallback = useGoogle();
+  const [
+    googleStatus,
+    googleError,
+    GoogleStatusEnum,
+    googleLoginMethod,
+    GoogleLoginMethodsEnum,
+  ] = useGoogle({ setUser });
+
+  const errorsText = {
+    general: "error-text.general",
+    tryWithGoogle: "error-text.try-with-google",
+    tryWithPassword: "error-text.try-with-password",
+  };
+
+  const [modalOpen, setModalOpen] = useState(-1); // is a little menu open? (none: -1, ProfileModal: 0)
+
+  useGooglePrompt({
+    googleStatus,
+    googleError,
+    GoogleStatusEnum,
+    user,
+    errorsText,
+    googleLoginMethod,
+    GoogleLoginMethodsEnum,
+    add,
+    modalOpen,
+  });
 
   usePWA(user);
 
   return (
-    <GoogleContext.Provider value={{ callCallback }}>
+    <GoogleContext.Provider
+      value={{
+        googleStatus,
+        googleError,
+        GoogleStatusEnum,
+        googleLoginMethod,
+        GoogleLoginMethodsEnum,
+        errorsText,
+      }}
+    >
       <AlertContext.Provider value={{ add, remove }}>
         <SoundContext.Provider value={{ sounds }}>
           <Alerts alerts={alerts} remove={remove} />
           <ThemeContext.Provider value={{ setTheme }}>
             <UserContext.Provider value={{ user, setUser }}>
-              <Aside />
+              <Aside modalOpen={modalOpen} setModalOpen={setModalOpen} />
               <AnimatePresence mode={"wait"} initial={false}>
                 <motion.div
                   id="content"
@@ -102,7 +133,6 @@ function MyApp({ Component, pageProps }) {
                   <Component {...pageProps} />
                 </motion.div>
               </AnimatePresence>
-
               <Analytics />
             </UserContext.Provider>
           </ThemeContext.Provider>

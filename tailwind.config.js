@@ -22,6 +22,9 @@ module.exports = {
       // => @media (min-width: 1536px) { ... }
     },
     extend: {
+      screens: {
+        "hover-when-supported": { raw: "(hover: hover)" },
+      },
       // the "extend" is to preserve the default values but also *add* extra stuff.
       animation: {
         up: "up 1s ease-in-out forwards",

@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { useContext, useState } from "react";
 import { UserContext } from "../../../context/UserContext";
 import useFormData from "../../../hooks/useFormData";
@@ -32,6 +32,8 @@ export default function UserConnectedModal({ logOut, closeModals }) {
   };
 
   const [status, setStatus] = useState(StatusEnum.default);
+
+  const errorTextRef = useRef();
 
   const inputsDataDefault = {
     email: user.email,
@@ -74,6 +76,9 @@ export default function UserConnectedModal({ logOut, closeModals }) {
       setStatus(StatusEnum.default);
       setInputsData(prev => ({ ...prev, password: "" })); // don't show the password when going back to edit
     } catch (err) {
+      if (err.response?.status === 409) {
+        errorTextRef.current = "error-text.email-taken"; // use the key of the error text, not the text itself, so switching languages will take effect immediately
+      }
       setStatus(StatusEnum.error);
     }
   }
@@ -171,5 +176,10 @@ export default function UserConnectedModal({ logOut, closeModals }) {
   if (status === StatusEnum.loading) return <LoadingModal />;
 
   if (status === StatusEnum.error)
-    return <ErrorInMenu text={t("error-text.general")} goBack={goBack} />;
+    return (
+      <ErrorInMenu
+        text={errorTextRef.current || "error-text.general"}
+        goBack={goBack}
+      />
+    );
 }
