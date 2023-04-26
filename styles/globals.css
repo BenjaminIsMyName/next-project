@@ -230,3 +230,9 @@ video::-webkit-media-controls {
 .divider {
   width: 4px;
 }
+
+.item {
+  color: rgb(var(--option-text-color));
+  padding: 5px 15px;
+  display: flex;
+}

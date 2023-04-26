@@ -9,6 +9,11 @@ import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
 import ToolbarPlugin from "@l/plugins/ToolbarPlugin";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { HeadingNode, QuoteNode } from "@lexical/rich-text";
+import { ListItemNode, ListNode } from "@lexical/list";
+import { CodeHighlightNode, CodeNode } from "@lexical/code";
+import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
+import { AutoLinkNode, LinkNode } from "@lexical/link";
 
 const theme = {
   // Theme styling goes here
@@ -56,6 +61,19 @@ export default function TextEditor() {
     namespace: "MyEditor",
     theme,
     onError,
+    nodes: [
+      HeadingNode,
+      ListNode,
+      ListItemNode,
+      QuoteNode,
+      CodeNode,
+      CodeHighlightNode,
+      TableNode,
+      TableCellNode,
+      TableRowNode,
+      AutoLinkNode,
+      LinkNode,
+    ],
   };
 
   return (

@@ -269,7 +269,17 @@ function BlockOptionsDropdownList({
       dropDown.style.top = `${top + 40}px`;
       dropDown.style.left = `${left}px`;
     }
-  }, [dropDownRef, toolbarRef]);
+
+    function close() {
+      setShowBlockOptionsDropDown(false);
+    }
+
+    window.addEventListener("resize", close);
+
+    return () => {
+      window.removeEventListener("resize", close);
+    };
+  }, [dropDownRef, setShowBlockOptionsDropDown, toolbarRef]);
 
   useEffect(() => {
     const dropDown = dropDownRef.current;
@@ -308,7 +318,6 @@ function BlockOptionsDropdownList({
     if (blockType !== "h1") {
       editor.update(() => {
         const selection = $getSelection();
-
         if ($isRangeSelection(selection)) {
           $wrapNodes(selection, () => $createHeadingNode("h1"));
         }
@@ -375,7 +384,10 @@ function BlockOptionsDropdownList({
   };
 
   return (
-    <div className="dropdown" ref={dropDownRef}>
+    <div
+      className="dropdown z-20 block absolute shadow-md rounded-sm min-h-[40px] min-w-[100px] bg-main-color p-3"
+      ref={dropDownRef}
+    >
       <button className="item" onClick={formatParagraph}>
         <span className="icon paragraph" />
         <span className="text">Normal</span>
@@ -561,13 +573,13 @@ export default function ToolbarPlugin() {
       {supportedBlockTypes.has(blockType) && (
         <>
           <button
-            className="toolbar-item block-controls"
+            className="toolbar-item block-controls flex"
             onClick={() =>
               setShowBlockOptionsDropDown(!showBlockOptionsDropDown)
             }
             aria-label="Formatting Options"
           >
-            <span className={"icon block-type " + blockType} />
+            <span className={"icon block-type " + blockType}>🔻</span>
             <span className="text">{blockTypeToBlockName[blockType]}</span>
             <i className="chevron-down" />
           </button>
