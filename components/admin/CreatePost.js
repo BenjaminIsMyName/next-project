@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import Error from "../Error";
 import axios from "axios";
 import Loading from "../Loading";
@@ -23,7 +23,8 @@ export default function CreatePost() {
   const [shouldAnimateIn, setShouldAnimateIn] = useState(true);
   const [shouldAnimateOut, setShouldAnimateOut] = useState(true);
   const [setRef, { height }] = useElementSize();
-
+  const editorStateRef = useRef();
+  console.log(JSON.stringify(editorStateRef.current));
   const { t } = useTranslation(["admin"]);
   const router = useRouter();
 
@@ -219,7 +220,7 @@ export default function CreatePost() {
 
           <ButtonGroup buttons={buttons} />
           {contentType === ContentTypeEnum.text ? (
-            <TextEditor />
+            <TextEditor editorStateRef={editorStateRef} />
           ) : (
             <div className={`bg-main-color h-80 w-full`}>
               {file === null ? (

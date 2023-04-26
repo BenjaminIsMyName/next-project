@@ -1,5 +1,5 @@
 import { $getRoot, $getSelection } from "lexical";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -24,14 +24,14 @@ const theme = {
 
 // When the editor changes, you can get notified via the
 // LexicalOnChangePlugin!
-function onChange(editorState) {
-  // editorState.read(() => {
-  //   // Read the contents of the EditorState here.
-  //   const root = $getRoot();
-  //   const selection = $getSelection();
-  //   console.log(root, selection);
-  // });
-}
+// function onChange(editorState) {
+//   editorState.read(() => {
+//   //   // Read the contents of the EditorState here.
+//     const root = $getRoot();
+//     const selection = $getSelection();
+//     console.log(root, selection);
+//   });
+// }
 
 // Lexical React plugins are React components, which makes them
 // highly composable. Furthermore, you can lazy load plugins if
@@ -55,7 +55,7 @@ function onError(error) {
   console.error(error);
 }
 
-export default function TextEditor() {
+export default function TextEditor({ editorStateRef }) {
   const initialConfig = {
     namespace: "MyEditor",
     theme,
@@ -73,6 +73,7 @@ export default function TextEditor() {
       AutoLinkNode,
       LinkNode,
     ],
+    editorState: editorStateRef?.current || null,
   };
 
   return (
@@ -91,8 +92,14 @@ export default function TextEditor() {
             }
             ErrorBoundary={LexicalErrorBoundary}
           />
-          <OnChangePlugin onChange={onChange} />
-          <HistoryPlugin />
+          <OnChangePlugin
+            onChange={editorState => {
+              editorStateRef.current = editorState;
+            }}
+          />
+          <HistoryPlugin
+          // externalHistoryState={editorStateRef.current?.historyState} // TODO: doesn't work
+          />
           <MyCustomAutoFocusPlugin />
         </div>
       </LexicalComposer>
