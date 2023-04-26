@@ -224,3 +224,9 @@ body {
 video::-webkit-media-controls {
   display: none !important;
 }
+
+/* styles for lexical: */
+
+.divider {
+  width: 4px;
+}

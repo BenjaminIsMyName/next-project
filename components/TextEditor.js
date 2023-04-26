@@ -7,6 +7,8 @@ import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
+import ToolbarPlugin from "@l/plugins/ToolbarPlugin";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 
 const theme = {
   // Theme styling goes here
@@ -57,22 +59,25 @@ export default function TextEditor() {
   };
 
   return (
-    <div className="relative">
+    <div className=" min-h-[320px]">
       <LexicalComposer initialConfig={initialConfig}>
-        <PlainTextPlugin
-          contentEditable={
-            <ContentEditable className="min-h-[320px] bg-second-color shadow-inner shadow-shadows-color p-2 text-start relative" />
-          }
-          placeholder={
-            <div className="absolute top-2 text-start px-2 pointer-events-none">
-              Enter some text...
-            </div>
-          }
-          ErrorBoundary={LexicalErrorBoundary}
-        />
-        <OnChangePlugin onChange={onChange} />
-        <HistoryPlugin />
-        <MyCustomAutoFocusPlugin />
+        <ToolbarPlugin />
+        <div className="editor-inner relative">
+          <RichTextPlugin
+            contentEditable={
+              <ContentEditable className="min-h-[200px] editor-input bg-second-color shadow-inner shadow-shadows-color p-2 text-start" />
+            }
+            placeholder={
+              <div className="absolute top-2 text-start px-2 pointer-events-none">
+                Enter some text...
+              </div>
+            }
+            ErrorBoundary={LexicalErrorBoundary}
+          />
+          <OnChangePlugin onChange={onChange} />
+          <HistoryPlugin />
+          <MyCustomAutoFocusPlugin />
+        </div>
       </LexicalComposer>
     </div>
   );
