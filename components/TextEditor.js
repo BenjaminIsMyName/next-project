@@ -77,10 +77,10 @@ export default function TextEditor() {
   };
 
   return (
-    <div className=" min-h-[320px]">
+    <div className="min-h-[320px]">
       <LexicalComposer initialConfig={initialConfig}>
         <ToolbarPlugin />
-        <div className="editor-inner relative">
+        <div className="editor-inner relative [&_h1]:text-4xl [&_h2]:text-2xl">
           <RichTextPlugin
             contentEditable={
               <ContentEditable className="min-h-[200px] editor-input bg-second-color shadow-inner shadow-shadows-color p-2 text-start" />
