@@ -579,9 +579,9 @@ export default function ToolbarPlugin() {
             }
             aria-label="Formatting Options"
           >
-            <span className={"icon block-type " + blockType}>🔻</span>
+            <span className={"icon block-type " + blockType}>✍️</span>
             <span className="text">{blockTypeToBlockName[blockType]}</span>
-            <i className="chevron-down" />
+            <i className="chevron-down">🔻</i>
           </button>
           {showBlockOptionsDropDown &&
             createPortal(
@@ -615,7 +615,7 @@ export default function ToolbarPlugin() {
             className={"toolbar-item spaced " + (isBold ? "active" : "")}
             aria-label="Format Bold"
           >
-            <i className="format bold" />
+            <i className="format bold">B</i>
           </button>
           <button
             onClick={() => {
@@ -624,7 +624,7 @@ export default function ToolbarPlugin() {
             className={"toolbar-item spaced " + (isItalic ? "active" : "")}
             aria-label="Format Italics"
           >
-            <i className="format italic" />
+            <i className="format italic">I</i>
           </button>
           <button
             onClick={() => {

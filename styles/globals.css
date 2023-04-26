@@ -236,3 +236,9 @@ video::-webkit-media-controls {
   padding: 5px 15px;
   display: flex;
 }
+
+.toolbar-item {
+  background-color: rgb(var(--second-color));
+  min-width: 30px;
+  min-height: 30px;
+}
