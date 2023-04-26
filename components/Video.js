@@ -228,9 +228,9 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
               >
                 {/* thumb indicator (round little thing in the progress bar) */}
                 <div
-                  onClick={() => {
-                    console.log("clicked on thumb");
-                  }}
+                  // onClick={() => {
+                  //   console.log("clicked on thumb");
+                  // }}
                   className={`rounded-full h-4 w-4 bg-third-color absolute ${
                     locale === "en"
                       ? "right-0 translate-x-1/2"
