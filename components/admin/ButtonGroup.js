@@ -11,7 +11,6 @@ export default function ButtonGroup({ buttons }) {
 }
 
 function SingleButtonInGroup({ data }) {
-  console.log(data);
   return (
     <motion.button
       className={`w-full p-2 relative bg-main-color/50`}
