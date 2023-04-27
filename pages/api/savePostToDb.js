@@ -11,13 +11,33 @@ export default async function handler(req, res) {
   }
 
   // validate params ------------------------
-  let { title, objectS3key, topics } = req.body;
+  let { title, objectS3key, topics, type, editorState } = req.body;
   // topics are array of strings... for the _id of the topic...
 
-  // TOOD: more checks
-  if (titleError(title) || !objectS3key) {
+  if (titleError(title)) {
     res.status(406).json({
-      error: titleError(title) || "objectS3key is missing",
+      error: titleError(title),
+    });
+    return;
+  }
+
+  if (type != "video" && type != "article") {
+    res.status(406).json({
+      error: "type must be video or article",
+    });
+    return;
+  }
+
+  if (type == "article" && !editorState) {
+    res.status(406).json({
+      error: "editorState is missing",
+    });
+    return;
+  }
+
+  if (type == "video" && !objectS3key) {
+    res.status(406).json({
+      error: "objectS3key is missing",
     });
     return;
   }
@@ -36,8 +56,9 @@ export default async function handler(req, res) {
   // TODO: check if post with this objectS3key already exist (?)
   try {
     var { insertedId } = await db.collection("posts").insertOne({
-      objectS3key,
-      type: "video",
+      ...(type === "video" ? { objectS3key } : {}),
+      ...(type === "article" ? { editorState } : {}),
+      type,
       title,
       postCreationDate: new Date(),
       uploaderId: ObjectId(user._id),

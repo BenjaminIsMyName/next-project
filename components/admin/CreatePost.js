@@ -81,33 +81,40 @@ export default function CreatePost() {
 
   async function uploadFile() {
     setStatus(StatusEnum.loading);
+    let objectS3key;
     try {
-      // get one-time-url to upload the file directly from the client side
-      let { data } = await axios.get("/api/getUrlToUploadVideo", {
-        params: { name: file.name, type: file.type, size: file.size },
-      });
+      if (contentType === ContentTypeEnum.video) {
+        // get one-time-url to upload the file directly from the client side
+        let { data } = await axios.get("/api/getUrlToUploadVideo", {
+          params: { name: file.name, type: file.type, size: file.size },
+        });
 
-      const stuff = {
-        ...data.info.fields,
-        // "Content-Type": file.type, // needed if we want to limit the file type (e.g. only mp4)
-        file,
-      };
+        const stuff = {
+          ...data.info.fields,
+          // "Content-Type": file.type, // needed if we want to limit the file type (e.g. only mp4)
+          file,
+        };
 
-      const formData = new FormData();
-      for (const name in stuff) {
-        formData.append(name, stuff[name]);
+        const formData = new FormData();
+        for (const name in stuff) {
+          formData.append(name, stuff[name]);
+        }
+
+        const url = data.info.url;
+        objectS3key = data.objectS3key;
+
+        await axios.post(url, formData); // upload the file to S3
       }
-
-      const url = data.info.url;
-      const objectS3key = data.objectS3key;
-
-      await axios.post(url, formData); // upload the file to S3
 
       // create the post
       const res = await axios.post("/api/savePostToDb", {
         title,
-        objectS3key,
+        ...(contentType === ContentTypeEnum.video ? { objectS3key } : {}),
+        ...(contentType === ContentTypeEnum.text
+          ? { editorState: editorStateRef.current }
+          : {}),
         topics: selectedTopics.map(s => s._id),
+        type: contentType === ContentTypeEnum.video ? "video" : "article",
       });
 
       router.push(`/post/${res.data}`);
@@ -267,7 +274,11 @@ export default function CreatePost() {
             </div>
           )}
           <button
-            disabled={file === null || titleError(title)}
+            disabled={
+              (contentType === ContentTypeEnum.video
+                ? file === null
+                : editorStateRef.current === null) || titleError(title)
+            }
             onClick={uploadFile}
             className={
               "bg-main-color p-3 text-third-color disabled:opacity-60 disabled:cursor-not-allowed"
@@ -280,7 +291,12 @@ export default function CreatePost() {
         {status === StatusEnum.error && (
           <Error
             tryAgainCallback={() => {
-              if (file !== null && !titleError(title)) {
+              if (
+                (contentType === ContentTypeEnum.video
+                  ? file
+                  : editorStateRef.current) !== null &&
+                !titleError(title)
+              ) {
                 uploadFile();
               } else {
                 add({
