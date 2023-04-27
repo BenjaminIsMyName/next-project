@@ -14,6 +14,7 @@ import { ListItemNode, ListNode } from "@lexical/list";
 import { CodeHighlightNode, CodeNode } from "@lexical/code";
 import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
 import { AutoLinkNode, LinkNode } from "@lexical/link";
+import RestorePlugin from "@l/plugins/RestorePlugin";
 
 const theme = {
   // Theme styling goes here
@@ -129,7 +130,8 @@ export default function TextEditor({ editorStateRef }) {
           // externalHistoryState={editorStateRef.current?.historyState} // TODO: doesn't work
           />
           <MyCustomAutoFocusPlugin />
-          <RestoreFromLocalStoragePlugin />
+          {/* <RestoreFromLocalStoragePlugin /> */}
+          <RestorePlugin dataAsJson={editorStateRef.current} />
         </div>
       </LexicalComposer>
     </div>
