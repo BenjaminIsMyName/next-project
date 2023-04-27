@@ -283,18 +283,17 @@ export default function Post({
         )}
         <motion.div
           layout
-          className={`bg-second-color text-option-text-color 
-          
-          ${shouldAnimate ? "opacity-0" : ""} ${
+          className={`bg-second-color text-option-text-color ${
+            shouldAnimate ? "opacity-0" : ""
+          } ${
             isFullyOpened
-              ? `md:p-5 md:border-[20px] border-main-color  ${
+              ? `md:p-5 md:border-[20px] border-main-color p-0 border-0 ${
                   // nested conditions
                   isPostPage
                     ? ""
                     : `bg-opacity-50 backdrop-blur-lg top-0 right-0 left-0 bottom-0 fixed pb-[var(--header-height)] z-50 h-full 
                     overflow-auto ltr:md:left-[var(--aside-width)] rtl:md:right-[var(--aside-width)]`
-                }
-                  p-0 border-0`
+                }`
               : "mb-5 overflow-hidden"
           }`}
           ref={postRef} // converted from https://reactjs.org/docs/refs-and-the-dom.html#callback-refs to simple ref
