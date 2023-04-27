@@ -49,6 +49,11 @@ export default async function handler(req, res) {
     return;
   }
 
+  if (post.value.type === "article") {
+    res.status(204).end();
+    return;
+  }
+
   const fileParams = {
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: post.value.objectS3key,
