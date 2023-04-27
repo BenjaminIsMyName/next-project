@@ -1,5 +1,5 @@
 import { $getRoot, $getSelection } from "lexical";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { PlainTextPlugin } from "@lexical/react/LexicalPlainTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
@@ -55,7 +55,33 @@ function onError(error) {
   console.error(error);
 }
 
+function RestoreFromLocalStoragePlugin() {
+  const [editor] = useLexicalComposerContext();
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+  useEffect(() => {
+    if (isFirstRender) {
+      setIsFirstRender(false);
+      const serializedEditorState = localStorage.getItem("editorState");
+      if (serializedEditorState) {
+        const initialEditorState = editor.parseEditorState(
+          serializedEditorState
+        );
+        editor.setEditorState(initialEditorState);
+      }
+    }
+  }, [isFirstRender, editor]);
+
+  const onChange = useCallback(editorState => {
+    localStorage.setItem("editorState", JSON.stringify(editorState.toJSON()));
+  }, []);
+
+  return <OnChangePlugin onChange={onChange} />;
+}
+
 export default function TextEditor({ editorStateRef }) {
+  // const [editor] = useLexicalComposerContext();
+
   const initialConfig = {
     namespace: "MyEditor",
     theme,
@@ -73,7 +99,9 @@ export default function TextEditor({ editorStateRef }) {
       AutoLinkNode,
       LinkNode,
     ],
-    editorState: editorStateRef?.current || null,
+    // editorState: editorStateRef.current
+    //   ? editor.parseEditorState(editorStateRef.current)
+    //   : null,
   };
 
   return (
@@ -94,13 +122,14 @@ export default function TextEditor({ editorStateRef }) {
           />
           <OnChangePlugin
             onChange={editorState => {
-              editorStateRef.current = editorState;
+              editorStateRef.current = JSON.stringify(editorState.toJSON());
             }}
           />
           <HistoryPlugin
           // externalHistoryState={editorStateRef.current?.historyState} // TODO: doesn't work
           />
           <MyCustomAutoFocusPlugin />
+          <RestoreFromLocalStoragePlugin />
         </div>
       </LexicalComposer>
     </div>

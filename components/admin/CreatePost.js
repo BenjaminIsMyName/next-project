@@ -23,8 +23,10 @@ export default function CreatePost() {
   const [shouldAnimateIn, setShouldAnimateIn] = useState(true);
   const [shouldAnimateOut, setShouldAnimateOut] = useState(true);
   const [setRef, { height }] = useElementSize();
-  const editorStateRef = useRef();
-  console.log(JSON.stringify(editorStateRef.current));
+  // const data = localStorage.getItem("editorState");
+
+  const editorStateRef = useRef(null);
+
   const { t } = useTranslation(["admin"]);
   const router = useRouter();
 
@@ -64,6 +66,7 @@ export default function CreatePost() {
   const [selectedTopics, setSelectedTopics] = useState([]);
 
   function handleFileSelect(e) {
+    localStorage.setItem("editorState", editorStateRef.current);
     var fileSize = (e.target.files[0].size / 1024 / 1024).toFixed(3); // MB
     if (fileSize > 300) {
       add({
