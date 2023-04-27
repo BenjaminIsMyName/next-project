@@ -54,27 +54,18 @@ export default function DisplayRichText({ dataAsJson }) {
   };
 
   return (
-    <div className="min-h-[320px]">
+    <div>
       <LexicalComposer initialConfig={initialConfig}>
+        {/* TODO: add features like allowing user to change font size etc... */}
         {/* <ToolbarPlugin /> */}
         <div className="editor-inner relative [&_h1]:text-4xl [&_h2]:text-2xl">
           <RichTextPlugin
             contentEditable={
-              <ContentEditable className="min-h-[200px] editor-input p-2 text-start" />
-            }
-            placeholder={
-              <div className="absolute top-2 text-start px-2 pointer-events-none">
-                Enter some text...
-              </div>
+              <ContentEditable className="editor-input p-2 text-start" />
             }
             ErrorBoundary={LexicalErrorBoundary}
           />
 
-          <HistoryPlugin
-          // externalHistoryState={editorStateRef.current?.historyState} // TODO: doesn't work
-          />
-          <FocusPlugin />
-          {/* <RestoreFromLocalStoragePlugin /> */}
           <RestorePlugin dataAsJson={dataAsJson} />
         </div>
       </LexicalComposer>
