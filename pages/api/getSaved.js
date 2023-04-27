@@ -18,13 +18,21 @@ export default async function handler(req, res) {
 
   // Fetch posts:
   try {
-    let userFromDb = await db
-      .collection("users")
-      .findOne({ _id: ObjectId(user._id) });
-
     var actualPosts = await db
       .collection("posts")
-      .find({ _id: { $in: userFromDb.saved } })
+      .aggregate([
+        {
+          $match: { _id: { $in: user.saved } },
+        },
+        {
+          $lookup: {
+            from: "topics",
+            localField: "topics",
+            foreignField: "_id",
+            as: "actualTopics",
+          },
+        },
+      ])
       .toArray();
   } catch (err) {
     console.log(err);
@@ -46,7 +54,7 @@ export default async function handler(req, res) {
       uploaderId: p.uploaderId,
       numberOfComments: p.comments.length,
       numberOfLikes: p.likes.length,
-      topics: p.topics,
+      topics: p.actualTopics,
       didLike: p.likes.some(userId => userId.equals(user._id)),
       isSaved: true,
     };
