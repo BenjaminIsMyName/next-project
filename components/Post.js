@@ -20,6 +20,7 @@ import useLoaded from "../hooks/useLoaded";
 import { SoundContext } from "../context/SoundContext";
 import GoToComments from "./GoToComments";
 import Video from "./Video";
+import DisplayRichText from "./DisplayRichText";
 
 export default function Post({
   animateProp,
@@ -414,11 +415,37 @@ export default function Post({
             </div>
           )}
 
-          <Video
-            videoUrl={localPost?.url}
-            setCanPlay={setCanPlay}
-            canPlay={canPlay}
-          />
+          {localPost?.type === "video" && (
+            <Video
+              videoUrl={localPost?.url}
+              setCanPlay={setCanPlay}
+              canPlay={canPlay}
+            />
+          )}
+
+          {localPost?.type === "article" && (
+            <div>
+              {isFullyOpened ? (
+                <DisplayRichText dataAsJson={localPost.editorState} />
+              ) : (
+                <Link
+                  scroll={false}
+                  // shallow={true}
+                  href={{
+                    pathname: `${route}`,
+                    query: { post: localPost?._id, id: query.id }, // "id" is for the topicId, when viewing a topic
+                  }}
+                  as={localPost ? `/post/${localPost?._id}` : "/"}
+                >
+                  <a>
+                    <div className="bg-main-color/50 text-center p-4 hover:bg-third-color/50 transition-colors">
+                      <span>SEE ARTICLE</span>
+                    </div>
+                  </a>
+                </Link>
+              )}
+            </div>
+          )}
 
           <div
             className={`flex justify-evenly content-center py-4 px-2 [&>div]:flex [&>div]:gap-2

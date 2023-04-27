@@ -100,7 +100,10 @@ export async function getServerSideProps(ctx) {
 
   post = {
     _id: post._id,
-    url: process.env.AWS_URL_PREFIX + post.objectS3key,
+    ...(post.type === "video"
+      ? { url: process.env.AWS_URL_PREFIX + post.objectS3key }
+      : {}),
+    ...(post.type === "article" ? { editorState: post.editorState } : {}),
     type: post.type,
     title: post.title,
     postCreationDate: post.postCreationDate,
