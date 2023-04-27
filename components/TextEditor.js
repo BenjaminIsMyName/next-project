@@ -15,6 +15,8 @@ import { CodeHighlightNode, CodeNode } from "@lexical/code";
 import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
 import { AutoLinkNode, LinkNode } from "@lexical/link";
 import RestorePlugin from "@l/plugins/RestorePlugin";
+import RestoreFromLocalStoragePlugin from "@l/plugins/RestoreFromLocalStoragePlugin";
+import FocusPlugin from "@l/plugins/FocusPlugin";
 
 const theme = {
   // Theme styling goes here
@@ -23,32 +25,6 @@ const theme = {
   paragraph: "idk",
 };
 
-// When the editor changes, you can get notified via the
-// LexicalOnChangePlugin!
-// function onChange(editorState) {
-//   editorState.read(() => {
-//   //   // Read the contents of the EditorState here.
-//     const root = $getRoot();
-//     const selection = $getSelection();
-//     console.log(root, selection);
-//   });
-// }
-
-// Lexical React plugins are React components, which makes them
-// highly composable. Furthermore, you can lazy load plugins if
-// desired, so you don't pay the cost for plugins until you
-// actually use them.
-function MyCustomAutoFocusPlugin() {
-  const [editor] = useLexicalComposerContext();
-
-  useEffect(() => {
-    // Focus the editor when the effect fires!
-    editor.focus();
-  }, [editor]);
-
-  return null;
-}
-
 // Catch any errors that occur during Lexical updates and log them
 // or throw them as needed. If you don't throw them, Lexical will
 // try to recover gracefully without losing user data.
@@ -56,33 +32,7 @@ function onError(error) {
   console.error(error);
 }
 
-function RestoreFromLocalStoragePlugin() {
-  const [editor] = useLexicalComposerContext();
-  const [isFirstRender, setIsFirstRender] = useState(true);
-
-  useEffect(() => {
-    if (isFirstRender) {
-      setIsFirstRender(false);
-      const serializedEditorState = localStorage.getItem("editorState");
-      if (serializedEditorState) {
-        const initialEditorState = editor.parseEditorState(
-          serializedEditorState
-        );
-        editor.setEditorState(initialEditorState);
-      }
-    }
-  }, [isFirstRender, editor]);
-
-  const onChange = useCallback(editorState => {
-    localStorage.setItem("editorState", JSON.stringify(editorState.toJSON()));
-  }, []);
-
-  return <OnChangePlugin onChange={onChange} />;
-}
-
 export default function TextEditor({ editorStateRef }) {
-  // const [editor] = useLexicalComposerContext();
-
   const initialConfig = {
     namespace: "MyEditor",
     theme,
@@ -100,9 +50,6 @@ export default function TextEditor({ editorStateRef }) {
       AutoLinkNode,
       LinkNode,
     ],
-    // editorState: editorStateRef.current
-    //   ? editor.parseEditorState(editorStateRef.current)
-    //   : null,
   };
 
   return (
@@ -129,7 +76,7 @@ export default function TextEditor({ editorStateRef }) {
           <HistoryPlugin
           // externalHistoryState={editorStateRef.current?.historyState} // TODO: doesn't work
           />
-          <MyCustomAutoFocusPlugin />
+          <FocusPlugin />
           {/* <RestoreFromLocalStoragePlugin /> */}
           <RestorePlugin dataAsJson={editorStateRef.current} />
         </div>
