@@ -36,7 +36,10 @@ export default async function handler(req, res) {
   const customize = actualPosts.map(p => {
     return {
       _id: p._id,
-      url: process.env.AWS_URL_PREFIX + p.objectS3key,
+      ...(p.type === "video"
+        ? { url: process.env.AWS_URL_PREFIX + p.objectS3key }
+        : {}),
+      ...(p.type === "article" ? { editorState: p.editorState } : {}),
       type: p.type,
       title: p.title,
       postCreationDate: p.postCreationDate,
