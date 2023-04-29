@@ -410,8 +410,8 @@ export default function Post({
               </button>
             </div>
           )}
-
-          {localPost?.type === "video" && (
+          {/* If did not receive any data from database, show the video's skeleton */}
+          {(localPost?.type === "video" || !localPost) && (
             <Video
               videoUrl={localPost?.url}
               setCanPlay={setCanPlay}
