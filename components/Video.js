@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import useLoaded from "../hooks/useLoaded";
 import { useIdleTimer } from "react-idle-timer";
+import { motion } from "framer-motion";
 
 /*
 
@@ -125,11 +126,20 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      {(!canPlay || !videoUrl) && (
-        <div className="absolute inset-0 z-30 bg-second-color">
-          <div className={`animate-skeleton absolute inset-0`}></div>
-        </div>
-      )}
+      <AnimatePresence>
+        {(!canPlay || !videoUrl) && (
+          <motion.div
+            exit={{
+              opacity: 0,
+              scale: [1, 0.8, 1],
+            }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0 z-30 bg-second-color"
+          >
+            <div className={`animate-skeleton absolute inset-0`}></div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div
         className="absolute inset-0 z-10 cursor-pointer"
         onClick={() => setIsPlaying(prev => !prev)}
