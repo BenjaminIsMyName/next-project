@@ -48,7 +48,9 @@ export default function Feed({ type, topicId }) {
       {posts.map((post, index) => (
         <Post
           key={post._id}
-          animateProp={index >= process.env.NEXT_PUBLIC_HOW_MANY_TO_FETCH}
+          animateProp={
+            index >= Number(process.env.NEXT_PUBLIC_HOW_MANY_TO_FETCH)
+          }
           post={post}
         />
       ))}
