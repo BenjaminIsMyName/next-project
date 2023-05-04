@@ -242,3 +242,8 @@ video::-webkit-media-controls {
   min-width: 30px;
   min-height: 30px;
 }
+
+.editor-inner a {
+  color: rgb(var(--third-color));
+  text-decoration: underline;
+}
