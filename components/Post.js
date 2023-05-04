@@ -268,6 +268,7 @@ export default function Post({
         },
         // -------- if we want to allow clicks outside, but no tabs (NOTE: tiny bugs with this option, check well before changing):
         // allowOutsideClick: true,
+        initialFocus: false, // this is needed because if this is enabled - the article will not start from the top when opened! (it will start from the focusable element)
       }}
       active={isFullyOpened && !isPostPage} // we need FocusTrap only when the post is opened in the feed
     >
