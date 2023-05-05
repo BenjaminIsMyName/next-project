@@ -62,69 +62,68 @@ export default async function handler(req, res) {
 
   // check if user already exists ------------------------
   try {
-    let user = await db
+    var users = await db
       .collection("users")
       .find({ email: googleToken ? googleEmail : email })
       .toArray();
+  } catch (err) {
+    console.log(`error ${err}`);
+    res.status(503).json({
+      error: `failed to query DB and check if user already exist: ${err}`,
+    });
+    return;
+  }
 
-    // user is logging back with their google account
-    if (user.length === 1 && googleToken && user[0].withGoogle) {
-      // compare "passwords" (the 'sub' in the payload)
-      if (user[0].password != googleUserId) {
-        res.status(401).json({ error: `The JWT has been tampered with` });
-        return;
-      }
+  // user is logging back with their google account
+  if (users.length === 1 && googleToken && users[0].withGoogle) {
+    // compare "passwords" (the 'sub' in the payload)
+    if (users[0].password != googleUserId) {
+      res.status(401).json({ error: `The JWT has been tampered with` });
+      return;
+    }
 
-      // insert token in DB ------------------------
-      try {
-        await db.collection("users").findOneAndUpdate(
-          { email: googleEmail },
-          {
-            $push: {
-              tokens: {
-                token,
-                tokenCreationDate: tokenCreationDate,
-                didLogOut: false,
-              },
+    // insert token in DB ------------------------
+    try {
+      await db.collection("users").findOneAndUpdate(
+        { email: googleEmail },
+        {
+          $push: {
+            tokens: {
+              token,
+              tokenCreationDate: tokenCreationDate,
+              didLogOut: false,
             },
-          }
-        );
-      } catch (err) {
-        console.log(`error ${err}`);
-        res.status(503).json({ error: `failed to add token to DB: ${err}` });
-        return;
-      }
-
-      setCookie("token", token, { req, res, httpOnly: true });
-      // return token & name ------------------------
-      setCookie(
-        "user",
-        {
-          name: user[0].name,
-          email: user[0].email,
-          id: user[0]._id,
-          withGoogle: true,
-        },
-        {
-          req,
-          res,
+          },
         }
       );
-      res.status(204).end();
-      return;
-    }
-    if (user.length > 0) {
-      res.status(409).json({
-        error: `an account is already associated with this email`,
-      });
+    } catch (err) {
+      console.log(`error ${err}`);
+      res.status(503).json({ error: `failed to add token to DB: ${err}` });
       return;
     }
 
-    if (user.length > 0 && googleToken) {
-    }
-  } catch (err) {
-    res.status(503).json({
-      error: `failed to check if user already exists: ${err}`,
+    setCookie("token", token, { req, res, httpOnly: true });
+    // return token & name ------------------------
+    setCookie(
+      "user",
+      {
+        name: users[0].name,
+        email: users[0].email,
+        id: users[0]._id,
+        withGoogle: true,
+      },
+      {
+        req,
+        res,
+      }
+    );
+    res.status(204).end();
+    return;
+  }
+
+  if (users.length > 0) {
+    res.status(409).json({
+      error: `an account is already associated with this email`,
     });
     return;
   }
