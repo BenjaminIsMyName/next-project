@@ -90,7 +90,7 @@ export default function ProfileModal({ closeModals }) {
         setErrorText(errorsText.general);
       }
     } else if (googleStatus === GoogleStatusEnum.success) {
-      setInputsData(inputsDataDefault);
+      defaultState(); // reset the state, so when deleting account or something - it will show the (empty) email form again. even if the modal was never closed...
     }
   }, [
     GoogleLoginMethodsEnum.button,
