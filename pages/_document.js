@@ -1,9 +1,11 @@
 import { Html, Head, Main, NextScript } from "next/document";
 import Script from "next/script";
 
-export default function Document() {
+export default function Document(ctx) {
+  const locale = ctx.locale;
   return (
-    <Html dir="rtl">
+    <Html dir={locale === "en" ? "ltr" : "rtl"}>
+      {/* ^^^ Set the direction of the page on the server, before sending the page to the client ^^^ */}
       {/* ----- code for PWA from https://www.npmjs.com/package/next-pwa ----- */}
       <meta name="application-name" content="Redilet" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -114,11 +116,8 @@ export default function Document() {
           strategy="beforeInteractive"
         />
       </Head>
-      {/* When sending the document to the client, send it with RTL.
-          That way, most users (RTL users) won't see a flicker.
-          TODO: try to find a way to change it on the server already, based on user's language.
-          Known issue: https://github.com/vercel/next.js/discussions/37767 */}
-      <body dir="rtl">
+      {/* Set the direction of the page on the server, before sending the page to the client: */}
+      <body dir={locale === "en" ? "ltr" : "rtl"}>
         <Main />
         <NextScript />
       </body>
