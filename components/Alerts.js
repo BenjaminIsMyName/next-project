@@ -7,7 +7,8 @@ export default function Alerts({ alerts, remove }) {
 
   return (
     <div
-      id="alerts"
+      data-short-description="alerts"
+      data-description="this is the div that contains the alerts"
       className={`fixed bottom-[calc(12px+var(--header-height))] md:bottom-3 flex items-end flex-col gap-3
       left-3 right-3
     z-10`}

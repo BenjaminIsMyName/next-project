@@ -117,7 +117,8 @@ function MyApp({ Component, pageProps }) {
               <Aside modalOpen={modalOpen} setModalOpen={setModalOpen} />
               <AnimatePresence mode={"wait"} initial={false}>
                 <motion.div
-                  id="content"
+                  data-short-description="content"
+                  data-description="this is the div that contains the actual content of the page, next to the menu"
                   // we add padding to the bottom only on small screens (md:p-0) to not overlap the menu's header.
                   className={`bg-main-color transition-[width] duration-1000 ease-in
                         min-h-screen isolate 

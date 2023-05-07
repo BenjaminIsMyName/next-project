@@ -85,15 +85,19 @@ export default function Aside({ modalOpen, setModalOpen }) {
         },
       }}
     >
-      <div id="containerOfAsideAndOverlay">
+      <div
+        data-short-description="containerOfAsideAndOverlay"
+        data-description="this is the container of the aside and the overlay. It's needed because the focus-trap cannot use a Fragment as its child container"
+      >
         {/* A focus-trap cannot use a Fragment as its child container, that's why this div exist */}
         <div
-          id="overlay"
+          data-short-description="overlay"
+          data-description="this is the overlay that is on the page when the menu/modal is open"
           onClick={handleOverlayClick}
           className={`opacity-0 transition-[opacity] duration-500 ${
-            modalOpen !== -1
+            modalOpen !== -1 // if modal is open, the overlay is not visible, but it's still there, so clicking on it will close modal
               ? "fixed z-[1] top-0 left-0 w-full h-full"
-              : isOpen
+              : isOpen // if menu is open, the overlay is visible
               ? `opacity-100 fixed z-[1] top-0 left-0 w-full h-full bg-shadows-color bg-opacity-50 backdrop-blur-md md:hidden`
               : ""
           }`}

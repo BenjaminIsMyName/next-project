@@ -233,7 +233,12 @@ export default function Post({
   }
 
   if (isDeleted) {
-    return <div className="deletedPost"></div>;
+    return (
+      <div
+        data-short-description="deletedPost"
+        data-description="this empty div will be returned when the post is deleted"
+      ></div>
+    );
   }
 
   async function savePost() {
@@ -272,7 +277,10 @@ export default function Post({
       }}
       active={isFullyOpened && !isPostPage} // we need FocusTrap only when the post is opened in the feed
     >
-      <div className="containerOfPostAndPlaceholderDiv">
+      <div
+        data-short-description="containerOfPostAndPlaceholderDiv"
+        data-description="this div is the container of the post and the placeholder div. It's needed because the focus-trap cannot use a Fragment as its child container"
+      >
         {/* placeholder... when the post is showing on full screen, put something there in the meantime. same height as the post, same margin  */}
         {isFullyOpened && !isPostPage && (
           <div
