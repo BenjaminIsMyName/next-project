@@ -129,6 +129,7 @@ export default function Aside({ modalOpen, setModalOpen }) {
             setModalOpen={setModalOpen}
             menuOnClickHandler={clickToToggleMenu}
             isOpen={isOpen}
+            setIsOpen={setIsOpen}
           />
           <Option
             onClick={() => setIsOpen(false)}

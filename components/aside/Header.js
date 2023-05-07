@@ -14,6 +14,7 @@ export default function Header({
   isOpen,
   modalOpen,
   setModalOpen,
+  setIsOpen,
 }) {
   const loaded = useLoaded();
   const { user } = useContext(UserContext);
@@ -23,7 +24,7 @@ export default function Header({
       <div className={styles.right}>
         <MenuIcon menuOnClickHandler={menuOnClickHandler} isOpen={isOpen} />
         <Link href="/" scroll={false}>
-          <a className={styles.link}>
+          <a className={styles.link} onClick={() => setIsOpen(false)}>
             <h1 className={styles.logo}>REDILET</h1>
           </a>
         </Link>
