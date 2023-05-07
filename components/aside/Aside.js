@@ -110,15 +110,11 @@ export default function Aside({ modalOpen, setModalOpen }) {
         {modalOpen === 2 && <Modal>Search menu</Modal>} */}
         <aside
           ref={asideRef}
-          className={`select-none bg-second-color bottom-0
-                      fixed z-[1] scroll-smooth transition-all w-full 
-                      md:h-screen md:w-[300px] 
-          ${
+          className={`select-none bg-second-color bottom-0 fixed z-[1] scroll-smooth transition-all w-full md:h-screen md:w-[300px] ${
             isOpen
               ? "duration-500 bottom-0 overflow-auto h-[270px] max-h-screen"
               : "h-[var(--header-height)]"
-          } 
-          ${
+          } ${
             locale === "en"
               ? "shadow-[3px_0_5px_2px_rgba(var(--shadows-color),_0.5)]"
               : "shadow-[-3px_0_5px_2px_rgba(var(--shadows-color),_0.5)]"

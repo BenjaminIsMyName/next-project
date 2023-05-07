@@ -119,12 +119,19 @@ function MyApp({ Component, pageProps }) {
                 <motion.div
                   data-short-description="content"
                   data-description="this is the div that contains the actual content of the page, next to the menu"
-                  // we add padding to the bottom only on small screens (md:p-0) to not overlap the menu's header.
-                  className={`bg-main-color transition-[width] duration-1000 ease-in
-                        min-h-screen isolate 
-                        w-full p-[0_0_var(--header-height)_0] md:p-0 
-                        md:w-[calc(100%-var(--aside-width))] 
-            ${locale === "en" ? "float-right" : "float-left"}`} // this is the div that contains the actual content of the page, next to the menu.
+                  className={`bg-main-color min-h-screen isolate ${
+                    // unclear why, but when using "rtl:float-left" and "ltr:float-right" from tailwind (instead of the following line), there is no transition (for posts, with the "layout" from framer) when changing languages
+                    locale === "en" ? "float-right" : "float-left"
+                  } ${
+                    // smooth transition when resizing the window
+                    "transition-[width] duration-1000 ease-in"
+                  } ${
+                    // we add padding to the bottom only on small screens (md:p-0) to not overlap the menu's header
+                    "w-full p-[0_0_var(--header-height)_0] md:p-0"
+                  } ${
+                    // for large screens, the width of the content is 100% - aside width
+                    "md:w-[calc(100%-var(--aside-width))]"
+                  }`}
                   key={router.route}
                   initial={{ opacity: 0, y: -400 }}
                   animate={{ opacity: 1, y: 0 }}
