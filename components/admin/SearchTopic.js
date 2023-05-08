@@ -14,7 +14,7 @@ import TrashIcon from "../icons/TrashIcon";
 import EditIcon from "../icons/EditIcon";
 import { AlertContext } from "../../context/AlertContext";
 import { useTranslation } from "next-i18next";
-import Error from "../Error";
+import ErrorMessage from "../ErrorMessage";
 import Container from "./Container";
 
 export default function SearchTopic({
@@ -111,7 +111,7 @@ export default function SearchTopic({
         {/* if error */}
         {status === StatusEnum.error && (
           <div>
-            <Error tryAgainCallback={fetchAll} error={error} />
+            <ErrorMessage tryAgainCallback={fetchAll} error={error} />
           </div>
         )}
         {filteredTopics.length > 0 && (

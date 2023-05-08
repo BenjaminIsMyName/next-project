@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from "react";
-import Error from "../Error";
+import ErrorMessage from "../ErrorMessage";
 import axios from "axios";
 import Loading from "../Loading";
 import { useTranslation } from "next-i18next";
@@ -289,7 +289,7 @@ export default function CreatePost() {
         </div>
         {status === StatusEnum.loading && <Loading />}
         {status === StatusEnum.error && (
-          <Error
+          <ErrorMessage
             tryAgainCallback={() => {
               if (
                 (contentType === ContentTypeEnum.video

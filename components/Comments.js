@@ -7,7 +7,7 @@ import { getCookie } from "cookies-next";
 import { AlertContext } from "../context/AlertContext";
 import { UserContext } from "../context/UserContext";
 import Loading from "./Loading";
-import Error from "./Error";
+import ErrorMessage from "./ErrorMessage";
 import { useTranslation } from "next-i18next";
 
 function CommentsComponent(
@@ -124,7 +124,7 @@ function CommentsComponent(
       <div className="flex flex-col gap-3 min-h-screen">
         {status === StatusEnum.loading && <Loading />}
         {status === StatusEnum.error && (
-          <Error
+          <ErrorMessage
             tryAgainCallback={fetchComments}
             error={t("error-getting-comments")}
           />

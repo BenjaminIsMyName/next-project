@@ -1,6 +1,6 @@
 import { useTranslation } from "next-i18next";
 
-export default function Error({ tryAgainCallback, error }) {
+export default function ErrorMessage({ tryAgainCallback, error }) {
   const { t } = useTranslation("common");
   return (
     <div className={`p-12 animate-up`}>

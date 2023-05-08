@@ -2,7 +2,7 @@ import useFetch from "../hooks/useFetch.js";
 import { useState, useRef, useContext } from "react";
 import Post from "./Post.js";
 import Loading from "./Loading.js";
-import Error from "./Error";
+import ErrorMessage from "./ErrorMessage.js";
 import { UserContext } from "../context/UserContext.js";
 import { useEffect } from "react";
 import { useTranslation } from "next-i18next";
@@ -43,6 +43,12 @@ export default function Feed({ type, topicId }) {
     return () => observer.current?.disconnect();
   }, [hasMore, loading]);
 
+  if (process.env.NEXT_PUBLIC_HOW_MANY_TO_FETCH === undefined) {
+    throw new Error(
+      "Environment variable NEXT_PUBLIC_HOW_MANY_TO_FETCH is not defined"
+    );
+  }
+
   return (
     <div className="feed">
       {posts.map((post, index) => (
@@ -69,7 +75,7 @@ export default function Feed({ type, topicId }) {
       {loading && error === null && <Loading />}
 
       {error !== null && (
-        <Error tryAgainCallback={tryAgainCallback} error={error} />
+        <ErrorMessage tryAgainCallback={tryAgainCallback} error={error} />
       )}
 
       {!hasMore && !loading && posts.length === 0 && <NothingError />}

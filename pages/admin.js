@@ -3,7 +3,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
-import Error from "../components/Error";
+import ErrorMessage from "../components/ErrorMessage";
 import CreatePost from "../components/admin/CreatePost";
 
 export default function Admin() {
@@ -35,7 +35,7 @@ export default function Admin() {
           <meta name="description" content={t("descriptions.admin")} />
         </Head>
 
-        <Error error={t("error-text.not-allowed", { ns: "common" })} />
+        <ErrorMessage error={t("error-text.not-allowed", { ns: "common" })} />
       </>
     );
   return (
