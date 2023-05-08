@@ -32,6 +32,12 @@ export default function SavedPosts() {
     get();
   }, [StatusEnum.done, StatusEnum.error, StatusEnum.loading, userId]); // same as [userId] because the others never change
 
+  if (process.env.NEXT_PUBLIC_HOW_MANY_TO_FETCH === undefined) {
+    throw new Error(
+      "Environment variable NEXT_PUBLIC_HOW_MANY_TO_FETCH is not defined"
+    );
+  }
+
   return (
     <>
       {status === StatusEnum.loading &&

@@ -103,6 +103,10 @@ export default async function handler(req, res) {
   // Send only some of the posts, the amount that was requested
   const getSome = posts.slice(0, AMOUNT);
 
+  if (process.env.AWS_URL_PREFIX === undefined) {
+    throw new Error("Environment variable AWS_URL_PREFIX is not defined");
+  }
+
   // Remove unnecessary data, show "didLike" if user is logged in etc
   const customize = getSome.map(p => {
     return {

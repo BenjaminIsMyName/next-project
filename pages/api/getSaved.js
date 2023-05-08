@@ -40,6 +40,10 @@ export default async function handler(req, res) {
     return;
   }
 
+  if (process.env.AWS_URL_PREFIX === undefined) {
+    throw new Error("Environment variable AWS_URL_PREFIX is not defined");
+  }
+
   // Remove unnecessary data, show "didLike" etc
   const customize = actualPosts.map(p => {
     return {

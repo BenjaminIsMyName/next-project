@@ -37,6 +37,12 @@ export default function useFetch(query, forceRender) {
     setState(init);
   }, [init, query]); // same as: [query]
 
+  if (process.env.NEXT_PUBLIC_HOW_MANY_TO_FETCH === undefined) {
+    throw new Error(
+      "Environment variable NEXT_PUBLIC_HOW_MANY_TO_FETCH is not defined"
+    );
+  }
+
   useEffect(() => {
     const source = axios.CancelToken.source();
     async function forAsync() {

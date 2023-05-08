@@ -72,6 +72,10 @@ export default function Aside({ modalOpen, setModalOpen }) {
 
   const isMobile = useMedia("(max-width: 900px)", true);
 
+  if (process.env.NEXT_PUBLIC_SITE_URL === undefined) {
+    throw new Error("Environment variable NEXT_PUBLIC_SITE_URL is not defined");
+  }
+
   return (
     <FocusTrap
       active={modalOpen !== -1 || (isOpen && isMobile)} // the "isMobile" is needed because if it doesn't exist, there will be a bug: open menu on mobile, make it wider, try to open post / like. You can't. You are still locked in the menu...

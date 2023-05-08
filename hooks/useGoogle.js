@@ -57,6 +57,12 @@ export default function useGoogle({ setUser }) {
     [setUser] // same as [] because setUser is a function that doesn't change
   );
 
+  if (process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID === undefined) {
+    throw new Error(
+      "Environment variable NEXT_PUBLIC_GOOGLE_CLIENT_ID is not defined"
+    );
+  }
+
   useEffect(() => {
     /* "Warning: The google.accounts.id.initialize method should be called only once,
     even if you use both One Tap and button in the same web page." */

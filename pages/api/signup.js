@@ -5,6 +5,12 @@ import { setCookie } from "cookies-next";
 import createToken from "../../util/token";
 import { OAuth2Client } from "google-auth-library";
 
+if (process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID === undefined) {
+  throw new Error(
+    "Environment variable NEXT_PUBLIC_GOOGLE_CLIENT_ID is not defined"
+  );
+}
+
 const client = new OAuth2Client(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
 
 export default async function handler(req, res) {

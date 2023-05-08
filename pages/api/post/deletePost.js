@@ -2,6 +2,20 @@ import { isLoggedInFunc } from "../../../util/authHelpers";
 import { ObjectId } from "mongodb";
 import S3 from "aws-sdk/clients/s3";
 
+if (process.env.AWS_ACCESS_KEY_FOR_S3 === undefined) {
+  throw new Error("Environment variable AWS_ACCESS_KEY_FOR_S3 is not defined");
+}
+
+if (process.env.AWS_SECRET_ACCESS_KEY_FOR_S3 === undefined) {
+  throw new Error(
+    "Environment variable AWS_SECRET_ACCESS_KEY_FOR_S3 is not defined"
+  );
+}
+
+if (process.env.AWS_BUCKET_NAME === undefined) {
+  throw new Error("Environment variable AWS_BUCKET_NAME is not defined");
+}
+
 const s3instance = new S3({
   apiVersion: "2006-03-01",
   region: "us-east-1",

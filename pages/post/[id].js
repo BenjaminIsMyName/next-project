@@ -98,6 +98,10 @@ export async function getServerSideProps(ctx) {
     };
   }
 
+  if (process.env.AWS_URL_PREFIX === undefined) {
+    throw new Error("Environment variable AWS_URL_PREFIX is not defined");
+  }
+
   post = {
     _id: post._id,
     ...(post.type === "video"

@@ -4,6 +4,20 @@ import { getCookie } from "cookies-next";
 import connectToDatabase from "../../util/mongodb";
 import { isLoggedInFunc } from "../../util/authHelpers";
 
+if (process.env.AWS_ACCESS_KEY_FOR_S3 === undefined) {
+  throw new Error("Environment variable AWS_ACCESS_KEY_FOR_S3 is not defined");
+}
+
+if (process.env.AWS_SECRET_ACCESS_KEY_FOR_S3 === undefined) {
+  throw new Error(
+    "Environment variable AWS_SECRET_ACCESS_KEY_FOR_S3 is not defined"
+  );
+}
+
+if (process.env.AWS_BUCKET_NAME === undefined) {
+  throw new Error("Environment variable AWS_BUCKET_NAME is not defined");
+}
+
 const s3instance = new S3({
   apiVersion: "2006-03-01",
   region: "us-east-1",
