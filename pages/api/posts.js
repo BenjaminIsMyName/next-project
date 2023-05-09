@@ -104,6 +104,8 @@ export default async function handler(req, res) {
   const getSome = posts.slice(0, AMOUNT);
 
   if (process.env.AWS_URL_PREFIX === undefined) {
+    // AWS_URL_PREFIX is https://<bucket-name>.s3.amazonaws.com/ or https://<distribution-domain-name>.cloudfront.net/ etc...
+    // It is used to display the videos, by using: AWS_URL_PREFIX + file name
     throw new Error("Environment variable AWS_URL_PREFIX is not defined");
   }
 
