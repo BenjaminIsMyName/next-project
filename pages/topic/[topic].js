@@ -36,7 +36,7 @@ export default function TopicPage({ topic }) {
           })}
         />
       </Head>
-      <Feed type="topic" topicId={router.query.id} />
+      <Feed type="topic" topicId={router.query.topic} />
     </>
   );
 }
@@ -44,7 +44,7 @@ export default function TopicPage({ topic }) {
 export async function getStaticPaths() {
   const { db } = await connectToDatabase();
   const topics = await db.collection("topics").find({}).toArray();
-  let paths = topics.map(t => ({ params: { id: t._id.toString() } }));
+  let paths = topics.map(t => ({ params: { topic: t._id.toString() } }));
 
   return {
     paths: paths,
@@ -54,7 +54,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(ctx) {
   const { params } = ctx;
-  const id = params.id;
+  const id = params.topic;
 
   try {
     var { db } = await connectToDatabase();

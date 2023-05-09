@@ -33,9 +33,9 @@ export default function GoToComments({
         pathname: `${route}`,
         query: {
           post: localPost?._id,
-          id: query.id,
-          scrollToComments: true,
-        }, // "id" is for the topicId, when viewing a topic
+          topic: query.topic,
+          scrollToComments: true, // let the post page know to scroll to comments when it loads (see useEffect in Post.js that checks for this query param)
+        },
       }}
       as={localPost ? `/post/${localPost?._id}` : "/"}
     >

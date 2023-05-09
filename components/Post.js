@@ -29,7 +29,7 @@ export default function Post({
   unsavePostCallback,
 }) {
   const { t } = useTranslation(["common", "admin"]);
-  const { locale, query, push, route } = useRouter();
+  const { locale, query, push, route, back } = useRouter();
   const [localPost, setLocalPost] = useState(post || null); // any change to this post - will just update this state. not the state of all the posts...
   const [canPlay, setCanPlay] = useState(false); // this is here (and not in the Video.js) in order to force render of this entire component, to update the height of the post in ref (postHeightNotOpenedYetRef)
   const commentsButtonRef = useRef();
@@ -261,18 +261,10 @@ export default function Post({
   return (
     <FocusTrap
       focusTrapOptions={{
-        // -------- if we want any click outside to close the post:
-        clickOutsideDeactivates: true,
-        escapeDeactivates: true, // default
-        onDeactivate: () => {
-          // onDeactivate is necessary, and if you think everything is working fine without it, try restarting the development server and try again
-          let new_route = route;
-          if (route.includes("[id]"))
-            new_route = route.replace("[id]", query.id);
-          push(new_route, undefined, { scroll: false });
+        escapeDeactivates: () => {
+          back();
         },
-        // -------- if we want to allow clicks outside, but no tabs (NOTE: tiny bugs with this option, check well before changing):
-        // allowOutsideClick: true,
+        allowOutsideClick: true,
         initialFocus: false, // this is needed because if this is enabled - the article will not start from the top when opened! (it will start from the focusable element)
       }}
       active={isFullyOpened && !isPostPage} // we need FocusTrap only when the post is opened in the feed
@@ -367,7 +359,7 @@ export default function Post({
                 // shallow={true}
                 href={{
                   pathname: `${route}`,
-                  query: { post: localPost?._id, id: query.id }, // "id" is for the topicId, when viewing a topic
+                  query: { post: localPost?._id, topic: query.topic },
                 }}
                 as={localPost ? `/post/${localPost?._id}` : "/"}
               >
@@ -438,7 +430,7 @@ export default function Post({
                   // shallow={true}
                   href={{
                     pathname: `${route}`,
-                    query: { post: localPost?._id, id: query.id }, // "id" is for the topicId, when viewing a topic
+                    query: { post: localPost?._id, topic: query.topic },
                   }}
                   as={localPost ? `/post/${localPost?._id}` : "/"}
                 >
