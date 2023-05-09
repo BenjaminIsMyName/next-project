@@ -261,12 +261,35 @@ export default function Post({
   return (
     <FocusTrap
       focusTrapOptions={{
+        initialFocus: false, // this is needed because if this is enabled - the article will not start from the top when opened! (it will start from the focusable element)
         escapeDeactivates: () => {
           back();
+          return true;
         },
-        allowOutsideClick: true,
-        initialFocus: false, // this is needed because if this is enabled - the article will not start from the top when opened! (it will start from the focusable element)
+        // option 1 (if we want clicks outside to close the post)... (see long comment below to understand why it's better to use this option)
+        clickOutsideDeactivates: () => {
+          back();
+          return true;
+        },
+        // option 2: (if we want to allow clicks {no tabs} outside of the post without closing it)
+        // allowOutsideClick: true,
       }}
+      /*
+      
+      which option to use? option 1 or option 2?
+      option 2 might look better at first glance, because it prevents accidental closing of the post when clicking outside of it.
+      but it has a problem: when the post is opened, and the user clicks outside of it to change the language, 
+      the language will change, but when using the back button in the browser 
+      to close the post - the language will change back to the previous language instead of closing the post. because that's 
+      the last URL change.
+
+      adding replace="true" to the Links that change the language does not solve the problem.
+      first, about "replace": https://nextjs.org/docs/app/api-reference/components/link#replace
+      the reason it doesn't help is because when going back - the post WILL be closed, but the 
+      language will change back to the previous language, because the url doesn't contain the locale anymore.
+
+      */
+
       active={isFullyOpened && !isPostPage} // we need FocusTrap only when the post is opened in the feed
     >
       <div
