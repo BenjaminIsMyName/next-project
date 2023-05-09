@@ -6,10 +6,19 @@ import Feed from "../../components/Feed";
 import connectToDatabase from "../../util/mongodb";
 import { ObjectId } from "mongodb";
 import Loading from "../../components/Loading";
+import { useRef } from "react";
 
 export default function TopicPage({ topic }) {
   const router = useRouter();
   const { t } = useTranslation(["common"]);
+
+  // remember topicId in case user navigates to another page.
+  // it is needed because router.query.topic is undefined during the exit animation, causing a refetch of the feed while navigating away.
+  const topicId = useRef(router.query.topic);
+  // update topicId ONLY if router.query.topic is defined (user navigated to a different topic somehow or something)... otherwise keep the old value so we won't refetch the feed.
+  if (router.query.topic) {
+    topicId.current = router.query.topic;
+  }
 
   if (router.isFallback) {
     // If the page is not yet generated, this will be displayed
@@ -36,7 +45,7 @@ export default function TopicPage({ topic }) {
           })}
         />
       </Head>
-      <Feed type="topic" topicId={router.query.topic} />
+      <Feed type="topic" topicId={topicId.current} />
     </>
   );
 }
