@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 // import ReactPlayer from "react-player"; // not used anymore
 import { AnimatePresence, motion as m } from "framer-motion";
 import { useRouter } from "next/router";
@@ -6,6 +6,7 @@ import { useTranslation } from "next-i18next";
 import useLoaded from "../hooks/useLoaded";
 import { useIdleTimer } from "react-idle-timer";
 import { motion } from "framer-motion";
+import { AlertContext } from "@context/AlertContext";
 
 /*
 
@@ -22,10 +23,12 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [playedSeconds, setPlayedSeconds] = useState(0);
+  const { add } = useContext(AlertContext);
   const playerRef = useRef();
   const [duration, setDuration] = useState(0);
   const containerRef = useRef(); // to show the entire custom video player in full screen (see: https://stackoverflow.com/a/52879736)
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isPip, setIsPip] = useState(false);
   const [focusOnProgressBar, setFocusOnProgressBar] = useState(false);
   const [isDraggingProgressBar, setIsDraggingProgressBar] = useState(false);
   const isStillClickedRef = useRef(false);
@@ -78,6 +81,20 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
     };
   }, []);
 
+  useEffect(() => {
+    function handleEvent() {
+      setIsPip(document.pictureInPictureElement ? true : false);
+    }
+
+    document.addEventListener("enterpictureinpicture", handleEvent);
+    document.addEventListener("leavepictureinpicture", handleEvent);
+
+    return () => {
+      document.removeEventListener("enterpictureinpicture", handleEvent);
+      document.removeEventListener("leavepictureinpicture", handleEvent);
+    };
+  }, []);
+
   const [isIdle, setIsIdle] = useState(false); // if the user is idle *while hovering on a video that is being played*, we want to hide the cursor and controls
   const [shouldHideCursor, setShouldHideCursor] = useState(false); // a few seconds *after* idle
   const setTimeoutRef = useRef();
@@ -115,6 +132,13 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
     }
   }, [isPlaying, isHovering]);
 
+  function togglePlay() {
+    if (document.pictureInPictureElement) {
+      document.exitPictureInPicture();
+    }
+    setIsPlaying(prev => !prev);
+  }
+
   return (
     <div
       ref={containerRef}
@@ -142,7 +166,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
       </AnimatePresence>
       <div
         className="absolute inset-0 z-10 cursor-pointer"
-        onClick={() => setIsPlaying(prev => !prev)}
+        onClick={togglePlay}
       ></div>
       <AnimatePresence>
         {/* if hovering and active, or video is paused - show control elements */}
@@ -169,7 +193,7 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
               <div className="flex gap-4">
                 {/* play icon: */}
                 <button
-                  onClick={() => setIsPlaying(prev => !prev)}
+                  onClick={togglePlay}
                   className="backdrop-blur-xl p-2 rounded-lg"
                   title={isPlaying ? t("pause") : t("play")}
                 >
@@ -203,7 +227,49 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                 </div>
               </div>
               {/* container for the right part: */}
-              <div>
+              <div className="flex gap-4">
+                <button
+                  title={isPip ? t("exit-pip") : t("pip")}
+                  className="backdrop-blur-xl p-2 rounded-lg"
+                  onClick={() => {
+                    // if already in pip, exit pip:
+                    if (document.pictureInPictureElement) {
+                      document.exitPictureInPicture();
+                      return;
+                    }
+                    if (
+                      playerRef.current.requestPictureInPicture === undefined
+                    ) {
+                      if (document.fullscreenElement) {
+                        // exit full screen if it's on, otherwise the user won't see the message
+                        document.exitFullscreen();
+                      }
+                      add({
+                        title: t("pip-not-supported"),
+                      });
+
+                      return;
+                    }
+                    playerRef.current.requestPictureInPicture();
+                  }}
+                >
+                  {isPip ? (
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="w-6 h-6 fill-option-text-color"
+                    >
+                      <path d="M21 3H3c-1.11 0-2 .89-2 2v12c0 1.1.89 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.11-.9-2-2-2zm0 14H3V5h18v12z"></path>
+                    </svg>
+                  ) : (
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="w-6 h-6 fill-option-text-color"
+                    >
+                      <path d="M19 11h-8v6h8v-6zm4 8V4.98C23 3.88 22.1 3 21 3H3c-1.1 0-2 .88-2 1.98V19c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2zm-2 .02H3V4.97h18v14.05z"></path>
+                    </svg>
+                  )}
+                </button>
+
                 <button
                   title={isFullScreen ? t("exit-fullscreen") : t("fullscreen")}
                   className="backdrop-blur-xl p-2 rounded-lg"
@@ -213,9 +279,12 @@ export default function CustomVideoPlayer({ videoUrl, setCanPlay, canPlay }) {
                       document.exitFullscreen();
                       return;
                     }
+                    // first exit pip if in pip, and only after that enter full screen:
+                    if (document.pictureInPictureElement) {
+                      document.exitPictureInPicture();
+                    }
 
                     containerRef.current.requestFullscreen();
-                    // playerRef.current.requestPictureInPicture();
                   }}
                 >
                   {isFullScreen ? (

@@ -59,5 +59,8 @@
   "pause": "Pause",
   "fullscreen": "Fullscreen",
   "exit-fullscreen": "Exit fullscreen",
-  "progress-bar": "Progress bar"
+  "progress-bar": "Progress bar",
+  "pip": "Picture In Picture",
+  "exit-pip": "Exit Picture In Picture",
+  "pip-not-supported": "Picture In Picture is not supported in your browser"
 }

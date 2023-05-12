@@ -59,5 +59,8 @@
   "pause": "השהה",
   "fullscreen": "מסך מלא",
   "exit-fullscreen": "צא ממסך מלא",
-  "progress-bar": "סרגל התקדמות"
+  "progress-bar": "סרגל התקדמות",
+  "pip": "פתיחה במיני-נגן",
+  "exit-pip": "צא ממיני-נגן",
+  "pip-not-supported": "מיני-נגן אינו נתמך בדפדפן בו אתה משתמש"
 }
