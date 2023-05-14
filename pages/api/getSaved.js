@@ -1,7 +1,4 @@
-import { getCookie } from "cookies-next";
 import { isLoggedInFunc } from "../../util/authHelpers";
-import connectToDatabase from "../../util/mongodb";
-import { ObjectId } from "mongodb";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {

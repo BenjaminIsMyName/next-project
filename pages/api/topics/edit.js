@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   hebrew = hebrew.trim();
   english = english.trim();
 
-  const { isLoggedIn, isAdmin, error, code, db, user } = await isLoggedInFunc(
+  const { isLoggedIn, isAdmin, error, code, db } = await isLoggedInFunc(
     req,
     res
   );

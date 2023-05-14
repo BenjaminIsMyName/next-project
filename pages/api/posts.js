@@ -1,6 +1,4 @@
-import { getCookie } from "cookies-next";
 import { isLoggedInFunc } from "../../util/authHelpers";
-import connectToDatabase from "../../util/mongodb";
 import { ObjectId } from "mongodb";
 
 export default async function handler(req, res) {
@@ -22,15 +20,11 @@ export default async function handler(req, res) {
 
   const AMOUNT = parseInt(amount);
   const EXIST = JSON.parse(exist);
-  // let userFromCookie = getCookie("user", { req, res });
-  // userFromCookie = userFromCookie ? JSON.parse(userFromCookie) : null;
 
-  const { isLoggedIn, user } = await isLoggedInFunc(req, res);
+  const { isLoggedIn, user, db } = await isLoggedInFunc(req, res);
 
   // Fetch posts:
   try {
-    const { db } = await connectToDatabase();
-
     let pipeline = [
       {
         $match: { _id: { $nin: EXIST.map(o => ObjectId(o)) } },

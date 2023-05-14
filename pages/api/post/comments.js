@@ -1,4 +1,3 @@
-import { getCookie } from "cookies-next";
 import { isLoggedInFunc } from "../../../util/authHelpers";
 import connectToDatabase from "../../../util/mongodb";
 import { ObjectId } from "mongodb";
@@ -13,7 +12,7 @@ export default async function handler(req, res) {
 
   let { postId } = req.query;
 
-  const { isLoggedIn, user } = await isLoggedInFunc(req, res);
+  const { user } = await isLoggedInFunc(req, res);
 
   // Fetch posts:
   try {

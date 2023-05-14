@@ -1,7 +1,7 @@
 import { isLoggedInFunc } from "../../../util/authHelpers";
 import { ObjectId } from "mongodb";
 import { commentError } from "../../../util/validate";
-const { randomUUID } = require("crypto");
+import { randomUUID } from "crypto";
 
 export default async function handler(req, res) {
   if (req.method !== "PUT") {

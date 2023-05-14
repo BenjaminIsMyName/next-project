@@ -35,7 +35,8 @@ export default async function handler(req, res) {
         name: googleName,
       } = await verify(jwt);
     } catch (error) {
-      console.log(`errorrrrrrrrrrr`, error);
+      res.status(401).json({ error: `invalid google token` });
+      return;
     }
   } else {
     if (!name || !email || !password) {

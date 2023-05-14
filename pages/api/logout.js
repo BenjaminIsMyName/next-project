@@ -1,5 +1,6 @@
-import { deleteCookie, getCookie, hasCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 import connectToDatabase from "../../util/mongodb";
+
 export default async function handler(req, res) {
   if (req.method !== "DELETE") {
     res.status(405).json({

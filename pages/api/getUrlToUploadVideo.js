@@ -1,7 +1,5 @@
 import S3 from "aws-sdk/clients/s3";
 import crypto from "crypto";
-import { getCookie } from "cookies-next";
-import connectToDatabase from "../../util/mongodb";
 import { isLoggedInFunc } from "../../util/authHelpers";
 
 if (process.env.AWS_ACCESS_KEY_FOR_S3 === undefined) {

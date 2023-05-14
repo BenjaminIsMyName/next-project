@@ -1,5 +1,5 @@
 import connectToDatabase from "../../util/mongodb";
-import { passwordError, emailError, nameError } from "../../util/validate";
+import { emailError } from "../../util/validate";
 import bcrypt from "bcrypt";
 import { setCookie } from "cookies-next";
 import createToken from "../../util/token";

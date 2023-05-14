@@ -28,7 +28,6 @@ export default function useGoogle({ setUser }) {
 
   const handleGoogleLogin = useCallback(
     response => {
-      console.log(`response`, response);
       if (response.select_by === "btn") {
         setLoginMethod(LoginMethodsEnum.button);
       } else if (response.select_by === "user") {

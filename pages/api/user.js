@@ -1,5 +1,6 @@
 import connectToDatabase from "../../util/mongodb";
 import { emailError } from "../../util/validate";
+
 export default async function handler(req, res) {
   // make sure it's a post request ------------------------
   if (req.method !== "GET") {

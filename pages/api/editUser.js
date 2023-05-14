@@ -1,8 +1,8 @@
 import { deleteCookie, getCookie, hasCookie, setCookie } from "cookies-next";
 import { isLoggedInFunc } from "../../util/authHelpers";
-import connectToDatabase from "../../util/mongodb";
 import { passwordError, emailError, nameError } from "../../util/validate";
 import bcrypt from "bcrypt";
+
 export default async function handler(req, res) {
   if (req.method !== "PUT") {
     res.status(405).json({
