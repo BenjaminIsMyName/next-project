@@ -3,7 +3,7 @@ import { getCookie, setCookie } from "cookies-next";
 export default async function handler(req, res) {
   if (req.method !== "PUT") {
     res.status(405).json({
-      error: `re-set-cookies is a PUT request, not ${req.method}!`,
+      error: `reSetCookies is a PUT request, not ${req.method}!`,
     });
     return;
   }

@@ -33,7 +33,7 @@ export default function usePWA(user) {
       try {
         const isPWAinstalled = await isInstalled();
         if (user?.id) {
-          await axios.put("/api/re-set-cookies", {
+          await axios.put("/api/reSetCookies", {
             isPWA: isCurrentlyPWA || isPWAinstalled,
           });
         }
