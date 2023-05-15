@@ -86,7 +86,7 @@ export default function Post({
   }, [handleScrollToComments, query.scrollToComments]);
 
   useEffect(() => {
-    if (isFullyOpened && !isPostPage) {
+    if (isFullyOpened && !isPostPage && !isDeleted) {
       // if a post was opened in the feed, it'll be opened in a scrollable fixed div. The body shouldn't be scrollable.
       document.body.classList.add("no-scroll-in-any-screen-due-to-opened-post");
     } else {
@@ -98,7 +98,7 @@ export default function Post({
       document.body.classList.remove(
         "no-scroll-in-any-screen-due-to-opened-post"
       );
-  }, [isFullyOpened, isPostPage]);
+  }, [isFullyOpened, isPostPage, isDeleted]);
 
   // for the IntersectionObserver, to apply animation when scrolling:
   useEffect(() => {
