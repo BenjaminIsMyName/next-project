@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
-    res.status(405).json({
+    res.status(405).send({
       error: `posts is a GET request, not ${req.method}!`,
     });
     return;
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   let { exist, amount, type, topicId } = req.query;
 
   if (type === "topic" && !topicId) {
-    res.status(405).json({
+    res.status(405).send({
       error: `you must provide topicId`,
     });
     return;
@@ -58,7 +58,7 @@ export default async function handler(req, res) {
     var posts = await db.collection("posts").aggregate(pipeline).toArray(); // TODO: try to sort and limit everything right here, instead of fetching all and doing sort & limit on the server
   } catch (err) {
     console.log(err);
-    res.status(503).json({ error: `failed to get posts from DB: ${err}` });
+    res.status(503).send({ error: `failed to get posts from DB: ${err}` });
     return;
   }
 

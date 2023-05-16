@@ -28,7 +28,7 @@ const s3instance = new S3({
 
 export default async function handler(req, res) {
   if (req.method !== "DELETE") {
-    res.status(405).json({
+    res.status(405).send({
       error: `deletePost is a DELETE request, not ${req.method}!`,
     });
     return;
@@ -38,7 +38,7 @@ export default async function handler(req, res) {
   let { postId } = req.body;
 
   if (!postId) {
-    res.status(406).json({
+    res.status(406).send({
       error: `did not provide postId`,
     });
     return;
@@ -49,7 +49,7 @@ export default async function handler(req, res) {
     res
   );
   if (!isLoggedIn || !isAdmin) {
-    res.status(code).json({ error });
+    res.status(code).send({ error });
     return;
   }
 
@@ -59,7 +59,7 @@ export default async function handler(req, res) {
       .findOneAndDelete({ _id: ObjectId(postId) });
   } catch (err) {
     console.log(`error ${err}`);
-    res.status(503).json({ error: `failed to delete post from DB: ${err}` });
+    res.status(503).send({ error: `failed to delete post from DB: ${err}` });
     return;
   }
 
@@ -91,7 +91,7 @@ export default async function handler(req, res) {
         reject();
         res
           .status(503)
-          .json({ error: `failed to delete post from S3 bucket: ${err}` });
+          .send({ error: `failed to delete post from S3 bucket: ${err}` });
       } else {
         resolve();
         res.status(204).end();

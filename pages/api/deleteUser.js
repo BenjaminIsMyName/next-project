@@ -3,7 +3,7 @@ import connectToDatabase from "../../util/mongodb";
 
 export default async function handler(req, res) {
   if (req.method !== "DELETE") {
-    res.status(405).json({
+    res.status(405).send({
       error: `deleteUser is a DELETE request, not ${req.method}!`,
     });
     return;
@@ -13,7 +13,7 @@ export default async function handler(req, res) {
   const token = getCookie("token", { req, res });
 
   if (!user) {
-    res.status(409).json({ error: `the 'user' cookie doesn't exist` });
+    res.status(409).send({ error: `the 'user' cookie doesn't exist` });
     return;
   }
 
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     deleteCookie("token", { req, res });
     deleteCookie("user", { req, res });
   } catch (err) {
-    res.status(503).json({
+    res.status(503).send({
       error: `failed to delete user from database: ${err}`,
     });
     return;

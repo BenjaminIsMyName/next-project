@@ -2,14 +2,14 @@ import { isLoggedInFunc } from "../../util/authHelpers";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
-    res.status(405).json({
+    res.status(405).send({
       error: `getSaved is a GET request, not ${req.method}!`,
     });
     return;
   }
   const { isLoggedIn, error, code, db, user } = await isLoggedInFunc(req, res);
   if (!isLoggedIn) {
-    res.status(code).json({ error });
+    res.status(code).send({ error });
     return;
   }
 
@@ -33,7 +33,7 @@ export default async function handler(req, res) {
       .toArray();
   } catch (err) {
     console.log(err);
-    res.status(503).json({ error: `failed to get posts from DB: ${err}` });
+    res.status(503).send({ error: `failed to get posts from DB: ${err}` });
     return;
   }
 

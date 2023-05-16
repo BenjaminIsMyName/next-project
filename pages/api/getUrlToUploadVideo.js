@@ -30,7 +30,7 @@ const s3instance = new S3({
 // upload the file to the S3 bucket from the client side
 export default async function handler(req, res) {
   if (req.method !== "GET") {
-    res.status(405).json({
+    res.status(405).send({
       error: `getUrlToUploadVideo is a GET request, not ${req.method}!`,
     });
     return;
@@ -46,19 +46,19 @@ export default async function handler(req, res) {
   const key = crypto.randomBytes(32).toString("hex") + `.${ext}`;
 
   if (sizeInMb > 300) {
-    res.status(431).json({ error: "File is too large, the limit is 300mb" });
+    res.status(431).send({ error: "File is too large, the limit is 300mb" });
     return;
   }
 
   // add this check if you want to limit the type of file (e.g. only mp4):
   // if (ext !== "mp4") {
-  // res.status(415).json({ error: "File must be mp4" });
+  // res.status(415).send({ error: "File must be mp4" });
   // return;
   // }
 
   const { isLoggedIn, isAdmin, error, code } = await isLoggedInFunc(req, res);
   if (!isLoggedIn || !isAdmin) {
-    res.status(code).json({ error });
+    res.status(code).send({ error });
     return;
   }
 
@@ -78,9 +78,9 @@ export default async function handler(req, res) {
     };
     // using createPresignedPost and not getSignedUrlPromise because that way we can limit the size of the file.
     const info = s3instance.createPresignedPost(fileParams);
-    res.status(200).json({ info, objectS3key: key });
+    res.status(200).send({ info, objectS3key: key });
   } catch (error) {
     console.log(`error: ${error}`);
-    res.status(400).json({ message: error });
+    res.status(400).send({ message: error });
   }
 }

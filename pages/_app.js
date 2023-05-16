@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import { appWithTranslation } from "next-i18next";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { UserContext } from "../context/UserContext";
 import { getCookie } from "cookies-next";
@@ -17,6 +17,8 @@ import useGoogle from "../hooks/useGoogle";
 import { GoogleContext } from "../context/GoogleContext";
 import usePWA from "../hooks/usePWA";
 import useGooglePrompt from "../hooks/useGooglePrompt";
+import ConfettiComponent from "@components/ConfettiComponent";
+import { ConfettiContext } from "@context/ConfettiContext";
 
 function MyApp({ Component, pageProps }) {
   // next-i18next has a bug - if using translations on top level layout (_app.js), warning appears:
@@ -74,6 +76,7 @@ function MyApp({ Component, pageProps }) {
     GoogleStatusEnum,
     googleLoginMethod,
     GoogleLoginMethodsEnum,
+    loginOrSignup,
   ] = useGoogle({ setUser });
 
   const errorsText = {
@@ -83,6 +86,12 @@ function MyApp({ Component, pageProps }) {
   };
 
   const [modalOpen, setModalOpen] = useState(-1); // is a little menu open? (none: -1, ProfileModal: 0)
+
+  const [confettiKey, setConfettiKey] = useState(0);
+
+  const playConfetti = useCallback(() => {
+    setConfettiKey(prev => prev + 1);
+  }, []);
 
   useGooglePrompt({
     googleStatus,
@@ -94,6 +103,8 @@ function MyApp({ Component, pageProps }) {
     GoogleLoginMethodsEnum,
     add,
     modalOpen,
+    playConfetti,
+    loginOrSignup,
   });
 
   usePWA(user);
@@ -107,6 +118,7 @@ function MyApp({ Component, pageProps }) {
         googleLoginMethod,
         GoogleLoginMethodsEnum,
         errorsText,
+        loginOrSignup,
       }}
     >
       <AlertContext.Provider value={{ add, remove }}>
@@ -114,34 +126,37 @@ function MyApp({ Component, pageProps }) {
           <Alerts alerts={alerts} remove={remove} />
           <ThemeContext.Provider value={{ setTheme }}>
             <UserContext.Provider value={{ user, setUser }}>
-              <Aside modalOpen={modalOpen} setModalOpen={setModalOpen} />
-              <AnimatePresence mode={"wait"} initial={false}>
-                <motion.div
-                  data-short-description="content"
-                  data-description="this is the div that contains the actual content of the page, next to the menu"
-                  className={`bg-main-color min-h-screen isolate ${
-                    // unclear why, but when using "rtl:float-left" and "ltr:float-right" from tailwind (instead of the following line), there is no transition (for posts, with the "layout" from framer) when changing languages
-                    locale === "en" ? "float-right" : "float-left"
-                  } ${
-                    // smooth transition when resizing the window
-                    "transition-[width] duration-1000 ease-in"
-                  } ${
-                    // we add padding to the bottom only on small screens (md:p-0) to not overlap the menu's header
-                    "w-full p-[0_0_var(--header-height)_0] md:p-0"
-                  } ${
-                    // for large screens, the width of the content is 100% - aside width
-                    "md:w-[calc(100%-var(--aside-width))]"
-                  }`}
-                  key={router.route}
-                  initial={{ opacity: 0, y: -400 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 400 }}
-                  transition={{ duration: 0.4, ease: "easeInOut" }}
-                >
-                  <Component {...pageProps} />
-                </motion.div>
-              </AnimatePresence>
-              <Analytics />
+              <ConfettiContext.Provider value={{ playConfetti }}>
+                <ConfettiComponent confettiKey={confettiKey} />
+                <Aside modalOpen={modalOpen} setModalOpen={setModalOpen} />
+                <AnimatePresence mode={"wait"} initial={false}>
+                  <motion.div
+                    data-short-description="content"
+                    data-description="this is the div that contains the actual content of the page, next to the menu"
+                    className={`bg-main-color min-h-screen isolate ${
+                      // unclear why, but when using "rtl:float-left" and "ltr:float-right" from tailwind (instead of the following line), there is no transition (for posts, with the "layout" from framer) when changing languages
+                      locale === "en" ? "float-right" : "float-left"
+                    } ${
+                      // smooth transition when resizing the window
+                      "transition-[width] duration-1000 ease-in"
+                    } ${
+                      // we add padding to the bottom only on small screens (md:p-0) to not overlap the menu's header
+                      "w-full p-[0_0_var(--header-height)_0] md:p-0"
+                    } ${
+                      // for large screens, the width of the content is 100% - aside width
+                      "md:w-[calc(100%-var(--aside-width))]"
+                    }`}
+                    key={router.route}
+                    initial={{ opacity: 0, y: -400 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 400 }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                  >
+                    <Component {...pageProps} />
+                  </motion.div>
+                </AnimatePresence>
+                <Analytics />
+              </ConfettiContext.Provider>
             </UserContext.Provider>
           </ThemeContext.Provider>
         </SoundContext.Provider>

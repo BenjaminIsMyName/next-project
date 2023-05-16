@@ -2,7 +2,7 @@ import { getCookie, setCookie } from "cookies-next";
 
 export default async function handler(req, res) {
   if (req.method !== "PUT") {
-    res.status(405).json({
+    res.status(405).send({
       error: `reSetCookies is a PUT request, not ${req.method}!`,
     });
     return;
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   let { isPWA } = req.body;
 
   if (typeof isPWA !== "boolean") {
-    res.status(400).json({
+    res.status(400).send({
       error: `isPWA must be a boolean, not ${typeof isPWA}!`,
     });
     return;
@@ -26,14 +26,14 @@ export default async function handler(req, res) {
   if (!user || !token) {
     res
       .status(409)
-      .json({ error: `the 'user' or 'token' cookie doesn't exist` });
+      .send({ error: `the 'user' or 'token' cookie doesn't exist` });
     return;
   }
 
   try {
     user = JSON.parse(user);
   } catch (err) {
-    res.status(503).json({
+    res.status(503).send({
       error: `failed to parse user cookie: ${err}`,
     });
     return;

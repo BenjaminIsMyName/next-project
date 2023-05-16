@@ -3,7 +3,7 @@ import connectToDatabase from "../../util/mongodb";
 
 export default async function handler(req, res) {
   if (req.method !== "DELETE") {
-    res.status(405).json({
+    res.status(405).send({
       error: `logout is a DELETE request, not ${req.method}!`,
     });
     return;
@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   deleteCookie("user", { req, res });
 
   if (!user) {
-    res.status(409).json({ error: `the 'user' cookie doesn't exist` });
+    res.status(409).send({ error: `the 'user' cookie doesn't exist` });
     return;
   }
 
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
       }
     );
   } catch (err) {
-    res.status(503).json({
+    res.status(503).send({
       error: `failed to update database: ${err}`,
     });
     return;

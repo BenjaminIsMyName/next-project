@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    res.status(405).json({
+    res.status(405).send({
       error: `like is a POST request, not ${req.method}!`,
     });
     return;
@@ -13,13 +13,13 @@ export default async function handler(req, res) {
   let { post, like } = req.body;
 
   if (!post) {
-    res.status(406).json({ error: `did not provide all query params` });
+    res.status(406).send({ error: `did not provide all query params` });
     return;
   }
 
   const { isLoggedIn, error, code, db, user } = await isLoggedInFunc(req, res);
   if (!isLoggedIn) {
-    res.status(code).json({ error });
+    res.status(code).send({ error });
     return;
   }
 
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
     }
   } catch (err) {
     console.log(`error ${err}`);
-    res.status(503).json({ error: `failed to add/remove like in DB: ${err}` });
+    res.status(503).send({ error: `failed to add/remove like in DB: ${err}` });
     return;
   }
   res.status(204).end();

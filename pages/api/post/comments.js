@@ -4,7 +4,7 @@ import { ObjectId } from "mongodb";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
-    res.status(405).json({
+    res.status(405).send({
       error: `comments is a GET request, not ${req.method}!`,
     });
     return;
@@ -53,7 +53,7 @@ export default async function handler(req, res) {
     }
   } catch (err) {
     console.log(err);
-    res.status(503).json({ error: `failed to get posts from DB: ${err}` });
+    res.status(503).send({ error: `failed to get posts from DB: ${err}` });
     return;
   }
 

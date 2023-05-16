@@ -4,7 +4,7 @@ import { ObjectId } from "mongodb";
 
 export default async function handler(req, res) {
   if (req.method !== "PUT") {
-    res.status(405).json({
+    res.status(405).send({
       error: `editPost is a PUT request, not ${req.method}!`,
     });
     return;
@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   let { postId, newTitle } = req.body;
 
   if (!postId || titleError(newTitle)) {
-    res.status(406).json({
+    res.status(406).send({
       error: titleError(newTitle) || `did not provide postId`,
     });
     return;
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     res
   );
   if (!isLoggedIn || !isAdmin) {
-    res.status(code).json({ error });
+    res.status(code).send({ error });
     return;
   }
 
@@ -42,7 +42,7 @@ export default async function handler(req, res) {
     );
   } catch (err) {
     console.log(`error ${err}`);
-    res.status(503).json({ error: `failed to edit post in DB: ${err}` });
+    res.status(503).send({ error: `failed to edit post in DB: ${err}` });
     return;
   }
 

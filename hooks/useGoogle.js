@@ -25,6 +25,7 @@ export default function useGoogle({ setUser }) {
   });
 
   const [loginMethod, setLoginMethod] = useState(LoginMethodsEnum.button); // default doesn't matter imo
+  const [loginOrSignup, setLoginOrSignup] = useState("login"); // default doesn't matter imo
 
   const handleGoogleLogin = useCallback(
     response => {
@@ -36,9 +37,14 @@ export default function useGoogle({ setUser }) {
       async function func(res) {
         setStatus(GoogleStatusEnum.loading);
         try {
-          await axios.post("/api/signup", {
+          const { data } = await axios.post("/api/signup", {
             googleToken: JSON.stringify(res),
           });
+          if (data.type === "google signup") {
+            setLoginOrSignup("signup");
+          } else if (data.type === "google login") {
+            setLoginOrSignup("login");
+          }
           const userCookie = getCookie("user");
           setUser(JSON.parse(userCookie));
           setStatus(GoogleStatusEnum.success);
@@ -76,5 +82,12 @@ export default function useGoogle({ setUser }) {
     }
   }, [handleGoogleLogin]); // same as [] because handleGoogleLogin is wrapped in useCallback and doesn't change
 
-  return [status, error, GoogleStatusEnum, loginMethod, LoginMethodsEnum]; // allow other places (Such as ProfileModal.js) in the app to access those stuff
+  return [
+    status,
+    error,
+    GoogleStatusEnum,
+    loginMethod,
+    LoginMethodsEnum,
+    loginOrSignup,
+  ]; // allow other places (Such as ProfileModal.js) in the app to access those stuff
 }

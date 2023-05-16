@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useRef } from "react";
 import { AlertContext } from "../context/AlertContext";
 import { useTranslation } from "next-i18next";
+import { ConfettiContext } from "@context/ConfettiContext";
 
 export default function useGooglePrompt({
   googleStatus,
@@ -13,6 +14,8 @@ export default function useGooglePrompt({
   GoogleLoginMethodsEnum,
   add,
   modalOpen,
+  playConfetti,
+  loginOrSignup,
 }) {
   const router = useRouter();
   const { locale } = router;
@@ -67,6 +70,9 @@ export default function useGooglePrompt({
         });
       }
     } else if (googleStatus === GoogleStatusEnum.success) {
+      if (loginOrSignup === "signup") {
+        playConfetti();
+      }
       add({
         title: t("titles.welcome") + ", " + user.name,
         color: "success",

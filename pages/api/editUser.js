@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 
 export default async function handler(req, res) {
   if (req.method !== "PUT") {
-    res.status(405).json({
+    res.status(405).send({
       error: `editUser is a PUT request, not ${req.method}!`,
     });
     return;
@@ -16,12 +16,12 @@ export default async function handler(req, res) {
 
   const { isLoggedIn, error, code, db, user } = await isLoggedInFunc(req, res);
   if (!isLoggedIn) {
-    res.status(code).json({ error });
+    res.status(code).send({ error });
     return;
   }
 
   if (user.withGoogle ? !name : !name || !email || !password) {
-    res.status(406).json({ error: `did not provide all query params` });
+    res.status(406).send({ error: `did not provide all query params` });
     return;
   }
 
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
       ? nameError(name)
       : passwordError(password) || emailError(email) || nameError(name)
   ) {
-    res.status(406).json({
+    res.status(406).send({
       error: nameError(name) || passwordError(password) || emailError(email),
     });
     return;
@@ -52,12 +52,12 @@ export default async function handler(req, res) {
     try {
       const userInDB = await db.collection("users").findOne({ email });
       if (userInDB) {
-        res.status(409).json({ error: `email already in use` });
+        res.status(409).send({ error: `email already in use` });
         return;
       }
     } catch (err) {
       console.log(`error ${err}`);
-      res.status(503).json({ error: `failed to find user in DB: ${err}` });
+      res.status(503).send({ error: `failed to find user in DB: ${err}` });
       return;
     }
   }
@@ -77,7 +77,7 @@ export default async function handler(req, res) {
     );
   } catch (err) {
     console.log(`error ${err}`);
-    res.status(503).json({ error: `failed to edit user in DB: ${err}` });
+    res.status(503).send({ error: `failed to edit user in DB: ${err}` });
     return;
   }
   setCookie(

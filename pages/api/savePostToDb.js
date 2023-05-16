@@ -4,7 +4,7 @@ import { titleError } from "../../util/validate";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    res.status(405).json({
+    res.status(405).send({
       error: `savePostToDb is a POST request, not ${req.method}!`,
     });
     return;
@@ -15,28 +15,28 @@ export default async function handler(req, res) {
   // topics are array of strings... for the _id of the topic...
 
   if (titleError(title)) {
-    res.status(406).json({
+    res.status(406).send({
       error: titleError(title),
     });
     return;
   }
 
   if (type != "video" && type != "article") {
-    res.status(406).json({
+    res.status(406).send({
       error: "type must be video or article",
     });
     return;
   }
 
   if (type == "article" && !editorState) {
-    res.status(406).json({
+    res.status(406).send({
       error: "editorState is missing",
     });
     return;
   }
 
   if (type == "video" && !objectS3key) {
-    res.status(406).json({
+    res.status(406).send({
       error: "objectS3key is missing",
     });
     return;
@@ -49,7 +49,7 @@ export default async function handler(req, res) {
     res
   );
   if (!isLoggedIn || !isAdmin) {
-    res.status(code).json({ error });
+    res.status(code).send({ error });
     return;
   }
 
@@ -68,7 +68,7 @@ export default async function handler(req, res) {
     });
   } catch (err) {
     console.log("error", err);
-    res.status(503).json({ error: `failed to add post to DB: ${err}` });
+    res.status(503).send({ error: `failed to add post to DB: ${err}` });
     return;
   }
 

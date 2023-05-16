@@ -3,7 +3,7 @@ import { topicError } from "../../../util/validate";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
-    res.status(405).json({
+    res.status(405).send({
       error: `create is a POST request, not ${req.method}!`,
     });
     return;
@@ -13,7 +13,7 @@ export default async function handler(req, res) {
   let { hebrew, english } = req.body;
 
   if (topicError(hebrew) || topicError(english)) {
-    res.status(406).json({
+    res.status(406).send({
       error: topicError(hebrew) || topicError(english),
     });
     return;
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     res
   );
   if (!isLoggedIn || !isAdmin) {
-    res.status(code).json({ error });
+    res.status(code).send({ error });
     return;
   }
 
@@ -39,7 +39,7 @@ export default async function handler(req, res) {
     });
   } catch (err) {
     console.log("error", err);
-    res.status(503).json({ error: `failed to add topic to DB: ${err}` });
+    res.status(503).send({ error: `failed to add topic to DB: ${err}` });
     return;
   }
 

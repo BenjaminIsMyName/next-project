@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 
 export default async function handler(req, res) {
   if (req.method !== "PUT") {
-    res.status(405).json({
+    res.status(405).send({
       error: `savrPost is a PUT request, not ${req.method}!`,
     });
     return;
@@ -13,7 +13,7 @@ export default async function handler(req, res) {
   let { postId } = req.body;
 
   if (!postId) {
-    res.status(406).json({
+    res.status(406).send({
       error: `did not provide all query params`,
     });
     return;
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 
   const { isLoggedIn, error, code, db, user } = await isLoggedInFunc(req, res);
   if (!isLoggedIn) {
-    res.status(code).json({ error });
+    res.status(code).send({ error });
     return;
   }
 
@@ -57,7 +57,7 @@ export default async function handler(req, res) {
     }
   } catch (err) {
     console.log(`error ${err}`);
-    res.status(503).json({ error: `failed to save post: ${err}` });
+    res.status(503).send({ error: `failed to save post: ${err}` });
     return;
   }
   res.status(201).end();

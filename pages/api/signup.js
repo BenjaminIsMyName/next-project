@@ -16,7 +16,7 @@ const client = new OAuth2Client(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
 export default async function handler(req, res) {
   // make sure it's a post request ------------------------
   if (req.method !== "POST") {
-    res.status(405).json({
+    res.status(405).send({
       error: `signup is a POST request, not ${req.method}!`,
     });
     return;
@@ -35,12 +35,12 @@ export default async function handler(req, res) {
         name: googleName,
       } = await verify(jwt);
     } catch (error) {
-      res.status(401).json({ error: `invalid google token` });
+      res.status(401).send({ error: `invalid google token` });
       return;
     }
   } else {
     if (!name || !email || !password) {
-      res.status(406).json({ error: `did not provide all query params` });
+      res.status(406).send({ error: `did not provide all query params` });
       return;
     }
 
@@ -49,7 +49,7 @@ export default async function handler(req, res) {
     // We don't want to trim the password, because it might contain spaces. The user will see the spaces as dots, so we don't want to trim them.
 
     if (passwordError(password) || emailError(email) || nameError(name)) {
-      res.status(406).json({
+      res.status(406).send({
         error: passwordError(password) || emailError(email) || nameError(name),
       });
       return;
@@ -60,7 +60,7 @@ export default async function handler(req, res) {
   try {
     var { db } = await connectToDatabase();
   } catch (err) {
-    res.status(503).json({ error: `failed to connect to DB: ${err}` });
+    res.status(503).send({ error: `failed to connect to DB: ${err}` });
     return;
   }
 
@@ -75,7 +75,7 @@ export default async function handler(req, res) {
       .toArray();
   } catch (err) {
     console.log(`error ${err}`);
-    res.status(503).json({
+    res.status(503).send({
       error: `failed to query DB and check if user already exist: ${err}`,
     });
     return;
@@ -85,7 +85,7 @@ export default async function handler(req, res) {
   if (users.length === 1 && googleToken && users[0].withGoogle) {
     // compare "passwords" (the 'sub' in the payload)
     if (users[0].password != googleUserId) {
-      res.status(401).json({ error: `The JWT has been tampered with` });
+      res.status(401).send({ error: `The JWT has been tampered with` });
       return;
     }
 
@@ -105,7 +105,7 @@ export default async function handler(req, res) {
       );
     } catch (err) {
       console.log(`error ${err}`);
-      res.status(503).json({ error: `failed to add token to DB: ${err}` });
+      res.status(503).send({ error: `failed to add token to DB: ${err}` });
       return;
     }
 
@@ -124,12 +124,12 @@ export default async function handler(req, res) {
         res,
       }
     );
-    res.status(204).end();
+    res.status(202).send({ type: "google login" });
     return;
   }
 
   if (users.length > 0) {
-    res.status(409).json({
+    res.status(409).send({
       error: `an account is already associated with this email`,
     });
     return;
@@ -160,7 +160,7 @@ export default async function handler(req, res) {
     });
   } catch (err) {
     console.log(`error ${err}`);
-    res.status(503).json({ error: `failed to add user to DB: ${err}` });
+    res.status(503).send({ error: `failed to add user to DB: ${err}` });
     return;
   }
 
@@ -185,7 +185,7 @@ export default async function handler(req, res) {
       res,
     }
   );
-  res.status(204).end();
+  res.status(201).send({ type: googleToken ? "google signup" : "signup" });
 }
 
 async function verify(jwt) {

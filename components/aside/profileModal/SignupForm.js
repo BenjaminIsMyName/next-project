@@ -7,6 +7,8 @@ import axios from "axios";
 import Button from "../../Button";
 import Modal from "../../Modal";
 import Balancer from "react-wrap-balancer";
+import { useContext } from "react";
+import { ConfettiContext } from "@context/ConfettiContext";
 
 export default function Signup({
   handleInputChange,
@@ -19,6 +21,7 @@ export default function Signup({
   errorsText,
 }) {
   const { t } = useTranslation("menu");
+  const { playConfetti } = useContext(ConfettiContext);
 
   async function handleRegistration(e) {
     e.preventDefault();
@@ -32,6 +35,7 @@ export default function Signup({
       const userCookie = getCookie("user");
       setUser(JSON.parse(userCookie));
       defaultState();
+      playConfetti();
     } catch (err) {
       setErrorText(errorsText.general);
       setStatus(1);

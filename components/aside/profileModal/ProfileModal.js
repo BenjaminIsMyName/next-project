@@ -11,6 +11,7 @@ import useFormData from "../../../hooks/useFormData";
 import LoadingModal from "../../LoadingModal";
 import { AlertContext } from "../../../context/AlertContext";
 import { GoogleContext } from "../../../context/GoogleContext";
+import { ConfettiContext } from "@context/ConfettiContext";
 
 const inputsDataDefault = {
   email: "",
@@ -64,7 +65,10 @@ export default function ProfileModal({ closeModals }) {
     GoogleStatusEnum,
     googleLoginMethod,
     GoogleLoginMethodsEnum,
+    loginOrSignup,
   } = useContext(GoogleContext);
+
+  const { playConfetti } = useContext(ConfettiContext);
 
   // to show error only when state changes, and not on mount
   const renderCount = useRef(0);
@@ -90,6 +94,9 @@ export default function ProfileModal({ closeModals }) {
         setErrorText(errorsText.general);
       }
     } else if (googleStatus === GoogleStatusEnum.success) {
+      if (loginOrSignup === "signup") {
+        playConfetti();
+      }
       defaultState(); // reset the state, so when deleting account or something - it will show the (empty) email form again. even if the modal was never closed...
     }
   }, [
@@ -103,10 +110,12 @@ export default function ProfileModal({ closeModals }) {
     googleError.statusCode,
     googleLoginMethod,
     googleStatus,
+    loginOrSignup,
+    playConfetti,
     setErrorText,
     setInputsData,
     setStatus,
-  ]); // same as [googleError.statusCode, googleStatus, googleLoginMethod] because none of the other values change
+  ]); // same as [googleError.statusCode, googleStatus, googleLoginMethod, loginOrSignup] because none of the other values change
 
   if (user)
     return <UserConnectedModal logOut={logOut} closeModals={closeModals} />;
