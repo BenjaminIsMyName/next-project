@@ -52,7 +52,8 @@
     "light-green": "Light green"
   },
   "alerts": {
-    "logging-out": "Logging out..."
+    "logging-out": "Logging out...",
+    "logged-out": "Logged out successfully"
   },
   "privacy-policy": "Privacy Policy"
 }

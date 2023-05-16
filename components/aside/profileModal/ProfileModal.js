@@ -45,12 +45,24 @@ export default function ProfileModal({ closeModals }) {
 
   async function logOut() {
     setStatus(4);
-    const id = add({ title: t("alerts.logging-out") });
+    /*
+
+     it's possible to remove the alert by doing: 
+     const id = add({ ... }); 
+     ........
+     remove(id); 
+     
+     the remove function is in the AlertContext.
+     but I decided to not remove it, because if the log out was done very quickly, 
+     the user will see the alert for a very short time, which might be confusing and look like a bug.
+
+    */
+    add({ title: t("alerts.logging-out") });
     await logoutFunc();
     setUser(null);
     setInputsData(inputsDataDefault);
     setStatus(0);
-    remove(id);
+    add({ title: t("alerts.logged-out"), color: "success" });
   }
 
   // this function is used to go back from login/signup to the email form

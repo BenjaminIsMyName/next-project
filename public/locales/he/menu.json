@@ -52,7 +52,8 @@
     "light-green": "ירוק בהיר"
   },
   "alerts": {
-    "logging-out": "מתנתק..."
+    "logging-out": "מתנתק...",
+    "logged-out": "התנתקת בהצלחה"
   },
   "privacy-policy": "מדיניות פרטיות"
 }
