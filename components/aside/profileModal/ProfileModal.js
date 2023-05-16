@@ -106,7 +106,9 @@ export default function ProfileModal({ closeModals }) {
         setErrorText(errorsText.general);
       }
     } else if (googleStatus === GoogleStatusEnum.success) {
-      if (loginOrSignup === "signup") {
+      if (loginOrSignup === "signup" && renderCount.current > rendersOnMount) {
+        // do not show confetti on initial modal mount, only when user signs up while it's already opened.
+        // if not - it will show confetti every time the user opens the modal (after signing up) and it's not good.
         playConfetti();
       }
       defaultState(); // reset the state, so when deleting account or something - it will show the (empty) email form again. even if the modal was never closed...
