@@ -40,3 +40,7 @@ Some "issues" are so minor, there is no need to fix them.
 
 1. when resizing the window and opening a post - the
    post's placeholder in the background will take the previous height.
+
+## Note (2025)
+
+I changed the node version on Vercel from 16 to 18 without any testing. May God have mercy on my soul.
